@@ -24,7 +24,7 @@ class Gudang_model extends CI_Model {
 			'.$this->table_join1.'.title as lokasi_gudang,
 			');
 		$this->db->from($this->table);
-		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.lokasi_id', 'left');
+		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.lokasi_gudang_id', 'left');
 
 		$i = 0;
 	
@@ -105,5 +105,12 @@ class Gudang_model extends CI_Model {
 	{
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
+	}
+
+	public function get_lokasi_gudang()
+	{	
+		$this->db->where($this->table_join1.'.is_deleted',0);
+		$this->db->order_by($this->table_join1.'.title','asc');
+		return $this->db->get($this->table_join1);
 	}
 }

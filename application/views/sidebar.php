@@ -92,7 +92,7 @@
               </a>
             </li>    
             <li>
-              <a href="#">
+              <a href="<?= base_url('master/customer')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -114,27 +114,235 @@
                   </div>
                 </div>
               </a>
-            </li>    
+            </li>
             <li>
-              <a href="#">
+              <a href="<?= base_url('master/lokasi_gudang')?>">
                 <div class="item-content">
                   <div class="item-media">
-                    <i class="ti-world"></i>
+                    <i class="ti-map"></i>
                   </div>
                   <div class="item-inner">
-                    <span class="title"> <?= lang('region') ?></span>
+                    <span class="title"> <?=lang('warehouse_location')?></span>
                   </div>
                 </div>
               </a>
             </li>
             <li>
+              <a href="<?= base_url('master/lokasi_toko')?>">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-map"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?=lang('store_location')?></span>
+                  </div>
+                </div>
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)">
+            <div class="item-content">
+              <div class="item-media">
+                <i class="ti-money"></i>
+              </div>
+              <div class="item-inner">
+                <span class="title"> <?= lang('purchase_request') ?></span><i class="icon-arrow"></i>
+              </div>
+            </div>
+          </a>
+          <ul class="sub-menu">
+            <li>
               <a href="#">
                 <div class="item-content">
                   <div class="item-media">
-                    <i class="ti-money"></i>
+                    <i class="ti-id-badge"></i>
                   </div>
                   <div class="item-inner">
-                    <span class="title"> <?= lang('kurs') ?></span>
+                    <span class="title"> <?= lang('purchase_order') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li>    
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('order') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li>  
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('receive_order') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li> 
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('purchase') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li> 
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('purchase_return') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li> 
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('purchase_return_without_invoice') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li> 
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('debt_payment') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li>   
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)">
+            <div class="item-content">
+              <div class="item-media">
+                <i class="ti-money"></i>
+              </div>
+              <div class="item-inner">
+                <span class="title"> <?= lang('sales_order') ?></span><i class="icon-arrow"></i>
+              </div>
+            </div>
+          </a>
+          <ul class="sub-menu">
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('order') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li>    
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('delivery_order') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li>   
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('sales') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li> 
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('sales_return') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li> 
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('sales_return_without_invoice') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li> 
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('invoicing') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li> 
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('e-faktur') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li> 
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('debt_payment') ?></span>
                   </div>
                 </div>
               </a>
@@ -145,31 +353,38 @@
           <a href="javascript:void(0)">
             <div class="item-content">
               <div class="item-media">
-                <i class="ti-money"></i>
+                <i class="ti-package"></i>
               </div>
               <div class="item-inner">
-                <span class="title"> <?= lang('transaction') ?></span><i class="icon-arrow"></i>
+                <span class="title"> <?= lang('stock') ?></span><i class="icon-arrow"></i>
               </div>
             </div>
           </a>
           <ul class="sub-menu">
             <li>
-              <a href="javascript:;">
-                <i class="ti-shopping-cart"></i><span>Purchase Order</span> <i class="icon-arrow"></i>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('sales_order') ?></span>
+                  </div>
+                </div>
               </a>
-              <ul class="sub-menu">
-                <li>
-                  <a href="<?= base_url('transaksi/order')?>">
-                    Order
-                  </a>
-                </li>
-                <li>
-                  <a href="#">
-                    <?= lang('receive') ?> Order
-                  </a>
-                </li>
-              </ul>
-            </li>  
+            </li>    
+            <li>
+              <a href="#">
+                <div class="item-content">
+                  <div class="item-media">
+                    <i class="ti-id-badge"></i>
+                  </div>
+                  <div class="item-inner">
+                    <span class="title"> <?= lang('order') ?></span>
+                  </div>
+                </div>
+              </a>
+            </li>    
           </ul>
         </li>
         <li>
@@ -207,19 +422,31 @@
           <a href="javascript:void(0)">
             <div class="item-content">
               <div class="item-media">
-                <i class="ti-harddrive"></i>
+                <i class="ti-stats-up"></i>
               </div>
               <div class="item-inner">
-                <span class="title"> <?= lang('facility') ?></span><i class="icon-arrow"></i>
+                <span class="title"> <?= lang('finance_report') ?></span><i class="icon-arrow"></i>
               </div>
             </div>
           </a>
           <ul class="sub-menu">
             <li>
-              <a href="#">
-                <i class="ti-layout-grid4-alt"></i> <?= 'Setup' ?>
+              <a href="javascript:;">
+                <i class="ti-files"></i><span><?= lang('general')?></span> <i class="icon-arrow"></i>
               </a>
-            </li>
+              <ul class="sub-menu">
+                <li>
+                  <a href="#">
+                    <?= lang('customer_list') ?>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <?= lang('supplier_list') ?>
+                  </a>
+                </li>
+              </ul>
+            </li>   
           </ul>
         </li>
         <li>
@@ -245,15 +472,15 @@
                   </div>
                 </div>
               </a>
-            </li> 
+            </li>
             <li>
-              <a href="<?= base_url('master/lokasi_gudang')?>">
+              <a href="#">
                 <div class="item-content">
                   <div class="item-media">
-                    <i class="ti-map"></i>
+                    <i class="ti-money"></i>
                   </div>
                   <div class="item-inner">
-                    <span class="title"> <?=lang('warehouse_location')?></span>
+                    <span class="title"> <?= lang('kurs') ?></span>
                   </div>
                 </div>
               </a>

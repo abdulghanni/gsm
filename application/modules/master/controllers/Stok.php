@@ -2,6 +2,10 @@
 
 class Stok extends MX_Controller {
     public $data;
+    var $module = 'master';
+    var $title = 'stok';
+    var $file_name = 'stok';
+
 	function __construct()
 	{
 		parent::__construct();
@@ -15,11 +19,10 @@ class Stok extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
-        $this->data['options_barang'] = options_row($this->model_name,'get_barang','kode','title','-- Pilih Barang --');
-        $this->data['options_satuan'] = options_row($this->model_name,'get_satuan','id','title','-- Pilih Satuan --');
+        $this->data['options_barang'] = options_row($this->model_name,'get_barang','id','title','-- Pilih Barang --');
         $this->data['options_gudang'] = options_row($this->model_name,'get_gudang','id','title','-- Pilih Gudang --');
         $this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
-		$this->_render_page('master/stok/index', $this->data);
+		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
@@ -41,8 +44,8 @@ class Stok extends MX_Controller {
 
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$stok->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$stok->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$stok->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$stok->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
         
             $data[] = $row;
         }
@@ -67,9 +70,8 @@ class Stok extends MX_Controller {
     {
         //$this->_validate();
         $data = array(
-                'kode' => $this->input->post('kode'),
+                'barang_id' => $this->input->post('barang_id'),
                 'jumlah' => $this->input->post('jumlah'),
-                'unit_id' => $this->input->post('satuan'),
                 'kurensi_id' => $this->input->post('kurensi_id'),
                 'harga' => $this->input->post('harga'),
                 'gudang_id' => $this->input->post('gudang_id'),
@@ -82,9 +84,8 @@ class Stok extends MX_Controller {
     {
         //$this->_validate();
         $data = array(
-                'kode' => $this->input->post('kode'),
+                'barang_id' => $this->input->post('barang_id'),
                 'jumlah' => $this->input->post('jumlah'),
-                'unit_id' => $this->input->post('satuan'),
                 'kurensi_id' => $this->input->post('kurensi_id'),
                 'harga' => $this->input->post('harga'),
                 'gudang_id' => $this->input->post('gudang_id'),
@@ -106,7 +107,7 @@ class Stok extends MX_Controller {
         {
             $this->load->library('template');
 
-                if(in_array($view, array('master/stok/index')))
+                if(in_array($view, array($this->module.'/'.$this->file_name)))
                 {
                     $this->template->set_layout('default');
 
@@ -117,7 +118,7 @@ class Stok extends MX_Controller {
                     $this->template->add_js('assets/js/form-validation.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('vendor/select2/select2.min.js');
-                    $this->template->add_js('assets/js/master/stok/index.js');
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'.js');
                 }
 
             if ( ! empty($data['title']))

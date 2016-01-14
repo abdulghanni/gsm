@@ -2,6 +2,9 @@
 
 class Gudang extends MX_Controller {
     public $data;
+    var $module = 'master';
+    var $title = 'gudang';
+    var $file_name = 'gudang';
 	function __construct()
 	{
 		parent::__construct();
@@ -13,8 +16,8 @@ class Gudang extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
-        $this->data['lokasi_gudang'] = getAll('lokasi_gudang');
-		$this->_render_page('master/gudang/index', $this->data);
+        $this->data['options_lokasi_gudang'] = options_row('gudang', 'get_lokasi_gudang','id','title', '-- Pilih Lokasi Gudang --');
+		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
@@ -32,8 +35,8 @@ class Gudang extends MX_Controller {
 
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$gudang->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$gudang->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$gudang->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$gudang->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
         
             $data[] = $row;
         }
@@ -60,7 +63,7 @@ class Gudang extends MX_Controller {
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
-                'lokasi_id' => $this->input->post('lokasi_id'),
+                'lokasi_gudang_id' => $this->input->post('lokasi_gudang_id'),
             );
         $insert = $this->gudang->save($data);
         echo json_encode(array("status" => TRUE));
@@ -72,7 +75,7 @@ class Gudang extends MX_Controller {
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
-                'lokasi_id' => $this->input->post('lokasi_id'),
+                'lokasi_gudang_id' => $this->input->post('lokasi_gudang_id'),
             );
         $this->gudang->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));
@@ -91,7 +94,7 @@ class Gudang extends MX_Controller {
         {
             $this->load->library('template');
 
-                if(in_array($view, array('master/gudang/index')))
+                if(in_array($view, array($this->module.'/'.$this->file_name)))
                 {
                     $this->template->set_layout('default');
 
@@ -102,7 +105,7 @@ class Gudang extends MX_Controller {
                     $this->template->add_js('assets/js/form-validation.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('vendor/select2/select2.min.js');
-                    $this->template->add_js('assets/js/master/gudang/index.js');
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'.js');
                 }
 
             if ( ! empty($data['title']))

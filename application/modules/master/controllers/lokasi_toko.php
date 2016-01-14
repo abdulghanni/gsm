@@ -1,54 +1,48 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Barang extends MX_Controller {
+class lokasi_toko extends MX_Controller {
     public $data;
     var $module = 'master';
-    var $title = 'barang';
-    var $file_name = 'barang';
+    var $title = 'lokasi_toko';
+    var $file_name = 'lokasi_toko';
 	function __construct()
 	{
 		parent::__construct();
         $this->load->database();
-		$this->load->model('master/barang_model', 'barang');
-        //$this->lang->load('master/barang');
+		$this->load->model($this->module.'/'.$this->file_name.'_model', $this->file_name);
+        //$this->lang->load($this->module.'/'.$this->file_name);
 	}
 
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
-        $this->data['jenis_barang'] = getAll('jenis_barang');
-        $this->data['options_jenis_barang'] = options_row('barang', 'get_jenis_barang','id','title', '-- Pilih Jenis Barang --');
-        $this->data['options_satuan'] = options_row('barang', 'get_satuan','id','title', '-- Pilih Satuan --');
 		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
     {
-        $list = $this->barang->get_datatables();
+        $list = $this->lokasi_toko->get_datatables();
         $data = array();
         $no = $_POST['start'];
-        foreach ($list as $barang) {
+        foreach ($list as $r) {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $barang->kode;
-            $row[] = $barang->title;
-            $row[] = $barang->jenis_barang;
-            $row[] = $barang->satuan;
-            //$row[] = $barang->lokasi_gudang;
+            $row[] = $r->kode;
+            $row[] = $r->title;
 
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$barang->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$barang->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
         
             $data[] = $row;
         }
 
         $output = array(
                         "draw" => $_POST['draw'],
-                        "recordsTotal" => $this->barang->count_all(),
-                        "recordsFiltered" => $this->barang->count_filtered(),
+                        "recordsTotal" => $this->lokasi_toko->count_all(),
+                        "recordsFiltered" => $this->lokasi_toko->count_filtered(),
                         "data" => $data,
                 );
         //output to json format
@@ -57,20 +51,18 @@ class Barang extends MX_Controller {
 
     public function ajax_edit($id)
     {
-        $data = $this->barang->get_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
+        $data = $this->lokasi_toko->get_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
         echo json_encode($data);
     }
 
     public function ajax_add()
     {
-        //$this->_validate();
+        ////$this->_validate();
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
-                'jenis_barang_id' => $this->input->post('jenis_barang_id'),
-                'satuan_id' => $this->input->post('satuan_id'),
             );
-        $insert = $this->barang->save($data);
+        $insert = $this->lokasi_toko->save($data);
         echo json_encode(array("status" => TRUE));
     }
 
@@ -80,16 +72,14 @@ class Barang extends MX_Controller {
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
-                'jenis_barang_id' => $this->input->post('jenis_barang_id'),
-                'satuan_id' => $this->input->post('satuan_id'),
             );
-        $this->barang->update(array('id' => $this->input->post('id')), $data);
+        $this->lokasi_toko->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));
     }
 
     public function ajax_delete($id)
     {
-        $this->barang->delete_by_id($id);
+        $this->lokasi_toko->delete_by_id($id);
         echo json_encode(array("status" => TRUE));
     }
     

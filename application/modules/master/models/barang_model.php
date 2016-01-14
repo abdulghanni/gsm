@@ -5,7 +5,8 @@ class barang_model extends CI_Model {
 
 	var $table = 'barang';
 	var $table_join1 = 'jenis_barang';
-	var $column = array('kode', 'title', 'jenis_barang'); //set column field database for order and search
+	var $table_join2 = 'satuan';
+	var $column = array('kode', 'title', 'jenis_barang', 'satuan'); //set column field database for order and search
 	var $order = array('barang.id' => 'desc'); // default order 
 
 	public function __construct()
@@ -22,9 +23,11 @@ class barang_model extends CI_Model {
 			'.$this->table.'.kode as kode,
 			'.$this->table.'.title as title,
 			'.$this->table_join1.'.title as jenis_barang,
+			'.$this->table_join2.'.title as satuan,
 			');
 		$this->db->from($this->table);
 		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.jenis_barang_id', 'left');
+		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.satuan_id', 'left');
 
 		$i = 0;
 	
@@ -38,6 +41,8 @@ class barang_model extends CI_Model {
 					$item = $this->table.'.title';
 				}elseif($item == 'jenis_barang'){
 					$item = $this->table_join1.'.title';
+				}elseif($item == 'satuan'){
+					$item = $this->table_join2.'.title';
 				}
 
 				($i===0) ? $this->db->like($item, $_POST['search']['value']) : $this->db->or_like($item, $_POST['search']['value']);
@@ -105,5 +110,19 @@ class barang_model extends CI_Model {
 	{
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
+	}
+
+	public function get_satuan()
+	{	
+		$this->db->where($this->table_join2.'.is_deleted',0);
+		$this->db->order_by($this->table_join2.'.title','asc');
+		return $this->db->get($this->table_join2);
+	}
+
+	public function get_jenis_barang()
+	{	
+		$this->db->where($this->table_join1.'.is_deleted',0);
+		$this->db->order_by($this->table_join1.'.title','asc');
+		return $this->db->get($this->table_join1);
 	}
 }

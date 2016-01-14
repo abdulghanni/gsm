@@ -2,13 +2,15 @@
 
 class Order extends MX_Controller {
     public $data;
+    var $module = 'purchase';
+    var $title = 'Order';
+    var $file_name = 'order';
 	function __construct()
 	{
 		parent::__construct();
         $this->load->database();
-		$this->load->model('transaksi/order_model', 'order');
-        //$this->load->library('authentication', NULL, 'ion_auth');
-        //$this->lang->load('transaksi/order');
+		$this->load->model($this->module.'/'.$this->file_name.'_model', 'order');
+        //$this->lang->load($this->module.'/'.$this->file_name);
 	}
 
     var $model_name = 'order';
@@ -57,7 +59,7 @@ class Order extends MX_Controller {
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
-                        );//print_mz($order_list['kode_barang'][0]);
+                        );
 
         $data = array(
                 'no' => $this->input->post('no'),
@@ -112,10 +114,7 @@ class Order extends MX_Controller {
             $row[] = $order->po;
             $row[] = $order->gudang;
 
-            //add html for action
-            $row[] = //'<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$order->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                  //<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$order->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
-                    "<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
+            $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
             $data[] = $row;
         }

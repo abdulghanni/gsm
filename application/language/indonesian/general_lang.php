@@ -7,58 +7,72 @@
 *
 * Created:  20.11.2015
 *
-* Description:  English language file for general purpose application
+* Description:  Indonesian language file for general purpose application
 *
 */
 
 //Sidebar
-$lang['indonesian'] = 'Indonesia';
 $lang['dashboard'] = 'Beranda';
-$lang['setting'] = 'Pengaturan';
-$lang['users'] = 'Pengguna';
 $lang['master'] = 'Master';
+$lang['purchase_request'] = 'Purchase Request';
+$lang['sales_order'] = 'Sales Order';
+$lang['report'] = 'Laporan';
+$lang['finance_report'] = 'Laporan Keuangan';
+$lang['transaction'] = 'Transaksi';
+$lang['setting'] = 'Pengaturan';
 
+//sidebar MASTER
 $lang['item'] = 'Barang';
 $lang['warehouse'] = 'Gudang';
-$lang['facility'] = 'Fasilitas';
-$lang['report'] = 'Laporan';
-$lang['transaction'] = 'Transaksi';
 $lang['stock'] = 'Stok';
 $lang['production'] = 'Produksi';
 $lang['supplier'] = 'Pemasok';
 $lang['customer'] = 'Pelanggan';
 $lang['salesman'] = 'Sales';
+$lang['warehouse_location'] = 'Lokasi Gudang';
+$lang['store_location'] = 'Lokasi Toko';
 $lang['region'] = 'Wilayah';
-$lang['kurs'] = 'Kurs';
 
-$lang['receive'] = 'Terima';
+//SIDEBAR PURCHASE REQUEST
+$lang['purchase_order'] = 'Purchase Order';
+$lang['order'] = 'Order';
+$lang['receive_order'] = 'Terima Order';
+$lang['purchase'] = 'Pembelian';
+$lang['purchase_return'] = 'Retur Pembelian';
+$lang['purchase_return_without_invoice'] = 'Retur Pembelian Tanpa Faktur';
+$lang['debt_payment'] = 'Pelunasan Hutang';
 
-$lang['general'] = 'umum';
+//SIDEBAR SALES ORDER
+$lang['order'] = 'Order';
+$lang['delivery_order'] = 'Pengiriman Pesanan';
+$lang['sales'] = 'Penjualan';
+$lang['sales_return'] = 'Retur Penjualan';
+$lang['sales_return_without_invoice'] = 'Retur Penjualan Tanpa Faktur';
+$lang['invoicing'] = 'Invoicing';
+$lang['e-faktur'] = 'E-Faktur';
+$lang['credit_payment'] = 'Pembayaran Piutang';
+
+//SIDEBAR STOK
+
+//SIDEBAR LAPORAN
 $lang['customer_list'] = 'Daftar Pelanggan';
 $lang['supplier_list'] = 'Daftar Pemasok';
 
-$lang['warehouse_location'] = 'Lokasi Gudang';
+//SIDEBAR PURCHASE ORDER
+
+//SIDEBAR PENGATURAN
+$lang['users'] = 'Pengguna';
+$lang['kurs'] = 'Kurs';
 $lang['unit'] = 'Satuan';
 
 //General
+$lang['indonesian'] = 'Indonesia';
+$lang['receive'] = 'Terima';
+$lang['general'] = 'umum';
 $lang['choose'] = 'Pilih';
 $lang['add'] = 'Tambah';
 $lang['action'] = 'Aksi';
 $lang['print'] = 'Cetak';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
-$lang[''] = '';
 $lang[''] = '';
 $lang[''] = '';
 $lang[''] = '';

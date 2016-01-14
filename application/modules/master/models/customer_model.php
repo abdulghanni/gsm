@@ -1,9 +1,9 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class supplier_model extends CI_Model {
+class customer_model extends CI_Model {
 
-	var $table = 'supplier';
+	var $table = 'customer';
 	var $column = array('kode', 'title', 'tipe', 'up', 'jabatan', 'telp_1', 'telp_2', 'email', 'alamat'); //set column field database for order and search
 	var $order = array('id' => 'desc'); // default order 
 

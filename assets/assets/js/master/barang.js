@@ -14,22 +14,27 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": baseurl+"master/supplier/ajax_list",
+            "url": baseurl+"master/barang/ajax_list",
             "type": "POST"
         },
 
         //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [3, -1], //last column
+            "targets": [-1], //last column
             "orderable": false, //set not orderable
         },
+        { "sClass": "text-center", "aTargets": [-1] }
         ],
 
     });
 
     //set input/textarea/select event when change value, remove class error and remove text help block 
     $("input").change(function(){
+        $(this).parent().parent().removeClass('has-error');
+        $(this).next().empty();
+    });
+    $("select").change(function(){
         $(this).parent().parent().removeClass('has-error');
         $(this).next().empty();
     });
@@ -48,7 +53,7 @@ function add_user()
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Add supplier'); // Set Title to Bootstrap modal title
+    $('.modal-title').text('Add barang'); // Set Title to Bootstrap modal title
 }
 
 function edit_user(id)
@@ -60,7 +65,7 @@ function edit_user(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "supplier/ajax_edit/" + id,
+        url : "barang/ajax_edit/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -69,8 +74,10 @@ function edit_user(id)
             $('[name="id"]').val(data.id);
             $('[name="kode"]').val(data.kode);
             $('[name="title"]').val(data.title);
+            $('[name="jenis_barang_id"]').select2().select2('val',data.jenis_barang_id);
+            $('[name="satuan_id"]').select2().select2('val',data.satuan_id);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit supplier'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Edit barang'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -92,9 +99,9 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "supplier/ajax_add";
+        url = "barang/ajax_add";
     } else {
-        url = "supplier/ajax_update";
+        url = "barang/ajax_update";
     }
 
     // ajax adding data to database
@@ -140,7 +147,7 @@ function delete_user(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "supplier/ajax_delete/"+id,
+            url : "barang/ajax_delete/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

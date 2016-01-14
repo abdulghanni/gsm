@@ -2,11 +2,11 @@
 <section id="page-title">
     <div class="row">
         <div class="col-sm-8">
-            <h1 class="mainTitle"><?php echo 'Supplier';?></h1>
+            <h1 class="mainTitle"><?php echo 'Barang';?></h1>
         </div>
         <ol class="breadcrumb">
             <li>
-                <span><?php echo 'Supplier';?></span>
+                <span><?php echo lang('stock');?></span>
             </li>
             <li class="active">
                 <span>Index</span>
@@ -34,8 +34,10 @@
                         <tr>
                             <th width="5%" align="center">No.</th>
                             <th width="10%"><?php echo lang('code');?></th>
-                            <th width="20%">Nama Supplier</th>
-                            <th width="15%"><?php echo "action";?></th>
+                            <th width="25%"><?php echo lang('description');?></th>
+                            <th width="20%"><?php echo 'Jenis Barang';?></th>
+                            <th width="15%"><?php echo lang('unit');?></th>
+                            <th width="10%"><?php echo 'Action';?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,17 +64,38 @@
                         <div class="form-group">
                             <label class="control-label col-md-3"><?= lang('code')?></label>
                             <div class="col-md-9">
-                                <input name="kode" placeholder="<?= lang('code');?>" class="form-control" type="text">
+                                <input name="kode" placeholder="<?= lang('description');?>" class="form-control" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Nama Supplier</label>
+                            <label class="control-label col-md-3"><?php echo lang('description');?></label>
                             <div class="col-md-9">
-                                <input name="title" placeholder="Nama Supplier" class="form-control" type="text">
+                                <input name="title" placeholder="<?= lang('description');?>" class="form-control" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Jenis Barang</label>
+                            <div class="col-md-9">
+                                <?php 
+                                    $js = 'class="select2" style="width:100%" id="jenis_barang"';
+                                    echo form_dropdown('jenis_barang_id', $options_jenis_barang,'',$js); 
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3"><?php echo lang('unit') ?></label>
+                            <div class="col-md-9">
+                                <?php 
+                                    $js = 'class="select2" style="width:100%" id="satuan"';
+                                    echo form_dropdown('satuan_id', $options_satuan,'',$js); 
+                                ?>
+                            </div>
+                        </div>
+
                     </div>
                 </form>
             </div>

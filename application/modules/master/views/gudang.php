@@ -78,12 +78,10 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Lokasi</label>
                             <div class="col-md-9">
-                                <select name="lokasi_id" id="kode" class="select2" style="width:100%">
-                                    <option value="">-- <?= "Lokasi Gudang"?> --</option>
-                                    <?php foreach($lokasi_gudang->result() as $d):?>
-                                    <option value="<?=$d->id;?>"><?=$d->title?></option>
-                                    <?php endforeach;?>
-                                </select>
+                                <?php 
+                                    $js = 'class="select2" style="width:100%" id="lokasi_gudang"';
+                                    echo form_dropdown('lokasi_gudang_id', $options_lokasi_gudang,'',$js); 
+                                ?>
                             </div>
                         </div>
                     </div>

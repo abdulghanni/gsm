@@ -2,18 +2,21 @@
 
 class lokasi_gudang extends MX_Controller {
     public $data;
+    var $module = 'master';
+    var $title = 'lokasi_gudang';
+    var $file_name = 'lokasi_gudang';
 	function __construct()
 	{
 		parent::__construct();
         $this->load->database();
-		$this->load->model('master/lokasi_gudang_model', 'lokasi_gudang');
+		$this->load->model($this->module.'/'.$this->file_name.'_model', $this->file_name);
         //$this->lang->load('master/lokasi_gudang');
 	}
 
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
-		$this->_render_page('master/lokasi_gudang/index', $this->data);
+		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
@@ -30,8 +33,8 @@ class lokasi_gudang extends MX_Controller {
 
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$lokasi_gudang->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$lokasi_gudang->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$lokasi_gudang->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$lokasi_gudang->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
         
             $data[] = $row;
         }
@@ -87,7 +90,7 @@ class lokasi_gudang extends MX_Controller {
         {
             $this->load->library('template');
 
-                if(in_array($view, array('master/lokasi_gudang/index')))
+                if(in_array($view, array($this->module.'/'.$this->file_name)))
                 {
                     $this->template->set_layout('default');
 
@@ -98,7 +101,7 @@ class lokasi_gudang extends MX_Controller {
                     $this->template->add_js('assets/js/form-validation.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('vendor/select2/select2.min.js');
-                    $this->template->add_js('assets/js/master/lokasi_gudang/index.js');
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'.js');
                 }
 
             if ( ! empty($data['title']))

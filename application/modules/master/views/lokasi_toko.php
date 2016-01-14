@@ -2,11 +2,11 @@
 <section id="page-title">
     <div class="row">
         <div class="col-sm-8">
-            <h1 class="mainTitle"><?php echo 'Lokasi Gudang';?></h1>
+            <h1 class="mainTitle"><?php echo 'Lokasi Toko';?></h1>
         </div>
         <ol class="breadcrumb">
             <li>
-                <span><?php echo 'Lokasi Gudang';?></span>
+                <span><?php echo 'Lokasi Toko';?></span>
             </li>
             <li class="active">
                 <span>Index</span>
@@ -34,7 +34,7 @@
                         <tr>
                             <th width="5%" align="center">No.</th>
                             <th width="10%"><?php echo lang('code');?></th>
-                            <th width="20%"><?php echo lang('description');?></th>
+                            <th width="70%"><?php echo lang('description');?></th>
                             <th width="15%"><?php echo "action";?></th>
                         </tr>
                     </thead>

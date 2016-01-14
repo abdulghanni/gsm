@@ -23,9 +23,9 @@ class Stok_model extends CI_Model {
 		
 		$this->db->select(
 			$this->table.'.id as id,
-			'.$this->table.'.kode as kode,
 			'.$this->table.'.jumlah as jumlah,
 			'.$this->table.'.harga as harga,
+			'.$this->table_join1.'.kode as kode,
 			'.$this->table_join1.'.title as barang,
 			'.$this->table_join2.'.title as satuan,
 			'.$this->table_join3.'.title as gudang,
@@ -33,10 +33,10 @@ class Stok_model extends CI_Model {
 			'.$this->table_join5.'.title as kurensi,
 			');
 		$this->db->from($this->table);
-		$this->db->join($this->table_join1, $this->table_join1.'.kode = '.$this->table.'.kode', 'left');
-		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.unit_id', 'left');
+		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.barang_id', 'left');
+		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_join1.'.satuan_id', 'left');
 		$this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.gudang_id', 'left');
-		$this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table_join3.'.lokasi_id', 'left');
+		$this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table_join3.'.lokasi_gudang_id', 'left');
 		$this->db->join($this->table_join5, $this->table_join5.'.id = '.$this->table.'.kurensi_id', 'left');
 
 		$i = 0;
@@ -46,7 +46,7 @@ class Stok_model extends CI_Model {
 			if($_POST['search']['value'])
 			{
 				if($item == 'kode'){
-					$item = $this->table.'.kode';
+					$item = $this->table_join1.'.kode';
 				}elseif($item == 'jumlah'){
 					$item = $this->table.'.jumlah';
 				}elseif($item == 'harga'){

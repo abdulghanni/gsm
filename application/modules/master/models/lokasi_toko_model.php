@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class supplier_model extends CI_Model {
+class Lokasi_toko_model extends CI_Model {
 
-	var $table = 'supplier';
-	var $column = array('kode', 'title', 'tipe', 'up', 'jabatan', 'telp_1', 'telp_2', 'email', 'alamat'); //set column field database for order and search
+	var $table = 'lokasi_toko';
+	var $column = array('id', 'kode', 'title'); //set column field database for order and search
 	var $order = array('id' => 'desc'); // default order 
 
 	public function __construct()
@@ -15,7 +15,6 @@ class supplier_model extends CI_Model {
 
 	private function _get_datatables_query()
 	{
-		
 		$this->db->from($this->table);
 
 		$i = 0;

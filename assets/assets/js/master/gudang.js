@@ -14,7 +14,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": baseurl+"master/barang/ajax_list",
+            "url": baseurl+"master/gudang/ajax_list",
             "type": "POST"
         },
 
@@ -24,6 +24,7 @@ $(document).ready(function() {
             "targets": [3, -1], //last column
             "orderable": false, //set not orderable
         },
+        { "sClass": "text-center", "aTargets": [-1] }
         ],
 
     });
@@ -52,7 +53,7 @@ function add_user()
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Add barang'); // Set Title to Bootstrap modal title
+    $('.modal-title').text('Add gudang'); // Set Title to Bootstrap modal title
 }
 
 function edit_user(id)
@@ -64,7 +65,7 @@ function edit_user(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "barang/ajax_edit/" + id,
+        url : "gudang/ajax_edit/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -73,9 +74,9 @@ function edit_user(id)
             $('[name="id"]').val(data.id);
             $('[name="kode"]').val(data.kode);
             $('[name="title"]').val(data.title);
-            $('[name="jenis_barang_id"]').val(data.jenis_barang_id);
+            $('[name="lokasi_gudang_id"]').select2().select2('val',data.lokasi_gudang_id);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit barang'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Edit gudang'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -97,9 +98,9 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "barang/ajax_add";
+        url = "gudang/ajax_add";
     } else {
-        url = "barang/ajax_update";
+        url = "gudang/ajax_update";
     }
 
     // ajax adding data to database
@@ -145,7 +146,7 @@ function delete_user(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "barang/ajax_delete/"+id,
+            url : "gudang/ajax_delete/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

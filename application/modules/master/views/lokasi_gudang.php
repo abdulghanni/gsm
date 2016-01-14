@@ -2,11 +2,11 @@
 <section id="page-title">
     <div class="row">
         <div class="col-sm-8">
-            <h1 class="mainTitle"><?php echo 'Barang';?></h1>
+            <h1 class="mainTitle"><?php echo 'Lokasi Gudang';?></h1>
         </div>
         <ol class="breadcrumb">
             <li>
-                <span><?php echo lang('stock');?></span>
+                <span><?php echo 'Lokasi Gudang';?></span>
             </li>
             <li class="active">
                 <span>Index</span>
@@ -34,9 +34,8 @@
                         <tr>
                             <th width="5%" align="center">No.</th>
                             <th width="10%"><?php echo lang('code');?></th>
-                            <th width="20%"><?php echo lang('description');?></th>
-                            <th width="20%"><?php echo 'Jenis Barang';?></th>
-                            <th width="15%"><?php echo 'Action';?></th>
+                            <th width="70%"><?php echo lang('description');?></th>
+                            <th width="15%"><?php echo "action";?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,7 +62,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3"><?= lang('code')?></label>
                             <div class="col-md-9">
-                                <input name="kode" placeholder="<?= lang('description');?>" class="form-control" type="text">
+                                <input name="kode" placeholder="<?= lang('code');?>" class="form-control" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -72,18 +71,6 @@
                             <div class="col-md-9">
                                 <input name="title" placeholder="<?= lang('description');?>" class="form-control" type="text">
                                 <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3">Jenis Barang</label>
-                            <div class="col-md-9">
-                                <select name="jenis_barang_id" id="kode" class="select2" style="width:100%">
-                                    <option value="">-- <?= "Pilih Jenis Barang"?> --</option>
-                                    <?php foreach($jenis_barang->result() as $d):?>
-                                    <option value="<?=$d->id;?>"><?=$d->title?></option>
-                                    <?php endforeach;?>
-                                </select>
                             </div>
                         </div>
                     </div>

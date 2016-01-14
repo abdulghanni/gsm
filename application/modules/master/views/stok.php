@@ -69,7 +69,7 @@
                             <div class="col-md-9">
                               <?php 
                                 $js = 'class="select2" style="width:100%"';
-                                echo form_dropdown('kode', $options_barang,'',$js); 
+                                echo form_dropdown('barang_id', $options_barang,'',$js); 
                               ?>
                             </div>
                         </div>
@@ -78,16 +78,6 @@
                             <div class="col-md-9">
                                 <input name="jumlah" placeholder="<?= lang('total')?>" class="form-control" type="text">
                                 <span class="help-block"></span>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3"><?= lang('unit')?></label>
-                            <div class="col-md-9">
-                               <?php 
-                                $js = 'class="select2" style="width:100%"';
-                                echo form_dropdown('satuan', $options_satuan,'',$js); 
-                               ?>
                             </div>
                         </div>
 

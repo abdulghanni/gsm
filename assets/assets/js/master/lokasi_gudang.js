@@ -14,7 +14,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": baseurl+"master/stok/ajax_list",
+            "url": baseurl+"master/lokasi_gudang/ajax_list",
             "type": "POST"
         },
 
@@ -24,17 +24,13 @@ $(document).ready(function() {
             "targets": [-1], //last column
             "orderable": false, //set not orderable
         },
-        { "sClass": "text-center", "aTargets": [ 7 ] }
+        { "sClass": "text-center", "aTargets": [-1] }
         ],
 
     });
 
     //set input/textarea/select event when change value, remove class error and remove text help block 
     $("input").change(function(){
-        $(this).parent().parent().removeClass('has-error');
-        $(this).next().empty();
-    });
-    $("select").change(function(){
         $(this).parent().parent().removeClass('has-error');
         $(this).next().empty();
     });
@@ -53,7 +49,7 @@ function add_user()
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Add Stok'); // Set Title to Bootstrap modal title
+    $('.modal-title').text('Add Lokasi Gudang'); // Set Title to Bootstrap modal title
 }
 
 function edit_user(id)
@@ -65,21 +61,17 @@ function edit_user(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "stok/ajax_edit/" + id,
+        url : "lokasi_gudang/ajax_edit/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
 
             $('[name="id"]').val(data.id);
-            $('[name="kode"]').select2().select2('val',data.kode);
-            $('[name="satuan"]').select2().select2('val',data.unit_id);
-            $('[name="gudang_id"]').select2().select2('val',data.gudang_id);
-            $('[name="kurensi_id"]').select2().select2('val',data.kurensi_id);
-            $('[name="jumlah"]').val(data.jumlah);
-            $('[name="harga"]').val(data.harga);
+            $('[name="kode"]').val(data.kode);
+            $('[name="title"]').val(data.title);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Stok'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Edit Lokasi Gudang'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -101,9 +93,9 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "stok/ajax_add";
+        url = "lokasi_gudang/ajax_add";
     } else {
-        url = "stok/ajax_update";
+        url = "lokasi_gudang/ajax_update";
     }
 
     // ajax adding data to database
@@ -149,7 +141,7 @@ function delete_user(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "stok/ajax_delete/"+id,
+            url : "lokasi_gudang/ajax_delete/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
