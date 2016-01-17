@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Order</h1>
+			<h1 class="mainTitle">Purchase Order</h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('transaksi/order')?>">order</a></span>
+				<span><a href="<?=base_url('purchase/order')?>">order</a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url('transaksi/order/detail/'.$id)?>">detail</a></span>
+				<span><a href="<?=base_url('purchase/order/detail/'.$id)?>">detail</a></span>
 			</li>
 		</ol>
 	</div>
@@ -78,6 +78,16 @@
 								<input type="text" name="up" value="<?=$o->kurensi?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
+						<?php if(!empty($o->keterangan)):?>
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="inputPassword3">
+								Keterangan
+							</label>
+							<div class="col-sm-9">
+								<input type="text" name="up" value="<?=$o->keterangan?>" class="form-control" disabled="disabled">
+							</div>
+						</div>
+					<?php endif;?>
 
                     </div>
 
@@ -167,7 +177,7 @@
 								?>
 									<td><?=$i++?></td>
 									<td><?=$ol->kode_barang?></td>
-									<td><?=$ol->barang?></td>
+									<td><?=$ol->deskripsi?></td>
 									<td class="text-right"><?=$ol->jumlah?></td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>

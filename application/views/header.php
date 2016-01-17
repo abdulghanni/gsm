@@ -6,7 +6,7 @@
       <i class="ti-align-justify"></i>
     </a>
     <a class="navbar-brand" href="#">
-      <img src="<?=assets_url('assets/images/logo.png')?>" alt="Agani"/>
+      <img height="50" width="150" style="margin-left:25px" src="<?=assets_url('assets/images/logo.png')?>" alt="Agani"/>
     </a>
     <a href="#" class="sidebar-toggler pull-right visible-md visible-lg" data-toggle-class="app-sidebar-closed" data-toggle-target="#app">
       <i class="ti-align-justify"></i>
@@ -116,6 +116,7 @@
       </li>
       <!-- end: ACTIVITIES DROPDOWN -->
       <!-- start: LANGUAGE SWITCHER -->
+      <!--
       <li class="dropdown">
         <a href class="dropdown-toggle" data-toggle="dropdown">
           <i class="ti-world"></i> <?php $site_lang = $this->session->userdata('site_lang');$lang = (!empty($site_lang)) ? $site_lang : lang('indonesian');echo $lang ?>
@@ -133,11 +134,12 @@
           </li>
         </ul>
       </li>
+      -->
       <!-- start: LANGUAGE SWITCHER -->
       <!-- start: USER OPTIONS DROPDOWN -->
       <li class="dropdown current-user">
         <a href class="dropdown-toggle" data-toggle="dropdown">
-          <img src="<?=assets_url('assets/images/avatar-1.jpg')?>" alt="abdul"> <span class="username">Abdul <i class="ti-angle-down"></i></span>
+          <img src="<?=$photo?>" alt="abdul"> <span class="username"><?= $sess_name ?> <i class="ti-angle-down"></i></span>
         </a>
         <ul class="dropdown-menu dropdown-dark">
           <li>
@@ -145,11 +147,13 @@
               My Profile
             </a>
           </li>
+          <!--
           <li>
             <a href="login_lockscreen.html">
               Lock Screen
             </a>
           </li>
+          -->
           <li>
             <a href="<?= base_url('auth/logout')?>">
               Log Out

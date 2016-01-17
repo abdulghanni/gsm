@@ -9,7 +9,7 @@ class Template {
 
     private $_ci;
 
-    protected $brand_name = 'Agani-WEB';
+    protected $brand_name = 'GSM';
     protected $title_separator = ' - ';
     protected $ga_id = FALSE; // UA-XXXXX-X
 
@@ -180,7 +180,10 @@ class Template {
         }
         $css = implode('', $css);
 
-        $header = $this->_ci->load->view('header', array(), TRUE);
+        $photo = getValue('photo', 'users', array('id'=>'where/'.sessId()));
+        $data['photo'] = (!empty($photo)) ? base_url('uploads/'.sessId().'/80x80/'.$photo): assets_url('assets/images/no-image.png');
+        $data['sess_name'] = getValue('username', 'users', array('id'=>'where/'.sessId()));
+        $header = $this->_ci->load->view('header', $data, TRUE);
         $footer = $this->_ci->load->view('footer', array(), TRUE);
         $sidebar = $this->_ci->load->view('sidebar', array(), TRUE);
         $main_content = $this->_ci->load->view($view, $data, TRUE);

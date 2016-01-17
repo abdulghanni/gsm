@@ -5,7 +5,7 @@ class Gudang_model extends CI_Model {
 
 	var $table = 'gudang';
 	var $table_join1 = 'lokasi_gudang';
-	var $column = array('kode', 'title', 'lokasi_gudang'); //set column field database for order and search
+	var $column = array('gudang.id', 'kode', 'title', 'lokasi_gudang'); //set column field database for order and search
 	var $order = array('gudang.id' => 'desc'); // default order 
 
 	public function __construct()

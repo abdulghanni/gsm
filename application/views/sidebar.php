@@ -104,7 +104,7 @@
               </a>
             </li>    
             <li>
-              <a href="#">
+              <a href="<?= base_url('master/sales')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-announcement"></i>
@@ -154,7 +154,7 @@
           </a>
           <ul class="sub-menu">
             <li>
-              <a href="#">
+              <a href="<?= base_url('purchase/order')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -164,7 +164,8 @@
                   </div>
                 </div>
               </a>
-            </li>    
+            </li>
+            <!--    
             <li>
               <a href="#">
                 <div class="item-content">
@@ -177,8 +178,9 @@
                 </div>
               </a>
             </li>  
+            -->
             <li>
-              <a href="#">
+              <a href="<?= base_url('purchase/receive')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -190,7 +192,7 @@
               </a>
             </li> 
             <li>
-              <a href="#">
+              <a href="<?= base_url('purchase/pembelian')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -202,7 +204,7 @@
               </a>
             </li> 
             <li>
-              <a href="#">
+              <a href="<?= base_url('purchase/retur')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -214,7 +216,7 @@
               </a>
             </li> 
             <li>
-              <a href="#">
+              <a href="<?= base_url('purchase/return_no_invoice')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -226,7 +228,7 @@
               </a>
             </li> 
             <li>
-              <a href="#">
+              <a href="<?= base_url('purchase/debt_payment')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -252,19 +254,19 @@
           </a>
           <ul class="sub-menu">
             <li>
-              <a href="#">
+              <a href="<?= base_url('sales/order')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
                   </div>
                   <div class="item-inner">
-                    <span class="title"> <?= lang('order') ?></span>
+                    <span class="title"> <?= lang('sales_order') ?></span>
                   </div>
                 </div>
               </a>
             </li>    
             <li>
-              <a href="#">
+              <a href="<?= base_url('sales/delivery')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -276,7 +278,7 @@
               </a>
             </li>   
             <li>
-              <a href="#">
+              <a href="<?= base_url('sales/sales')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -288,7 +290,7 @@
               </a>
             </li> 
             <li>
-              <a href="#">
+              <a href="<?= base_url('sales/return')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -300,7 +302,7 @@
               </a>
             </li> 
             <li>
-              <a href="#">
+              <a href="<?= base_url('sales/return_no_invoice')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -312,7 +314,7 @@
               </a>
             </li> 
             <li>
-              <a href="#">
+              <a href="<?= base_url('sales/invoicing')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -324,7 +326,7 @@
               </a>
             </li> 
             <li>
-              <a href="#">
+              <a href="<?= base_url('sales/efaktur')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
@@ -336,13 +338,13 @@
               </a>
             </li> 
             <li>
-              <a href="#">
+              <a href="<?= base_url('sales/credit_payment')?>">
                 <div class="item-content">
                   <div class="item-media">
                     <i class="ti-id-badge"></i>
                   </div>
                   <div class="item-inner">
-                    <span class="title"> <?= lang('debt_payment') ?></span>
+                    <span class="title"> <?= lang('credit_payment') ?></span>
                   </div>
                 </div>
               </a>

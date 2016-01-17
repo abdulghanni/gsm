@@ -21,7 +21,7 @@ $(document).ready(function() {
         //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [3, -1], //last column
+            "targets": [-1], //last column
             "orderable": false, //set not orderable
         },
         { "sClass": "text-center", "aTargets": [-1] }

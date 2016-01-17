@@ -5,6 +5,26 @@ var baseurl = url.attr('protocol')+'://'+url.attr('host')+'/'+url.segment(1)+'/'
 
 $(document).ready(function() {
     $(".select2").select2();
+
+    $("#barang_id").change(function(){
+        var id = $(this).val();
+        getSatuan(id);
+    })
+    .change();
+
+    function getSatuan(id)
+    {
+        $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: 'stok/get_satuan/'+id,
+            success: function(data) {
+                $('#satuan').val(data);
+            }
+        });
+    }
+
+
     //datatables
     table = $('#table').DataTable({ 
 
@@ -24,7 +44,8 @@ $(document).ready(function() {
             "targets": [-1], //last column
             "orderable": false, //set not orderable
         },
-        { "sClass": "text-center", "aTargets": [-1] }
+        { "sClass": "text-center", "aTargets": [-1] },
+        { "sClass": "text-right", "aTargets": [3,5,6] }
         ],
 
     });
@@ -74,9 +95,12 @@ function edit_user(id)
             $('[name="id"]').val(data.id);
             $('[name="barang_id"]').select2().select2('val',data.barang_id);
             $('[name="gudang_id"]').select2().select2('val',data.gudang_id);
-            $('[name="kurensi_id"]').select2().select2('val',data.kurensi_id);
-            $('[name="jumlah"]').val(data.jumlah);
-            $('[name="harga"]').val(data.harga);
+            $('[name="supplier_id"]').select2().select2('val',data.supplier_id);
+            $('[name="satuan"]').val(data.satuan);
+            $('[name="dalam_stok"]').val(data.dalam_stok);
+            $('[name="minimum_stok"]').val(data.minimum_stok);
+            $('[name="harga_beli"]').val(data.harga_beli);
+            $('[name="harga_jual"]').val(data.harga_jual);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Stok'); // Set title to Bootstrap modal title
 

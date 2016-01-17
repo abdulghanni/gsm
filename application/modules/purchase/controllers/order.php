@@ -5,55 +5,55 @@ class Order extends MX_Controller {
     var $module = 'purchase';
     var $title = 'Order';
     var $file_name = 'order';
-	function __construct()
-	{
-		parent::__construct();
-        $this->load->database();
-		$this->load->model($this->module.'/'.$this->file_name.'_model', 'order');
-        //$this->lang->load($this->module.'/'.$this->file_name);
-	}
+    
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+    }
 
-    var $model_name = 'order';
-
-	function index()
-	{
-        if (!$this->ion_auth->logged_in())
-        {
-            // redirect them to the login page
-            redirect('auth/login', 'refresh');
-        }
-		$this->_render_page('transaksi/order/index', $this->data);
-	}
+    function index()
+    {
+        $this->data['title'] = $this->title;
+        $this->data['main_title'] = $this->module.' Order';
+        permissionUser();
+        $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
+    }
 
     function input()
     {
+        $this->data['title'] = $this->title.' - Input';
         permissionUser();
-        $num_rows = getAll('order')->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get('order')->last_row()->id : 0;
+        $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row($this->model_name,'get_supplier','id','title','-- Pilih Supplier --');
+        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
         
-        $this->_render_page('transaksi/order/input', $this->data);
+        $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
     function detail($id)
     {
+        $this->data['title'] = $this->title.' - Detail';
+        permissionUser();
         $this->data['id'] = $id;
-        $this->data['order'] = $this->order->get_order_detail($id);
-        $this->data['order_list'] = $this->order->get_order_list_detail($id);
+        $this->data[$this->file_name] = $this->main->get_detail($id);
+        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
 
-        $this->_render_page('transaksi/order/detail', $this->data);
+        $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
     function add()
     {
-        $order_list = array(
+        permissionUser();
+        $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
+                        'deskripsi'=>$this->input->post('deskripsi'),
                         'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
@@ -77,42 +77,44 @@ class Order extends MX_Controller {
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
+                'keterangan' =>$this->input->post('keterangan'),
             );
 
-        $this->db->insert('order', $data);
-        $order_id = $this->db->insert_id();
-        for($i=0;$i<sizeof($order_list['kode_barang']);$i++):
+        $this->db->insert($this->module.'_'.$this->file_name, $data);
+        $insert_id = $this->db->insert_id();
+        for($i=0;$i<sizeof($list['kode_barang']);$i++):
             $data2 = array(
-                'order_id' => $order_id,
-                'kode_barang' => $order_list['kode_barang'][$i],
-                'jumlah' => str_replace(',', '', $order_list['jumlah'][$i]),
-                'satuan_id' => $order_list['satuan'][$i],
-                'harga' => str_replace(',', '', $order_list['harga'][$i]),
-                'disc' => str_replace(',', '', $order_list['disc'][$i]),
-                'pajak' => str_replace(',', '', $order_list['pajak'][$i]),
+                $this->file_name.'_id' => $insert_id,
+                'kode_barang' => $list['kode_barang'][$i],
+                'deskripsi' => $list['deskripsi'][$i],
+                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
+                'satuan_id' => $list['satuan'][$i],
+                'harga' => str_replace(',', '', $list['harga'][$i]),
+                'disc' => str_replace(',', '', $list['disc'][$i]),
+                'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 );
-        $this->db->insert('order_list', $data2);
+        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         endfor;
-        redirect('transaksi/order', 'refresh');
+        redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
     public function ajax_list()
     {
-        $list = $this->order->get_datatables();
+        $list = $this->main->get_datatables();
         $data = array();
         $no = $_POST['start'];
-        foreach ($list as $order) {
-            $detail = base_url().'transaksi/order/detail/'.$order->id;
-            $print = base_url().'transaksi/order/print_pdf/'.$order->id;
+        foreach ($list as $r) {
+            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = "<a href=$detail>#".$order->no.'</a>';
-            $row[] = $order->supplier;
-            $row[] = $order->tanggal_transaksi;
-            $row[] = $order->metode_pembayaran;
-            $row[] = $order->po;
-            $row[] = $order->gudang;
+            $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = $r->supplier;
+            $row[] = $r->tanggal_transaksi;
+            $row[] = $r->metode_pembayaran;
+            $row[] = $r->po;
+            $row[] = $r->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
@@ -121,8 +123,8 @@ class Order extends MX_Controller {
 
         $output = array(
                         "draw" => $_POST['draw'],
-                        "recordsTotal" => $this->order->count_all(),
-                        "recordsFiltered" => $this->order->count_filtered(),
+                        "recordsTotal" => $this->main->count_all(),
+                        "recordsFiltered" => $this->main->count_filtered(),
                         "data" => $data,
                 );
         //output to json format
@@ -131,33 +133,53 @@ class Order extends MX_Controller {
 
     function print_pdf($id)
     {
+        permissionUser();
         $this->data['id'] = $id;
-        $this->data['order'] = $this->order->get_order_detail($id);
-        $this->data['order_list'] = $this->order->get_order_list_detail($id);
+        $this->data[$this->file_name] = $this->main->get_detail($id);
+        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
         
         $this->load->library('mpdf60/mpdf');
-        $html = $this->load->view('transaksi/order/pdf', $this->data, true); 
+        $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
         $mpdf = new mPDF();
         $mpdf = new mPDF('A4');
         $mpdf->WriteHTML($html);
         $mpdf->Output($id.'-'.$title.'.pdf', 'I');
     }
+
+    //FOR JS
+
+    function get_supplier_detail($id)
+    {
+        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
+
+        echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
+
+    }
+
+    function get_nama_barang($id)
+    {
+        $q = getValue('title', 'barang', array('id'=>'where/'.$id));
+
+        echo json_encode($q);
+
+    }
     
-	function _render_page($view, $data=null, $render=false)
+    function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;
         if ( ! $render)
         {
             $this->load->library('template');
 
-                if(in_array($view, array('transaksi/order/index')))
+                if(in_array($view, array($this->module.'/'.$this->file_name.'/index')))
                 {
                     $this->template->set_layout('default');
 
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
-                    $this->template->add_js('assets/js/transaksi/order/index.js');
-                }elseif(in_array($view, array('transaksi/order/input')))
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
+                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
                 {
                     $this->template->set_layout('default');
 
@@ -171,15 +193,13 @@ class Order extends MX_Controller {
                     $this->template->add_js('vendor/select2/select2.min.js');
                     $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
                     $this->template->add_js('assets/js/form-elements.js');
-                    $this->template->add_js('assets/js/transaksi/order/input.js');
-                }elseif(in_array($view, array('transaksi/order/detail')))
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/input.js');
+                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/detail')))
                 {
                     $this->template->set_layout('default');
 
                     $this->template->add_js('vendor/jquery-mask-money/jquery.MaskMoney.js');
-                    $this->template->add_js('assets/js/transaksi/order/detail.js');
-
-                    //$this->template->add_script('FormElements.init();');
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/detail.js');
                 }
 
             if ( ! empty($data['title']))

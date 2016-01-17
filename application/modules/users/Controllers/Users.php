@@ -162,7 +162,7 @@ class Users extends MX_Controller {
             'id'   => 'password_confirm',
             'type' => 'password'
         );
-        $photo_link = base_url().'uploads/'.$user->id.$user->username.'/'.$user->photo;
+        $photo_link = base_url().'uploads/'.$user->id.'/'.$user->photo;
         $file_headers = @get_headers($photo_link);
         $this->data['photo'] = ($file_headers[0] != 'HTTP/1.1 404 Not Found') ? $photo_link : assets_url('assets/images/no-image-mid.png');
         
@@ -172,7 +172,7 @@ class Users extends MX_Controller {
     function upload($id)
     {
         $user = $this->ion_auth->user($id)->row();
-        $user_folder = $user->id.$user->username;
+        $user_folder = $user->id;
         if(!is_dir('./'.'uploads')){
         mkdir('./'.'uploads', 0777);
         }

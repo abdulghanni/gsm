@@ -118,7 +118,7 @@ if (!function_exists('GetValue')){
 
 if ( ! function_exists('options_row'))
 	{
-		function options_row($model=NULL,$function=NULL,$id_field=NULL,$title_field=NULL,$default=NULL)
+		function options_row($model=NULL,$function=NULL,$id_field=NULL,$title_field=NULL,$default=NULL, $kode=NULL)
 		{
 			$CI =& get_instance();
 			$query = get_query_view($model, $function, '' ,'','');
@@ -126,7 +126,7 @@ if ( ! function_exists('options_row'))
 			
 			foreach($query['result_array'] as $row)
 			{
-				$data['options_row'][$row[$id_field]] = $row[$title_field];
+				if($kode!=null){$data['options_row'][$row[$id_field]] = $row[$kode].' - '.$row[$title_field];}else{$data['options_row'][$row[$id_field]] = $row[$title_field];} 
 			}
 			return $data['options_row'];
 		}

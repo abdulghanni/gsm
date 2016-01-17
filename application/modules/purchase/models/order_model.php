@@ -3,13 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class order_model extends CI_Model {
 
-    var $table = 'order';
+    var $table = 'purchase_order';
+    var $table_list = 'purchase_order_list';
     var $table_join1 = 'supplier';
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
     var $column = array('no', 'supplier', 'tanggal_transaksi', 'metode_pembayaran', 'po', 'gudang'); //set column field database for order and search
-    var $order = array('order.id' => 'desc'); // default order 
+    var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
     {
@@ -104,9 +105,25 @@ class order_model extends CI_Model {
         return $query->row();
     }
 
-    function get_order_detail($id)
+    function get_detail($id)
     {
-        $q = $this->db->select('no, supplier.title as supplier, up, alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, po, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar, lama_angsuran_2, lama_angsuran_1, bunga, order.created_on')
+        $q = $this->db->select('no, supplier.title as supplier,
+                                supplier.up, 
+                                supplier.alamat,
+                                metode_pembayaran_id, 
+                                metode_pembayaran.title as metode_pembayaran, 
+                                tanggal_transaksi, 
+                                po, 
+                                gudang.title as gudang, 
+                                jatuh_tempo_pembayaran, 
+                                kurensi.title as kurensi, 
+                                biaya_pengiriman, 
+                                dibayar, 
+                                lama_angsuran_2, 
+                                lama_angsuran_1, 
+                                bunga,
+                                keterangan, 
+                                purchase_order.created_on')
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.supplier_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
@@ -117,12 +134,12 @@ class order_model extends CI_Model {
         return $q;
     }
 
-    function get_order_list_detail($id)
+    function get_list_detail($id)
     {
-        $q = $this->db->select('barang.kode as kode_barang, barang.title as barang, jumlah, satuan.title as satuan, harga, disc, pajak')
-                  ->from('order_list')
-                  ->join('barang', 'barang.id = order_list.kode_barang', 'left')
-                  ->join('satuan', 'satuan.id = order_list.satuan_id')
+        $q = $this->db->select('barang.kode as kode_barang, deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+                  ->from($this->table_list)
+                  ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
+                  ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id')
                   ->where('order_id', $id)
                   ->get();
         return $q;

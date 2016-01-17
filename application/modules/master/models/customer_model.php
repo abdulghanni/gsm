@@ -4,7 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class customer_model extends CI_Model {
 
 	var $table = 'customer';
-	var $column = array('kode', 'title', 'tipe', 'up', 'jabatan', 'telp_1', 'telp_2', 'email', 'alamat'); //set column field database for order and search
+	var $column = array('id', 'kode', 'title', 'tipe', 'up', 'jabatan', 'telp_1', 'telp_2', 'email', 'alamat'); //set column field database for order and search
 	var $order = array('id' => 'desc'); // default order 
 
 	public function __construct()

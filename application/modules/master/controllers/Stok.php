@@ -10,50 +10,51 @@ class Stok extends MX_Controller {
 	{
 		parent::__construct();
         $this->load->database();
-		$this->load->model('master/Stok_model', 'stok');
+		$this->load->model('master/Stok_model', 'main');
         $this->lang->load('master/stok');
 	}
 
-    var $model_name = 'stok';
+    var $model_name = 'main';
 
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
-        $this->data['options_barang'] = options_row($this->model_name,'get_barang','id','title','-- Pilih Barang --');
-        $this->data['options_gudang'] = options_row($this->model_name,'get_gudang','id','title','-- Pilih Gudang --');
+        $this->data['options_barang'] = options_row($this->model_name,'get_barang','id','title','-- Pilih Barang --', 'kode');
+        $this->data['options_gudang'] = options_row($this->model_name,'get_gudang','id','title','-- Semua Gudang --');
         $this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
+        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
 		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
     {
-        $list = $this->stok->get_datatables();
+        $list = $this->main->get_datatables();
         $data = array();
         $no = $_POST['start'];
-        foreach ($list as $stok) {
+        foreach ($list as $r) {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = $stok->kode;
-            $row[] = $stok->barang;
-            $row[] = $stok->jumlah;
-            $row[] = $stok->satuan;
-            $row[] = $stok->kurensi.'.'.$stok->harga;
-            $row[] = $stok->gudang;
-            $row[] = $stok->lokasi_gudang;
+            $row[] = $r->kode;
+            $row[] = $r->barang;
+            $row[] = $r->dalam_stok;
+            $row[] = $r->satuan;
+            $row[] = $r->harga_beli;
+            $row[] = $r->harga_jual;
+            $row[] = $r->gudang;
 
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$stok->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$stok->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
         
             $data[] = $row;
         }
 
         $output = array(
                         "draw" => $_POST['draw'],
-                        "recordsTotal" => $this->stok->count_all(),
-                        "recordsFiltered" => $this->stok->count_filtered(),
+                        "recordsTotal" => $this->main->count_all(),
+                        "recordsFiltered" => $this->main->count_filtered(),
                         "data" => $data,
                 );
         //output to json format
@@ -62,7 +63,7 @@ class Stok extends MX_Controller {
 
     public function ajax_edit($id)
     {
-        $data = $this->stok->get_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
+        $data = $this->main->get_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
         echo json_encode($data);
     }
 
@@ -71,12 +72,14 @@ class Stok extends MX_Controller {
         //$this->_validate();
         $data = array(
                 'barang_id' => $this->input->post('barang_id'),
-                'jumlah' => $this->input->post('jumlah'),
-                'kurensi_id' => $this->input->post('kurensi_id'),
-                'harga' => $this->input->post('harga'),
                 'gudang_id' => $this->input->post('gudang_id'),
+                'supplier_id' => $this->input->post('supplier_id'),
+                'dalam_stok' => $this->input->post('dalam_stok'),
+                'minimum_stok' => $this->input->post('minimum_stok'),
+                'harga_beli'=>$this->input->post('harga_beli'),
+                'harga_jual'=>$this->input->post('harga_jual'),
             );
-        $insert = $this->stok->save($data);
+        $insert = $this->main->save($data);
         echo json_encode(array("status" => TRUE));
     }
 
@@ -84,20 +87,31 @@ class Stok extends MX_Controller {
     {
         //$this->_validate();
         $data = array(
-                'barang_id' => $this->input->post('barang_id'),
-                'jumlah' => $this->input->post('jumlah'),
-                'kurensi_id' => $this->input->post('kurensi_id'),
-                'harga' => $this->input->post('harga'),
                 'gudang_id' => $this->input->post('gudang_id'),
+                'supplier_id' => $this->input->post('supplier_id'),
+                'dalam_stok' => $this->input->post('dalam_stok'),
+                'minimum_stok' => $this->input->post('minimum_stok'),
+                'harga_beli'=>$this->input->post('harga_beli'),
+                'harga_jual'=>$this->input->post('harga_jual'),
             );
-        $this->stok->update(array('id' => $this->input->post('id')), $data);
+        $this->main->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));
     }
 
     public function ajax_delete($id)
     {
-        $this->stok->delete_by_id($id);
+        $this->main->delete_by_id($id);
         echo json_encode(array("status" => TRUE));
+    }
+
+    //JS FUNCTION
+
+    function get_satuan($id)
+    {
+        $satuan = getValue('satuan_id', 'barang', array('id'=>'where/'.$id));
+        $satuan = getValue('title','satuan', array('id'=>'where/'.$satuan));
+
+        echo json_encode($satuan);
     }
     
 	function _render_page($view, $data=null, $render=false)
