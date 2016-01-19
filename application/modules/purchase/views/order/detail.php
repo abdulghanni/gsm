@@ -23,12 +23,12 @@
 <div class="container-fluid container-fullw bg-white">
 
 <div class="row pull-right">
-	<a href="<?=base_url().'transaksi/order/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
+	<a href="<?=base_url().'purchase/order/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 		 <i class="fa fa-print"></i> <?= lang('print')?>
 	</a>
 </div>
 <?php foreach ($order->result() as $o) :?>
-<form role="form" action="<?= base_url('transaksi/order/add')?>" method="post" class="form-horizontal">
+<form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -193,7 +193,44 @@
 						</table>
 					</div>
 				</div>
+				<hr/>
 				<div class="row">
+					<div class="col-md-2">
+					  <div class="approve text-center" style="align:center">
+					  <p class="text-center">Approved,</p>
+					  <?php if($o->is_app == 0 && $o->user_app_id == sessId()):?>
+						  <div class="btn btn-blue" id="" type="" data-toggle="modal" data-target="#approval-modal"><i class="icon-ok"></i>Submit</div><br/><br/>
+	                   <?php elseif($o->is_app == 0 && $o->user_app_id != sessId()): ?>
+	                      <span class="small"></span>
+	                      <span class="semi-bold"></span>
+	                      <span class="small"></span><br/><br/>
+	                      <span class="semi-bold"></span><br/>
+	                    <?php else:
+	                    	$status = ($o->app_status_id==1) ? assets_url('images/approved_stamp.png') : assets_url('images/rejected_stamp.png');
+	                    ?>
+	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
+	                      <span class="small"><?=dateIndo($o->date_app)?></span><br/>
+	                    <?php endif; ?>
+	                     <span class="semi-bold">(<?= getFullName($o->user_app_id)?>)</span>
+	                  </div>
+					</div>
+					<div class="col-md-2">
+						<div class="approve text-center" style="align:center">
+						  <p class="text-center approve-head">Order By, </p>
+						  <span class="small"></span><br/>
+	                      <span class="small"><?=dateIndo($o->created_on)?></span><br/>
+	                      <span class="semi-bold">(<?= getFullName($o->created_by)?>)</span>
+						</div>
+					</div>
+					<div class="col-md-2">
+						<div class="approve text-center" style="align:center">
+						  <p class="text-center approve-head">ACC Vendor, </p>
+						  <span class="small"></span><br/>
+	                      <span class="semi-bold"></span><br/>
+	                      <span class="semi-bold">Sign & Return By Fax</span>
+						</div>
+					</div>
+
 					<div id="panel-total" class="panel-body col-md-5 pull-right">
 						<ul class="list-group">
 							<li class="list-group-item">
@@ -229,14 +266,24 @@
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-4">
-									Dibayar
+									Total + Pajak
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=number_format($o->dibayar,2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
 							<?php if($o->metode_pembayaran_id == 2):?>
+								<li class="list-group-item">
+									<div class="row">
+										<div class="col-md-4">
+										Dibayar
+										</div>
+										<div class="col-md-6 pull-right">
+										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=number_format($o->dibayar,2)?>" readonly="readonly">
+										</div>
+									</div>
+								</li>
 								<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-4">
@@ -261,8 +308,7 @@
 										</div>
 									</div>
 								</li>
-						<?php endif?>
-							<li class="list-group-item">
+								<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-4">
 									Saldo
@@ -272,6 +318,8 @@
 									</div>
 								</div>
 							</li>
+						<?php endif?>
+							
 						</ul>
 					</div>
 				</div>
@@ -282,3 +330,56 @@
 </form>
 <?php endforeach;?>
 <!-- end: INVOICE -->
+
+
+<!--approval Modal -->
+<div class="modal fade" id="approval-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" id="modaldialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Approval PO</h4>
+      </div>
+      <p class="error_msg" id="MsgBad" style="background: #fff; display: none;"></p>
+      <div class="modal-body">
+        <form class="form-no-horizontal-spacing"  id="formApp">
+        <input type="hidden" value="<?=$id?>" name="id">
+            <div class="row form-row">
+            	<div class="col-md-6">
+					<div class="form-group">
+						<label class="block">
+							Status Approval
+						</label>
+						<div class="clip-radio radio-primary">
+							<input type="radio" id="1" name="app_status_id" value="1">
+							<label for="1">
+								Approve
+							</label>
+							<input type="radio" id="2" name="app_status_id" value="2" checked="checked">
+							<label for="2">
+								Reject
+							</label>
+						</div>
+					</div>
+				</div>
+            </div>
+            <div class="row form-row">
+            	<div class="col-md-6">
+					<div class="form-group">
+						<label class="block">
+							Note(Optional)
+						</label>
+						<textarea class="form-control" name="note"></textarea>
+					</div>
+				</div>
+            </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i>&nbsp;Close</button> 
+        <button type="button" id="btnApp" onclick="approve()" class="btn btn-success btn-cons"><i class="icon-ok-sign"></i>&nbsp;Save</button>
+      </div>
+        <?php echo form_close()?>
+    </div>
+  </div>
+</div>
+<!--end approve modal--> 

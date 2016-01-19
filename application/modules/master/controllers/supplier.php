@@ -17,11 +17,13 @@ class Supplier extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
+        permissionUser();
 		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
     {
+        permissionUser();
         $list = $this->supplier->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -75,6 +77,8 @@ class Supplier extends MX_Controller {
                 'telp_2' => $this->input->post('telp_2'),
                 'email' => $this->input->post('email'),
                 'alamat' => $this->input->post('alamat'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
             );
         $insert = $this->supplier->save($data);
         echo json_encode(array("status" => TRUE));

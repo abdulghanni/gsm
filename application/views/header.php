@@ -23,7 +23,7 @@
       <!-- start: MESSAGES DROPDOWN -->
       <li class="dropdown">
         <a href class="dropdown-toggle" data-toggle="dropdown">
-          <span class="dot-badge partition-red"></span> <i class="ti-comment"></i> <span>MESSAGES</span>
+          <span class="dot-badge partition-red"></span> <i class="ti-comment"></i> <span>MESSAGES</span><span class="badge" id="msgs-badge"><?php echo '19' ?></span>
         </a>
         <ul class="dropdown-menu dropdown-light dropdown-messages dropdown-large">
           <li>
@@ -36,40 +36,12 @@
                   <a href="javascript:;" class="unread">
                     <div class="clearfix">
                       <div class="thread-image">
-                        <img src="<?=assets_url('assets/images/avatar-2.jpg')?>" alt="">
+                        <img height="50px" width="50px" src="<?=$photo_profile?>" alt="">
                       </div>
                       <div class="thread-content">
-                        <span class="author">Nicole Bell</span>
-                        <span class="preview">Duis mollis, est non commodo luctus, nisi erat porttitor ligula...</span>
+                        <span class="author">User</span>
+                        <span class="preview">Test</span>
                         <span class="time"> Just Now</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="javascript:;" class="unread">
-                    <div class="clearfix">
-                      <div class="thread-image">
-                        <img src="<?=assets_url('assets/images/avatar-3.jpg')?>" alt="">
-                      </div>
-                      <div class="thread-content">
-                        <span class="author">Steven Thompson</span>
-                        <span class="preview">Duis mollis, est non commodo luctus, nisi erat porttitor ligula...</span>
-                        <span class="time">8 hrs</span>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a href="javascript:;">
-                    <div class="clearfix">
-                      <div class="thread-image">
-                        <img src="<?=assets_url('assets/images/avatar-4.jpg')?>" alt="">
-                      </div>
-                      <div class="thread-content">
-                        <span class="author">Kenneth Ross</span>
-                        <span class="preview">Duis mollis, est non commodo luctus, nisi erat porttitor ligula...</span>
-                        <span class="time">14 hrs</span>
                       </div>
                     </div>
                   </a>
@@ -88,25 +60,33 @@
       <!-- start: ACTIVITIES DROPDOWN -->
       <li class="dropdown">
         <a href class="dropdown-toggle" data-toggle="dropdown">
-          <i class="ti-check-box"></i> <span>ACTIVITIES</span>
+          <i class="ti-check-box"></i> <span>ACTIVITIES</span><span class="badge" id="msgs-badge"><?php echo $notification->num_rows() ?></span>
         </a>
         <ul class="dropdown-menu dropdown-light dropdown-messages dropdown-large">
-          <li>
-            <span class="dropdown-header"> You have new notifications</span>
-          </li>
+          <?php if($notification->num_rows()>0):?>
           <li>
             <div class="drop-down-wrapper ps-container">
               <div class="list-group no-margin">
-                <a class="media list-group-item" href="">
-                  <img class="img-circle" alt="..." src="<?=assets_url('assets/images/avatar-1.jpg')?>">
-                  <span class="media-body block no-margin"> Use awesome animate.css <small class="block text-grey">10 minutes ago</small> </span>
+                <?php foreach($notification->result() as $n):
+                  $photo_link = getValue('photo', 'users', array('id'=>'where/'.$n->sender_id));
+                  $photo_link = base_url().'uploads/'.$n->sender_id.'/'.$photo_link;
+                  $file_headers = @get_headers($photo_link);
+                  $sender_photo = ($file_headers[0] != 'HTTP/1.1 404 Not Found') ? $photo_link : assets_url('assets/images/no-image-mid.png');
+                ?>
+                <a class="media list-group-item" href="<?= $n->url?>">
+                  <img class="img-circle" height="40px" width="40px" alt="..." src="<?=$sender_photo?>">
+                  <span class="media-body block no-margin"> <?= $n->judul ?> <small class="block text-grey">10 minutes ago</small> </span>
                 </a>
-                <a class="media list-group-item" href="">
-                  <span class="media-body block no-margin"> 1.0 initial released <small class="block text-grey">1 hour ago</small> </span>
-                </a>
+              <?php endforeach; ?>
               </div>
             </div>
           </li>
+        <?php else:?>
+          <li>
+            <span class="dropdown-header"> Tidak ada notifikasi baru</span>
+          </li>
+        <?php endif;?>
+        
           <li class="view-all">
             <a href="#">
               See All
@@ -139,7 +119,7 @@
       <!-- start: USER OPTIONS DROPDOWN -->
       <li class="dropdown current-user">
         <a href class="dropdown-toggle" data-toggle="dropdown">
-          <img src="<?=$photo?>" alt="abdul"> <span class="username"><?= $sess_name ?> <i class="ti-angle-down"></i></span>
+          <img src="<?=$photo_profile?>" alt="abdul"> <span class="username"><?= $sess_name ?> <i class="ti-angle-down"></i></span>
         </a>
         <ul class="dropdown-menu dropdown-dark">
           <li>
@@ -170,6 +150,9 @@
     </div>
     <!-- end: MENU TOGGLER FOR MOBILE DEVICES -->
   </div>
+  <a class="dropdown-off-sidebar" data-toggle-class="app-offsidebar-open" data-toggle-target="#app" data-toggle-click-outside="#off-sidebar">
+    &nbsp;
+  </a>
   <!-- end: NAVBAR COLLAPSE -->
 </header>
 <!-- end: TOP NAVBAR -->

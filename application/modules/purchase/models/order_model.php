@@ -123,7 +123,14 @@ class order_model extends CI_Model {
                                 lama_angsuran_1, 
                                 bunga,
                                 keterangan, 
-                                purchase_order.created_on')
+                                purchase_order.created_on,
+                                is_app,
+                                user_app_id,
+                                date_app,
+                                app_status_id,
+                                note_app,
+                                purchase_order.created_by'
+                                )
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.supplier_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')

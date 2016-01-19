@@ -16,6 +16,7 @@ class Barang extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
+        permissionUser();
         $this->data['jenis_barang'] = getAll('jenis_barang');
         $this->data['options_jenis_barang'] = options_row('barang', 'get_jenis_barang','id','title', '-- Pilih Jenis Barang --');
         $this->data['options_satuan'] = options_row('barang', 'get_satuan','id','title', '-- Pilih Satuan --');
@@ -24,6 +25,7 @@ class Barang extends MX_Controller {
 
     public function ajax_list()
     {
+        permissionUser();
         $list = $this->barang->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -69,6 +71,8 @@ class Barang extends MX_Controller {
                 'title' => $this->input->post('title'),
                 'jenis_barang_id' => $this->input->post('jenis_barang_id'),
                 'satuan_id' => $this->input->post('satuan_id'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
             );
         $insert = $this->barang->save($data);
         echo json_encode(array("status" => TRUE));

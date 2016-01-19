@@ -180,16 +180,24 @@ class Template {
         }
         $css = implode('', $css);
 
+        //HEADER
         $photo = getValue('photo', 'users', array('id'=>'where/'.sessId()));
-        $data['photo'] = (!empty($photo)) ? base_url('uploads/'.sessId().'/80x80/'.$photo): assets_url('assets/images/no-image.png');
+        $data['photo_profile'] = (!empty($photo)) ? base_url('uploads/'.sessId().'/80x80/'.$photo): assets_url('assets/images/no-image.png');
         $data['sess_name'] = getValue('username', 'users', array('id'=>'where/'.sessId()));
+        $data['notification'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()));
+
+        //CHAT
+        $data['users'] = getAll('users');
+
         $header = $this->_ci->load->view('header', $data, TRUE);
+        $chat_bar = $this->_ci->load->view('chat', $data, TRUE);
         $footer = $this->_ci->load->view('footer', array(), TRUE);
         $sidebar = $this->_ci->load->view('sidebar', array(), TRUE);
         $main_content = $this->_ci->load->view($view, $data, TRUE);
 
         $body = $this->_ci->load->view('layout/' . $this->layout, array(
             'header' => $header,
+            'chat_bar' => $chat_bar,
             'footer' => $footer,
             'sidebar' => $sidebar,
             'main_content' => $main_content,

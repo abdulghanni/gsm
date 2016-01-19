@@ -42,7 +42,7 @@
     <body class="">
         <?php echo $body; ?>
         <!-- / -->
-
+        
         <script src="<?php echo assets_url('vendor/jquery/jquery.min.js'); ?>"></script>
         <script src="<?php echo assets_url('vendor/bootstrap/js/bootstrap.min.js'); ?>"></script>
         <script src="<?php echo assets_url('vendor/modernizr/modernizr.js'); ?>"></script>

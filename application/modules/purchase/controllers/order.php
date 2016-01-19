@@ -32,6 +32,7 @@ class Order extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
+        $this->data['users'] = getAll('users');
         $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
@@ -60,7 +61,7 @@ class Order extends MX_Controller {
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
                         );
-
+        $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
                 'supplier_id'=>$this->input->post('supplier_id'),
@@ -78,6 +79,9 @@ class Order extends MX_Controller {
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'keterangan' =>$this->input->post('keterangan'),
+                'user_app_id'=>$approver,
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
             );
 
         $this->db->insert($this->module.'_'.$this->file_name, $data);
@@ -95,7 +99,27 @@ class Order extends MX_Controller {
                 );
         $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         endfor;
+        
+        if(!empty($approver)):
+            $this->send_notification($insert_id, $approver);
+        endif;
         redirect($this->module.'/'.$this->file_name, 'refresh');
+    }
+
+    function send_notification($id, $approver)
+    {
+        permissionUser();
+        $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
+        $isi = getName(sessId())." Mengajuan Purchase Order, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a> untuk melakukan approval.";
+        $data = array('sender_id' => sessId(),
+                      'receiver_id' => $approver,
+                      'sent_on' => dateNow(),
+                      'judul' => 'Pengajuan Purchase Order',
+                      'isi' => $isi,
+         );
+
+        $this->db->insert('notifikasi', $data);
+        return TRUE;
     }
 
     public function ajax_list()
@@ -164,6 +188,19 @@ class Order extends MX_Controller {
         echo json_encode($q);
 
     }
+
+    function approve()
+    {
+        $id = $this->input->post('id');
+        $data = array('is_app' => 1,
+                      'app_status_id' => $this->input->post('app_status_id'),
+                      'date_app'=>dateNow(),
+                      'user_app_id' => sessId(),
+                      'note_app' => $this->input->post('note')
+            );
+        $this->db->where('id', $id)->update('purchase_order', $data);
+        echo json_encode(array("status" => $id));
+    }
     
     function _render_page($view, $data=null, $render=false)
     {
@@ -197,7 +234,8 @@ class Order extends MX_Controller {
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/detail')))
                 {
                     $this->template->set_layout('default');
-
+                    
+                    $this->template->add_css('assets/css/custom.css');
                     $this->template->add_js('vendor/jquery-mask-money/jquery.MaskMoney.js');
                     $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/detail.js');
                 }
