@@ -16,6 +16,8 @@ class Order extends MX_Controller {
 	function index()
 	{
         $this->data['title'] = $this->title;
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
         permissionUser();
 		$this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
 	}
@@ -23,16 +25,18 @@ class Order extends MX_Controller {
     function input()
     {
         $this->data['title'] = $this->title.' - Input';
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
         permissionUser();
-        $num_rows = getAll('order')->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get('order')->last_row()->id : 0;
+        $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row($this->model_name,'get_supplier','id','title','-- Pilih Supplier --');
+        $this->data['options_customer'] = options_row($this->model_name,'get_customer','id','title','-- Pilih customer --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -40,6 +44,8 @@ class Order extends MX_Controller {
     function detail($id)
     {
         $this->data['title'] = $this->title.' - Detail';
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
         permissionUser();
         $this->data['id'] = $id;
         $this->data['order'] = $this->order->get_order_detail($id);
@@ -62,12 +68,12 @@ class Order extends MX_Controller {
 
         $data = array(
                 'no' => $this->input->post('no'),
-                'supplier_id'=>$this->input->post('supplier_id'),
+                'customer_id'=>$this->input->post('customer_id'),
                 'up'=>$this->input->post('up'),
                 'alamat'=>$this->input->post('alamat'),
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'po'=>$this->input->post('po'),
+                'so'=>$this->input->post('so'),
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
                 'kurensi_id'=>$this->input->post('kurensi_id'),
@@ -76,9 +82,12 @@ class Order extends MX_Controller {
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
+                'keterangan' =>$this->input->post('keterangan'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
             );
 
-        $this->db->insert('order', $data);
+        $this->db->insert($this->module.'_'.$this->file_name, $data);
         $order_id = $this->db->insert_id();
         for($i=0;$i<sizeof($order_list['kode_barang']);$i++):
             $data2 = array(
@@ -90,7 +99,7 @@ class Order extends MX_Controller {
                 'disc' => str_replace(',', '', $order_list['disc'][$i]),
                 'pajak' => str_replace(',', '', $order_list['pajak'][$i]),
                 );
-        $this->db->insert('order_list', $data2);
+        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         endfor;
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
@@ -107,10 +116,10 @@ class Order extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$order->no.'</a>';
-            $row[] = $order->supplier;
+            $row[] = $order->customer;
             $row[] = $order->tanggal_transaksi;
             $row[] = $order->metode_pembayaran;
-            $row[] = $order->po;
+            $row[] = $order->so;
             $row[] = $order->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
@@ -145,12 +154,20 @@ class Order extends MX_Controller {
 
     //FOR JS
 
-    function get_supplier_detail($id)
+    function get_customer_detail($id)
     {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
+        $up = getValue('up', 'customer', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'customer', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
+
+    }
+
+    function get_nama_barang($id)
+    {
+        $q = getValue('title', 'barang', array('id'=>'where/'.$id));
+
+        echo json_encode($q);
 
     }
     

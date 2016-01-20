@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12 space20">
-                    <a href="<?= base_url('purchase/order/input')?>" class="btn btn-green add-row">
+                    <a href="<?= base_url($module.'/'.$file_name.'/input')?>" class="btn btn-green add-row">
                         <?= lang('add') ?> <i class="fa fa-plus"></i>
                     </a>
                 </div>
@@ -31,10 +31,10 @@
                         <tr>
                             <th width="5%" align="center">No.</th>
                             <th width="10%"><?php echo 'No. Transaksi';?></th>
-                            <th width="15%"><?php echo 'Supplier';?></th>
+                            <th width="15%"><?php echo 'Customer';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
                             <th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>
-                            <th width="10%"><?php echo 'No. PO';?></th>
+                            <th width="10%"><?php echo 'No. SO';?></th>
                             <th width="15%"><?php echo 'Dikirim Ke';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
