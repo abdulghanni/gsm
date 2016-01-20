@@ -22,6 +22,9 @@ class Pembelian extends MX_Controller {
     function input()
     {
         $this->data['title'] = $this->title.' - Input';
+        $this->data['main_title'] = $this->title;
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
         permissionUser();
         $num_rows = getAll($this->file_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->file_name)->last_row()->id : 0;
@@ -31,7 +34,7 @@ class Pembelian extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row($this->model_name,'get_supplier','id','title','-- Pilih Supplier --');
+        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }

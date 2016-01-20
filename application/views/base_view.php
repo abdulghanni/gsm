@@ -32,7 +32,7 @@
         <!-- start: Custom CSS -->
         <link href="<?php echo assets_url('assets/css/styles.css'); ?>" rel="stylesheet" >
         <link rel="stylesheet" href="<?php echo assets_url('assets/css/plugins.css'); ?>">
-        <link rel="stylesheet" href="<?php echo assets_url('assets/css/themes/theme-5.css'); ?>" id="skin_color" />
+        <link rel="stylesheet" href="<?php echo assets_url('assets/css/themes/theme-4.css'); ?>" id="skin_color" />
         <!-- end: Custom CSS -->
 
         <!-- Custom styles -->

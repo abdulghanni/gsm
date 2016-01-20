@@ -216,7 +216,7 @@ var baseurl = url.attr('protocol')+'://'+url.attr('host')+'/'+url.segment(1)+'/'
 			fixedSidebar: true,
 			closedSidebar: false,
 			fixedFooter: false,
-			theme: 'theme-5'
+			theme: 'theme-4'
 		};
 		if($.cookie) {
 			if($.cookie("clip-setting")) {

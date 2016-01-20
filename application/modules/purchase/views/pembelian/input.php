@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Purchase Order</h1>
+			<h1 class="mainTitle"><?= $main_title ?></h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -10,7 +10,7 @@
 				<span>Pages</span>
 			</li>
 			<li class="active">
-				<span><a href="<?=base_url('purchase/order')?>">order</a></span>
+				<span><a href="<?=base_url('purchase/pembelian')?>"><?=$file_name?></a></span>
 			</li>
 			<li>
 				<span><a href="<?=base_url('purchase/order/input')?>">input</a></span>

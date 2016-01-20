@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Purchase Order</h1>
+			<h1 class="mainTitle"><?= ucwords($module.' '.$file_name)?></h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li class="active">
-				<span><a href="<?=base_url('purchase/order')?>">order</a></span>
+				<span><a href="<?=base_url($module.'/'.$file_name)?>">order</a></span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/order/input')?>">input</a></span>
+				<span><a href="<?=base_url($module.'/'.$file_name.'/input')?>">input</a></span>
 			</li>
 		</ol>
 	</div>
@@ -21,7 +21,7 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal">
+<form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -45,8 +45,8 @@
 							</label>
 							<div class="col-sm-9">
 								<?php 
-                                	$js = 'class="select2" style="width:100%" id="supplier_id"';
-                                	echo form_dropdown('supplier_id', $options_supplier,'',$js); 
+                                	$js = 'class="select2" style="width:100%" id="customer_id"';
+                                	echo form_dropdown('customer_id', $options_customer,'',$js); 
                               	?>
 							</div>
 						</div>
@@ -83,6 +83,15 @@
 							</div>
 						</div>
 
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="inputPassword3">
+								Keterangan
+							</label>
+							<div class="col-sm-9">
+								<input type="text" placeholder="" name="keterangan" id="" class="form-control">
+							</div>
+						</div>
+
                     </div>
 
                     <div class="col-md-5">
@@ -99,19 +108,19 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputPassword3">
-								No. PO
+								No. SO
 							</label>
 							<div class="col-sm-9">
-								<input type="text" placeholder="No. PO" name="po" class="form-control" required="required">
+								<input type="text" placeholder="No. SO" name="so" class="form-control" required="required">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputPassword3">
-								Dikirim Ke
+								Dikirim Dari
 							</label>
 							<div class="col-sm-9">
 								<select class="select2" name="gudang_id" style="width:100%">
-								<option value="0">-- Pilih Gudang Pengiriman --</option>
+								<option value="0">-- Pilih Gudang --</option>
 								<?php 
                                 	foreach($gudang as $g):?>
                                 	<option value="<?=$g->id?>"><?=$g->title?></option>
@@ -175,23 +184,26 @@
                 </button>
 				<div class="row">
 					<div class="col-sm-12">
+					<div class="table-responsive">
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
 									<th width="5%"> # </th>
 									<th width="5%"> No. </th>
-									<th width="25%"> Nama Barang </th>
+									<th width="10%"> Kode Barang </th>
+									<th width="20%"> Deskripsi </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
-									<th width="20%"> Sub Total </th>
+									<th width="15%"> Sub Total </th>
 									<th width="5%">Pajak(%)</th>
 								</tr>
 							</thead>
 							<tbody>
 							</tbody>
 						</table>
+					</div>
 					</div>
 				</div>
 				<div class="row">
@@ -230,12 +242,22 @@
 										</div>
 									</div>
 								</li>
+								<li class="list-group-item">
+									<div class="row">
+										<div class="col-md-4">
+										Total+Pajak
+										</div>
+										<div class="col-md-6 pull-right">
+										<input type="text" class="form-control text-right" id="totalpluspajak" value="0" readonly="readonly">
+										</div>
+									</div>
+								</li>
 								
 								<div id="total_angsuran" style="display:none">
 									<li class="list-group-item">
 										<div class="row">
 											<div class="col-md-4">
-											Dibayar
+											Uang Muka
 											</div>
 											<div class="col-md-6 pull-right">
 											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
@@ -266,8 +288,7 @@
 											</div>
 										</div>
 									</li>
-								</div>
-								<li class="list-group-item">
+									<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-4">
 										Saldo
@@ -277,6 +298,8 @@
 										</div>
 									</div>
 								</li>
+								</div>
+								
 							</ul>
 						</div>
 					</div>
@@ -310,25 +333,41 @@
 	cell2.innerHTML=rowCount+1-1;
 
 	var cell3=row.insertCell(2);
-	cell3.innerHTML = "<select name='kode_barang[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.$barang[$i]['title']?></option><?php endfor;?></select>";  
+	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.$barang[$i]['title']?></option><?php endfor;?></select>";  
 
 	var cell4=row.insertCell(3);
-	cell4.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
+	cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">';
 
 	var cell5=row.insertCell(4);
-	cell5.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
+	cell5.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 
 	var cell6=row.insertCell(5);
-	cell6.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
+	cell6.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 
 	var cell7=row.insertCell(6);
-	cell7.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'">';
+	cell7.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
 
 	var cell8=row.insertCell(7);
-	cell8.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
+	cell8.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'">';
 
 	var cell9=row.insertCell(8);
-	cell9.innerHTML = '<input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
+	cell9.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
+
+	var cell10=row.insertCell(9);
+	cell10.innerHTML = '<input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
+
+	$("#barang_id"+rowCount).change(function(){
+        var id = $(this).val();
+         $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: 'get_nama_barang/'+id,
+            success: function(data) {
+                $('#deskripsi'+rowCount).val(data);
+            }
+        });
+    })
+    .change();
 
 	$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
 	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).add("#pajak"+rowCount).keyup(function() {
@@ -367,8 +406,10 @@
         totalPlusBunga = (total-diBayar)*(bunga/100);
         totalPlusBunga = (total-diBayar)+totalPlusBunga;
         biayaAngsuran = totalPlusBunga/lama_angsuran;
+        totalpluspajak = total + jmlPajak;
         $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
         $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
         var saldo = total-diBayar;
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
        	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
@@ -387,11 +428,6 @@
       }
       return x1 + x2;
     }
-    
-
 	}
-
-	
-
 	function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
 </script>
