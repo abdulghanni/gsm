@@ -308,7 +308,9 @@ class Users extends MX_Controller {
         $this->_validate();
         $data = array(
                 'full_name' => $this->input->post('full_name'),
-                'username' => $this->input->post('username')
+                'username' => $this->input->post('username'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
             );
         $insert = $this->users->save($data);
         echo json_encode(array("status" => TRUE));

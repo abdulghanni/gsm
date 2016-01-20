@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 14, 2016 at 08:04 AM
+-- Generation Time: Jan 17, 2016 at 11:43 AM
 -- Server version: 10.1.9-MariaDB
 -- PHP Version: 7.0.1
 
@@ -56,7 +56,7 @@ INSERT INTO `barang` (`id`, `kode`, `title`, `jenis_barang_id`, `satuan_id`, `cr
 (8, 'C02', 'LC Fiber Optic Patchcord', 1, 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
 (9, 'C03', 'FC Fiber Optic Patchcord', 1, 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
 (10, 'I01', 'PC Desktop', 3, 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(12, 'D01', 'Antenna', 1, 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(12, 'D01', 'Antenna', 1, 1, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
 (13, 'F01', 'Rak Server', 1, 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
 (14, '001', 'Rak', 2, 2, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00');
 
@@ -297,10 +297,10 @@ INSERT INTO `metode_pembayaran` (`id`, `title`, `created_by`, `created_on`, `edi
 -- --------------------------------------------------------
 
 --
--- Table structure for table `order`
+-- Table structure for table `purchase_order`
 --
 
-CREATE TABLE `order` (
+CREATE TABLE `purchase_order` (
   `id` int(11) NOT NULL,
   `no` varchar(25) NOT NULL,
   `supplier_id` int(11) NOT NULL,
@@ -309,6 +309,148 @@ CREATE TABLE `order` (
   `metode_pembayaran_id` int(11) NOT NULL,
   `tanggal_transaksi` date NOT NULL,
   `po` varchar(10) NOT NULL,
+  `gudang_id` int(11) NOT NULL,
+  `jatuh_tempo_pembayaran` date NOT NULL,
+  `kurensi_id` varchar(254) NOT NULL,
+  `biaya_pengiriman` int(11) NOT NULL,
+  `dibayar` int(11) NOT NULL,
+  `lama_angsuran_1` int(11) NOT NULL,
+  `lama_angsuran_2` varchar(10) NOT NULL,
+  `bunga` int(11) NOT NULL,
+  `keterangan` varchar(100) DEFAULT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_on` date NOT NULL,
+  `edited_by` int(11) NOT NULL,
+  `edited_on` date NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL,
+  `deleted_by` int(11) NOT NULL,
+  `deleted_on` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_order`
+--
+
+INSERT INTO `purchase_order` (`id`, `no`, `supplier_id`, `up`, `alamat`, `metode_pembayaran_id`, `tanggal_transaksi`, `po`, `gudang_id`, `jatuh_tempo_pembayaran`, `kurensi_id`, `biaya_pengiriman`, `dibayar`, `lama_angsuran_1`, `lama_angsuran_2`, `bunga`, `keterangan`, `created_by`, `created_on`, `edited_by`, `edited_on`, `is_deleted`, `deleted_by`, `deleted_on`) VALUES
+(1, '201512171', 3, '', '', 1, '2016-01-01', '123', 7, '2016-01-01', '1', 0, 0, 0, '', 0, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(2, '201512172', 3, 'Mr.A', 'jl.abcd', 1, '2015-12-24', '1223', 7, '2015-12-24', '1', 0, 0, 0, '', 0, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(3, '201512183', 3, 'sad', 'dsa', 1, '2016-01-01', 'sdsa', 7, '2016-01-01', '1', 0, 0, 0, '', 0, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(4, '201512194', 3, 'qw', 'wq', 1, '2015-12-19', 'wq', 5, '2015-12-19', '2', 2, 10, 0, '', 0, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(5, '201512195', 3, 'ad', 'loo', 2, '2015-12-09', 'o', 5, '2015-12-09', '2', 0, 0, 0, '', 0, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(6, '201512206', 2, 'mr.x', 'jl. xxx', 2, '2015-12-28', '12345', 5, '2015-12-28', '1', 10000, 1111000, 12, 'bulan', 10, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(7, '201512207', 2, 'Tn. xxx', 'jl. xxx', 2, '2016-01-01', '12345', 5, '2016-01-01', '1', 250000, 550000, 10, 'bulan', 10, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(8, '201512208', 2, 'Tn. xxx', 'jl. xxx', 2, '2016-01-01', '54321', 7, '2016-01-01', '1', 5000, 10000, 10, 'bulan', 5, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(9, '201512219', 2, 'Mr.x ', 'jl. xxx', 2, '2016-01-01', '12345', 5, '2016-01-01', '1', 10000, 90000, 10, 'bulan', 10, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(10, '2015122110', 2, 'ferdi', 'bekasi', 1, '2015-12-24', '55566644', 8, '2015-12-24', '1', 0, 5000000, 0, '0', 0, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(11, '2015122111', 4, 'bernard', 'kupang', 1, '2015-12-18', '0101032', 10, '2015-12-18', '2', 0, 2000000, 0, '0', 0, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(12, '2015122212', 5, 'Tn. Abdul', 'Jakarta', 1, '2016-01-01', '1234', 8, '2016-01-01', '1', 100000, 2929000, 12, 'bulan', 10, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(13, '2016011713', 4, 'aer', 'raer', 1, '2016-02-01', '23232', 5, '2016-02-01', '1', 0, 11500, 0, '0', 0, 'tes', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(14, '2016011714', 5, 'Ari', 'rerer', 2, '2016-03-03', '34324', 5, '2016-03-03', '1', 0, 10000, 12, 'bulan', 10, '', 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `purchase_order_list`
+--
+
+CREATE TABLE `purchase_order_list` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `kode_barang` int(11) NOT NULL,
+  `deskripsi` varchar(100) NOT NULL,
+  `jumlah` int(11) NOT NULL,
+  `satuan_id` int(11) NOT NULL,
+  `harga` int(11) NOT NULL,
+  `disc` int(11) NOT NULL,
+  `pajak` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_on` date NOT NULL,
+  `edited_by` int(11) NOT NULL,
+  `edited_on` date NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL,
+  `deleted_by` int(11) NOT NULL,
+  `deleted_on` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `purchase_order_list`
+--
+
+INSERT INTO `purchase_order_list` (`id`, `order_id`, `kode_barang`, `deskripsi`, `jumlah`, `satuan_id`, `harga`, `disc`, `pajak`, `created_by`, `created_on`, `edited_by`, `edited_on`, `is_deleted`, `deleted_by`, `deleted_on`) VALUES
+(1, 1, 0, '', 1, 1, 3, 5, 9, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(2, 1, 0, '', 2, 1, 4, 6, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(3, 2, 1, '', 1, 1, 3, 5, 9, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(4, 2, 2, '', 2, 1, 4, 6, 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(5, 3, 1, '', 10, 1, 1, 10, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(6, 4, 1, '', 10, 1, 1, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(7, 4, 2, '', 10, 1, 2, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(8, 5, 1, '', 1000, 2, 1, 10, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(9, 5, 1, '', 0, 1, 0, 0, 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(10, 6, 1, '', 10, 1, 100000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(11, 6, 2, '', 10, 1, 50000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(12, 7, 2, '', 10, 1, 100000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(13, 7, 3, '', 5, 1, 50000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(14, 8, 1, '', 5, 1, 1000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(15, 8, 1, '', 5, 1, 10000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(16, 9, 2, '', 10, 1, 100000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(17, 10, 1, '', 5000, 1, 1000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(18, 11, 3, '', 10, 3, 200000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(19, 11, 4, '', 10, 1, 1000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(20, 12, 4, '', 10, 1, 1000000, 10, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(21, 12, 2, '', 10, 1, 2000000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(22, 12, 1, '', 10, 1, 0, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(23, 13, 2, '', 10, 4, 1000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(24, 13, 4, '', 10, 3, 100, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(25, 13, 5, '', 10, 1, 50, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(26, 14, 2, 'Kabel tt', 10, 1, 100, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
+(27, 14, 6, 'Palu', 10, 1, 1000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales`
+--
+
+CREATE TABLE `sales` (
+  `id` int(11) NOT NULL,
+  `kode` varchar(10) NOT NULL,
+  `nama` varchar(254) NOT NULL,
+  `telp_1` varchar(15) NOT NULL,
+  `telp_2` varchar(15) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `alamat` varchar(100) NOT NULL,
+  `komisi` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_on` date NOT NULL,
+  `edited_by` int(11) NOT NULL,
+  `edited_on` date NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL,
+  `deleted_by` int(11) NOT NULL,
+  `deleted_on` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sales`
+--
+
+INSERT INTO `sales` (`id`, `kode`, `nama`, `telp_1`, `telp_2`, `email`, `alamat`, `komisi`, `created_by`, `created_on`, `edited_by`, `edited_on`, `is_deleted`, `deleted_by`, `deleted_on`) VALUES
+(2, 's34', 'df', '3443423423', '4234234234', '4423b423432', '4rsfsd fsdfe fsefe', 3, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `sales_order`
+--
+
+CREATE TABLE `sales_order` (
+  `id` int(11) NOT NULL,
+  `no` varchar(25) NOT NULL,
+  `customer_id` int(11) NOT NULL,
+  `up` varchar(50) NOT NULL,
+  `alamat` varchar(100) NOT NULL,
+  `metode_pembayaran_id` int(11) NOT NULL,
+  `tanggal_transaksi` date NOT NULL,
+  `so` varchar(10) NOT NULL,
   `gudang_id` int(11) NOT NULL,
   `jatuh_tempo_pembayaran` date NOT NULL,
   `kurensi_id` varchar(254) NOT NULL,
@@ -327,10 +469,10 @@ CREATE TABLE `order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- Dumping data for table `order`
+-- Dumping data for table `sales_order`
 --
 
-INSERT INTO `order` (`id`, `no`, `supplier_id`, `up`, `alamat`, `metode_pembayaran_id`, `tanggal_transaksi`, `po`, `gudang_id`, `jatuh_tempo_pembayaran`, `kurensi_id`, `biaya_pengiriman`, `dibayar`, `lama_angsuran_1`, `lama_angsuran_2`, `bunga`, `created_by`, `created_on`, `edited_by`, `edited_on`, `is_deleted`, `deleted_by`, `deleted_on`) VALUES
+INSERT INTO `sales_order` (`id`, `no`, `customer_id`, `up`, `alamat`, `metode_pembayaran_id`, `tanggal_transaksi`, `so`, `gudang_id`, `jatuh_tempo_pembayaran`, `kurensi_id`, `biaya_pengiriman`, `dibayar`, `lama_angsuran_1`, `lama_angsuran_2`, `bunga`, `created_by`, `created_on`, `edited_by`, `edited_on`, `is_deleted`, `deleted_by`, `deleted_on`) VALUES
 (1, '201512171', 3, '', '', 1, '2016-01-01', '123', 7, '2016-01-01', '1', 0, 0, 0, '', 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
 (2, '201512172', 3, 'Mr.A', 'jl.abcd', 1, '2015-12-24', '1223', 7, '2015-12-24', '1', 0, 0, 0, '', 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
 (3, '201512183', 3, 'sad', 'dsa', 1, '2016-01-01', 'sdsa', 7, '2016-01-01', '1', 0, 0, 0, '', 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
@@ -343,58 +485,6 @@ INSERT INTO `order` (`id`, `no`, `supplier_id`, `up`, `alamat`, `metode_pembayar
 (10, '2015122110', 2, 'ferdi', 'bekasi', 1, '2015-12-24', '55566644', 8, '2015-12-24', '1', 0, 5000000, 0, '0', 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
 (11, '2015122111', 4, 'bernard', 'kupang', 1, '2015-12-18', '0101032', 10, '2015-12-18', '2', 0, 2000000, 0, '0', 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
 (12, '2015122212', 5, 'Tn. Abdul', 'Jakarta', 1, '2016-01-01', '1234', 8, '2016-01-01', '1', 100000, 2929000, 12, 'bulan', 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `order_list`
---
-
-CREATE TABLE `order_list` (
-  `id` int(11) NOT NULL,
-  `order_id` int(11) NOT NULL,
-  `kode_barang` int(11) NOT NULL,
-  `jumlah` int(11) NOT NULL,
-  `satuan_id` int(11) NOT NULL,
-  `harga` int(11) NOT NULL,
-  `disc` int(11) NOT NULL,
-  `pajak` int(11) NOT NULL,
-  `created_by` int(11) NOT NULL,
-  `created_on` date NOT NULL,
-  `edited_by` int(11) NOT NULL,
-  `edited_on` date NOT NULL,
-  `is_deleted` tinyint(1) NOT NULL,
-  `deleted_by` int(11) NOT NULL,
-  `deleted_on` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `order_list`
---
-
-INSERT INTO `order_list` (`id`, `order_id`, `kode_barang`, `jumlah`, `satuan_id`, `harga`, `disc`, `pajak`, `created_by`, `created_on`, `edited_by`, `edited_on`, `is_deleted`, `deleted_by`, `deleted_on`) VALUES
-(1, 1, 0, 1, 1, 3, 5, 9, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(2, 1, 0, 2, 1, 4, 6, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(3, 2, 1, 1, 1, 3, 5, 9, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(4, 2, 2, 2, 1, 4, 6, 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(5, 3, 1, 10, 1, 1, 10, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(6, 4, 1, 10, 1, 1, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(7, 4, 2, 10, 1, 2, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(8, 5, 1, 1000, 2, 1, 10, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(9, 5, 1, 0, 1, 0, 0, 0, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(10, 6, 1, 10, 1, 100000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(11, 6, 2, 10, 1, 50000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(12, 7, 2, 10, 1, 100000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(13, 7, 3, 5, 1, 50000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(14, 8, 1, 5, 1, 1000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(15, 8, 1, 5, 1, 10000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(16, 9, 2, 10, 1, 100000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(17, 10, 1, 5000, 1, 1000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(18, 11, 3, 10, 3, 200000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(19, 11, 4, 10, 1, 1000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(20, 12, 4, 10, 1, 1000000, 10, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(21, 12, 2, 10, 1, 2000000, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00'),
-(22, 12, 1, 10, 1, 0, 0, 10, 0, '0000-00-00', 0, '0000-00-00', 0, 0, '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -433,10 +523,12 @@ INSERT INTO `satuan` (`id`, `title`, `created_by`, `created_on`, `edited_by`, `e
 CREATE TABLE `stok` (
   `id` int(11) NOT NULL,
   `barang_id` int(11) NOT NULL,
-  `jumlah` int(11) NOT NULL,
-  `kurensi_id` int(11) NOT NULL,
-  `harga` int(11) NOT NULL,
+  `supplier_id` int(11) NOT NULL,
   `gudang_id` int(11) NOT NULL,
+  `dalam_stok` int(11) NOT NULL,
+  `minimum_stok` int(11) NOT NULL,
+  `harga_beli` int(11) NOT NULL,
+  `harga_jual` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_on` date NOT NULL,
   `edited_by` int(11) NOT NULL,
@@ -450,8 +542,9 @@ CREATE TABLE `stok` (
 -- Dumping data for table `stok`
 --
 
-INSERT INTO `stok` (`id`, `barang_id`, `jumlah`, `kurensi_id`, `harga`, `gudang_id`, `created_by`, `created_on`, `edited_by`, `edited_on`, `is_deleted`, `deleted_on`, `deleted_by`) VALUES
-(1, 12, 12, 2, 2345, 8, 0, '0000-00-00', 0, '0000-00-00', 0, '0000-00-00', 0);
+INSERT INTO `stok` (`id`, `barang_id`, `supplier_id`, `gudang_id`, `dalam_stok`, `minimum_stok`, `harga_beli`, `harga_jual`, `created_by`, `created_on`, `edited_by`, `edited_on`, `is_deleted`, `deleted_on`, `deleted_by`) VALUES
+(1, 12, 3, 8, 20, 30, 40, 50, 0, '0000-00-00', 0, '0000-00-00', 0, '0000-00-00', 0),
+(2, 5, 3, 10, 23, 14, 2323232, 34343434, 0, '0000-00-00', 0, '0000-00-00', 0, '0000-00-00', 0);
 
 -- --------------------------------------------------------
 
@@ -519,8 +612,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `salt`, `email`, `activation_code`, `forgotten_password_code`, `forgotten_password_time`, `remember_code`, `created_on`, `last_login`, `active`, `full_name`, `photo`, `phone`) VALUES
-(1, '127.0.0.1', 'admin', '$2y$08$Dd7klvgEdT2kgdpOAQ5STOgz2XxJxdXdw1w38A7pbujoMoxQD1odG', '', 'admin@admin.com', '', NULL, NULL, NULL, 1268889823, 1452698081, 1, 'Administrator', 'avatar-1-big.jpg', '085779458787'),
-(7, '::1', 'user', '$2y$08$eIubMQdkSV8L6tHkxjEtiuiAGMO/V7LPQbw7FcEiH4ZvhglekP5Ua', NULL, 'user@user.com', NULL, NULL, NULL, NULL, 1447601978, 1450502325, 1, 'Admin', 'IMG_20151210_074329.jpg', '0819999999');
+(1, '127.0.0.1', 'admin', '$2y$08$Dd7klvgEdT2kgdpOAQ5STOgz2XxJxdXdw1w38A7pbujoMoxQD1odG', '', 'admin@admin.com', '', NULL, NULL, NULL, 1268889823, 1453026380, 1, 'Administrator', 'sanpakugan-girls-cute-07-600x600.jpg', '085779458787'),
+(7, '::1', 'user', '$2y$08$eIubMQdkSV8L6tHkxjEtiuiAGMO/V7LPQbw7FcEiH4ZvhglekP5Ua', NULL, 'user@user.com', NULL, NULL, NULL, NULL, 1447601978, 1450502325, 1, 'User', 'IMG_20151210_074329.jpg', '0819999999');
 
 -- --------------------------------------------------------
 
@@ -539,9 +632,9 @@ CREATE TABLE `users_groups` (
 --
 
 INSERT INTO `users_groups` (`id`, `user_id`, `group_id`) VALUES
-(67, 1, 1),
-(68, 7, 1),
-(69, 7, 2);
+(74, 1, 1),
+(72, 7, 1),
+(73, 7, 2);
 
 --
 -- Indexes for dumped tables
@@ -610,15 +703,27 @@ ALTER TABLE `metode_pembayaran`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `order`
+-- Indexes for table `purchase_order`
 --
-ALTER TABLE `order`
+ALTER TABLE `purchase_order`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `order_list`
+-- Indexes for table `purchase_order_list`
 --
-ALTER TABLE `order_list`
+ALTER TABLE `purchase_order_list`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sales`
+--
+ALTER TABLE `sales`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `sales_order`
+--
+ALTER TABLE `sales_order`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -631,8 +736,7 @@ ALTER TABLE `satuan`
 -- Indexes for table `stok`
 --
 ALTER TABLE `stok`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `kode` (`barang_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `supplier`
@@ -710,15 +814,25 @@ ALTER TABLE `lokasi_toko`
 ALTER TABLE `metode_pembayaran`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
--- AUTO_INCREMENT for table `order`
+-- AUTO_INCREMENT for table `purchase_order`
 --
-ALTER TABLE `order`
+ALTER TABLE `purchase_order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+--
+-- AUTO_INCREMENT for table `purchase_order_list`
+--
+ALTER TABLE `purchase_order_list`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+--
+-- AUTO_INCREMENT for table `sales`
+--
+ALTER TABLE `sales`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `sales_order`
+--
+ALTER TABLE `sales_order`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
---
--- AUTO_INCREMENT for table `order_list`
---
-ALTER TABLE `order_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
 -- AUTO_INCREMENT for table `satuan`
 --
@@ -728,7 +842,7 @@ ALTER TABLE `satuan`
 -- AUTO_INCREMENT for table `stok`
 --
 ALTER TABLE `stok`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `supplier`
 --
@@ -743,7 +857,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users_groups`
 --
 ALTER TABLE `users_groups`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
 --
 -- Constraints for dumped tables
 --

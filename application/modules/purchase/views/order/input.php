@@ -92,6 +92,20 @@
 							</div>
 						</div>
 
+						<div class="form-group">
+							<label class="col-sm-3 control-label" for="inputPassword3">
+								Approver
+							</label>
+							<div class="col-sm-9">
+								<select class="select2" style="width:100%" name="approver">
+									<option value="0">-- Pilih Approver --</option>
+									<?php foreach($users->result() as $u):?>
+									<option value="<?= $u->id?>"><?= $u->full_name?></option>
+									<?php endforeach;?>
+								</select>
+							</div>
+						</div>
+
                     </div>
 
                     <div class="col-md-5">
@@ -245,14 +259,25 @@
 								<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-4">
-										Dibayar
+										Total+Pajak
 										</div>
 										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
+										<input type="text" class="form-control text-right" id="totalpluspajak" value="0" readonly="readonly">
 										</div>
 									</div>
 								</li>
+								
 								<div id="total_angsuran" style="display:none">
+									<li class="list-group-item">
+										<div class="row">
+											<div class="col-md-4">
+											Dibayar
+											</div>
+											<div class="col-md-6 pull-right">
+											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
+											</div>
+										</div>
+									</li>
 									<li class="list-group-item">
 										<div class="row">
 											<div class="col-md-4">
@@ -277,8 +302,7 @@
 											</div>
 										</div>
 									</li>
-								</div>
-								<li class="list-group-item">
+									<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-4">
 										Saldo
@@ -288,6 +312,8 @@
 										</div>
 									</div>
 								</li>
+								</div>
+								
 							</ul>
 						</div>
 					</div>
@@ -394,8 +420,10 @@
         totalPlusBunga = (total-diBayar)*(bunga/100);
         totalPlusBunga = (total-diBayar)+totalPlusBunga;
         biayaAngsuran = totalPlusBunga/lama_angsuran;
+        totalpluspajak = total + jmlPajak;
         $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
         $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
         var saldo = total-diBayar;
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
        	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));

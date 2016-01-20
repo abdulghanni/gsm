@@ -16,11 +16,13 @@ class lokasi_gudang extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
+        permissionUser();
 		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
     {
+        permissionUser();
         $list = $this->lokasi_gudang->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -61,6 +63,8 @@ class lokasi_gudang extends MX_Controller {
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
             );
         $insert = $this->lokasi_gudang->save($data);
         echo json_encode(array("status" => TRUE));

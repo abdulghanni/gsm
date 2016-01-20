@@ -16,12 +16,14 @@ class Gudang extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
+        permissionUser();
         $this->data['options_lokasi_gudang'] = options_row('gudang', 'get_lokasi_gudang','id','title', '-- Pilih Lokasi Gudang --');
 		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
     {
+        permissionUser();
         $list = $this->gudang->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -64,6 +66,8 @@ class Gudang extends MX_Controller {
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
                 'lokasi_gudang_id' => $this->input->post('lokasi_gudang_id'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
             );
         $insert = $this->gudang->save($data);
         echo json_encode(array("status" => TRUE));

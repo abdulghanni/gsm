@@ -46,6 +46,29 @@ if(!function_exists('sessId')){
 	}
 }
 
+if(!function_exists('getName')){
+	function getName($user_id){
+		$CI =& get_instance();
+		$name = getValue('username', 'users', array('id'=>'where/'.$user_id));
+		return $name;
+	}
+}
+
+if(!function_exists('getFullName')){
+	function getFullName($user_id){
+		$CI =& get_instance();
+		$name = getValue('full_name', 'users', array('id'=>'where/'.$user_id));
+		return $name;
+	}
+}
+
+if(!function_exists('dateNow')){
+	function dateNow()
+	{
+		return date('Y-m-d H:i:s');
+	}
+}
+
 
 if (!function_exists('print_ag')){	
 	function print_mz($data)
@@ -85,6 +108,87 @@ if (!function_exists('GetAll')){
 	}
 }
 
+if (!function_exists('GetAllSelect')){
+	function GetAllSelect($tbl,$select,$filter=array(),$filter_where_in=array())
+	{
+		$CI =& get_instance();
+		$CI->db->select($select);
+		foreach($filter as $key=> $value)
+		{
+			// Multiple Like
+			if(is_array($value))
+			{
+				$key = str_replace(" =","",$key);
+				$like="";
+				$v=0;
+				foreach($value as $r=> $s)
+				{
+					$v++;
+					$exp = explode("/",$s);
+					if(isset($exp[1]))
+					{
+						if($exp[0] == "like")
+						{
+							if($key == "tanggal" || $key == "tahun")
+							{
+								$key = "tanggal";
+								if(strlen($exp[1]) == 4)
+								{
+									if($v == 1) $like .= $key." LIKE '%".$exp[1]."-%' ";
+									else $like .= " OR ".$key." LIKE '%".$exp[1]."-%' ";
+								}
+								else 
+								{
+									if($v == 1) $like .= $key." LIKE '%-".$exp[1]."-%' ";
+									else $like .= " OR ".$key." LIKE '%-".$exp[1]."-%' ";
+								}
+							}
+							else
+							{
+								if($v == 1) $like .= $key." LIKE '%".$exp[1]."%' ";
+								else $like .= " OR ".$key." LIKE '%".$exp[1]."%' ";
+							}
+						}
+					}
+				}
+				if($like) $CI->db->where("id > 0 AND ($like)");
+				$exp[0]=$exp[1]="";
+			}
+			else $exp = explode("/",$value);
+			
+			if(isset($exp[1]))
+			{
+				if($exp[0] == "where") $CI->db->where($key, $exp[1]);
+				else if($exp[0] == "like") $CI->db->like($key, $exp[1]);
+				else if($exp[0] == "like_after") $CI->db->like($key, $exp[1], 'after');
+				else if($exp[0] == "like_before") $CI->db->like($key, $exp[1], 'before');
+				else if($exp[0] == "not_like") $CI->db->not_like($key, $exp[1]);
+				else if($exp[0] == "not_like_after") $CI->db->not_like($key, $exp[1], 'after');
+				else if($exp[0] == "not_like_before") $CI->db->not_like($key, $exp[1], 'before');
+				else if($exp[0] == "order")
+				{
+					$key = str_replace("=","",$key);
+					$CI->db->order_by($key, $exp[1]);
+				}
+				else if($key == "limit") $CI->db->limit($exp[1], $exp[0]);
+			}
+			else if($exp[0] == "where") $CI->db->where($key);
+			
+			if($exp[0] == "group") $CI->db->group_by($key);
+		}
+		
+		foreach($filter_where_in as $key=> $value)
+		{
+			$CI->db->where_in($key, $value);
+		}
+		
+		$q = $CI->db->get($tbl);
+		//die($CI->db->last_query());
+		
+		return $q;
+	}
+}
+
 if (!function_exists('GetValue')){
 	function GetValue($field,$table,$filter=array(),$order=NULL)
 	{
@@ -113,8 +217,6 @@ if (!function_exists('GetValue')){
 		return 0;
 	}
 }
-
-
 
 if ( ! function_exists('options_row'))
 	{

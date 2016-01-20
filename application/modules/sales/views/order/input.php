@@ -230,17 +230,18 @@
 										</div>
 									</div>
 								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Dibayar
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
-										</div>
-									</div>
-								</li>
+								
 								<div id="total_angsuran" style="display:none">
+									<li class="list-group-item">
+										<div class="row">
+											<div class="col-md-4">
+											Dibayar
+											</div>
+											<div class="col-md-6 pull-right">
+											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
+											</div>
+										</div>
+									</li>
 									<li class="list-group-item">
 										<div class="row">
 											<div class="col-md-4">

@@ -19,6 +19,7 @@ class Stok extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
+        permissionUser();
         $this->data['options_barang'] = options_row($this->model_name,'get_barang','id','title','-- Pilih Barang --', 'kode');
         $this->data['options_gudang'] = options_row($this->model_name,'get_gudang','id','title','-- Semua Gudang --');
         $this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
@@ -28,6 +29,7 @@ class Stok extends MX_Controller {
 
     public function ajax_list()
     {
+        permissionUser();
         $list = $this->main->get_datatables();
         $data = array();
         $no = $_POST['start'];
@@ -78,6 +80,8 @@ class Stok extends MX_Controller {
                 'minimum_stok' => $this->input->post('minimum_stok'),
                 'harga_beli'=>$this->input->post('harga_beli'),
                 'harga_jual'=>$this->input->post('harga_jual'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
             );
         $insert = $this->main->save($data);
         echo json_encode(array("status" => TRUE));
