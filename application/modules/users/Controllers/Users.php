@@ -12,6 +12,39 @@ class Users extends MX_Controller {
     public function index()
     {
         permissionAdmin();
+        $groups=$this->ion_auth->groups()->result_array();
+        $this->data['groups'] = $groups;
+
+        $this->data['full_name'] = array(
+            'name'  => 'full_name',
+            'id'    => 'full_name',
+            'type'  => 'text',
+        );
+        $this->data['username'] = array(
+            'name'  => 'username',
+            'id'    => 'username',
+            'type'  => 'text',
+        );
+        $this->data['email'] = array(
+            'name'  => 'email',
+            'id'    => 'email',
+            'type'  => 'text',
+        );
+        $this->data['phone'] = array(
+            'name'  => 'phone',
+            'id'    => 'phone',
+            'type'  => 'text',
+        );
+        $this->data['password'] = array(
+            'name' => 'password',
+            'id'   => 'password',
+            'type' => 'password'
+        );
+        $this->data['password_confirm'] = array(
+            'name' => 'password_confirm',
+            'id'   => 'password_confirm',
+            'type' => 'password'
+        );
         $this->_render_page('users/index', $this->data);
     }
 
@@ -305,14 +338,35 @@ class Users extends MX_Controller {
 
     public function ajax_add()
     {
-        $this->_validate();
+        //$this->_validate();
         $data = array(
-                'full_name' => $this->input->post('full_name'),
-                'username' => $this->input->post('username'),
-                'created_by' => sessId(),
-                'created_on' => dateNow(),
+                    'full_name' => $this->input->post('full_name'),
+                    'username'  => $this->input->post('username'),
+                    'email'    => $this->input->post('email'),
+                    'phone'      => $this->input->post('phone'),
+                    'password' => $this->input->post('password'),
+                    //'created_by' => sessId(),
+                    //'created_on' => dateNow(),
             );
         $insert = $this->users->save($data);
+        $id = $this->db->insert_id();
+
+        // Only allow updating groups if user is admin
+        if ($this->ion_auth->is_admin())
+        {
+            //Update the groups user belongs to
+            $groupData = $this->input->post('groups');
+
+            if (isset($groupData) && !empty($groupData)) {
+
+                $this->ion_auth->remove_from_group('', $id);
+
+                foreach ($groupData as $grp) {
+                    $this->ion_auth->add_to_group($grp, $id);
+                }
+
+            }
+        }
         echo json_encode(array("status" => TRUE));
     }
 

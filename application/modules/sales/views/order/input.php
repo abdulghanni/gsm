@@ -74,7 +74,7 @@
 							<div class="col-sm-9">
 								<div class="clip-radio radio-primary">
 									<?php foreach($kurensi as $k):?>
-									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>">
+									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" required>
 									<label for="kurensi<?=$k->id?>">
 										<?=$k->title.'('.$k->simbol.')'?>
 									</label>
