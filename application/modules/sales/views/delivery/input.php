@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Purchase Order</h1>
+			<h1 class="mainTitle"><?= $main_title?></h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li class="active">
-				<span><a href="<?=base_url('purchase/order')?>">order</a></span>
+				<span><a href="<?=base_url($module.'/'.$file_name)?>"><?= $main_title?></a></span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/order/input')?>">input</a></span>
+				<span><a href="<?=base_url($module.'/'.$file_name.'/input')?>">input</a></span>
 			</li>
 		</ol>
 	</div>
@@ -21,7 +21,7 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal">
+<form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -45,8 +45,8 @@
 							</label>
 							<div class="col-sm-9">
 								<?php 
-                                	$js = 'class="select2" style="width:100%" id="supplier_id"';
-                                	echo form_dropdown('supplier_id', $options_supplier,'',$js); 
+                                	$js = 'class="select2" style="width:100%" id="customer_id"';
+                                	echo form_dropdown('customer_id', $options_customer,'',$js); 
                               	?>
 							</div>
 						</div>
@@ -74,7 +74,7 @@
 							<div class="col-sm-9">
 								<div class="clip-radio radio-primary">
 									<?php foreach($kurensi as $k):?>
-									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>">
+									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" required>
 									<label for="kurensi<?=$k->id?>">
 										<?=$k->title.'('.$k->simbol.')'?>
 									</label>
@@ -85,12 +85,13 @@
 
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputPassword3">
-								Catatan
+								Keterangan
 							</label>
 							<div class="col-sm-9">
-								<textarea class="form-control" name="catatan"></textarea>
+								<input type="text" placeholder="" name="keterangan" id="" class="form-control">
 							</div>
 						</div>
+
                     </div>
 
                     <div class="col-md-5">
@@ -107,19 +108,19 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputPassword3">
-								No. PO
+								No. SO
 							</label>
 							<div class="col-sm-9">
-								<input type="text" placeholder="No. PO" name="po" class="form-control" required="required">
+								<input type="text" placeholder="No. SO" name="so" class="form-control" required="required">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputPassword3">
-								Dikirim Ke
+								Dikirim Dari
 							</label>
 							<div class="col-sm-9">
 								<select class="select2" name="gudang_id" style="width:100%">
-								<option value="0">-- Pilih Gudang Pengiriman --</option>
+								<option value="0">-- Pilih Gudang --</option>
 								<?php 
                                 	foreach($gudang as $g):?>
                                 	<option value="<?=$g->id?>"><?=$g->title?></option>

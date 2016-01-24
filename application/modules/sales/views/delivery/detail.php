@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle"><?=$main_title?></h1>
+			<h1 class="mainTitle"><?= $main_title ?></h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/order')?>">order</a></span>
+				<span><a href="<?=base_url($module.'/'.$file_name)?>"><?= $main_title ?></a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url('purchase/order/detail/'.$id)?>">detail</a></span>
+				<span><a href="<?=base_url($module.'/'.$file_name.'/detail/'.$id)?>">detail</a></span>
 			</li>
 		</ol>
 	</div>
@@ -27,8 +27,8 @@
 		 <i class="fa fa-print"></i> <?= lang('print')?>
 	</a>
 </div>
-<?php foreach ($order->result() as $o) :?>
-<form role="form" action="<?= base_url('transaksi/order/add')?>" method="post" class="form-horizontal">
+<?php foreach ($delivery->result() as $o) :?>
+<form role="form" action="<?= base_url('transaksi/delivery/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -92,7 +92,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputPassword3">
-								No. SO
+								No. PO
 							</label>
 							<div class="col-sm-9">
 								<input type="text" name="up" value="<?=$o->so?>" class="form-control" disabled="disabled">
@@ -100,7 +100,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputPassword3">
-								Dikirim dari
+								Dikirim Ke
 							</label>
 							<div class="col-sm-9">
 								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
@@ -158,7 +158,7 @@
 							<tbody>
 								<?php 
 									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-									$i=1;foreach($order_list->result() as $ol): ?>
+									$i=1;foreach($delivery_list->result() as $ol): ?>
 								<tr>
 								<?php 
 									$subtotal = $ol->jumlah*$ol->harga;

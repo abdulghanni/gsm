@@ -45,9 +45,12 @@ class Users extends MX_Controller {
             'id'   => 'password_confirm',
             'type' => 'password'
         );
+        $this->data['options_user'] = options_row('users', 'get_users','id','full_name', '-- Pilih Pengguna --');
+
         $this->_render_page('users/index', $this->data);
     }
 
+    //TAB USERS
     function edit_user($id)
     {
         //print_mz($this->input->post('photo'));
@@ -336,7 +339,7 @@ class Users extends MX_Controller {
         echo json_encode($data);
     }
 
-    public function ajax_add()
+     public function ajax_add()
     {
         //$this->_validate();
         $data = array(
@@ -345,6 +348,7 @@ class Users extends MX_Controller {
                     'email'    => $this->input->post('email'),
                     'phone'      => $this->input->post('phone'),
                     'password' => $this->input->post('password'),
+                    'active' => 1,
                     //'created_by' => sessId(),
                     //'created_on' => dateNow(),
             );
@@ -370,20 +374,146 @@ class Users extends MX_Controller {
         echo json_encode(array("status" => TRUE));
     }
 
-    public function ajax_update()
-    {
-        $this->_validate();
-        $data = array(
-                'full_name' => $this->input->post('full_name'),
-                'username' => $this->input->post('username'),
-            );
-        $this->users->update(array('id' => $this->input->post('id')), $data);
-        echo json_encode(array("status" => TRUE));
-    }
-
     public function ajax_delete($id)
     {
         $this->users->delete_by_id($id);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    //TAB APPROVER
+    public function approver_list()
+    {
+        $list = $this->users->get_datatables_approver();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $r) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $r->name;
+            $row[] = $r->jabatan;
+            $row[] = $r->level;
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_approver('."'".$r->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_approver('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+        
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->users->count_all_approver(),
+                        "recordsFiltered" => $this->users->count_filtered_approver(),
+                        "data" => $data,
+                );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function approver_edit($id)
+    {
+        $data = $this->users->get_approver_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
+        echo json_encode($data);
+    }
+
+    public function approver_add()
+    {
+        //$this->_validate();
+        $data = array(
+                    'user_id' => $this->input->post('user_id'),
+                    'jabatan'  => $this->input->post('jabatan'),
+                    'level'  => $this->input->post('level'),
+                    //'created_by' => sessId(),
+                    //'created_on' => dateNow(),
+            );
+        $this->db->insert('approver',$data);
+
+        echo json_encode(array("status" => TRUE));
+    }
+
+    public function approver_update()
+    {
+        //$this->_validate();
+        $data = array(
+                'user_id' => $this->input->post('user_id'),
+                'jabatan'  => $this->input->post('jabatan'),
+                'level'  => $this->input->post('level'),
+            );
+        $this->db->where('id',  $this->input->post('approver_id'))->update('approver', $data);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    public function approver_delete($id)
+    {
+        $this->db->where('id', $id)->delete('approver');
+        echo json_encode(array("status" => TRUE));
+    }
+
+    //TAB GROUPS
+    public function group_list()
+    {
+        $list = $this->users->get_datatables_group();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $r) {
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $r->name;
+            $row[] = $r->description;
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_group('."'".$r->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_group('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+        
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->users->count_all_group(),
+                        "recordsFiltered" => $this->users->count_filtered_group(),
+                        "data" => $data,
+                );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function group_edit($id)
+    {
+        $data = $this->users->get_group_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
+        echo json_encode($data);
+    }
+
+    public function group_add()
+    {
+        //$this->_validate();
+        $data = array(
+                    'name' => $this->input->post('name'),
+                    'description'  => $this->input->post('description'),
+                    //'created_by' => sessId(),
+                    //'created_on' => dateNow(),
+            );
+        $this->db->insert('groups',$data);
+
+        echo json_encode(array("status" => TRUE));
+    }
+
+    public function group_update()
+    {
+        //$this->_validate();
+        $data = array(
+                'name' => $this->input->post('name'),
+                'description'  => $this->input->post('description'),
+            );
+        $this->db->where('id',  $this->input->post('group_id'))->update('groups', $data);
+        echo json_encode(array("status" => TRUE));
+    }
+
+    public function group_delete($id)
+    {
+        $this->db->where('id', $id)->delete('groups');
         echo json_encode(array("status" => TRUE));
     }
 
@@ -457,12 +587,13 @@ class Users extends MX_Controller {
 
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
                     $this->template->add_css('vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css');
-
+                    $this->template->add_css('vendor/select2/select2.css');
 
                     $this->template->add_js('vendor/jquery-validation/jquery.validate.min.js');
                     $this->template->add_js('assets/js/form-validation.js');
                     $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
+                    $this->template->add_js('vendor/select2/select2.min.js');
                     $this->template->add_js('assets/js/users/index.js');
 
                 }elseif(in_array($view, array('users/edit_user')))

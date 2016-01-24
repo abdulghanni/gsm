@@ -71,28 +71,79 @@
                         </div>
                     </div>
                 </div>
+                <!-- TAB APPROVER -->
                 <div class="tab-pane fade" id="myTab2_example2">
-                    <p>
-                        Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo.
-                    </p>
-                    <p>
-                        Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro keffiyeh dreamcatcher synth.
-                    </p>
+                    <div class="container-fluid container-fullw bg-white">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12 space20">
+                                        <button class="btn btn-green add-row" onclick="add_approver()">
+                                            <?= 'Buat Approver Baru' ?> <i class="fa fa-plus"></i>
+                                        </button>
+                                        <button class="btn btn-green add-row" onclick="reload_table()">
+                                            Refresh <i class="fa fa-refresh"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover" id="table_approver">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%" align="center">No.</th>
+                                                <th width="35%"><?php echo lang('index_fullname_th');?></th>
+                                                <th width="35%"><?php echo 'Jabatan';?></th>
+                                                <th width="35%"><?php echo 'level';?></th>
+                                                <th width="20%"><?php echo lang('index_action_th');?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="myTab2_example3">
-                    <p>
-                        Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party locavore wolf cliche high life echo park Austin.
-                    </p>
-                    <p>
-                        Cosby sweater eu banh mi, qui irure terry richardson ex squid. Aliquip placeat salvia cillum iphone. Seitan aliquip quis cardigan american apparel, butcher voluptate nisi qui.
-                    </p>
+                    <div class="container-fluid container-fullw bg-white">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-12 space20">
+                                        <button class="btn btn-green add-row" onclick="add_group()">
+                                            <?= 'Tambah Group' ?> <i class="fa fa-plus"></i>
+                                        </button>
+                                        <button class="btn btn-green add-row" onclick="reload_table_group()">
+                                            Refresh <i class="fa fa-refresh"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
+                                <div class="table-responsive">
+                                    <table class="table table-striped table-hover" id="table_group">
+                                        <thead>
+                                            <tr>
+                                                <th width="5%" align="center">No.</th>
+                                                <th width="20%"><?php echo 'Nama Group'?></th>
+                                                <th width="20%"><?php echo 'Deskripsi'?></th>
+                                                <th width="10%"><?php echo lang('index_action_th');?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Bootstrap modal -->
+<!-- add user modal -->
 <div class="modal fade" id="modal_form" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -102,6 +153,7 @@
             </div>
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
+                <input type="hidden" value="" name="id"/> 
                     <fieldset>
                     <legend>
                       Account Info
@@ -175,6 +227,105 @@
             </div>
             <div class="modal-footer">
                 <button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End Bootstrap modal -->
+
+<!-- add approver modal -->
+<div class="modal fade" id="modal_form_approver" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">User Form</h3>
+            </div>
+            <div class="modal-body form">
+                <form action="#" id="form_approver" class="form-horizontal">
+                <input type="hidden" value="" name="approver_id"/> 
+                    <fieldset>
+                    <legend>
+                      Approver Info
+                    </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                    Nama
+                                    </label>
+                                    <?php 
+                                    $js = 'class="select2" style="width:100%" id="user_id"';
+                                        echo form_dropdown('user_id', $options_user,'',$js); 
+                                    ?>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                    Jabatan
+                                    </label>
+                                    <input type="text" class="form-control" value="" name="jabatan">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                    Level
+                                    </label>
+                                    <select class="select2" width="100%" name="level">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                  </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSaveGroup" onclick="save_approver()" class="btn btn-primary">Save</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End Bootstrap modal -->
+
+<!-- add group modal -->
+<div class="modal fade" id="modal_form_group" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">User Form</h3>
+            </div>
+            <div class="modal-body form">
+                <form action="#" id="form_group" class="form-horizontal">
+                <input type="hidden" value="" name="group_id"/> 
+                    <fieldset>
+                    <legend>
+                      Group Info
+                    </legend>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label">
+                                    Nama Group
+                                    </label>
+                                    <input type="text" class="form-control" value="" name="name">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">
+                                    Deskripsi
+                                    </label>
+                                    <input type="text" class="form-control" value="" name="description">
+                                </div>
+                            </div>
+                        </div>
+                  </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSaveGroup" onclick="save_group()" class="btn btn-primary">Save</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
         </div><!-- /.modal-content -->

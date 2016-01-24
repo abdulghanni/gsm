@@ -8,6 +8,7 @@
       <h1 class="panel-title"><?= lang('login_heading')?></h1>
     </div>
     <div class="panel-body">
+    	<div class=""><?=$message?></div>
       <?php echo form_open("auth/login");?>
         <div class="form-group mb10">
           <div class="input-group">

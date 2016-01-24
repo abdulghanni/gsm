@@ -5,6 +5,7 @@ class Order extends MX_Controller {
     var $module = 'sales';
     var $title = 'Order';
     var $file_name = 'order';
+    var $main_title = 'Sales Order';
 	function __construct()
 	{
 		parent::__construct();
@@ -18,6 +19,7 @@ class Order extends MX_Controller {
         $this->data['title'] = $this->title;
         $this->data['module'] = $this->module;
         $this->data['file_name'] = $this->file_name;
+        $this->data['main_title'] = $this->main_title;
         permissionUser();
 		$this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
 	}
@@ -46,6 +48,7 @@ class Order extends MX_Controller {
         $this->data['title'] = $this->title.' - Detail';
         $this->data['module'] = $this->module;
         $this->data['file_name'] = $this->file_name;
+        $this->data['main_title'] = $this->main_title;
         permissionUser();
         $this->data['id'] = $id;
         $this->data['order'] = $this->order->get_order_detail($id);

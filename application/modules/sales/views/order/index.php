@@ -2,7 +2,7 @@
 <section id="page-title">
     <div class="row">
         <div class="col-sm-8">
-            <h1 class="mainTitle">Purchase Order</h1>
+            <h1 class="mainTitle"><?= $main_title?></h1>
         </div>
         <ol class="breadcrumb">
             <li>
@@ -35,7 +35,7 @@
                             <th width="5%" class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
                             <th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>
                             <th width="10%"><?php echo 'No. SO';?></th>
-                            <th width="15%"><?php echo 'Dikirim Ke';?></th>
+                            <th width="15%"><?php echo 'Dikirim Dari';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>

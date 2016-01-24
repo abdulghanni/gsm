@@ -187,7 +187,7 @@ class Template {
         $data['notification'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()));
 
         //CHAT
-        $data['users'] = getAll('users');
+        $data['users'] = getAll('users', array('username'=>'order/asc'));
 
         $header = $this->_ci->load->view('header', $data, TRUE);
         $chat_bar = $this->_ci->load->view('chat', $data, TRUE);
