@@ -31,19 +31,19 @@
 					</div>
 					<div class="col-sm-6">
 						<p class="text-dark">
-							#<?=date('Ymd',strtotime('now')).$last_id?> / <?=dateIndo(date('Y-m-d',strtotime('now')))?> <small class="text-light"></small>
+							#<?=date('Ymd',strtotime('now')).'-'.$last_id?> / <?=dateIndo(date('Y-m-d',strtotime('now')))?> <small class="text-light"></small>
 							<input type="hidden" name="no" value="<?=date('Ymd',strtotime('now')).$last_id?>">
 						</p>
 					</div>
 				</div>
 				<hr>
 				<div class="row">
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputEmail3">
+							<label class="col-sm-4 control-label" for="inputEmail3">
 								Kepada
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<?php 
                                 	$js = 'class="select2" style="width:100%" id="customer_id"';
                                 	echo form_dropdown('customer_id', $options_customer,'',$js); 
@@ -51,30 +51,30 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Up.
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<input type="text" placeholder="Up" name="up" id="up" class="form-control" required="required">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Alamat
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<input type="text" placeholder="Alamat" name="alamat" id="alamat" class="form-control" required="required">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Mata Uang
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<div class="clip-radio radio-primary">
 									<?php foreach($kurensi as $k):?>
-									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" required>
+									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" <?= ($k->id == 1)?'checked':'';?>>
 									<label for="kurensi<?=$k->id?>">
 										<?=$k->title.'('.$k->simbol.')'?>
 									</label>
@@ -84,41 +84,22 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
-								Keterangan
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Catatan
 							</label>
-							<div class="col-sm-9">
-								<input type="text" placeholder="" name="keterangan" id="" class="form-control">
+							<div class="col-sm-8">
+								<textarea class="form-control" name="catatan"></textarea>
 							</div>
 						</div>
 
                     </div>
 
-                    <div class="col-md-5">
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputEmail3">
-								Tgl. Pengiriman
-							</label>
-							<div class="col-sm-9">
-								<div id="tanggal_transaksi" class="input-append date success no-padding">
-                                  <input type="text" class="form-control" name="tanggal_transaksi" required>
-                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
-                                </div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
-								No. SO
-							</label>
-							<div class="col-sm-9">
-								<input type="text" placeholder="No. SO" name="so" class="form-control" required="required">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+                    <div class="col-md-6">
+                    	<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Dikirim Dari
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<select class="select2" name="gudang_id" style="width:100%">
 								<option value="0">-- Pilih Gudang --</option>
 								<?php 
@@ -128,15 +109,33 @@
                               	</select>
 							</div>
 						</div>
-
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tgl. Pengantaran
+							</label>
+							<div class="col-sm-8">
+								<div id="tanggal_transaksi" class="input-append date success no-padding">
+                                  <input type="text" class="form-control" name="tanggal_transaksi" required>
+                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
+                                </div>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								No. SO
+							</label>
+							<div class="col-sm-8">
+								<input type="text" placeholder="No. SO" name="so" class="form-control" value="<?=date('Ymd',strtotime('now')).'-'.$last_id?>" required="required">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Term
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<div class="clip-radio radio-primary">
 									<?php foreach($metode as $m):?>
-									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>">
+									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>" <?= ($m->title == 'Cash')?'checked':'';?>>
 									<label for="metode<?=$m->id?>">
 										<?=$m->title?>
 									</label>
@@ -146,7 +145,7 @@
 						</div>
 						<div id="kredit" style="display:none">
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="inputPassword3">
+								<label class="col-sm-4 control-label" for="inputPassword3">
 									Lama Angsuran
 								</label>
 								<div class="col-sm-2">
@@ -163,7 +162,7 @@
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="inputPassword3">
+								<label class="col-sm-4 control-label" for="inputPassword3">
 									Bunga
 								</label>
 								<div class="col-sm-2">
@@ -403,10 +402,11 @@
             total = total + parseInt($(element).val().replace(/,/g,""));
         });
         total = total+biayaPengiriman;
-        totalPlusBunga = (total-diBayar)*(bunga/100);
-        totalPlusBunga = (total-diBayar)+totalPlusBunga;
+        totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
+        totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
         biayaAngsuran = totalPlusBunga/lama_angsuran;
         totalpluspajak = total + jmlPajak;
+        
         $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
         $('#total').val(addCommas(parseFloat(total).toFixed(2)));
         $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));

@@ -38,52 +38,52 @@
 					</div>
 					<div class="col-sm-6">
 						<p class="text-dark">
-							#<?=$o->no?> / <?=$o->tanggal_transaksi?> <small class="text-light"></small>
+							#<?=$o->po?><small class="text-light"></small>
 						</p>
 					</div>
 				</div>
 				<hr>
 				<div class="row">
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputEmail3">
+							<label class="col-sm-4 control-label" for="inputEmail3">
 								Kepada
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->supplier?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Up.
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->up?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Alamat
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->alamat?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Mata Uang
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->kurensi?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 						<?php if(!empty($o->catatan)):?>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Catatan
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<textarea class="form-control" name="catatan" disabled="disabled"><?=$o->catatan?></textarea>
 							</div>
 						</div>
@@ -91,43 +91,45 @@
 
                     </div>
 
-                    <div class="col-md-5">
+
+                    <div class="col-md-6">
+
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputEmail3">
-								Tgl. Pengiriman
-							</label>
-							<div class="col-sm-9">
-								<input type="text" name="up" value="<?=$o->tanggal_transaksi?>" class="form-control" disabled="disabled">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								No. PO
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->po?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tgl. Pengiriman
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="up" value="<?=$o->tanggal_transaksi?>" class="form-control" disabled="disabled">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Dikirim Ke
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Term
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 						<?php if($o->metode_pembayaran_id == 2):?>
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Lama Angsuran
 							</label>
 							<div class="col-sm-4">
@@ -136,7 +138,7 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Bunga
 							</label>
 							<div class="col-sm-2">
@@ -171,7 +173,8 @@
 									$i=1;foreach($order_list->result() as $ol): ?>
 								<tr>
 								<?php 
-									$subtotal = $ol->jumlah*$ol->harga;
+									$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
+									$subtotal = $ol->jumlah*$ol->harga-$diskon;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 									$total = $total + $subtotal;
 								?>
@@ -182,11 +185,12 @@
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
-									<td class="text-right"><?= number_format($ol->jumlah*$ol->harga, 2)?></td>
+									<td class="text-right"><?= number_format($subtotal, 2)?></td>
 									<td class="text-right"><?=$ol->pajak?></td>
 								</tr>
 								<?php endforeach;
-									$grandtotal = $total + $o->biaya_pengiriman - $o->dibayar;
+									$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
+									$grandtotal = $totalpluspajak + $o->biaya_pengiriman - $o->dibayar;
 									$bunga =  ($grandtotal) * ($o->bunga/100);
 								?>
 							</tbody>

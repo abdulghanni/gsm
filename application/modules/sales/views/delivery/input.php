@@ -36,45 +36,67 @@
 						</p>
 					</div>
 				</div>
+				<div class="row form-row">
+					<div class="col-md-6">
+						<div class="col-md-4">
+							<label class="control-label">Salin Dari S.O</label>
+						</div>
+						<div class="col-md-8">
+							<select class="select2" id="list_so" style="width:100%">
+								<option value="0">-- Pilih NO. S.O --</option>
+								<?php foreach($so as $p):?>
+								<option value="<?=$p->id?>"><?=$p->so?></option>
+								<?php endforeach;?>
+							</select>
+						</div>
+					</div>
+				</div>
 				<hr>
+				<div id="dari-so">
 				<div class="row">
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputEmail3">
-								Kepada
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								No. Faktur
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
+								<input type="text" placeholder="No. Faktur" name="no" class="form-control" required="required">
+							</div>
+						</div>
+
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tgl. Faktur
+							</label>
+							<div class="col-sm-8">
+								<div id="tanggal_faktur" class="input-append date success no-padding">
+                                  <input type="text" class="form-control" name="tanggal_faktur" required>
+                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
+                                </div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Customer
+							</label>
+							<div class="col-sm-8">
 								<?php 
                                 	$js = 'class="select2" style="width:100%" id="customer_id"';
                                 	echo form_dropdown('customer_id', $options_customer,'',$js); 
                               	?>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
-								Up.
-							</label>
-							<div class="col-sm-9">
-								<input type="text" placeholder="Up" name="up" id="up" class="form-control" required="required">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
-								Alamat
-							</label>
-							<div class="col-sm-9">
-								<input type="text" placeholder="Alamat" name="alamat" id="alamat" class="form-control" required="required">
-							</div>
-						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Mata Uang
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<div class="clip-radio radio-primary">
 									<?php foreach($kurensi as $k):?>
-									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" required>
+									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" <?= ($k->id == 1)?'checked':'';?>>
 									<label for="kurensi<?=$k->id?>">
 										<?=$k->title.'('.$k->simbol.')'?>
 									</label>
@@ -84,41 +106,44 @@
 						</div>
 
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
-								Keterangan
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Catatan
 							</label>
-							<div class="col-sm-9">
-								<input type="text" placeholder="" name="keterangan" id="" class="form-control">
+							<div class="col-sm-8">
+								<textarea class="form-control" name="catatan"></textarea>
 							</div>
 						</div>
 
                     </div>
 
-                    <div class="col-md-5">
+                    <div class="col-md-6">
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputEmail3">
-								Tgl. Pengiriman
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								No. SO
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
+								<input type="text" placeholder="No. SO" name="so" class="form-control" value="<?=date('Ymd',strtotime('now')).'-'.$last_id?>" required="required">
+							</div>
+						</div>
+
+
+                    	<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tgl. Pengantaran
+							</label>
+							<div class="col-sm-8">
 								<div id="tanggal_transaksi" class="input-append date success no-padding">
-                                  <input type="text" class="form-control" name="tanggal_transaksi" required>
+                                  <input type="text" class="form-control" name="tanggal_pengantaran" required>
                                   <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
                                 </div>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
-								No. SO
-							</label>
-							<div class="col-sm-9">
-								<input type="text" placeholder="No. SO" name="so" class="form-control" required="required">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+						
+                    	<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Dikirim Dari
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<select class="select2" name="gudang_id" style="width:100%">
 								<option value="0">-- Pilih Gudang --</option>
 								<?php 
@@ -128,15 +153,15 @@
                               	</select>
 							</div>
 						</div>
-
+						
 						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputPassword3">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Term
 							</label>
-							<div class="col-sm-9">
+							<div class="col-sm-8">
 								<div class="clip-radio radio-primary">
 									<?php foreach($metode as $m):?>
-									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>">
+									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>" <?= ($m->title == 'Cash')?'checked':'';?>>
 									<label for="metode<?=$m->id?>">
 										<?=$m->title?>
 									</label>
@@ -146,7 +171,7 @@
 						</div>
 						<div id="kredit" style="display:none">
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="inputPassword3">
+								<label class="col-sm-4 control-label" for="inputPassword3">
 									Lama Angsuran
 								</label>
 								<div class="col-sm-2">
@@ -163,7 +188,7 @@
 							</div>
 
 							<div class="form-group">
-								<label class="col-sm-3 control-label" for="inputPassword3">
+								<label class="col-sm-4 control-label" for="inputPassword3">
 									Bunga
 								</label>
 								<div class="col-sm-2">
@@ -188,13 +213,14 @@
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
-									<th width="5%"> # </th>
+									<th width="5%">#</th>
 									<th width="5%"> No. </th>
-									<th width="10%"> Kode Barang </th>
-									<th width="20%"> Deskripsi </th>
-									<th width="5%">Quantity</th>
+									<th width="10%"> Kode </th>
+									<th width="15%"> Nama Barang </th>
+									<th width="10%">Di Order</th>
+									<th width="10%">Di Terima</th>
 									<th width="10%"> Satuan </th>
-									<th width="20%"> Harga </th>
+									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="15%"> Sub Total </th>
 									<th width="5%">Pajak(%)</th>
@@ -309,6 +335,8 @@
 						</button>
 					</div>
 				</div>
+				
+				</div>
 			</div>
 		</div>
 	</div>
@@ -328,40 +356,43 @@
 	element1.name="chkbox[]";
 	element1.className="checkbox1";
 	cell1.appendChild(element1);
-
-	var cell2=row.insertCell(1);
+	var x = 1;
+	var cell2=row.insertCell(x++);
 	cell2.innerHTML=rowCount+1-1;
 
-	var cell3=row.insertCell(2);
+	var cell3=row.insertCell(x++);
 	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.$barang[$i]['title']?></option><?php endfor;?></select>";  
 
-	var cell4=row.insertCell(3);
+	var cell4=row.insertCell(x++);
 	cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">';
 
-	var cell5=row.insertCell(4);
-	cell5.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
+	var cell5=row.insertCell(x++);
+	cell5.innerHTML = '<input name="diorder[]" value="0" type="text" class="form-control jumlah text-right" required="required">';
 
-	var cell6=row.insertCell(5);
-	cell6.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
+	var cell6=row.insertCell(x++);
+	cell6.innerHTML = '<input name="diterima[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 
-	var cell7=row.insertCell(6);
-	cell7.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
+	var cell7=row.insertCell(x++);
+	cell7.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 
-	var cell8=row.insertCell(7);
-	cell8.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'">';
+	var cell8=row.insertCell(x++);
+	cell8.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
 
-	var cell9=row.insertCell(8);
-	cell9.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
+	var cell9=row.insertCell(x++);
+	cell9.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'">';
 
-	var cell10=row.insertCell(9);
-	cell10.innerHTML = '<input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
+	var cell10=row.insertCell(x++);
+	cell10.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
+
+	var cell11=row.insertCell(x++);
+	cell11.innerHTML = '<input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
 
 	$("#barang_id"+rowCount).change(function(){
         var id = $(this).val();
          $.ajax({
             type: "GET",
             dataType: "JSON",
-            url: 'get_nama_barang/'+id,
+            url: '../order/get_nama_barang/'+id,
             success: function(data) {
                 $('#deskripsi'+rowCount).val(data);
             }

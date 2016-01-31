@@ -2,9 +2,10 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title><?=$title?></title>
 <style type="text/css">
 td{ height:30px;}
+.catatan {font-family:Arial, sans-serif;font-size:10px;}
 .list td{ height:40px;font-family:Arial, sans-serif;font-size:14px;padding:12px 16px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
 .list th{height:40px; font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:12px 16px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
 </style>
@@ -12,9 +13,9 @@ td{ height:30px;}
 
 <body>
 <hr/>
-<strong>PURCHASE ORDER </strong>
+<strong>Faktur Pembelian </strong>
 <hr/>
-<?php foreach ($order->result() as $o) :?>
+<?php foreach ($receive->result() as $o) :?>
 <table width="800" border="0">
   <tbody>
     <tr>
@@ -82,132 +83,141 @@ td{ height:30px;}
 <table width="800" class="list">
     <tr>
 	    <th width="5%"> No. </th>
-		<th width="15%"> Kode Barang </th>
-		<th width="20%"> Nama Barang </th>
-		<th width="5%">Quantity</th>
+		<th width="10%"> Kode </th>
+		<th width="15%"> Nama Barang </th>
+		<th width="10%">Di Order</th>
+		<th width="10%">Di Terima</th>
 		<th width="10%"> Satuan </th>
-		<th width="18%"> Harga </th>
+		<th width="15%"> Harga </th>
 		<th width="5%">Disc(%)</th>
-		<th width="20%"> Sub Total </th>
+		<th width="15%"> Sub Total </th>
 		<th width="5%">Pajak(%)</th>
     </tr>
 	<?php 
 		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-		$i=1;foreach($order_list->result() as $ol): ?>
+		$i=1;foreach($receive_list->result() as $ol): ?>
 	<tr>
 	<?php 
-		$subtotal = $ol->jumlah*$ol->harga;
+		$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
+		$subtotal = $ol->diterima*$ol->harga-$diskon;
 		$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 		$total = $total + $subtotal;
 	?>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang?></td>
 		<td width="20%"><?=$ol->barang?></td>
-		<td width="5%"align="right"><?=$ol->jumlah?></td>
+		<td width="5%"align="right"><?=$ol->diorder?></td>
+		<td width="5%"align="right"><?=$ol->diterima?></td>
 		<td width="10%"><?=$ol->satuan?></td>
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<td width="5%" align="right"><?=$ol->disc?></td>
-		<td width="20%" align="right"><?= number_format($ol->jumlah*$ol->harga, 2)?></td>
+		<td width="20%" align="right"><?= number_format($subtotal, 2)?></td>
 		<td width="5%" align="right"><?=$ol->pajak?></td>
 	</tr>
 
-	<?php endforeach;		$grandtotal = $total + $o->biaya_pengiriman - $o->dibayar;
+	<?php endforeach;
+		$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
+		$grandtotal = $totalpluspajak + $o->biaya_pengiriman - $o->dibayar;
 		$bunga =  ($grandtotal) * ($o->bunga/100);
 	?>
+	</table>
+
 
 	<hr/>
 	
-	</table>
-
-	<table table width="900" style="border:0">
+<table table width="900" style="border:0">
 	<tr>
-	<th width="5%"></th>
-	<th width="10%"></th>
-	<th width="20%"></th>
-	<th width="5%"></th>
-	<th width="5%"></th>
-	<th width="5%"></th>
-	<th width="15%"></th>
-	<th width="10%"></th>
-	<th width="20%"></th>
+		<th width="20%"></th>
+		<th width="20%"></th>
+		<th width="20%"></th>
+		<th width="2%"></th>
+		<th width="2%"></th>
+		<th width="5%"></th>
+		<th width="5%"></th>
+		<th width="10%"></th>
+		<th width="10%"></th>
 	</tr>
 	<tr>
-		<td colspan="6"></td>
-		<td>Total Pajak</td>
+		<td align="center">Approved,</td>
+		<td align="center">Order By,</td>
+		<td align="center">ACC Vendor</td>
+		<td colspan="3">Total Pajak</td>
 		<td align="right">:</td>
-		<td align="right"><?=number_format($totalpajak, 2)?></td>
-	</tr>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Biaya Pengiriman</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($o->biaya_pengiriman, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($totalpajak, 2)?></td>
 	</tr>
 
 	<tr>
-		<td colspan="6"></td>
-		<td>Total</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td colspan="3">Biaya Pengiriman</td>
 		<td align="right">:</td>
-		<td align="right"><?=number_format($total+$o->biaya_pengiriman, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($o->biaya_pengiriman, 2)?></td>
 	</tr>
 
 	<tr>
-		<td colspan="6"></td>
-		<td>Dibayar</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td colspan="3">Total</td>
 		<td align="right">:</td>
-		<td align="right"><?=number_format($o->dibayar,2)?></td>
-	</tr>
-
-	<?php if($o->metode_pembayaran_id == 2):?>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Total+bunga Angsuran</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($grandtotal+$bunga,2)?></td>
+		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman, 2)?></td>
 	</tr>
 
 	<tr>
-		<td colspan="6"></td>
-		<td>Biaya Angsuran</td>
+		<td align="center"><?=(!empty($o->user_app_id_lv2))?getName($o->user_app_id_lv2):'';?></td>
+		<td align="center"><?=getName($o->created_by)?></td>
+		<td align="center"><?=$o->supplier?></td>
+		<td colspan="3">Total + Pajak</td>
 		<td align="right">:</td>
-		<td align="right"><?=number_format(($grandtotal+$bunga)/$o->lama_angsuran_1, 2)?>/<?=strtoupper($o->lama_angsuran_2)?></td>
-	</tr>
-
-	<?php endif; ?>
-	<tr>
-		<td colspan="6"></td>
-		<td>Saldo</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($grandtotal, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?></td>
 	</tr>
 
 	
+	<?php if($o->metode_pembayaran_id == 2):?>
+	<tr>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td colspan="3">Dibayar</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?=number_format($o->dibayar,2)?></td>
+	</tr>
+
+	<tr><td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td colspan="3">Total+bunga Angsuran</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?=number_format($grandtotal+$bunga,2)?></td>
+	</tr>
+
+	<tr><td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td colspan="3">Biaya Angsuran</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?=number_format(($grandtotal+$bunga)/$o->lama_angsuran_1, 2)?>/<?=ucwords($o->lama_angsuran_2)?></td>
+	</tr>
+
+	<tr><td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td colspan="3">Saldo</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?=number_format($grandtotal, 2)?></td>
+	</tr>
+
+	<?php endif; ?>
+	
+	
 </table>
-
-<div class="gradient" style="float: left; width: 50%; margin-top: 50px; text-align:center">
-<?=$o->supplier?>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<?=$o->up?>
+<div class="catatan">
+<br/><?php if(!empty($o->catatan)):?>
+Catatan :<br/>
+<textarea class="catatan"><?=$o->catatan?></textarea>
+<?php endif;?>
 </div>
-
-<div class="gradient" style="float: right; width: 50%; text-align:center">
-<?=Pemohon?>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<?=''?>
-</div>
-
 <?php endforeach;?>
 </body>
 </html>

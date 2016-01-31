@@ -30,11 +30,12 @@
                     <thead>
                         <tr>
                             <th width="5%" align="center">No.</th>
-                            <th width="10%"><?php echo 'No. Transaksi';?></th>
+                            <th width="10%"><?php echo 'No. Pembelian';?></th>
+                            <th width="15%"><?php echo 'No. PO';?></th>
                             <th width="15%"><?php echo 'Supplier';?></th>
-                            <th width="5%" class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
+                            <th width="5%" class="text-center"><?php echo 'Tanggal Faktur';?></th>
+                            <th width="5%" class="text-center"><?php echo 'Tanggal pengiriman';?></th>
                             <th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>
-                            <th width="10%"><?php echo 'No. PO';?></th>
                             <th width="15%"><?php echo 'Dikirim Ke';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>

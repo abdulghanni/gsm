@@ -1,8 +1,5 @@
 var save_method; //for save method string
 var table;
-var url = $.url();
-var baseurl = url.attr('protocol')+'://'+url.attr('host')+'/'+url.segment(1)+'/';
-
 $(document).ready(function() {
 
     //datatables

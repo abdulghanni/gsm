@@ -85,7 +85,7 @@ class Order extends MX_Controller {
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
-                'keterangan' =>$this->input->post('keterangan'),
+                'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -118,11 +118,10 @@ class Order extends MX_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = "<a href=$detail>#".$order->no.'</a>';
+            $row[] = "<a href=$detail>#".$order->so.'</a>';
             $row[] = $order->customer;
             $row[] = $order->tanggal_transaksi;
             $row[] = $order->metode_pembayaran;
-            $row[] = $order->so;
             $row[] = $order->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>

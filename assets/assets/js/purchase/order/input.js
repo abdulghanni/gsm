@@ -11,7 +11,7 @@ $(document).ready(function() {
 
     $("#supplier_id").change(function(){
         var id = $(this).val();
-        getSupDetail(id);
+        if(id != 0)getSupDetail(id);
     })
     .change();
 

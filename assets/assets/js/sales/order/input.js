@@ -9,18 +9,18 @@ $(document).ready(function() {
 
     $(".select2").select2();
 
-    $("#supplier_id").change(function(){
+    $("#customer_id").change(function(){
         var id = $(this).val();
-        getSupDetail(id);
+        if(id != 0)getCusDetail(id);
     })
     .change();
 
-    function getSupDetail(id)
+    function getCusDetail(id)
     {
         $.ajax({
             type: "GET",
             dataType: "JSON",
-            url: 'get_supplier_detail/'+id,
+            url: 'get_customer_detail/'+id,
             success: function(data) {
                 $('#up').val(data.up);
                 $('#alamat').val(data.alamat);

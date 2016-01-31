@@ -1,7 +1,5 @@
 var save_method; //for save method string
 var table;
-var url = $.url();
-var baseurl = url.attr('protocol')+'://'+url.attr('host')+'/'+url.segment(1)+'/';
 
 $(document).ready(function() {
 
@@ -14,7 +12,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "order/ajax_list",
+            "url": "retur/ajax_list",
             "type": "POST"
         },
         //Set column definition initialisation properties.
@@ -23,7 +21,7 @@ $(document).ready(function() {
             "targets": [-1], //last column
             "orderable": false, //set not orderable
         },
-        { "sClass": "text-center", "aTargets": [ 7 ] }
+        { "sClass": "text-center", "aTargets": [-1] }
         ],
     });
 });

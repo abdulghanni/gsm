@@ -75,7 +75,7 @@
                 ?>
                 <a class="media list-group-item" href="<?= $n->url?>">
                   <img class="img-circle" height="40px" width="40px" alt="..." src="<?=$sender_photo?>">
-                  <span class="media-body block no-margin"> <?= $n->judul ?> <small class="block text-grey">10 minutes ago</small> </span>
+                  <span class="media-body block no-margin"> <?= $n->judul ?> <small class="block text-grey"><?= timeago($n->sent_on)?></small> </span>
                 </a>
               <?php endforeach; ?>
               </div>
@@ -89,7 +89,7 @@
         
           <li class="view-all">
             <a href="#">
-              See All
+              Lihat Semua
             </a>
           </li>
         </ul>

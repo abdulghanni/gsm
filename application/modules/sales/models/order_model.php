@@ -8,7 +8,7 @@ class order_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('no', 'customer', 'tanggal_transaksi', 'metode_pembayaran', 'so', 'gudang'); //set column field database for order and search
+    var $column = array('id', 'customer', 'tanggal_transaksi', 'metode_pembayaran', 'so', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -22,7 +22,6 @@ class order_model extends CI_Model {
         
         $this->db->select(
             $this->table.'.id as id,
-            '.$this->table.'.no as no,
             '.$this->table.'.so as so,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
             '.$this->table_join1.'.title as customer,
@@ -106,7 +105,7 @@ class order_model extends CI_Model {
 
     function get_order_detail($id)
     {
-        $q = $this->db->select('no, customer.title as customer, customer.up, customer.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar, lama_angsuran_2, lama_angsuran_1, bunga, sales_order.created_on')
+        $q = $this->db->select('no, customer.title as customer, customer.up,catatan, customer.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar, lama_angsuran_2, lama_angsuran_1, bunga, sales_order.created_on')
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.customer_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')

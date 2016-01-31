@@ -4,14 +4,26 @@ $(document).ready(function() {
         .datepicker({
             todayHighlight: true,
             autoclose: true,
-            format: "dd-mm-yyyy"
+            format: "dd-mm-yyyy",
         });
-
+        
     $(".select2").select2();
+
+    $("#tanggal_faktur").datepicker("setDate", new Date());
+    $("#tanggal_pengiriman").datepicker("setDate", new Date());
+
+    $("#list_po").change(function(){
+        var id = $(this).val();
+        if(id != 0){
+            id = id.substring(0,1);
+            $('#dari-po').load('get_dari_po/'+id);
+        }
+    })
+    .change();
 
     $("#supplier_id").change(function(){
         var id = $(this).val();
-        getSupDetail(id);
+        if(id != 0)getSupDetail(id);
     })
     .change();
 

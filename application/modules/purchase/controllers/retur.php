@@ -1,10 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class retur extends MX_Controller {
+class Retur extends MX_Controller {
     public $data;
     var $module = 'purchase';
-    var $title = 'retur';
+    var $title = 'Retur';
     var $file_name = 'retur';
+    var $main_title = 'Retur Pembelian';
+    var $table_name = 'purchase_return';
     function __construct()
     {
         parent::__construct();
@@ -14,7 +16,9 @@ class retur extends MX_Controller {
     function index()
     {
         $this->data['title'] = $this->title;
-        $this->data['main_title'] = $this->title.' Order';
+        $this->data['main_title'] = $this->main_title;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['module'] = $this->module;
         permissionUser();
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
     }
@@ -22,29 +26,45 @@ class retur extends MX_Controller {
     function input()
     {
         $this->data['title'] = $this->title.' - Input';
+        $this->data['main_title'] = $this->main_title;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['module'] = $this->module;
         permissionUser();
-        $num_rows = getAll($this->file_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->file_name)->last_row()->id : 0;
+        $num_rows = getAll($this->table_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row($this->model_name,'get_supplier','id','title','-- Pilih Supplier --');
-        
+        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
+        $this->data['no'] = GetAllSelect('receive_order', array('id','no'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
     function detail($id)
     {
+        $this->data['main_title'] = $this->main_title;
         $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'list'] = $this->main->get_list_detail($id);
+        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
+    }
+
+    function get_dari_po($id)
+    {
+        permissionUser();
+
+        $this->data['jabatan_lv1'] = getValue('jabatan', 'approver', array('level'=>'where/1'));
+        $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
+        $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
+        $this->data['order'] = $this->main->get_detail_po($id);
+        $this->data['order_list'] = $this->main->get_list_detail_po($id);
+        $this->load->view($this->module.'/'.$this->file_name.'/dari_po', $this->data);
     }
 
     function add()
@@ -52,20 +72,23 @@ class retur extends MX_Controller {
         permissionUser();
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
-                        'jumlah'=>$this->input->post('jumlah'),
+                        'deskripsi'=>$this->input->post('deskripsi'),
+                        'diterima'=>$this->input->post('diterima'),
+                        'diorder'=>$this->input->post('diorder'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
                         );
-
+        $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
                 'supplier_id'=>$this->input->post('supplier_id'),
-                'up'=>$this->input->post('up'),
-                'alamat'=>$this->input->post('alamat'),
+                'up'=>'',
+                'alamat'=>'',
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
+                'tanggal_pengiriman'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
                 'po'=>$this->input->post('po'),
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
@@ -75,22 +98,28 @@ class retur extends MX_Controller {
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
+                'catatan' =>$this->input->post('catatan'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
             );
 
-        $this->db->insert($this->file_name, $data);
+        $this->db->insert($this->table_name, $data);
         $insert_id = $this->db->insert_id();
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
-                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
+                'deskripsi' => $list['deskripsi'][$i],
+                'diterima' => str_replace(',', '', $list['diterima'][$i]),
+                'diorder' => str_replace(',', '', $list['diorder'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 );
-        $this->db->insert($this->file_name.'_list', $data2);
+        $this->db->insert($this->table_name.'_list', $data2);
         endfor;
+        
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
@@ -106,10 +135,11 @@ class retur extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = $r->po;
             $row[] = $r->supplier;
             $row[] = $r->tanggal_transaksi;
+            $row[] = $r->tanggal_pengiriman;
             $row[] = $r->metode_pembayaran;
-            $row[] = $r->po;
             $row[] = $r->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
@@ -130,6 +160,7 @@ class retur extends MX_Controller {
     function print_pdf($id)
     {
         permissionUser();
+        $this->data['title'] = $this->title;
         $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);

@@ -3,7 +3,7 @@
 class delivery extends MX_Controller {
     public $data;
     var $module = 'sales';
-    var $title = 'delivery';
+    var $title = 'Delivery';
     var $file_name = 'delivery';
     var $main_title = 'Kirim Barang';
     var $table_name = 'delivery_order';
@@ -41,7 +41,7 @@ class delivery extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['options_customer'] = options_row($this->model_name,'get_customer','id','title','-- Pilih customer --');
-        
+        $this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -62,9 +62,11 @@ class delivery extends MX_Controller {
     function add()
     {
         permissionUser();
-        $delivery_list = array(
+        $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
-                        'jumlah'=>$this->input->post('jumlah'),
+                        'deskripsi'=>$this->input->post('deskripsi'),
+                        'diterima'=>$this->input->post('diterima'),
+                        'diorder'=>$this->input->post('diorder'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
@@ -74,10 +76,11 @@ class delivery extends MX_Controller {
         $data = array(
                 'no' => $this->input->post('no'),
                 'customer_id'=>$this->input->post('customer_id'),
-                'up'=>$this->input->post('up'),
-                'alamat'=>$this->input->post('alamat'),
+                'up'=>'',
+                'alamat'=>'',
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
-                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
+                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_faktur'))),
+                'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengantaran'))),
                 'so'=>$this->input->post('so'),
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
@@ -87,22 +90,24 @@ class delivery extends MX_Controller {
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
-                'keterangan' =>$this->input->post('keterangan'),
+                'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
 
         $this->db->insert($this->table_name, $data);
-        $delivery_id = $this->db->insert_id();
-        for($i=0;$i<sizeof($delivery_list['kode_barang']);$i++):
+        $insert_id = $this->db->insert_id();
+        for($i=0;$i<sizeof($list['kode_barang']);$i++):
             $data2 = array(
-                'delivery_id' => $delivery_id,
-                'kode_barang' => $delivery_list['kode_barang'][$i],
-                'jumlah' => str_replace(',', '', $delivery_list['jumlah'][$i]),
-                'satuan_id' => $delivery_list['satuan'][$i],
-                'harga' => str_replace(',', '', $delivery_list['harga'][$i]),
-                'disc' => str_replace(',', '', $delivery_list['disc'][$i]),
-                'pajak' => str_replace(',', '', $delivery_list['pajak'][$i]),
+                $this->file_name.'_id' => $insert_id,
+                'kode_barang' => $list['kode_barang'][$i],
+                'deskripsi' => $list['deskripsi'][$i],
+                'diterima' => str_replace(',', '', $list['diterima'][$i]),
+                'diorder' => str_replace(',', '', $list['diorder'][$i]),
+                'satuan_id' => $list['satuan'][$i],
+                'harga' => str_replace(',', '', $list['harga'][$i]),
+                'disc' => str_replace(',', '', $list['disc'][$i]),
+                'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 );
         $this->db->insert($this->table_name.'_list', $data2);
         endfor;
@@ -176,6 +181,14 @@ class delivery extends MX_Controller {
 
     }
     
+    function get_dari_so($id)
+    {
+        permissionUser();
+
+        $this->data['order'] = $this->delivery->get_detail_so($id);
+        $this->data['order_list'] = $this->delivery->get_list_detail_so($id);
+        $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
+    }
 	function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

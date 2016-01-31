@@ -138,11 +138,10 @@ class Order extends MX_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = "<a href=$detail>#".$r->po.'</a>';
             $row[] = $r->supplier;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->metode_pembayaran;
-            $row[] = $r->po;
             $row[] = $r->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>

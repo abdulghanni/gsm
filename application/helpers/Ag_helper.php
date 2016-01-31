@@ -5,6 +5,14 @@ $CI =& get_instance();
         return $CI->session->set_userdata('last_link', $CI->uri->uri_string());
 }
 
+if (!function_exists('lastq')){	
+	function lastq()
+	{
+		$CI =& get_instance();
+		die($CI->db->last_query());
+	}
+}
+
 if (!function_exists('permissionAdmin')){
 	function permissionAdmin()
 	{
@@ -299,3 +307,40 @@ function monthIndo($date)
 
 	}
 
+function timeago($date) {
+    if (empty($date)) {
+        return "No date provided";
+    }
+   // $periods = array("second", "minute", "hour", "day", "week", "month", "year", "decade");
+    $periods = array("detik", "menit", "jam", "hari", "minggu", "bulan", "tahun", "dekade");
+    $lengths = array("60","60","24","7","4.35","12","10");
+
+    $now = time();
+    $unix_date = strtotime($date);
+
+    // check validity of date
+    if (empty($unix_date)) {
+        return "";
+    }
+
+    // is it future date or past date
+    if ($now > $unix_date) {
+        $difference = $now - $unix_date;
+        $tense = "lalu";
+    } else {
+        $difference = $unix_date - $now;
+        $tense = "dari sekarang";
+    }
+
+    for ($j = 0; $difference >= $lengths[$j] && $j < count($lengths)-1; $j++) {
+        $difference /= $lengths[$j];
+    }
+
+    $difference = round($difference);
+
+    if ($difference != 1) {
+        $periods[$j].= "";
+    }
+
+    return "$difference $periods[$j] {$tense}";
+}
