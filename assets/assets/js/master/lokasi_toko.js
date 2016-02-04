@@ -1,8 +1,5 @@
 var save_method; //for save method string
 var table;
-var url = $.url();
-var baseurl = url.attr('protocol')+'://'+url.attr('host')+'/'+url.segment(1)+'/';
-
 $(document).ready(function() {
     $(".select2").select2();
     //datatables
@@ -14,7 +11,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": baseurl+"master/lokasi_toko/ajax_list",
+            "url": "lokasi_toko/ajax_list",
             "type": "POST"
         },
 

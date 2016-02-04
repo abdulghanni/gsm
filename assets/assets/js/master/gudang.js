@@ -14,7 +14,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": baseurl+"master/gudang/ajax_list",
+            "url": "gudang/ajax_list",
             "type": "POST"
         },
 
