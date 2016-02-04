@@ -127,10 +127,14 @@ class delivery extends MX_Controller {
 
     function print_pdf($id)
     {
+         $this->data['title'] = $this->title.' - Detail';
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['main_title'] = $this->main_title;
         permissionUser();
         $this->data['id'] = $id;
-        $this->data['delivery'] = $this->delivery->get_delivery_detail($id);
-        $this->data['delivery_list'] = $this->delivery->get_delivery_list_detail($id);
+        $this->data['delivery'] = $this->delivery->get_detail($id);
+        $this->data['delivery_list'] = $this->delivery->get_list_detail($id);
         
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 

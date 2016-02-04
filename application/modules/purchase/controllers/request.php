@@ -128,12 +128,14 @@ class Request extends MX_Controller {
 
     function print_pdf($id)
     {
+        $this->data['main_title'] = $this->main_title;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['module'] = $this->module;
+        $this->data['title'] = $this->title.' - Detail';
         permissionUser();
-        $this->data['title'] = $this->title;
         $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-        
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
         $mpdf = new mPDF();

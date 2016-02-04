@@ -94,6 +94,7 @@ class request_model extends CI_Model {
             '.$this->table.'.tanggal_digunakan,
             '.$this->table.'.keperluan,
             '.$this->table.'.catatan,
+            '.$this->table.'.created_by,
             '.$this->table_join1.'.title as gudang,
             ')
                  ->from($this->table)

@@ -13,61 +13,33 @@ td{ height:30px;}
 
 <body>
 <hr/>
-<strong>PURCHASE ORDER </strong>
+<strong>PURCHASE Request </strong>
 <hr/>
-<?php foreach ($order->result() as $o) :?>
+<?php foreach ($request->result() as $o) :?>
 <table width="800" border="0">
   <tbody>
     <tr>
-      <td width="180">No. P.O</td>
+      <td width="180">No. P.R</td>
       <td width="20">:</td>
-      <td width="200"><?=$o->po?></td>
-      <td width="180">Tanggal Pengiriman</td>
+      <td width="200"><?=$o->no?></td>
+      <td width="180">Tanggal Digunakan</td>
       <td width="20">:</td>
-      <td width="200"><?=dateIndo($o->tanggal_transaksi)?></td>
+      <td width="200"><?=dateIndo($o->tanggal_digunakan)?></td>
     </tr>
     <tr>
-      <td>Kepada</td>
+      <td>Diajukan Kepada</td>
       <td>:</td>
-      <td><?=$o->supplier?></td>
+      <td><?=getFullName($o->diajukan_ke)?></td>
       <td>Dikirim Ke</td>
       <td>:</td>
       <td><?=$o->gudang?></td>
     </tr>
     <tr>
-      <td>Up</td>
+      <td>Keperluan</td>
       <td>:</td>
-      <td><?=$o->up?></td>
-      <td>Metode Pembayaran</td>
-      <td>:</td>
-      <td><?=$o->metode_pembayaran?></td>
+      <td><?=$o->keperluan?></td>
     </tr>
-    <tr>
-      <td>Alamat</td>
-      <td>:</td>
-      <td><?=$o->alamat?></td>
-      <td>Mata Uang</td>
-      <td>:</td>
-      <td><?=$o->kurensi?></td>
-    </tr>
-    <?php if ($o->metode_pembayaran_id == 2):?>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Lama Angsuran</td>
-      <td>:</td>
-      <td><?=$o->lama_angsuran_1.' ' .$o->lama_angsuran_2?></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Bunga</td>
-      <td>:</td>
-      <td><?=$o->bunga?>%</td>
-    </tr>
-<?php endif; ?>
+   
   </tbody>
 </table>
 
@@ -80,13 +52,12 @@ td{ height:30px;}
 		<th width="5%">Quantity</th>
 		<th width="10%"> Satuan </th>
 		<th width="18%"> Harga </th>
-		<th width="5%">Disc(%)</th>
 		<th width="20%"> Sub Total </th>
 		<th width="5%">Pajak(%)</th>
     </tr>
 	<?php 
 		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-		$i=1;foreach($order_list->result() as $ol): ?>
+		$i=1;foreach($request_list->result() as $ol): ?>
 	<tr>
 	<?php 
 		$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
@@ -100,7 +71,6 @@ td{ height:30px;}
 		<td width="5%"align="right"><?=$ol->jumlah?></td>
 		<td width="10%"><?=$ol->satuan?></td>
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
-		<td width="5%" align="right"><?=$ol->disc?></td>
 		<td width="20%" align="right"><?= number_format($subtotal, 2)?></td>
 		<td width="5%" align="right"><?=$ol->pajak?></td>
 	</tr>
@@ -129,21 +99,13 @@ td{ height:30px;}
 	</tr>
 	<tr>
 		<td align="center">Approved,</td>
-		<td align="center">Order By,</td>
+		<td align="center">Request By,</td>
 		<td align="center">ACC Vendor</td>
 		<td colspan="3">Total Pajak</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($totalpajak, 2)?></td>
 	</tr>
 
-	<tr>
-		<td align="center">&nbsp;</td>
-		<td align="center">&nbsp;</td>
-		<td align="center">&nbsp;</td>
-		<td colspan="3">Biaya Pengiriman</td>
-		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($o->biaya_pengiriman, 2)?></td>
-	</tr>
 
 	<tr>
 		<td align="center">&nbsp;</td>
