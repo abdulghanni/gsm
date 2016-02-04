@@ -29,6 +29,7 @@ class Stok extends MX_Controller {
 
     public function ajax_list()
     {
+		//error_reporting(E_ALL);
         permissionUser();
         $list = $this->main->get_datatables();
         $data = array();
@@ -44,6 +45,7 @@ class Stok extends MX_Controller {
             $row[] = $r->harga_beli;
             $row[] = $r->harga_jual;
             $row[] = $r->gudang;
+            $row[] = $r->lokasi_detail;
 
 
             //add html for action
@@ -80,6 +82,7 @@ class Stok extends MX_Controller {
                 'minimum_stok' => $this->input->post('minimum_stok'),
                 'harga_beli'=>$this->input->post('harga_beli'),
                 'harga_jual'=>$this->input->post('harga_jual'),
+                'lokasi_detail'=>$this->input->post('lokasi_detail'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -96,7 +99,8 @@ class Stok extends MX_Controller {
                 'dalam_stok' => $this->input->post('dalam_stok'),
                 'minimum_stok' => $this->input->post('minimum_stok'),
                 'harga_beli'=>$this->input->post('harga_beli'),
-                'harga_jual'=>$this->input->post('harga_jual'),
+		'harga_jual'=>$this->input->post('harga_jual'),
+		'lokasi_detail'=>$this->input->post('lokasi_detail')
             );
         $this->main->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));

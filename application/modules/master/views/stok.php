@@ -40,6 +40,7 @@
                             <th width="10%"><?php echo lang('price');?> Beli</th>
                             <th width="10%"><?php echo lang('price');?> Jual</th>
                             <th width="15%"><?php echo 'Gudang';?></th>
+                            <th width="15%"><?php echo 'Lokasi';?></th>
                             <th width="12%"><?php echo lang('action');?></th>
                         </tr>
                     </thead>
@@ -99,6 +100,15 @@
                                       <?php 
                                         $js = 'class="select2" style="width:100%"';
                                         echo form_dropdown('supplier_id', $options_supplier,'',$js); 
+                                      ?>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Detail Lokasi</label>
+                                    <div class="col-md-8">
+                                      <?php 
+                                        $js = ' style="width:100%"';
+                                        echo form_textarea('lokasi_detail', '',$js); 
                                       ?>
                                     </div>
                                 </div>
