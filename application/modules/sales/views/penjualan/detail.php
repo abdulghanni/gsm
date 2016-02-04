@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle"><?=$main_title?></h1>
+			<h1 class="mainTitle"><?= $main_title ?></h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/pembelian')?>"><?=$main_title?></a></span>
+				<span><a href="<?=base_url($module.'/'.$file_name)?>"><?= $main_title ?></a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url('purchase/pembelian/detail/'.$id)?>">Detail</a></span>
+				<span><a href="<?=base_url($module.'/'.$file_name.'/detail/'.$id)?>">detail</a></span>
 			</li>
 		</ol>
 	</div>
@@ -23,12 +23,12 @@
 <div class="container-fluid container-fullw bg-white">
 
 <div class="row pull-right">
-	<a href="<?=base_url().'purchase/pembelian/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
+	<a href="<?=base_url().'sales/penjualan/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 		 <i class="fa fa-print"></i> <?= lang('print')?>
 	</a>
 </div>
-<?php foreach ($pembelian->result() as $o) :?>
-<form role="form" action="<?= base_url('transaksi/pembelian/add')?>" method="post" class="form-horizontal">
+<?php foreach ($penjualan->result() as $o) :?>
+<form role="form" action="<?= base_url('transaksi/penjualan/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -45,13 +45,12 @@
 				<hr>
 				<div class="row">
 					<div class="col-md-6">
-
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								No. Faktur
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="No. Faktur" name="no" class="form-control" value="<?=$o->no?>" disabled>
+								<input type="text" placeholder="No. Faktur" name="no" value="<?=$o->no?>" class="form-control" required="required" disabled>
 							</div>
 						</div>
 
@@ -60,15 +59,16 @@
 								Tgl. Faktur
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="Tgl. Faktur" name="no" class="form-control" value="<?=$o->tanggal_transaksi?>" disabled>
+								<input type="text" class="form-control" value="<?=dateIndo($o->tanggal_transaksi)?>" name="tanggal_transaksi" required disabled>
 							</div>
 						</div>
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Supplier
+								Customer
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->supplier?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->customer?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 
@@ -77,38 +77,51 @@
 								Mata Uang
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->kurensi?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
+						<?php if(!empty($o->catatan)):?>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Catatan
+							</label>
+							<div class="col-sm-8">
+								<textarea class="form-control" name="catatan"><?=$o->catatan?></textarea>
+							</div>
+						</div>
+						<?php endif;?>
 
                     </div>
 
                     <div class="col-md-6">
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								No. SO
+							</label>
+							<div class="col-sm-8">
+								<input type="text" placeholder="No. SO" name="so" class="form-control" value="<?=$o->so?>" required="required" disabled>
+							</div>
+						</div>
+
+						
+                    	<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tgl. Pengantaran
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="up" value="<?=dateIndo($o->tanggal_pengantaran)?>" class="form-control" disabled="disabled">
+							</div>
+						</div>
+						
                     	<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. PO
-							</label>
-							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->po?>" class="form-control" disabled="disabled">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tgl. Pengiriman
-							</label>
-							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->tanggal_pengiriman?>" class="form-control" disabled="disabled">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Dikirim Ke
+								Dikirim Dari
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
-
+						
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Term
@@ -139,7 +152,7 @@
 							</label>
 						</div>
 						<?php endif ?>
-					</div>
+                    </div>
 				</div>
 				<div class="row">
 					<div class="col-sm-12">
@@ -161,7 +174,7 @@
 							<tbody>
 								<?php 
 									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-									$i=1;foreach($pembelian_list->result() as $ol): ?>
+									$i=1;foreach($penjualan_list->result() as $ol): ?>
 								<tr>
 								<?php 
 									$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
@@ -197,7 +210,7 @@
 									Total Pajak
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" id="totalPajak" value="<?= number_format($totalpajak, 2)?>" class="form-control text-right" readonly="readonly">
+									<input type="text" id="totalPajak" value="<?= number_format($totalpajak, 2)?>" class="form-control text-right" disabled>
 									</div>
 								</div>
 							</li>
@@ -207,7 +220,7 @@
 									Biaya Pengiriman
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="<?= number_format($o->biaya_pengiriman, 2)?>" readonly="readonly">
+									<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="<?= number_format($o->biaya_pengiriman, 2)?>" disabled>
 									</div>
 								</div>
 							</li>
@@ -217,7 +230,7 @@
 									Total
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman, 2)?>" disabled>
 									</div>
 								</div>
 							</li>
@@ -227,7 +240,7 @@
 									Total + Pajak
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?>" disabled>
 									</div>
 								</div>
 							</li>
@@ -239,7 +252,7 @@
 										Uang Muka
 										</div>
 										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=number_format($o->dibayar,2)?>" readonly="readonly">
+										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=number_format($o->dibayar,2)?>" disabled>
 										</div>
 									</div>
 								</li>
@@ -273,7 +286,7 @@
 										Saldo
 										</div>
 										<div class="col-md-6 pull-right">
-										<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($grandtotal, 2)?>" readonly="readonly">
+										<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($grandtotal, 2)?>" disabled>
 										</div>
 									</div>
 								</li>

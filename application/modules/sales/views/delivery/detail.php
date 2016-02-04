@@ -23,7 +23,7 @@
 <div class="container-fluid container-fullw bg-white">
 
 <div class="row pull-right">
-	<a href="<?=base_url().'transaksi/order/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
+	<a href="<?=base_url().'sales/delivery/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 		 <i class="fa fa-print"></i> <?= lang('print')?>
 	</a>
 </div>
@@ -38,49 +38,39 @@
 					</div>
 					<div class="col-sm-6">
 						<p class="text-dark">
-							#<?=$o->no?> / <?=$o->tanggal_transaksi?> <small class="text-light"></small>
+							#<?=$o->no?><small class="text-light"></small>
 						</p>
 					</div>
 				</div>
 				<hr>
+				<fieldset>
+				<legend>Info Form Kirim Barang</legend>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. Faktur
+								No. Surat Jalan
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="No. Faktur" name="no" value="<?=$o->no?>" class="form-control" required="required" disabled>
+								<input type="text" placeholder="No. Form" name="no" class="form-control" required="required" value="<?=$o->no?>">
 							</div>
 						</div>
-
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tgl. Faktur
+								Tgl. Kirim Barang
 							</label>
 							<div class="col-sm-8">
-								<input type="text" class="form-control" value="<?=dateIndo($o->tanggal_transaksi)?>" name="tanggal_transaksi" required disabled>
+								<input type="text" placeholder="No. Form" name="no" class="form-control" required="required" value="<?=$o->tanggal_pengantaran?>">
 							</div>
 						</div>
-
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
 								Customer
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->customer?>" class="form-control" disabled="disabled">
+								<input type="text" placeholder="No. Form" name="no" class="form-control" required="required" value="<?=$o->customer?>">
 							</div>
 						</div>
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Mata Uang
-							</label>
-							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
-							</div>
-						</div>
-						<?php if(!empty($o->catatan)):?>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Catatan
@@ -89,209 +79,58 @@
 								<textarea class="form-control" name="catatan"><?=$o->catatan?></textarea>
 							</div>
 						</div>
-						<?php endif;?>
-
                     </div>
-
                     <div class="col-md-6">
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. SO
-							</label>
-							<div class="col-sm-8">
-								<input type="text" placeholder="No. SO" name="so" class="form-control" value="<?=$o->so?>" required="required" disabled>
-							</div>
-						</div>
-
-						
-                    	<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tgl. Pengantaran
-							</label>
-							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=dateIndo($o->tanggal_pengantaran)?>" class="form-control" disabled="disabled">
-							</div>
-						</div>
-						
                     	<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								Dikirim Dari
+								No. S.O
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
+								<input type="text" placeholder="No. S.O" name="so" class="form-control" required="required" value="<?=$o->so?>">
 							</div>
 						</div>
-						
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								Term
+								Tipe Kendaraan
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control" disabled="disabled">
+								<input type="text" placeholder="Tipe Kendaraan" name="kendaraan" class="form-control" value="<?=$o->kendaraan?>">
 							</div>
 						</div>
-						<?php if($o->metode_pembayaran_id == 2):?>
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Lama Angsuran
-							</label>
-							<div class="col-sm-4">
-								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" disabled="disabled">
-							</div>
+						<label class="col-sm-4 control-label" for="inputPassword3">
+							Dikirim Dari
+						</label>
+						<div class="col-sm-8">
+							<input type="text" placeholder="No. Form" name="no" class="form-control" required="required" value="<?=$o->gudang?>">
 						</div>
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Bunga
-							</label>
-							<div class="col-sm-2">
-								<input type="text" value="<?=$o->bunga?>" name="bunga" id="bunga" class="form-control text-right" disabled="disabled">
-							</div>
-							<label class="col-sm-1 control-label" for="inputPassword3">
-								%
-							</label>
-						</div>
-						<?php endif ?>
-                    </div>
+					</div>
 				</div>
+				</fieldset>
 				<div class="row">
 					<div class="col-sm-12">
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
 									<th width="5%"> No. </th>
-									<th width="10%"> Kode </th>
-									<th width="15%"> Nama Barang </th>
-									<th width="10%">Di Order</th>
-									<th width="10%">Di Terima</th>
-									<th width="10%"> Satuan </th>
-									<th width="15%"> Harga </th>
-									<th width="5%">Disc(%)</th>
-									<th width="15%"> Sub Total </th>
-									<th width="5%">Pajak(%)</th>
+									<th width="20%"> Kode </th>
+									<th width="30%"> Nama Barang </th>
+									<th width="10%">Jumlah</th>
+									<th width="30%">Keterangan</th>
 								</tr>
 							</thead>
 							<tbody>
-								<?php 
-									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-									$i=1;foreach($delivery_list->result() as $ol): ?>
+							<?php $i=1;foreach($delivery_list->result() as $ol): ?>
 								<tr>
-								<?php 
-									$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
-									$subtotal = $ol->diterima*$ol->harga-$diskon;
-									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
-									$total = $total + $subtotal;
-								?>
 									<td><?=$i++?></td>
 									<td><?=$ol->kode_barang?></td>
-									<td><?=$ol->barang?></td>
-									<td class="text-right"><?=$ol->diorder?></td>
-									<td class="text-right"><?=$ol->diterima?></td>
-									<td><?=$ol->satuan?></td>
-									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
-									<td class="text-right"><?=$ol->disc?></td>
-									<td class="text-right"><?= number_format($subtotal, 2)?></td>
-									<td class="text-right"><?=$ol->pajak?></td>
+									<td><?=$ol->deskripsi?></td>
+									<td class="text-right"><?=$ol->jumlah?></td>
+									<td><?=$ol->keterangan?></td>
 								</tr>
-								<?php endforeach;$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
-									$grandtotal = $totalpluspajak + $o->biaya_pengiriman - $o->dibayar;
-									$bunga =  ($grandtotal) * ($o->bunga/100);
-								?>
+							<?php endforeach;?>
 							</tbody>
 						</table>
-					</div>
-				</div>
-				<div class="row">
-					<div id="panel-total" class="panel-body col-md-5 pull-right">
-						<ul class="list-group">
-							<li class="list-group-item">
-								<div class="row">
-									<div class="col-md-4">
-									Total Pajak
-									</div>
-									<div class="col-md-6 pull-right">
-									<input type="text" id="totalPajak" value="<?= number_format($totalpajak, 2)?>" class="form-control text-right" disabled>
-									</div>
-								</div>
-							</li>
-							<li class="list-group-item">
-								<div class="row">
-									<div class="col-md-4">
-									Biaya Pengiriman
-									</div>
-									<div class="col-md-6 pull-right">
-									<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="<?= number_format($o->biaya_pengiriman, 2)?>" disabled>
-									</div>
-								</div>
-							</li>
-							<li class="list-group-item">
-								<div class="row">
-									<div class="col-md-4">
-									Total
-									</div>
-									<div class="col-md-6 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman, 2)?>" disabled>
-									</div>
-								</div>
-							</li>
-							<li class="list-group-item">
-								<div class="row">
-									<div class="col-md-4">
-									Total + Pajak
-									</div>
-									<div class="col-md-6 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?>" disabled>
-									</div>
-								</div>
-							</li>
-							<?php if($o->metode_pembayaran_id == 2):?>
-
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Uang Muka
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=number_format($o->dibayar,2)?>" disabled>
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total+Bunga Angsuran
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="totalplusbunga" class="form-control text-right" value="<?= number_format($grandtotal+$bunga,2)?>" readonly>
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Biaya Angsuran
-										</div>
-										<div class="col-md-2">
-										</div>
-										<div class="col-md-4">
-										<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="<?php echo number_format(($grandtotal+$bunga)/$o->lama_angsuran_1, 2)?>" readonly>
-										</div>
-										<div class="col-md-2" id="angsuran" style="margin-left:-10px">/<?= strtoupper($o->lama_angsuran_2)?>
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Saldo
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($grandtotal, 2)?>" disabled>
-										</div>
-									</div>
-								</li>
-							<?php endif?>
-						</ul>
 					</div>
 				</div>
 			</div>

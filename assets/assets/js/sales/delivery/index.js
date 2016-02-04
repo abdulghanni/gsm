@@ -20,7 +20,7 @@ $(document).ready(function() {
             "targets": [-1], //last column
             "orderable": false, //set not orderable
         },
-        { "sClass": "text-center", "aTargets": [ 7 ] }
+        { "sClass": "text-center", "aTargets": [-1] }
         ],
     });
 });

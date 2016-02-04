@@ -152,7 +152,7 @@ class pembelian_model extends CI_Model {
                   ->from($this->table."_list as order_list")
                   ->join('barang', 'barang.id = order_list.kode_barang', 'left')
                   ->join('satuan', 'satuan.id = order_list.satuan_id')
-                  ->where('receive_id', $id)
+                  ->where('pembelian_id', $id)
                   ->get();
         return $q;
     }   
@@ -209,7 +209,7 @@ class pembelian_model extends CI_Model {
 
     function get_list_detail_po($id)
     {
-        $q = $this->db->select('barang.kode as kode_barang, deskripsi, jumlah, purchase_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as kode_barang, deskripsi, jumlah, purchase_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list_po)
                   ->join('barang', 'barang.id ='.$this->table_list_po.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list_po.'.satuan_id')

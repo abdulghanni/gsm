@@ -30,9 +30,10 @@
                     <thead>
                         <tr>
                             <th width="5%" align="center">No.</th>
-                            <th width="10%"><?php echo 'No. Surat Jalan';?></th>
+                            <th width="10%"><?php echo 'No. Transaksi';?></th>
                             <th width="15%"><?php echo 'Customer';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
+                            <th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>
                             <th width="10%"><?php echo 'No. SO';?></th>
                             <th width="15%"><?php echo 'Dikirim dari';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>

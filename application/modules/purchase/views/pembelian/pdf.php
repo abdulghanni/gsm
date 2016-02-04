@@ -15,7 +15,7 @@ td{ height:30px;}
 <hr/>
 <strong>Faktur Pembelian </strong>
 <hr/>
-<?php foreach ($receive->result() as $o) :?>
+<?php foreach ($pembelian->result() as $o) :?>
 <table width="800" border="0">
   <tbody>
     <tr>
@@ -95,7 +95,7 @@ td{ height:30px;}
     </tr>
 	<?php 
 		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-		$i=1;foreach($receive_list->result() as $ol): ?>
+		$i=1;foreach($pembelian_list->result() as $ol): ?>
 	<tr>
 	<?php 
 		$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
@@ -105,7 +105,7 @@ td{ height:30px;}
 	?>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang?></td>
-		<td width="20%"><?=$ol->barang?></td>
+		<td width="20%"><?=$ol->deskripsi?></td>
 		<td width="5%"align="right"><?=$ol->diorder?></td>
 		<td width="5%"align="right"><?=$ol->diterima?></td>
 		<td width="10%"><?=$ol->satuan?></td>

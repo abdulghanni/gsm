@@ -11,7 +11,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "pembelian/ajax_list",
+            "url": "penjualan/ajax_list",
             "type": "POST"
         },
         //Set column definition initialisation properties.

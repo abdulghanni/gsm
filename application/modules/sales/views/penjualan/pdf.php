@@ -30,9 +30,9 @@ td{ height:30px;}
       <td>Tanggal</td>
       <td>:</td>
       <td><?=$o->tanggal_transaksi?></td>
-      <td>No. PO</td>
+      <td>No. SO</td>
       <td>:</td>
-      <td><?=$o->po?></td>
+      <td><?=$o->so?></td>
     </tr>
     <tr>
       <td>Kepada</td>
@@ -105,7 +105,7 @@ td{ height:30px;}
 	?>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang?></td>
-		<td width="20%"><?=$ol->barang?></td>
+		<td width="20%"><?=$ol->deskripsi?></td>
 		<td width="5%"align="right"><?=$ol->diorder?></td>
 		<td width="5%"align="right"><?=$ol->diterima?></td>
 		<td width="10%"><?=$ol->satuan?></td>
