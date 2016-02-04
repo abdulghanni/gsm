@@ -9,10 +9,7 @@ $(document).ready(function() {
         
     $(".select2").select2();
 
-    $("#tanggal_faktur").datepicker("setDate", new Date());
-    $("#tanggal_pengiriman").datepicker("setDate", new Date());
-
-    $("#list_po").change(function(){
+    $("#list_pembelian").change(function(){
         var id = $(this).val();
         if(id != 0){
             id = id.substring(0,1);

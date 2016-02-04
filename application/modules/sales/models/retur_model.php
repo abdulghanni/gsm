@@ -3,14 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class retur_model extends CI_Model {
 
-    var $table = 'purchase_return';
-    var $table_po = 'receive_order';
-    var $table_list_po = 'receive_order_list';
-    var $table_join1 = 'supplier';
+    var $table = 'sales_return';
+    var $table_po = 'delivery_order';
+    var $table_list_po = 'delivery_order_list';
+    var $table_join1 = 'customer';
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('id', 'no','po', 'supplier', 'tanggal_pengiriman', 'tanggal_transaksi', 'metode_pembayaran', 'gudang'); //set column field database for order and search
+    var $column = array('id', 'no','so', 'customer', 'tanggal_pengantaran', 'tanggal_transaksi', 'metode_pembayaran', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -25,15 +25,15 @@ class retur_model extends CI_Model {
         $this->db->select(
             $this->table.'.id as id,
             '.$this->table.'.no as no,
-            '.$this->table.'.po as po,
+            '.$this->table.'.so as so,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
-            '.$this->table.'.tanggal_pengiriman as tanggal_pengiriman,
-            '.$this->table_join1.'.title as supplier,
+            '.$this->table.'.tanggal_pengantaran as tanggal_pengantaran,
+            '.$this->table_join1.'.title as customer,
             '.$this->table_join2.'.title as metode_pembayaran,
             '.$this->table_join4.'.title as gudang,
             ');
         $this->db->from($this->table);
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.supplier_id', 'left');
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.customer_id', 'left');
         $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.metode_pembayaran_id', 'left');
         $this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table.'.gudang_id', 'left');
         //$this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.kurensi_id', 'left');
@@ -48,9 +48,9 @@ class retur_model extends CI_Model {
                     $item = $this->table.'.no';
                 }elseif($item == 'tanggal_transaksi'){
                     $item = $this->table.'.tanggal_transaksi';
-                }elseif($item == 'po'){
-                    $item = $this->table.'.po';
-                }elseif($item == 'supplier'){
+                }elseif($item == 'so'){
+                    $item = $this->table.'.so';
+                }elseif($item == 'customer'){
                     $item = $this->table_join1.'.title';
                 }elseif($item == 'metode_pembayaran'){
                     $item = $this->table_join2.'.title';
@@ -110,14 +110,14 @@ class retur_model extends CI_Model {
     function get_detail($id)
     {
         $q = $this->db->select('no,
-                                supplier.title as supplier,
-                                supplier.up,
-                                supplier.alamat,
+                                customer.title as customer,
+                                customer.up,
+                                customer.alamat,
                                 metode_pembayaran_id,
                                 metode_pembayaran.title as metode_pembayaran,
                                 tanggal_transaksi, 
-                                tanggal_pengiriman, 
-                                po,
+                                tanggal_pengantaran, 
+                                so,
                                 gudang.title as gudang,
                                 jatuh_tempo_pembayaran,
                                 kurensi.title as kurensi,
@@ -130,7 +130,7 @@ class retur_model extends CI_Model {
                                 receive_order.created_by'
                                 )
                  ->from($this->table)
-                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.supplier_id', 'left')
+                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.customer_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
                  ->join($this->table_join3, $this->table_join3.'.id ='.$this->table.'.kurensi_id', 'left')
                  ->join($this->table_join4, $this->table_join4.'.id ='.$this->table.'.gudang_id', 'left')
@@ -160,15 +160,15 @@ class retur_model extends CI_Model {
     function get_detail_po($id)
     {
         $q = $this->db->select('no, 
-                                supplier.title as supplier,
-                                supplier_id,
-                                supplier.up, 
-                                supplier.alamat,
+                                customer.title as customer,
+                                customer_id,
+                                customer.up, 
+                                customer.alamat,
                                 metode_pembayaran_id, 
                                 metode_pembayaran.title as metode_pembayaran, 
                                 tanggal_transaksi, 
-                                tanggal_pengiriman,
-                                po, 
+                                tanggal_pengantaran,
+                                so, 
                                 gudang_id,
                                 gudang.title as gudang, 
                                 jatuh_tempo_pembayaran, 
@@ -184,7 +184,7 @@ class retur_model extends CI_Model {
                                 receive_order.created_by'
                                 )
                  ->from($this->table_po)
-                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table_po.'.supplier_id', 'left')
+                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table_po.'.customer_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table_po.'.metode_pembayaran_id', 'left')
                  ->join($this->table_join3, $this->table_join3.'.id ='.$this->table_po.'.kurensi_id', 'left')
                  ->join($this->table_join4, $this->table_join4.'.id ='.$this->table_po.'.gudang_id', 'left')
@@ -222,7 +222,7 @@ class retur_model extends CI_Model {
         $this->db->delete($this->table);
     }
 
-    public function get_supplier()
+    public function get_customer()
     {   
         $this->db->where($this->table_join1.'.is_deleted',0);
         $this->db->order_by($this->table_join1.'.title','asc');

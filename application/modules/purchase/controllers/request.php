@@ -1,12 +1,12 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Retur extends MX_Controller {
+class Request extends MX_Controller {
     public $data;
     var $module = 'purchase';
-    var $title = 'Retur';
-    var $file_name = 'retur';
-    var $main_title = 'Retur Pembelian';
-    var $table_name = 'purchase_return';
+    var $title = 'Purchase Request';
+    var $file_name = 'request';
+    var $main_title = 'Purchase Request';
+    var $table_name = 'purchase_request';
     function __construct()
     {
         parent::__construct();
@@ -35,33 +35,22 @@ class Retur extends MX_Controller {
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
-        $this->data['kurensi'] = getAll('kurensi')->result();
-        $this->data['metode'] = getAll('metode_pembayaran')->result();
+        $this->data['users'] = getAll('users')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
-        $this->data['no'] = GetAllSelect('receive_order', array('id','no'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
     function detail($id)
     {
         $this->data['main_title'] = $this->main_title;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['module'] = $this->module;
         $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);print_mz($this->data[$this->file_name]);
+        $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
-    }
-
-    function get_dari_pembelian($id)
-    {
-        permissionUser();
-
-        $this->data['order'] = $this->main->get_detail_po($id);
-        $this->data['order_list'] = $this->main->get_list_detail_po($id);
-        $this->load->view($this->module.'/'.$this->file_name.'/dari_pembelian', $this->data);
     }
 
     function add()
@@ -70,31 +59,18 @@ class Retur extends MX_Controller {
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
-                        'diterima'=>$this->input->post('diterima'),
-                        'diretur'=>$this->input->post('diretur'),
+                        'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
                         );
-        $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
-                'supplier_id'=>$this->input->post('supplier_id'),
-                'up'=>'',
-                'alamat'=>'',
-                'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
-                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'tanggal_pengiriman'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
-                'po'=>$this->input->post('po'),
+                'diajukan_ke'=>$this->input->post('diajukan_ke'),
+                'tanggal_digunakan'=>date('Y-m-d',strtotime($this->input->post('tanggal_digunakan'))),
                 'gudang_id'=>$this->input->post('gudang_id'),
-                'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'kurensi_id'=>$this->input->post('kurensi_id'),
-                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
-                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
-                'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
-                'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
+                'keperluan'=>$this->input->post('keperluan'),
                 'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
@@ -107,8 +83,7 @@ class Retur extends MX_Controller {
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
-                'diterima' => str_replace(',', '', $list['diterima'][$i]),
-                'diretur' => str_replace(',', '', $list['diretur'][$i]),
+                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
@@ -116,7 +91,6 @@ class Retur extends MX_Controller {
                 );
         $this->db->insert($this->table_name.'_list', $data2);
         endfor;
-        
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
@@ -132,12 +106,10 @@ class Retur extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->po;
-            $row[] = $r->supplier;
-            $row[] = $r->tanggal_transaksi;
-            $row[] = $r->tanggal_pengiriman;
-            $row[] = $r->metode_pembayaran;
+            $row[] = $r->diajukan_ke;
+            $row[] = $r->tanggal_digunakan;
             $row[] = $r->gudang;
+            $row[] = $r->keperluan;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
@@ -170,17 +142,6 @@ class Retur extends MX_Controller {
         $mpdf->Output($id.'-'.$title.'.pdf', 'I');
     }
 
-    //FOR JS
-
-    function get_supplier_detail($id)
-    {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
-
-        echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
-
-    }
-    
     function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

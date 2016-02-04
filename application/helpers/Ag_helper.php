@@ -66,7 +66,7 @@ if(!function_exists('getFullName')){
 	function getFullName($user_id){
 		$CI =& get_instance();
 		$name = getValue('full_name', 'users', array('id'=>'where/'.$user_id));
-		return $name;
+		if(!empty($name))return $name;else '';
 	}
 }
 

@@ -13,16 +13,16 @@ td{ height:30px;}
 
 <body>
 <hr/>
-<strong>Faktur Pembelian </strong>
+<strong>Faktur Penjualan </strong>
 <hr/>
-<?php foreach ($receive->result() as $o) :?>
+<?php foreach ($delivery->result() as $o) :?>
 <table width="800" border="0">
   <tbody>
     <tr>
       <td width="180">No. Transaksi</td>
       <td width="20">:</td>
       <td width="200"><?=$o->no?></td>
-      <td width="180">Pengiriman</td>
+      <td width="180">Pengantaran</td>
       <td width="20">:</td>
       <td width="200"><?=$o->tanggal_transaksi?></td>
     </tr>
@@ -37,7 +37,7 @@ td{ height:30px;}
     <tr>
       <td>Kepada</td>
       <td>:</td>
-      <td><?=$o->supplier?></td>
+      <td><?=$o->customer?></td>
       <td>Dikirim Ke</td>
       <td>:</td>
       <td><?=$o->gudang?></td>
@@ -95,7 +95,7 @@ td{ height:30px;}
     </tr>
 	<?php 
 		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-		$i=1;foreach($receive_list->result() as $ol): ?>
+		$i=1;foreach($delivery_list->result() as $ol): ?>
 	<tr>
 	<?php 
 		$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
@@ -138,9 +138,9 @@ td{ height:30px;}
 		<th width="10%"></th>
 	</tr>
 	<tr>
-		<td align="center">Approved,</td>
-		<td align="center">Order By,</td>
-		<td align="center">ACC Vendor</td>
+		<td align="center"><!--Approved,--></td>
+		<td align="center"><!--Order By,--></td>
+		<td align="center"><!--ACC Vendor--></td>
 		<td colspan="3">Total Pajak</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($totalpajak, 2)?></td>
@@ -165,9 +165,9 @@ td{ height:30px;}
 	</tr>
 
 	<tr>
-		<td align="center"><?=(!empty($o->user_app_id_lv2))?getName($o->user_app_id_lv2):'';?></td>
-		<td align="center"><?=getName($o->created_by)?></td>
-		<td align="center"><?=$o->supplier?></td>
+		<td align="center"><!--<?=(!empty($o->user_app_id_lv2))?getName($o->user_app_id_lv2):'';?>--></td>
+		<td align="center"><!--<?=getName($o->created_by)?>--></td>
+		<td align="center"><!--<?=$o->customer?>--></td>
 		<td colspan="3">Total + Pajak</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?></td>

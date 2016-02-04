@@ -4,35 +4,32 @@ $(document).ready(function() {
         .datepicker({
             todayHighlight: true,
             autoclose: true,
-            format: "dd-mm-yyyy",
+            format: "dd-mm-yyyy"
         });
-        
+
     $(".select2").select2();
 
     $("#tanggal_faktur").datepicker("setDate", new Date());
     $("#tanggal_pengiriman").datepicker("setDate", new Date());
 
-    $("#list_po").change(function(){
+    $("#list_so").change(function(){
         var id = $(this).val();
-        if(id != 0){
-            id = id.substring(0,1);
-            $('#dari-po').load('get_dari_po/'+id);
-        }
+        if(id != 0)$('#dari-so').load('get_dari_so/'+id);
+    })
+    .change();
+    
+    $("#customer_id").change(function(){
+        var id = $(this).val();
+        if(id!=0)getCusDetail(id);
     })
     .change();
 
-    $("#supplier_id").change(function(){
-        var id = $(this).val();
-        if(id != 0)getSupDetail(id);
-    })
-    .change();
-
-    function getSupDetail(id)
+    function getCusDetail(id)
     {
         $.ajax({
             type: "GET",
             dataType: "JSON",
-            url: 'get_supplier_detail/'+id,
+            url: '../order/get_customer_detail/'+id,
             success: function(data) {
                 $('#up').val(data.up);
                 $('#alamat').val(data.alamat);

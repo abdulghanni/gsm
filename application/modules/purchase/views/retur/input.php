@@ -72,7 +72,7 @@
 								</label>
 								<div class="col-sm-8">
 									<div id="tanggal_faktur" class="input-append date success no-padding">
-	                                  <input type="text" class="form-control" name="tanggal_transaksi" required>
+	                                  <input type="text" class="form-control" name="tanggal_transaksi" value="" required>
 	                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
 	                                </div>
 								</div>
@@ -130,14 +130,14 @@
 								</label>
 								<div class="col-sm-8">
 									<div id="tanggal_pengiriman" class="input-append date success no-padding">
-	                                  <input type="text" class="form-control" name="tanggal_transaksi" required>
+	                                  <input type="text" class="form-control" name="tanggal_pengiriman" required>
 	                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
 	                                </div>
 								</div>
 							</div>
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="inputPassword3">
-									Dikirim Ke
+									Keluar Dari
 								</label>
 								<div class="col-sm-8">
 									<select class="select2" name="gudang_id" style="width:100%">
@@ -213,8 +213,8 @@
 										<th width="5%"> No. </th>
 										<th width="10%"> Kode </th>
 										<th width="15%"> Nama Barang </th>
-										<th width="10%">Di Order</th>
 										<th width="10%">Di Terima</th>
+										<th width="10%">Di Retur</th>
 										<th width="10%"> Satuan </th>
 										<th width="15%"> Harga </th>
 										<th width="5%">Disc(%)</th>
@@ -362,10 +362,10 @@
 	cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">';
 
 	var cell5=row.insertCell(x++);
-	cell5.innerHTML = '<input name="diorder[]" value="0" type="text" class="form-control jumlah text-right" required="required">';
+	cell5.innerHTML = '<input name="diterima[]" value="0" type="text" class="form-control jumlah text-right" required="required">';
 
 	var cell6=row.insertCell(x++);
-	cell6.innerHTML = '<input name="diterima[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
+	cell6.innerHTML = '<input name="diorder[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 
 	var cell7=row.insertCell(x++);
 	cell7.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";

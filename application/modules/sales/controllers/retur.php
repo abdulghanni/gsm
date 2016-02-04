@@ -2,10 +2,10 @@
 
 class Retur extends MX_Controller {
     public $data;
-    var $module = 'purchase';
+    var $module = 'sales';
     var $title = 'Retur';
     var $file_name = 'retur';
-    var $main_title = 'Retur Pembelian';
+    var $main_title = 'Retur Penjualan';
     var $table_name = 'purchase_return';
     function __construct()
     {
@@ -38,7 +38,7 @@ class Retur extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
+        $this->data['options_customer'] = options_row('main','get_customer','id','title','-- Pilih customer --');
         $this->data['no'] = GetAllSelect('receive_order', array('id','no'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -80,13 +80,13 @@ class Retur extends MX_Controller {
         $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
-                'supplier_id'=>$this->input->post('supplier_id'),
+                'customer_id'=>$this->input->post('customer_id'),
                 'up'=>'',
                 'alamat'=>'',
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'tanggal_pengiriman'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
-                'po'=>$this->input->post('po'),
+                'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengantaran'))),
+                'so'=>$this->input->post('so'),
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
                 'kurensi_id'=>$this->input->post('kurensi_id'),
@@ -132,10 +132,10 @@ class Retur extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->po;
-            $row[] = $r->supplier;
+            $row[] = $r->so;
+            $row[] = $r->customer;
             $row[] = $r->tanggal_transaksi;
-            $row[] = $r->tanggal_pengiriman;
+            $row[] = $r->tanggal_pengantaran;
             $row[] = $r->metode_pembayaran;
             $row[] = $r->gudang;
 
@@ -172,10 +172,10 @@ class Retur extends MX_Controller {
 
     //FOR JS
 
-    function get_supplier_detail($id)
+    function get_customer_detail($id)
     {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
+        $up = getValue('up', 'customer', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'customer', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 

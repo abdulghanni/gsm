@@ -6,7 +6,7 @@
         </div>
         <ol class="breadcrumb">
             <li>
-                <span><?= $title;?></span>
+                <span><?= $main_title?></span>
             </li>
             <li class="active">
                 <span>Index</span>
@@ -14,7 +14,7 @@
         </ol>
     </div>
 </section>
-<div class="container-fluid container-fullw bg-white">
+    <div class="container-fluid container-fullw bg-white">
     <div class="row">
         <div class="col-md-12">
             <div class="row">
@@ -30,11 +30,12 @@
                     <thead>
                         <tr>
                             <th width="5%" align="center">No.</th>
-                            <th width="20%"><?php echo 'No. Form';?></th>
-                            <th width="20%"><?php echo 'No. Surat Jalan';?></th>
-                            <th width="20%"><?php echo 'No. P.O';?></th>
-                            <th width="10%" class="text-center"><?php echo 'Tanggal Terima';?></th>
-                            <th width="15%" class="text-center"><?php echo 'Project';?></th>
+                            <th width="10%"><?php echo 'No. Transaksi';?></th>
+                            <th width="15%"><?php echo 'Customer';?></th>
+                            <th width="5%" class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
+                            <th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>
+                            <th width="10%"><?php echo 'No. SO';?></th>
+                            <th width="15%"><?php echo 'Dikirim dari';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>

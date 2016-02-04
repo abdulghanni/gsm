@@ -6,7 +6,7 @@ class Receive extends MX_Controller {
     var $title = 'Terima Barang';
     var $file_name = 'receive';
     var $main_title = 'Terima Barang';
-    var $table_name = 'receive_order';
+    var $table_name = 'receive';
     function __construct()
     {
         parent::__construct();
@@ -46,80 +46,43 @@ class Receive extends MX_Controller {
     function detail($id)
     {
         $this->data['main_title'] = $this->main_title;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['module'] = $this->module;
         $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-
+        $detail = $this->data[$this->file_name] = $this->main->get_detail($id);
+        $this->data['kondisi_barang'] = explode(',', $detail->row()->kondisi_barang);
+        $this->data['kondisi_packing']= explode(',', $detail->row()->kondisi_packing);
+        $this->data['kondisi_jumlah'] = explode(',', $detail->row()->kondisi_jumlah);
+        $this->data['qc'] = "";
+        $this->data['inbound'] = "";
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
-    }
-
-    function get_dari_po($id)
-    {
-        permissionUser();
-
-        $this->data['jabatan_lv1'] = getValue('jabatan', 'approver', array('level'=>'where/1'));
-        $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
-        $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
-        $this->data['order'] = $this->main->get_detail_po($id);
-        $this->data['order_list'] = $this->main->get_list_detail_po($id);
-        $this->load->view($this->module.'/'.$this->file_name.'/dari_po', $this->data);
     }
 
     function add()
     {
         permissionUser();
-        $list = array(
-                        'kode_barang'=>$this->input->post('kode_barang'),
-                        'deskripsi'=>$this->input->post('deskripsi'),
-                        'diterima'=>$this->input->post('diterima'),
-                        'diorder'=>$this->input->post('diorder'),
-                        'satuan'=>$this->input->post('satuan'),
-                        'harga'=>$this->input->post('harga'),
-                        'disc'=>$this->input->post('disc'),
-                        'pajak'=>$this->input->post('pajak'),
-                        );
-        $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
-                'supplier_id'=>$this->input->post('supplier_id'),
-                'up'=>'',
-                'alamat'=>'',
-                'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
-                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'tanggal_pengiriman'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
                 'po'=>$this->input->post('po'),
-                'gudang_id'=>$this->input->post('gudang_id'),
-                'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'kurensi_id'=>$this->input->post('kurensi_id'),
-                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
-                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
-                'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
-                'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
-                'catatan' =>$this->input->post('catatan'),
+                'no_surat'=>$this->input->post('no_surat'),
+                'tanggal_terima'=>date('Y-m-d',strtotime($this->input->post('tanggal_terima'))),
+                'project'=>$this->input->post('project'),
+                'kendaraan'=>$this->input->post('kendaraan'),
+                'box'=>$this->input->post('box'),
+                'volume'=>$this->input->post('volume'),
+                'roll'=>$this->input->post('roll'),
+                'kondisi_barang'=>implode(",",$this->input->post('kondisi-barang')),
+                'kondisi_packing'=>implode(",",$this->input->post('kondisi-packing')),
+                'kondisi_jumlah'=>implode(",",$this->input->post('kondisi-jumlah')),
+                'keterangan' =>$this->input->post('keterangan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
 
         $this->db->insert($this->table_name, $data);
-        $insert_id = $this->db->insert_id();
-        for($i=0;$i<sizeof($list['kode_barang']);$i++):
-            $data2 = array(
-                $this->file_name.'_id' => $insert_id,
-                'kode_barang' => $list['kode_barang'][$i],
-                'deskripsi' => $list['deskripsi'][$i],
-                'diterima' => str_replace(',', '', $list['diterima'][$i]),
-                'diorder' => str_replace(',', '', $list['diorder'][$i]),
-                'satuan_id' => $list['satuan'][$i],
-                'harga' => str_replace(',', '', $list['harga'][$i]),
-                'disc' => str_replace(',', '', $list['disc'][$i]),
-                'pajak' => str_replace(',', '', $list['pajak'][$i]),
-                );
-        $this->db->insert($this->table_name.'_list', $data2);
-        endfor;
-        
+
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
@@ -135,12 +98,10 @@ class Receive extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = $r->no_surat;
             $row[] = $r->po;
-            $row[] = $r->supplier;
-            $row[] = $r->tanggal_transaksi;
-            $row[] = $r->tanggal_pengiriman;
-            $row[] = $r->metode_pembayaran;
-            $row[] = $r->gudang;
+            $row[] = $r->tanggal_terima;
+            $row[] = $r->project;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
@@ -173,17 +134,6 @@ class Receive extends MX_Controller {
         $mpdf->Output($id.'-'.$title.'.pdf', 'I');
     }
 
-    //FOR JS
-
-    function get_supplier_detail($id)
-    {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
-
-        echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
-
-    }
-    
     function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

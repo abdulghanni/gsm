@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title><?=$title?></title>
+<title>Untitled Document</title>
 <style type="text/css">
 td{ height:30px;}
 .catatan {font-family:Arial, sans-serif;font-size:10px;}
@@ -13,26 +13,18 @@ td{ height:30px;}
 
 <body>
 <hr/>
-<strong>Faktur Pembelian </strong>
+<strong>PURCHASE ORDER </strong>
 <hr/>
-<?php foreach ($receive->result() as $o) :?>
+<?php foreach ($order->result() as $o) :?>
 <table width="800" border="0">
   <tbody>
     <tr>
-      <td width="180">No. Transaksi</td>
+      <td width="180">No. P.O</td>
       <td width="20">:</td>
-      <td width="200"><?=$o->no?></td>
-      <td width="180">Pengiriman</td>
+      <td width="200"><?=$o->po?></td>
+      <td width="180">Tanggal Pengiriman</td>
       <td width="20">:</td>
-      <td width="200"><?=$o->tanggal_transaksi?></td>
-    </tr>
-    <tr>
-      <td>Tanggal</td>
-      <td>:</td>
-      <td><?=$o->tanggal_transaksi?></td>
-      <td>No. PO</td>
-      <td>:</td>
-      <td><?=$o->po?></td>
+      <td width="200"><?=dateIndo($o->tanggal_transaksi)?></td>
     </tr>
     <tr>
       <td>Kepada</td>
@@ -83,31 +75,29 @@ td{ height:30px;}
 <table width="800" class="list">
     <tr>
 	    <th width="5%"> No. </th>
-		<th width="10%"> Kode </th>
-		<th width="15%"> Nama Barang </th>
-		<th width="10%">Di Order</th>
-		<th width="10%">Di Terima</th>
+		<th width="15%"> Kode Barang </th>
+		<th width="20%"> Nama Barang </th>
+		<th width="5%">Quantity</th>
 		<th width="10%"> Satuan </th>
-		<th width="15%"> Harga </th>
+		<th width="18%"> Harga </th>
 		<th width="5%">Disc(%)</th>
-		<th width="15%"> Sub Total </th>
+		<th width="20%"> Sub Total </th>
 		<th width="5%">Pajak(%)</th>
     </tr>
 	<?php 
 		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-		$i=1;foreach($receive_list->result() as $ol): ?>
+		$i=1;foreach($order_list->result() as $ol): ?>
 	<tr>
 	<?php 
-		$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
-		$subtotal = $ol->diterima*$ol->harga-$diskon;
+		$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
+		$subtotal = $ol->jumlah*$ol->harga-$diskon;
 		$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 		$total = $total + $subtotal;
 	?>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang?></td>
-		<td width="20%"><?=$ol->barang?></td>
-		<td width="5%"align="right"><?=$ol->diorder?></td>
-		<td width="5%"align="right"><?=$ol->diterima?></td>
+		<td width="20%"><?=$ol->deskripsi?></td>
+		<td width="5%"align="right"><?=$ol->jumlah?></td>
 		<td width="10%"><?=$ol->satuan?></td>
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<td width="5%" align="right"><?=$ol->disc?></td>
@@ -115,17 +105,17 @@ td{ height:30px;}
 		<td width="5%" align="right"><?=$ol->pajak?></td>
 	</tr>
 
-	<?php endforeach;
+	<?php endforeach;		
 		$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
 		$grandtotal = $totalpluspajak + $o->biaya_pengiriman - $o->dibayar;
 		$bunga =  ($grandtotal) * ($o->bunga/100);
 	?>
+	
 	</table>
 
 
 	<hr/>
-	
-<table table width="900" style="border:0">
+	<table table width="900" style="border:0">
 	<tr>
 		<th width="20%"></th>
 		<th width="20%"></th>
@@ -213,11 +203,12 @@ td{ height:30px;}
 	
 </table>
 <div class="catatan">
-<br/><?php if(!empty($o->catatan)):?>
+<?php endforeach;?>
+<br/>
+<?php if(!empty($o->catatan)):?>
 Catatan :<br/>
 <textarea class="catatan"><?=$o->catatan?></textarea>
 <?php endif;?>
 </div>
-<?php endforeach;?>
 </body>
 </html>

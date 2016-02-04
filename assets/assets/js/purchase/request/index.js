@@ -11,7 +11,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "receive/ajax_list",
+            "url": "request/ajax_list",
             "type": "POST"
         },
         //Set column definition initialisation properties.
@@ -20,7 +20,7 @@ $(document).ready(function() {
             "targets": [-1], //last column
             "orderable": false, //set not orderable
         },
-        { "sClass": "text-center", "aTargets": [ 7 ] }
+        { "sClass": "text-center", "aTargets": [-1] }
         ],
     });
 });

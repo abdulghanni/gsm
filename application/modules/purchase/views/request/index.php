@@ -1,4 +1,3 @@
-<!-- start: PAGE TITLE -->
 <section id="page-title">
     <div class="row">
         <div class="col-sm-8">
@@ -14,7 +13,7 @@
         </ol>
     </div>
 </section>
-<div class="container-fluid container-fullw bg-white">
+    <div class="container-fluid container-fullw bg-white">
     <div class="row">
         <div class="col-md-12">
             <div class="row">
@@ -30,11 +29,11 @@
                     <thead>
                         <tr>
                             <th width="5%" align="center">No.</th>
-                            <th width="20%"><?php echo 'No. Form';?></th>
-                            <th width="20%"><?php echo 'No. Surat Jalan';?></th>
-                            <th width="20%"><?php echo 'No. P.O';?></th>
-                            <th width="10%" class="text-center"><?php echo 'Tanggal Terima';?></th>
-                            <th width="15%" class="text-center"><?php echo 'Project';?></th>
+                            <th width="20%"><?php echo 'No. Request';?></th>
+                            <th width="20%"><?php echo 'Diajukan Untuk';?></th>
+                            <th width="10%" class="text-center"><?php echo 'Tanggal Digunakan';?></th>
+                            <th width="15%" class="text-center"><?php echo 'Gudang';?></th>
+                            <th width="20%"><?php echo 'Keperluan';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>
