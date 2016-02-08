@@ -2,6 +2,9 @@
 
 class satuan extends MX_Controller {
     public $data;
+    var $module = 'pengaturan';
+    var $title = 'Satuan';
+    var $file_name = 'satuan';
 	function __construct()
 	{
 		parent::__construct();
@@ -14,7 +17,8 @@ class satuan extends MX_Controller {
 	function index()
 	{
         permissionUser();
-		$this->_render_page('pengaturan/satuan/index', $this->data);
+        $this->data['options_jenis_satuan'] = options_row('satuan', 'get_jenis_satuan','id','title', '-- Pilih Jenis Satuan --');
+		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
@@ -27,6 +31,9 @@ class satuan extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = $satuan->title;
+            $row[] = $satuan->nama;
+            $row[] = $satuan->jenis;
+            $row[] = $satuan->deskripsi;
 
 
             //add html for action
@@ -57,6 +64,9 @@ class satuan extends MX_Controller {
         ////$this->_validate();
         $data = array(
                 'title' => $this->input->post('title'),
+                'nama' => $this->input->post('nama'),
+                'deskripsi' => $this->input->post('deskripsi'),
+                'satuan_jenis_id' => $this->input->post('satuan_jenis_id'),
             );
         $insert = $this->satuan->save($data);
         echo json_encode(array("status" => TRUE));
@@ -67,6 +77,9 @@ class satuan extends MX_Controller {
         //$this->_validate();
         $data = array(
                 'title' => $this->input->post('title'),
+                'nama' => $this->input->post('nama'),
+                'deskripsi' => $this->input->post('deskripsi'),
+                'satuan_jenis_id' => $this->input->post('satuan_jenis_id'),
             );
         $this->satuan->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));
@@ -85,7 +98,7 @@ class satuan extends MX_Controller {
         {
             $this->load->library('template');
 
-                if(in_array($view, array('pengaturan/satuan/index')))
+                if(in_array($view, array($this->module.'/'.$this->file_name)))
                 {
                     $this->template->set_layout('default');
 
@@ -96,7 +109,7 @@ class satuan extends MX_Controller {
                     $this->template->add_js('assets/js/form-validation.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('vendor/select2/select2.min.js');
-                    $this->template->add_js('assets/js/pengaturan/satuan/index.js');
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'.js');
                 }
 
             if ( ! empty($data['title']))

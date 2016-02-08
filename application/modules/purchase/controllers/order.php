@@ -112,7 +112,7 @@ class Order extends MX_Controller {
     {
         permissionUser();
         $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
-        $isi = getName(sessId())." Mengajuan Purchase Order, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a> untuk melakukan approval.";
+        $isi = getName(sessId())." Mengajuan Purchase Order, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a>.";
         $approver = getAll('approver');
         foreach($approver->result() as $r):
             $data = array('sender_id' => sessId(),

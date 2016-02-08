@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class satuan_model extends CI_Model {
 
 	var $table = 'satuan';
-	var $column = array('id', 'title'); //set column field database for order and search
+	var $table_join1 = 'satuan_jenis';
+	var $column = array('satuan.id', 'title', 'nama', 'jenis', 'deskripsi'); //set column field database for order and search
 	var $order = array('id' => 'desc'); // default order 
 
 	public function __construct()
@@ -15,29 +16,36 @@ class satuan_model extends CI_Model {
 
 	private function _get_datatables_query()
 	{
+		$this->db->select(
+			$this->table.'.id as id,
+			'.$this->table.'.title as title,
+			'.$this->table.'.nama,
+			'.$this->table.'.deskripsi,
+			'.$this->table_join1.'.title as jenis,
+			');
 		$this->db->from($this->table);
+		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.satuan_jenis_id', 'left');
 
 		$i = 0;
 	
 		foreach ($this->column as $item) // loop column 
 		{
-			if($_POST['search']['value']) // if datatable send POST for search
+			if($_POST['search']['value'])
 			{
-				
-				if($i===0) // first loop
-				{
-					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND. 
-					$this->db->like($item, $_POST['search']['value']);
-				}
-				else
-				{
-					$this->db->or_like($item, $_POST['search']['value']);
+				if($item == 'nama'){
+					$item = $this->table.'.nama';
+				}elseif($item == 'title'){
+					$item = $this->table.'.title';
+				}elseif($item == 'deskripsi'){
+					$item = $this->table.'.deskripsi';
+				}elseif($item == 'jenis'){
+					$item = $this->table_join1.'.title';
 				}
 
-				if(count($this->column) - 1 == $i) //last loop
-					$this->db->group_end(); //close bracket
+				($i===0) ? $this->db->like($item, $_POST['search']['value']) : $this->db->or_like($item, $_POST['search']['value']);
 			}
-			$column[$i] = $item; // set column array variable to order processing
+				
+			$column[$i] = $item;
 			$i++;
 		}
 		
@@ -99,5 +107,12 @@ class satuan_model extends CI_Model {
 	{
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
+	}
+
+	public function get_jenis_satuan()
+	{	
+		$this->db->where($this->table_join1.'.is_deleted',0);
+		$this->db->order_by($this->table_join1.'.title','asc');
+		return $this->db->get($this->table_join1);
 	}
 }

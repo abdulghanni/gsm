@@ -33,10 +33,12 @@
                     <thead>
                         <tr>
                             <th width="5%" align="center">No.</th>
+                            <th width="10%" align="center">Foto</th>
                             <th width="10%"><?php echo lang('code');?></th>
-                            <th width="25%"><?php echo lang('description');?></th>
-                            <th width="20%"><?php echo 'Jenis Barang';?></th>
-                            <th width="15%"><?php echo lang('unit');?></th>
+                            <th width="20%"><?php echo lang('description');?></th>
+                            <th width="10%">Alias</th>
+                            <th width="12%"><?php echo 'Jenis Barang';?></th>
+                            <th width="8%"><?php echo lang('unit');?></th>
                             <th width="10%"><?php echo 'Action';?></th>
                         </tr>
                     </thead>
@@ -51,20 +53,24 @@
 
 <!-- Bootstrap modal -->
 <div class="modal fade" id="modal_form" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h3 class="modal-title">User Form</h3>
             </div>
             <div class="modal-body form">
-                <form action="#" id="form" class="form-horizontal">
-                    <input type="hidden" value="" name="id"/> 
+                <?php 
+                echo form_open_multipart(base_url().'master/barang/ajax_add', array('id'=>'form', 'class'=>'form-horizontal'));?>
+                    <input type="hidden" value="" name="id"/>
+                    <input type="hidden" value="" name="is_update" id="is_update"/>
                     <div class="form-body">
+                    <div class="row">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label class="control-label col-md-3"><?= lang('code')?></label>
                             <div class="col-md-9">
-                                <input name="kode" placeholder="<?= lang('description');?>" class="form-control" type="text">
+                                <input name="kode" placeholder="<?= lang('code');?>" class="form-control" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
@@ -75,6 +81,29 @@
                                 <span class="help-block"></span>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Alias</label>
+                            <div class="col-md-9">
+                                <input name="alias" placeholder="Alias" class="form-control" type="text">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                          <label class="control-label col-md-3">Foto Barang</label>
+                          <div class="col-md-9">
+                              <div class="fileinput fileinput-new" data-provides="fileinput">
+                                <div class="fileinput-preview thumbnail" data-trigger="fileinput"><img id="photo" src="<?=assets_url('assets/images/no-image-mid.png')?>" /></div>
+                                <div>
+                                  <span class="btn btn-default btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="photo"></span>
+                                  <a href="#" class="btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
 
                         <div class="form-group">
                             <label class="control-label col-md-3">Jenis Barang</label>
@@ -89,19 +118,28 @@
                         <div class="form-group">
                             <label class="control-label col-md-3"><?php echo lang('unit') ?></label>
                             <div class="col-md-9">
-                                <?php 
-                                    $js = 'class="select2" style="width:100%" id="satuan"';
-                                    echo form_dropdown('satuan_id', $options_satuan,'',$js); 
-                                ?>
+                                <div id="satuan-exist">
+                                </div>
+                                <div id="satuan-lain">
+                                </div>
+                                <button type="button" class="btn btn-xs btn-primary" id="btnTambahSatuan">Tambah <i class="fa fa-plus"></i></button>
+                            </div>
+                            
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Catatan</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="catatan"></textarea>
                             </div>
                         </div>
-
                     </div>
-                </form>
-            </div>
+                    </div>
+                    </div>
             <div class="modal-footer">
-                <button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Save</button>
+                <input type="submit" id="" onclick="" class="btn btn-primary" value="save">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+                </form>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

@@ -11,7 +11,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "barang/ajax_list",
+            "url": "/gsm/master/barang/ajax_list",
             "type": "POST"
         },
 
@@ -24,6 +24,17 @@ $(document).ready(function() {
         { "sClass": "text-center", "aTargets": [-1] }
         ],
 
+    });
+
+    $('#btnTambahSatuan').on('click', function(){
+    $(document).find("select.select2").select2();
+    $.ajax({
+         url:"/gsm/master/barang/get_satuan/",
+         success: function(response){
+         $("#satuan-lain").append(response);
+         },
+         dataType:"html"
+     });
     });
 
     //set input/textarea/select event when change value, remove class error and remove text help block 
@@ -45,21 +56,26 @@ $(document).ready(function() {
 //Ajax Crud
 function add_user()
 {
-    save_method = 'add';
+    $('#is_update').val('0');
+    $("#satuan-exist").empty();
+    $("#satuan-lain").empty();
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
+    $("#btnTambahSatuan").trigger({ type: "click" });
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Add barang'); // Set Title to Bootstrap modal title
+    $('.modal-title').text('Tambah Data Barang'); // Set Title to Bootstrap modal title
 }
 
 function edit_user(id)
 {
     save_method = 'update';
+    $("#satuan-exist").empty();
+    $("#satuan-lain").empty();
     $('#form')[0].reset(); // reset form on modals
+    $('#is_update').val('1');
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-
     //Ajax Load data from ajax
     $.ajax({
         url : "barang/ajax_edit/" + id,
@@ -67,14 +83,22 @@ function edit_user(id)
         dataType: "JSON",
         success: function(data)
         {
-
+            var satuan = data.satuan.split(",");
             $('[name="id"]').val(data.id);
             $('[name="kode"]').val(data.kode);
             $('[name="title"]').val(data.title);
+            $('[name="alias"]').val(data.alias);
+            $('[name="catatan"]').text(data.catatan);
             $('[name="jenis_barang_id"]').select2().select2('val',data.jenis_barang_id);
             $('[name="satuan_id"]').select2().select2('val',data.satuan_id);
+            if(data.photo != ''){
+            $("#photo").attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+data.id+"/"+data.photo);
+            }else{
+            $("#photo").attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
+            }
+            drawSatuan(satuan);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit barang'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Ubah Data Barang'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -82,6 +106,29 @@ function edit_user(id)
             alert('Error get data from ajax');
         }
     });
+}
+
+function drawSatuan(data) {
+    for (var i = 0; i < data.length; i++) {
+        $("#satuan-exist").append("<input type='hidden' class='form-control' value='"+data[i]+"' name='satuan[]' readonly><input type='text' class='form-control' value='"+getSatuanTitle(data[i])+"' readonly><br/>");
+    }
+}
+
+function getSatuanTitle(id)
+{
+    var r ="";
+    $.ajax({
+        url : "barang/get_satuan_title/" + id,
+        type: "GET",
+        async: false,
+        dataType: "JSON",
+        success: function(data)
+        {
+            r = data.value;
+        }
+    });
+
+    return r;
 }
 
 function reload_table()

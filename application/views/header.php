@@ -23,7 +23,7 @@
       <!-- start: MESSAGES DROPDOWN -->
       <li class="dropdown">
         <a href class="dropdown-toggle" data-toggle="dropdown">
-          <span class="dot-badge partition-red"></span> <i class="ti-comment"></i> <span>MESSAGES</span><span class="badge" id="msgs-badge"><?php echo '19' ?></span>
+          <span class="dot-badge partition-red"></span> <i class="ti-comment"></i> <span>Pesan</span><span class="badge" id="msgs-badge"><?php echo '19' ?></span>
         </a>
         <ul class="dropdown-menu dropdown-light dropdown-messages dropdown-large">
           <li>
@@ -50,8 +50,8 @@
             </div>
           </li>
           <li class="view-all">
-            <a href="#">
-              See All
+            <a href="<?=base_url('message')?>">
+              Lihat Semua
             </a>
           </li>
         </ul>
@@ -60,7 +60,7 @@
       <!-- start: ACTIVITIES DROPDOWN -->
       <li class="dropdown">
         <a href class="dropdown-toggle" data-toggle="dropdown">
-          <i class="ti-check-box"></i> <span>ACTIVITIES</span><span class="badge" id="msgs-badge"><?php echo $notification->num_rows() ?></span>
+          <i class="ti-check-box"></i> <span>Notifikasi</span><span class="badge" id="notif-badge"><?php echo $notification_num ?></span>
         </a>
         <ul class="dropdown-menu dropdown-light dropdown-messages dropdown-large">
           <?php if($notification->num_rows()>0):?>
@@ -73,7 +73,7 @@
                   $file_headers = @get_headers($photo_link);
                   $sender_photo = ($file_headers[0] != 'HTTP/1.1 404 Not Found') ? $photo_link : assets_url('assets/images/no-image-mid.png');
                 ?>
-                <a class="media list-group-item" href="<?= $n->url?>">
+                <a class="media list-group-item notif-list" href="#" id="<?=$n->id?>">
                   <img class="img-circle" height="40px" width="40px" alt="..." src="<?=$sender_photo?>">
                   <span class="media-body block no-margin"> <?= $n->judul ?> <small class="block text-grey"><?= timeago($n->sent_on)?></small> </span>
                 </a>
@@ -88,7 +88,7 @@
         <?php endif;?>
         
           <li class="view-all">
-            <a href="#">
+            <a href="<?=base_url('notification')?>">
               Lihat Semua
             </a>
           </li>
@@ -119,7 +119,7 @@
       <!-- start: USER OPTIONS DROPDOWN -->
       <li class="dropdown current-user">
         <a href class="dropdown-toggle" data-toggle="dropdown">
-          <img src="<?=$photo_profile?>" alt="abdul"> <span class="username"><?= $sess_name ?> <i class="ti-angle-down"></i></span>
+          <img src="<?=$photo_profile?>" alt="<?= $sess_name ?>"> <span class="username"><?= $sess_name ?> <i class="ti-angle-down"></i></span>
         </a>
         <ul class="dropdown-menu dropdown-dark">
           <li>

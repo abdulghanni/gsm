@@ -184,7 +184,9 @@ class Template {
         $photo = getValue('photo', 'users', array('id'=>'where/'.sessId()));
         $data['photo_profile'] = (!empty($photo)) ? base_url('uploads/'.sessId().'/80x80/'.$photo): assets_url('assets/images/no-image.png');
         $data['sess_name'] = getValue('username', 'users', array('id'=>'where/'.sessId()));
-        $data['notification'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()));
+        $data['notification'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId(), 'limit'=>'limit/3', 'id'=>'order/desc'));
+        $data['notifications'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId(), 'id'=>'order/desc'));
+        $data['notification_num'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()))->num_rows();
 
         //CHAT
         $data['users'] = getAll('users', array('username'=>'order/asc'));

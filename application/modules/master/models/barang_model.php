@@ -6,7 +6,7 @@ class barang_model extends CI_Model {
 	var $table = 'barang';
 	var $table_join1 = 'jenis_barang';
 	var $table_join2 = 'satuan';
-	var $column = array('barang.id', 'kode', 'title', 'jenis_barang', 'satuan'); //set column field database for order and search
+	var $column = array('barang.id', 'kode', 'title', 'alias', 'jenis_barang', 'satuan', 'photo'); //set column field database for order and search
 	var $order = array('id' => 'desc'); // default order 
 
 	public function __construct()
@@ -22,12 +22,14 @@ class barang_model extends CI_Model {
 			$this->table.'.id as id,
 			'.$this->table.'.kode as kode,
 			'.$this->table.'.title as title,
+			'.$this->table.'.photo,
+			'.$this->table.'.alias,
 			'.$this->table_join1.'.title as jenis_barang,
 			'.$this->table_join2.'.title as satuan,
 			');
 		$this->db->from($this->table);
 		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.jenis_barang_id', 'left');
-		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.satuan_id', 'left');
+		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.satuan', 'left');
 
 		$i = 0;
 	
