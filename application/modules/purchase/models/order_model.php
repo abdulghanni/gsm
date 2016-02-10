@@ -4,12 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class order_model extends CI_Model {
 
     var $table = 'purchase_order';
+    var $table_pr = 'purchase_request';
     var $table_list = 'purchase_order_list';
-    var $table_join1 = 'supplier';
+    var $table_list_pr = 'purchase_request_list';
+    var $table_join1 = 'kontak';
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('purchase_order.id', 'po', 'supplier', 'tanggal_transaksi', 'metode_pembayaran', 'gudang'); //set column field database for order and search
+    var $column = array('purchase_order.id', 'po', 'kontak', 'tanggal_transaksi', 'metode_pembayaran', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -26,12 +28,12 @@ class order_model extends CI_Model {
             '.$this->table.'.no as no,
             '.$this->table.'.po as po,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
-            '.$this->table_join1.'.title as supplier,
+            '.$this->table_join1.'.title as kontak,
             '.$this->table_join2.'.title as metode_pembayaran,
             '.$this->table_join4.'.title as gudang,
             ');
         $this->db->from($this->table);
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.supplier_id', 'left');
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.kontak_id', 'left');
         $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.metode_pembayaran_id', 'left');
         $this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table.'.gudang_id', 'left');
         //$this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.kurensi_id', 'left');
@@ -48,7 +50,7 @@ class order_model extends CI_Model {
                     $item = $this->table.'.tanggal_transaksi';
                 }elseif($item == 'po'){
                     $item = $this->table.'.po';
-                }elseif($item == 'supplier'){
+                }elseif($item == 'kontak'){
                     $item = $this->table_join1.'.title';
                 }elseif($item == 'metode_pembayaran'){
                     $item = $this->table_join2.'.title';
@@ -107,9 +109,9 @@ class order_model extends CI_Model {
 
     function get_detail($id)
     {
-        $q = $this->db->select('no, supplier.title as supplier,
-                                supplier.up, 
-                                supplier.alamat,
+        $q = $this->db->select('no, kontak.title as kontak,
+                                kontak.up, 
+                                kontak.alamat,
                                 metode_pembayaran_id, 
                                 metode_pembayaran.title as metode_pembayaran, 
                                 tanggal_transaksi, 
@@ -142,7 +144,7 @@ class order_model extends CI_Model {
                                 purchase_order.created_by'
                                 )
                  ->from($this->table)
-                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.supplier_id', 'left')
+                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.kontak_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
                  ->join($this->table_join3, $this->table_join3.'.id ='.$this->table.'.kurensi_id', 'left')
                  ->join($this->table_join4, $this->table_join4.'.id ='.$this->table.'.gudang_id', 'left')
@@ -158,6 +160,36 @@ class order_model extends CI_Model {
                   ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id')
                   ->where('order_id', $id)
+                  ->get();
+        return $q;
+    }   
+
+    function get_detail_pr($id)
+    {
+        $q = $this->db->select(
+            $this->table_pr.'.id as id,
+            '.$this->table_pr.'.no as no,
+            '.$this->table_pr.'.diajukan_ke,
+            '.$this->table_pr.'.tanggal_digunakan,
+            '.$this->table_pr.'.keperluan,
+            '.$this->table_pr.'.catatan,
+            '.$this->table_pr.'.created_by,
+            '.$this->table_join4.'.title as gudang,
+            ')
+                 ->from($this->table_pr)
+                 ->join($this->table_join4, $this->table_join4.'.id ='.$this->table_pr.'.gudang_id', 'left')
+                 ->where($this->table_pr.'.id', $id)
+                 ->get();
+        return $q;
+    }
+
+    function get_list_detail_pr($id)
+    {
+        $q = $this->db->select('barang.kode as kode_barang,purchase_request_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+                  ->from($this->table_list_pr)
+                  ->join('barang', 'barang.id ='.$this->table_list_pr.'.kode_barang', 'left')
+                  ->join('satuan', 'satuan.id ='.$this->table_list_pr.'.satuan_id')
+                  ->where('request_id', $id)
                   ->get();
         return $q;
     }   
@@ -180,9 +212,10 @@ class order_model extends CI_Model {
         $this->db->delete($this->table);
     }
 
-    public function get_supplier()
+    public function get_kontak()
     {   
-        $this->db->where($this->table_join1.'.is_deleted',0);
+        $this->db->where($this->table_join1.'.is_deleted',0)
+                 ->where($this->table_join1.'.jenis_id',1);
         $this->db->order_by($this->table_join1.'.title','asc');
         return $this->db->get($this->table_join1);
     }

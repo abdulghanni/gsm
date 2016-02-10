@@ -6,7 +6,7 @@ class kontak_model extends CI_Model {
 	var $table = 'kontak';
 	var $table_join1 = 'kontak_jenis';
 	var $table_join2 = 'kontak_tipe';
-	var $column = array('id', 'kode', 'title','jenis', 'tipe', 'email'); //set column field database for order and search
+	var $column = array('kontak.id', 'kode', 'title','jenis', 'tipe', 'telepon'); //set column field database for order and search
 	var $order = array('id' => 'desc'); // default order 
 
 	public function __construct()
@@ -22,7 +22,7 @@ class kontak_model extends CI_Model {
 			$this->table.'.id as id,
 			'.$this->table.'.kode,
 			'.$this->table.'.title as title,
-			'.$this->table.'.email,
+			'.$this->table.'.telepon,
 			'.$this->table_join1.'.title as jenis,
 			'.$this->table_join2.'.title as tipe,
 			');

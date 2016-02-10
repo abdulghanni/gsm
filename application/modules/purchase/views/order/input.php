@@ -36,281 +36,300 @@
 						</p>
 					</div>
 				</div>
+				<div class="row form-row">
+					<div class="col-md-6">
+						<div class="col-md-4">
+							<label class="control-label">Salin Dari P.R</label>
+						</div>
+						<div class="col-md-8">
+							<select class="select2" id="list_pr" style="width:100%">
+								<option value="0">-- Pilih NO. P.R --</option>
+								<?php foreach($pr as $p):?>
+								<option value="<?=$p->id?>"><?=$p->no?></option>
+								<?php endforeach;?>
+							</select>
+						</div>
+					</div>
+				</div>
 				<hr>
-				<div class="row">
-					<div class="col-md-5">
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputEmail3">
-								Kepada
-							</label>
-							<div class="col-sm-8">
-								<?php 
-                                	$js = 'class="select2" style="width:100%" id="supplier_id"';
-                                	echo form_dropdown('supplier_id', $options_supplier,'',$js); 
-                              	?>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Up.
-							</label>
-							<div class="col-sm-8">
-								<input type="text" placeholder="Up" name="up" id="up" class="form-control" required="required">
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Alamat
-							</label>
-							<div class="col-sm-8">
-								<input type="text" placeholder="Alamat" name="alamat" id="alamat" class="form-control" required="required">
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Mata Uang
-							</label>
-							<div class="col-sm-8">
-								<div class="clip-radio radio-primary">
-									<?php foreach($kurensi as $k):?>
-									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" <?= ($k->id == 1)?'checked':'';?>>
-									<label for="kurensi<?=$k->id?>">
-										<?=$k->title.'('.$k->simbol.')'?>
-									</label>
-									<?php endforeach;?>
+				<div id="dari-pr">
+					<!--
+					<div class="row">
+						<div class="col-md-5">
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputEmail3">
+									Kepada
+								</label>
+								<div class="col-sm-8">
+									<?php 
+	                                	$js = 'class="select2" style="width:100%" id="kontak_id"';
+	                                	echo form_dropdown('kontak_id', $options_kontak,'',$js); 
+	                              	?>
 								</div>
 							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Catatan
-							</label>
-							<div class="col-sm-8">
-								<textarea class="form-control" name="catatan"></textarea>
-							</div>
-						</div>
-                    </div>
-
-                    <div class="col-md-5">
-                    	<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Dikirim Ke
-							</label>
-							<div class="col-sm-8">
-								<select class="select2" name="gudang_id" style="width:100%">
-								<option value="0">-- Pilih Gudang Pengiriman --</option>
-								<?php 
-                                	foreach($gudang as $g):?>
-                                	<option value="<?=$g->id?>"><?=$g->title?></option>
-                              	<?php endforeach;?>
-                              	</select>
-							</div>
-						</div>
-
-
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. PO
-							</label>
-							<div class="col-sm-8">
-								<input type="text" placeholder="No. PO" name="po" class="form-control" required="required" value="<?=$last_id.'/PO-I/GSM/I/'.date('Y')?>" readonly>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tgl. Pengiriman
-							</label>
-							<div class="col-sm-8">
-								<div id="tanggal_transaksi" class="input-append date success no-padding">
-                                  <input type="text" class="form-control" name="tanggal_transaksi" required>
-                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
-                                </div>
-							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Term
-							</label>
-							<div class="col-sm-8">
-								<div class="clip-radio radio-primary">
-									<?php foreach($metode as $m):?>
-									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>" <?= ($m->title == 'Cash')?'checked':'';?>>
-									<label for="metode<?=$m->id?>">
-										<?=$m->title?>
-									</label>
-									<?php endforeach;?>
-								</div>
-							</div>
-						</div>
-						<div id="kredit" style="display:none">
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="inputPassword3">
-									Lama Angsuran
+									Up.
 								</label>
-								<div class="col-sm-2">
-									<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
+								<div class="col-sm-8">
+									<input type="text" placeholder="Up" name="up" id="up" class="form-control" required="required">
 								</div>
-								<div class="col-sm-6">
-									<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
-									<option value="0">-- Pilih Lama Angsuran --</option>
-									<option value="hari">Hari</option>
-									<option value="bulan">Bulan</option>
-									<option value="tahun">Tahun</option>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputPassword3">
+									Alamat
+								</label>
+								<div class="col-sm-8">
+									<input type="text" placeholder="Alamat" name="alamat" id="alamat" class="form-control" required="required">
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputPassword3">
+									Mata Uang
+								</label>
+								<div class="col-sm-8">
+									<div class="clip-radio radio-primary">
+										<?php foreach($kurensi as $k):?>
+										<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" <?= ($k->id == 1)?'checked':'';?>>
+										<label for="kurensi<?=$k->id?>">
+											<?=$k->title.'('.$k->simbol.')'?>
+										</label>
+										<?php endforeach;?>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputPassword3">
+									Catatan
+								</label>
+								<div class="col-sm-8">
+									<textarea class="form-control" name="catatan"></textarea>
+								</div>
+							</div>
+	                    </div>
+
+	                    <div class="col-md-5">
+	                    	<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputPassword3">
+									Dikirim Ke
+								</label>
+								<div class="col-sm-8">
+									<select class="select2" name="gudang_id" style="width:100%">
+									<option value="0">-- Pilih Gudang Pengiriman --</option>
+									<?php 
+	                                	foreach($gudang as $g):?>
+	                                	<option value="<?=$g->id?>"><?=$g->title?></option>
+	                              	<?php endforeach;?>
 	                              	</select>
 								</div>
 							</div>
 
+
+
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="inputPassword3">
-									Bunga
+									No. PO
 								</label>
-								<div class="col-sm-2">
-									<input type="text" placeholder="" name="bunga" id="bunga" class="form-control text-right" value="0">
+								<div class="col-sm-8">
+									<input type="text" placeholder="No. PO" name="po" class="form-control" required="required" value="<?=$last_id.'/PO-I/GSM/I/'.date('Y')?>" readonly>
 								</div>
-								<label class="col-sm-1 control-label" for="inputPassword3">
-									%
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputEmail3">
+									Tgl. Pengiriman
 								</label>
+								<div class="col-sm-8">
+									<div id="tanggal_transaksi" class="input-append date success no-padding">
+	                                  <input type="text" class="form-control" name="tanggal_transaksi" required>
+	                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
+	                                </div>
+								</div>
+							</div>
+
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputPassword3">
+									Term
+								</label>
+								<div class="col-sm-8">
+									<div class="clip-radio radio-primary">
+										<?php foreach($metode as $m):?>
+										<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>" <?= ($m->title == 'Cash')?'checked':'';?>>
+										<label for="metode<?=$m->id?>">
+											<?=$m->title?>
+										</label>
+										<?php endforeach;?>
+									</div>
+								</div>
+							</div>
+							<div id="kredit" style="display:none">
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="inputPassword3">
+										Lama Angsuran
+									</label>
+									<div class="col-sm-2">
+										<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
+									</div>
+									<div class="col-sm-6">
+										<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
+										<option value="0">-- Pilih Lama Angsuran --</option>
+										<option value="hari">Hari</option>
+										<option value="bulan">Bulan</option>
+										<option value="tahun">Tahun</option>
+		                              	</select>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="inputPassword3">
+										Bunga
+									</label>
+									<div class="col-sm-2">
+										<input type="text" placeholder="" name="bunga" id="bunga" class="form-control text-right" value="0">
+									</div>
+									<label class="col-sm-1 control-label" for="inputPassword3">
+										%
+									</label>
+								</div>
+							</div>
+	                    </div>
+					</div>
+					<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">
+	                    <?= lang('add').' '.lang('item') ?> <i class="fa fa-plus"></i>
+	                </button>
+	                <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" style="display:none">
+	                    <?= 'Remove' ?> <i class="fa fa-remove"></i>
+	                </button>
+					<div class="row">
+						<div class="col-sm-12">
+						<div class="table-responsive">
+							<table id="table" class="table table-striped">
+								<thead>
+									<tr>
+										<th width="5%"> # </th>
+										<th width="5%"> No. </th>
+										<th width="10%"> Kode Barang </th>
+										<th width="20%"> Deskripsi </th>
+										<th width="5%">Quantity</th>
+										<th width="10%"> Satuan </th>
+										<th width="20%"> Harga </th>
+										<th width="5%">Disc(%)</th>
+										<th width="15%"> Sub Total </th>
+										<th width="5%">Pajak(%)</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+						</div>
+					</div>
+					<div class="row">
+						<input type="hidden" name="dp" value="0">
+						<div id="subTotalPajak"></div>
+						<div class="row">
+							<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
+								<ul class="list-group">
+									<li class="list-group-item">
+										<div class="row">
+											<div class="col-md-4">
+											Total Pajak
+											</div>
+											<div class="col-md-6 pull-right">
+											<input type="text" id="totalPajak" value="0" class="form-control text-right" readonly="readonly">
+											</div>
+										</div>
+									</li>
+									<li class="list-group-item">
+										<div class="row">
+											<div class="col-md-4">
+											Biaya Pengiriman
+											</div>
+											<div class="col-md-6 pull-right">
+											<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="0">
+											</div>
+										</div>
+									</li>
+									<li class="list-group-item">
+										<div class="row">
+											<div class="col-md-4">
+											Total
+											</div>
+											<div class="col-md-6 pull-right">
+											<input type="text" class="form-control text-right" id="total" value="0" readonly="readonly">
+											</div>
+										</div>
+									</li>
+									<li class="list-group-item">
+										<div class="row">
+											<div class="col-md-4">
+											Total+Pajak
+											</div>
+											<div class="col-md-6 pull-right">
+											<input type="text" class="form-control text-right" id="totalpluspajak" value="0" readonly="readonly">
+											</div>
+										</div>
+									</li>
+									
+									<div id="total_angsuran" style="display:none">
+										<li class="list-group-item">
+											<div class="row">
+												<div class="col-md-4">
+												Uang Muka
+												</div>
+												<div class="col-md-6 pull-right">
+												<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
+												</div>
+											</div>
+										</li>
+										<li class="list-group-item">
+											<div class="row">
+												<div class="col-md-4">
+												Biaya Angsuran
+												</div>
+												<div class="col-md-2">
+												</div>
+												<div class="col-md-4">
+												<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="0">
+												</div>
+												<div class="col-md-2" id="angsuran" style="margin-left:-10px">
+												</div>
+											</div>
+										</li>
+										<li class="list-group-item">
+											<div class="row">
+												<div class="col-md-4">
+												Total+Bunga Angsuran
+												</div>
+												<div class="col-md-6 pull-right">
+												<input type="text" id="totalplusbunga" class="form-control text-right" value="0">
+												</div>
+											</div>
+										</li>
+										<li class="list-group-item">
+										<div class="row">
+											<div class="col-md-4">
+											Saldo
+											</div>
+											<div class="col-md-6 pull-right">
+											<input type="text" id="saldo" class="form-control text-right" value="0" readonly="readonly">
+											</div>
+										</div>
+									</li>
+									</div>
+									
+								</ul>
 							</div>
 						</div>
-                    </div>
-				</div>
-				<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">
-                    <?= lang('add').' '.lang('item') ?> <i class="fa fa-plus"></i>
-                </button>
-                <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" style="display:none">
-                    <?= 'Remove' ?> <i class="fa fa-remove"></i>
-                </button>
-				<div class="row">
-					<div class="col-sm-12">
-					<div class="table-responsive">
-						<table id="table" class="table table-striped">
-							<thead>
-								<tr>
-									<th width="5%"> # </th>
-									<th width="5%"> No. </th>
-									<th width="10%"> Kode Barang </th>
-									<th width="20%"> Deskripsi </th>
-									<th width="5%">Quantity</th>
-									<th width="10%"> Satuan </th>
-									<th width="20%"> Harga </th>
-									<th width="5%">Disc(%)</th>
-									<th width="15%"> Sub Total </th>
-									<th width="5%">Pajak(%)</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-					</div>
-					</div>
-				</div>
-				<div class="row">
-					<input type="hidden" name="dp" value="0">
-					<div id="subTotalPajak"></div>
-					<div class="row">
-						<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
-							<ul class="list-group">
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total Pajak
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="totalPajak" value="0" class="form-control text-right" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Biaya Pengiriman
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="0">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" class="form-control text-right" id="total" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total+Pajak
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" class="form-control text-right" id="totalpluspajak" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								
-								<div id="total_angsuran" style="display:none">
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Uang Muka
-											</div>
-											<div class="col-md-6 pull-right">
-											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
-											</div>
-										</div>
-									</li>
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Biaya Angsuran
-											</div>
-											<div class="col-md-2">
-											</div>
-											<div class="col-md-4">
-											<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="0">
-											</div>
-											<div class="col-md-2" id="angsuran" style="margin-left:-10px">
-											</div>
-										</div>
-									</li>
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Total+Bunga Angsuran
-											</div>
-											<div class="col-md-6 pull-right">
-											<input type="text" id="totalplusbunga" class="form-control text-right" value="0">
-											</div>
-										</div>
-									</li>
-									<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Saldo
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="saldo" class="form-control text-right" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								</div>
-								
-							</ul>
+						<div class="row">
+							<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="display:none;margin-right:15px;">
+								Submit Order <i class="fa fa-check"></i>
+							</button>
 						</div>
 					</div>
-					<div class="row">
-						<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="display:none;margin-right:15px;">
-							Submit Order <i class="fa fa-check"></i>
-						</button>
-					</div>
+					-->
 				</div>
 			</div>
 		</div>

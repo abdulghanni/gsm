@@ -9,7 +9,7 @@ class Stok_model extends CI_Model {
 	var $table_join3 = 'gudang';
 	var $table_join4 = 'lokasi_gudang';
 	var $table_join5 = 'kurensi';
-	var $column = array('stok.id', 'kode', 'barang', 'dalam_stok', 'satuan', 'harga_beli','harga_jual', 'gudang','lokasi_stok'); //set column field database for order and search
+	var $column = array('stok.id', 'kode', 'barang', 'dalam_stok', 'satuan', 'harga_beli','harga_jual', 'gudang','lokasi_detail'); //set column field database for order and search
 	var $order = array('stok.id' => 'desc'); // default order 
 
 	public function __construct()
@@ -35,7 +35,7 @@ class Stok_model extends CI_Model {
 			');
 		$this->db->from($this->table);
 		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.barang_id', 'left');
-		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_join1.'.satuan_id', 'left');
+		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_join1.'.satuan', 'left');
 		$this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.gudang_id', 'left');
 		$this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table_join3.'.lokasi_gudang_id', 'left');
 
@@ -111,7 +111,7 @@ class Stok_model extends CI_Model {
 			');
 		$this->db->from($this->table);
 		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.barang_id', 'left');
-		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_join1.'.satuan_id', 'left');
+		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_join1.'.satuan', 'left');
 		$this->db->where($this->table.'.id',$id);
 		$query = $this->db->get();
 
@@ -142,14 +142,6 @@ class Stok_model extends CI_Model {
 		$this->db->order_by($this->table_join1.'.title','asc');
 		return $this->db->get($this->table_join1);
 	}
-
-	public function get_supplier()
-    {   
-        $this->db->where('supplier'.'.is_deleted',0);
-        $this->db->order_by('supplier'.'.title','asc');
-        return $this->db->get('supplier');
-    }
-
 
 	public function get_satuan()
 	{	

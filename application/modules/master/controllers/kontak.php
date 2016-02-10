@@ -36,7 +36,7 @@ class kontak extends MX_Controller {
             $row[] = $r->title;
             $row[] = $r->jenis;
             $row[] = $r->tipe;
-            $row[] = $r->email;
+            $row[] = $r->telepon;
 
 
             //add html for action
@@ -185,4 +185,31 @@ class kontak extends MX_Controller {
             return $this->load->view($view, $data, TRUE);
         }
     }
+    function upload_kontak(){
+        $file = fopen('D:\customer.csv', "r");
+
+        $count = 0;
+        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
+        {
+            $count++; 
+            if($count>8){
+                $data = array(
+                    'kode'=>$emapData[0],
+                    'title' => $emapData[2],
+                    'alamat' => $emapData[5],
+                    'telepon'=>$emapData[8],
+                    'tipe_id'=>2,
+                    'jenis_id'=>2,
+                );
+
+                $this->db->insert('kontak', $data);
+                echo '<pre>';
+                echo $this->db->last_query();
+                echo '</pre>';
+            }                           
+        }
+    }
 }
+
+
+

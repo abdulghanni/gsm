@@ -23,13 +23,11 @@ class Stok extends MX_Controller {
         $this->data['options_barang'] = options_row($this->model_name,'get_barang','id','title','-- Pilih Barang --', 'kode');
         $this->data['options_gudang'] = options_row($this->model_name,'get_gudang','id','title','-- Semua Gudang --');
         $this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
-        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
 		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
     {
-		//error_reporting(E_ALL);
         permissionUser();
         $list = $this->main->get_datatables();
         $data = array();
@@ -77,7 +75,6 @@ class Stok extends MX_Controller {
         $data = array(
                 'barang_id' => $this->input->post('barang_id'),
                 'gudang_id' => $this->input->post('gudang_id'),
-                'supplier_id' => $this->input->post('supplier_id'),
                 'dalam_stok' => $this->input->post('dalam_stok'),
                 'minimum_stok' => $this->input->post('minimum_stok'),
                 'harga_beli'=>$this->input->post('harga_beli'),
@@ -95,12 +92,11 @@ class Stok extends MX_Controller {
         //$this->_validate();
         $data = array(
                 'gudang_id' => $this->input->post('gudang_id'),
-                'supplier_id' => $this->input->post('supplier_id'),
                 'dalam_stok' => $this->input->post('dalam_stok'),
                 'minimum_stok' => $this->input->post('minimum_stok'),
                 'harga_beli'=>$this->input->post('harga_beli'),
-		'harga_jual'=>$this->input->post('harga_jual'),
-		'lokasi_detail'=>$this->input->post('lokasi_detail')
+		        'harga_jual'=>$this->input->post('harga_jual'),
+		        'lokasi_detail'=>$this->input->post('lokasi_detail')
             );
         $this->main->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));
@@ -116,7 +112,7 @@ class Stok extends MX_Controller {
 
     function get_satuan($id)
     {
-        $satuan = getValue('satuan_id', 'barang', array('id'=>'where/'.$id));
+        $satuan = getValue('satuan', 'barang', array('id'=>'where/'.$id));
         $satuan = getValue('title','satuan', array('id'=>'where/'.$satuan));
 
         echo json_encode($satuan);

@@ -9,25 +9,34 @@ $(document).ready(function() {
 
     $(".select2").select2();
 
-    $("#supplier_id").change(function(){
+    $("#list_pr").change(function(){
+        $(document).find("select.select2").select2();
         var id = $(this).val();
-        if(id != 0)getSupDetail(id);
+        if(id != 0){
+            $('#dari-pr').load('get_dari_pr/'+id);
+        }
+    })
+    .change();
+/*
+    $("#kontak_id").change(function(){
+        var id = $(this).val();
+        $(document).find("select.select2").select2();
+        if(id != 0)getAlamat(id);
     })
     .change();
 
-    function getSupDetail(id)
+    function getAlamat(id)
     {
         $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: 'get_supplier_detail/'+id,
+            type: 'POST',
+            url: '/gsm/purchase/order/alamat/'+id,
+            data: {id : empId},
             success: function(data) {
-                $('#up').val(data.up);
-                $('#alamat').val(data.alamat);
+                $('#alamat').html(data);
             }
         });
     }
-
+*/
     $('#btnAdd').on('click', function () {
         $(document).find("select.select2").select2();
         $('#btnRemove').show();

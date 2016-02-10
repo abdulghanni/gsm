@@ -125,9 +125,9 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "kontak/ajax_add";
+        url = "/gsm/master/kontak/ajax_add";
     } else {
-        url = "kontak/ajax_update";
+        url = "/gsm/master/kontak/ajax_update";
     }
 
     // ajax adding data to database
@@ -173,7 +173,7 @@ function delete_user(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "kontak/ajax_delete/"+id,
+            url : "/gsm/master/kontak/ajax_delete/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

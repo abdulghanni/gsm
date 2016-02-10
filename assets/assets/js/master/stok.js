@@ -92,12 +92,12 @@ function edit_user(id)
             $('[name="id"]').val(data.id);
             $('[name="barang_id"]').select2().select2('val',data.barang_id);
             $('[name="gudang_id"]').select2().select2('val',data.gudang_id);
-            $('[name="supplier_id"]').select2().select2('val',data.supplier_id);
             $('[name="satuan"]').val(data.satuan);
             $('[name="dalam_stok"]').val(data.dalam_stok);
             $('[name="minimum_stok"]').val(data.minimum_stok);
             $('[name="harga_beli"]').val(data.harga_beli);
             $('[name="harga_jual"]').val(data.harga_jual);
+            $('[name="lokasi_detail"]').val(data.lokasi_detail);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Stok'); // Set title to Bootstrap modal title
 

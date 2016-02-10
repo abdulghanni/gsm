@@ -95,15 +95,6 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="control-label col-md-4">Supplier Utama</label>
-                                    <div class="col-md-8">
-                                      <?php 
-                                        $js = 'class="select2" style="width:100%"';
-                                        echo form_dropdown('supplier_id', $options_supplier,'',$js); 
-                                      ?>
-                                    </div>
-                                </div>
-                                <div class="form-group">
                                     <label class="control-label col-md-4">Detail Lokasi</label>
                                     <div class="col-md-8">
                                       <?php 
