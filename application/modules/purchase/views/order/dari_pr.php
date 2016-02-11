@@ -17,7 +17,9 @@
 					Up.
 				</label>
 				<div class="col-sm-8">
-					<input type="text" placeholder="Up" name="up" id="up" class="form-control" required="required">
+					<div id="up">
+						<input type="text" placeholder="Up" name="up" id="" class="form-control" required="required">
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
@@ -62,6 +64,7 @@
 				</label>
 				<div class="col-sm-8">
 					<input type="text" class="form-control" value="<?=$o->gudang?>" readonly>
+					<input type="hidden" class="form-control" name="gudang_id" value="<?=$o->gudang_id?>" readonly>
 				</div>
 			</div>
 
@@ -141,10 +144,9 @@
 			<table id="table" class="table table-striped">
 				<thead>
 					<tr>
-						<th width="5%"> # </th>
 						<th width="5%"> No. </th>
 						<th width="10%"> Kode Barang </th>
-						<th width="20%"> Deskripsi </th>
+						<th width="25%"> Deskripsi </th>
 						<th width="5%">Quantity</th>
 						<th width="10%"> Satuan </th>
 						<th width="20%"> Harga </th>
@@ -155,7 +157,12 @@
 				</thead>
 				<tbody>
 					<?php 
-						$i=1;foreach($order_list->result() as $ol): ?>
+						$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
+						$i=1;foreach($order_list->result() as $ol): 
+						$subtotal = $ol->jumlah*$ol->harga;
+						$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+						$total = $total + $subtotal;
+					?>
 					<tr>
 						<td><?=$i++?></td>
 						<td><?=$ol->kode_barang?></td>
@@ -163,18 +170,19 @@
 						<td><?=$ol->deskripsi?></td>
 						<input type="hidden" name="deskripsi[]" class="form-control text-right" value="<?=$ol->deskripsi?>">
 						<td class="text-right"><?=$ol->jumlah?></td>
-						<input type="hidden" name="diorder[]" class="form-control text-right" value="<?=$ol->jumlah?>">
+						<input type="hidden" name="jumlah[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>">
 						<td><?=$ol->satuan?></td>
-						<input type="hidden" name="satuan[]" class="form-control text-right" value="<?=$ol->satuan_id?>">
+						<input type="hidden" name="satuan[]" class="form-control text-right" value="<?=$ol->satuan?>">
 						<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 						<input type="hidden" name="harga[]" class="form-control text-right harga" value="<?=$ol->harga?>" id="harga<?=$i?>">
 						<td class="text-right">
 						<input type="text" name="disc[]" class="form-control text-right disc" value=<?=$ol->disc?> id="disc<?=$i?>"></td>
-						<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?= number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
-						<td class="text-right"><input type="text" name="pajak[]" class="form-control text-right pajak" value="<?=$ol->pajak?>" id="pajak<?=$i?>"></td>
+						<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=$subtotal?>" id="subtotal<?=$i?>" readonly></td>
+						<td class="text-right"><input type="text" name="pajak[]" class="form-control text-right pajak" value="<?=$ol->pajak?>" id="pajak<?=$i?>" readonly></td>
 						<td><input type="hidden" name="subpajak[]" class="form-control text-right subpajak" value="0" id="subpajak<?=$i?>"></td>
 						</tr>
 					<?php endforeach;
+						$totalpluspajak = $total+$totalpajak;
 					?>
 				</tbody>
 			</table>
@@ -193,7 +201,7 @@
 							Total Pajak
 							</div>
 							<div class="col-md-6 pull-right">
-							<input type="text" id="totalPajak" value="0" class="form-control text-right" readonly="readonly">
+							<input type="text" id="totalPajak" value="<?=$totalpajak?>" class="form-control text-right" readonly="readonly">
 							</div>
 						</div>
 					</li>
@@ -213,7 +221,7 @@
 							Total
 							</div>
 							<div class="col-md-6 pull-right">
-							<input type="text" class="form-control text-right" id="total" value="0" readonly="readonly">
+							<input type="text" class="form-control text-right" id="total" value="<?=$total?>" readonly="readonly">
 							</div>
 						</div>
 					</li>
@@ -223,7 +231,7 @@
 							Total+Pajak
 							</div>
 							<div class="col-md-6 pull-right">
-							<input type="text" class="form-control text-right" id="totalpluspajak" value="0" readonly="readonly">
+							<input type="text" class="form-control text-right" id="totalpluspajak" value="<?=$totalpluspajak?>" readonly="readonly">
 							</div>
 						</div>
 					</li>
@@ -234,8 +242,13 @@
 								<div class="col-md-4">
 								Uang Muka
 								</div>
-								<div class="col-md-6 pull-right">
+								<div class="col-md-2">
+								</div>
+								<div class="col-md-4">
 								<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
+								</div>
+								<div class="col-md-1">
+								%
 								</div>
 							</div>
 						</li>
@@ -279,7 +292,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="display:none;margin-right:15px;">
+			<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="margin-right:15px;">
 				Submit Order <i class="fa fa-check"></i>
 			</button>
 		</div>
@@ -298,8 +311,28 @@ $(document).ready(function() {
     $("#kontak_id").change(function(){
         var id = $(this).val();
         if(id != 0)getAlamat(id);
+        if(id != 0)getUp(id);
     })
     .change();
+
+     $('input:radio[name=metode_pembayaran_id]').click(function() {
+      var val = $('input:radio[name=metode_pembayaran_id]:checked').val();
+      if(val==1){
+        $('#kredit').hide("slow");
+        $('#total_angsuran').hide("slow");
+      }else{
+        $('#kredit').show("slow");
+        $('#total_angsuran').show("slow");
+      }
+    });
+
+    $('#lama_angsuran_2').change(function(){
+        var text = $(this).val();
+        $('#angsuran').text('/'+text.toUpperCase());
+    })
+    .change();
+
+    $('#dibayar, #biaya_pengiriman').maskMoney({allowZero:true});
 });
 
 function getAlamat(id)
@@ -314,9 +347,22 @@ function getAlamat(id)
     });
 }
 
+function getUp(id)
+{
+    $.ajax({
+        type: 'POST',
+        url: '/gsm/purchase/order/get_up/'+id,
+        data: {id : id},
+        success: function(data) {
+            $('#up').html(data);
+        }
+    });
+}
+
 	<?php $i=1;foreach ($order_list->result() as $o):$i++;?>
-	$(".diterima").keyup(function() {
-		var a = parseInt($("#diterima<?=$i?>").val());
+	$(".disc").keyup(function() {
+		hitung();
+		/*var a = parseInt($("#diskon<?=$i?>").val());
 			bunga = parseFloat($('#bunga').val()),
         	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
         	c = parseFloat($("#disc<?=$i?>").val()),
@@ -351,7 +397,46 @@ function getAlamat(id)
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
        	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
        	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))
+       	*/
     });
+
+    function hitung()
+    {
+    	var a = parseInt($("#jumlah<?=$i?>").val()),
+    		bunga = parseFloat($('#bunga').val()),
+        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
+        	c = parseFloat($("#disc<?=$i?>").val()),
+        	p = parseFloat($("#pajak<?=$i?>").val()).toFixed(2),
+        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
+        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
+        	lama_angsuran= parseInt($('#lama_angsuran_1').val()),
+        	d = (a*b)*(c/100),//jumlah diskon
+       		val = (a*b)-d,
+        	subPajak = val*(p/100),//jumlah pajak
+        	jmlPajak = 0,
+        	total = 0;
+
+        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
+        $("#subpajak<?=$i?>").val(subPajak);
+        $('.subpajak').each(function (index, element) {
+            jmlPajak = jmlPajak + parseInt($(element).val());
+        });
+        $('.subtotal').each(function (index, element) {
+            total = total + parseInt($(element).val().replace(/,/g,""));
+        });
+        total = total+biayaPengiriman;
+        totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
+        totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
+        biayaAngsuran = totalPlusBunga/lama_angsuran;
+        totalpluspajak = total + jmlPajak;
+        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
+        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
+        var saldo = totalpluspajak-diBayar;
+        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
+       	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
+       	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))
+    }
     <?php endforeach;?>
 
     function addCommas(nStr)

@@ -170,6 +170,7 @@ class order_model extends CI_Model {
             $this->table_pr.'.id as id,
             '.$this->table_pr.'.no as no,
             '.$this->table_pr.'.diajukan_ke,
+            '.$this->table_pr.'.gudang_id,
             '.$this->table_pr.'.tanggal_digunakan,
             '.$this->table_pr.'.keperluan,
             '.$this->table_pr.'.catatan,

@@ -236,6 +236,15 @@ class Order extends MX_Controller {
 
         $this->_render_page('purchase/order/alamat', $this->data);
     }
+
+    function get_up($id){
+        permissionUser();
+
+        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
+        $this->data['up'] = explode(',', $up);
+
+        $this->_render_page('purchase/order/up', $this->data);
+    }
     
     function _render_page($view, $data=null, $render=false)
     {
