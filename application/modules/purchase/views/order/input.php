@@ -32,7 +32,7 @@
 					<div class="col-sm-6">
 						<p class="text-dark">
 							#<?=$last_id.'/PO-I/GSM/I/'.date('Y')?><small class="text-light"></small>
-							<input type="hidden" name="no" value="<?=date('Ymd',strtotime('now')).$last_id?>">
+							
 						</p>
 					</div>
 				</div>
@@ -42,7 +42,7 @@
 							<label class="control-label">Salin Dari P.R</label>
 						</div>
 						<div class="col-md-8">
-							<select class="select2" id="list_pr" style="width:100%">
+							<select class="select2" id="list_pr" style="width:100%" name="no">
 								<option value="0">-- Pilih NO. P.R --</option>
 								<?php foreach($pr as $p):?>
 								<option value="<?=$p->id?>"><?=$p->no?></option>

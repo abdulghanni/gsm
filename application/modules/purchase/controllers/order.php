@@ -5,6 +5,7 @@ class Order extends MX_Controller {
     var $module = 'purchase';
     var $title = 'Order';
     var $file_name = 'order';
+    var $table_name = 'purchase_order';
     
     function __construct()
     {
@@ -45,7 +46,8 @@ class Order extends MX_Controller {
         $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-        $this->data['user_app_lv1'] = getValue('user_id', 'approver', array('level'=>'where/1'));
+        $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$id));
+        $this->data['user_app_lv1'] = getValue('created_by', 'purchase_request', array('id'=>'where/'.$no_pr));
         $this->data['user_app_lv2'] = getValue('user_id', 'approver', array('level'=>'where/2'));
         $this->data['user_app_lv3'] = getValue('user_id', 'approver', array('level'=>'where/3'));
         $this->data['jabatan_lv1'] = getValue('jabatan', 'approver', array('level'=>'where/1'));
@@ -113,7 +115,17 @@ class Order extends MX_Controller {
         permissionUser();
         $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
         $isi = getName(sessId())." Mengajuan Purchase Order, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a>.";
-        $approver = getAll('approver');
+        $approver = getAll('approver', array('level' => 'where/3'));
+        $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$id));
+        $creator_pr = getValue('created_by', 'purchase_request', array('id'=>'where/'.$no_pr));
+        $data = array('sender_id' => sessId(),
+                          'receiver_id' => $creator_pr,
+                          'sent_on' => dateNow(),
+                          'judul' => 'Pengajuan Purchase Order',
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+        $this->db->insert('notifikasi', $data);
         foreach($approver->result() as $r):
             $data = array('sender_id' => sessId(),
                           'receiver_id' => $r->user_id,
@@ -197,14 +209,34 @@ class Order extends MX_Controller {
     {
         $level = $this->input->post('level');//die($level);
         $id = $this->input->post('id');
+        if($level == 1)$this->notif_manager($id);
         $data = array('is_app_lv'.$level => 1,
                       'app_status_id_lv'.$level => $this->input->post('app_status_id_lv'.$level),
                       'date_app_lv'.$level=>dateNow(),
                       'user_app_id_lv'.$level => sessId(),
                       'note_app_lv'.$level => $this->input->post('note_lv'.$level)
             );
-        $this->db->where('id', $id)->update($this->table, $data);
+        $this->db->where('id', $id)->update($this->table_name, $data);
         echo json_encode(array("status" => $id));
+    }
+
+    function notif_manager($id)
+    {
+        permissionUser();
+        $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
+        $isi = getName(sessId())." Mengajuan Purchase Order, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a>.";
+        $approver = getAll('approver', array('level' => 'where/2'));
+        foreach($approver->result() as $r):
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $r->user_id,
+                          'sent_on' => dateNow(),
+                          'judul' => 'Pengajuan Purchase Order',
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+        $this->db->insert('notifikasi', $data);
+        endforeach;
+        return TRUE;
     }
 
     //JS FUNCTION

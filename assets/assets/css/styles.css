@@ -9860,7 +9860,9 @@ div.timeline .column_center .timeline_element:before, div.timeline .column_cente
 }
 
 .table-bordered.table > thead > tr > th {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #777c2b;
+  background-color: #777c2b; 
+  color : #fff;
 }
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
