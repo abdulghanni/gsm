@@ -91,7 +91,24 @@ class Request extends MX_Controller {
                 );
         $this->db->insert($this->table_name.'_list', $data2);
         endfor;
+        $this->send_notification($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
+    }
+    function send_notification($id)
+    {
+        permissionUser();
+        $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
+        $isi = getName(sessId())." Mengajuan Purchase Request, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a>.";
+        $approver = getValue('diajukan_ke', $this->table_name, array('id'=>'where/'.$id));
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $approver,
+                          'sent_on' => dateNow(),
+                          'judul' => 'Pengajuan Purchase Request',
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+        $this->db->insert('notifikasi', $data);
+        return TRUE;
     }
 
     public function ajax_list()
@@ -106,7 +123,7 @@ class Request extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->diajukan_ke;
+            $row[] = getFullName($r->diajukan_ke);
             $row[] = $r->tanggal_digunakan;
             $row[] = $r->gudang;
             $row[] = $r->keperluan;
@@ -124,6 +141,19 @@ class Request extends MX_Controller {
                 );
         //output to json format
         echo json_encode($output);
+    }
+
+    function approve()
+    {
+        $id = $this->input->post('id');
+        $data = array('is_app' => 1,
+                      'app_status_id' => $this->input->post('app_status_id'),
+                      'date_app'=>dateNow(),
+                      'user_app_id' => sessId(),
+                      'note_app' => $this->input->post('note')
+            );
+        $this->db->where('id', $id)->update($this->table_name, $data);
+        echo json_encode(array("status" => $id));
     }
 
     function print_pdf($id)

@@ -96,6 +96,10 @@ class request_model extends CI_Model {
             '.$this->table.'.catatan,
             '.$this->table.'.created_by,
             '.$this->table.'.created_on,
+            '.$this->table.'.is_app,
+            '.$this->table.'.user_app_id,
+            '.$this->table.'.date_app,
+            '.$this->table.'.app_status_id,
             '.$this->table_join1.'.title as gudang,
             ')
                  ->from($this->table)

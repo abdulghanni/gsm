@@ -146,7 +146,7 @@
 				<hr/>
 				<div class="row">
 					
-					<div class="col-md-2">
+					<div class="col-md-3">
 						<div class="approve text-center" style="align:center">
 						  <p class="text-center approve-head">Requested By, </p>
 						  <span class="small"></span><br/>
@@ -154,6 +154,27 @@
 	                      <span class="semi-bold">(<?= getUserGroup($o->created_by)?>)</span><br/>
 	                      <span class="small"><?=dateIndo($o->created_on)?></span>
 						</div>
+					</div>
+
+					<div class="col-md-3">
+					  <div class="approve text-center" style="align:center">
+					  <p class="text-center">Menyetujui,</p>
+					  <?php if($o->is_app == 0 && $o->diajukan_ke == sessId()):?>
+						  <div class="btn btn-blue" id="" type="" data-toggle="modal" data-target="#approval-modal"><i class="icon-ok"></i>Submit</div><br/><br/>
+	                   <?php elseif($o->is_app == 0 && $o->diajukan_ke != sessId()): ?>
+	                      <span class="small"></span>
+	                      <span class="semi-bold"></span>
+	                      <span class="small"></span><br/><br/>
+	                      <span class="semi-bold"></span><br/>
+	                    <?php else:
+	                    	$status = ($o->app_status_id==1) ? assets_url('images/approved_stamp.png') : assets_url('images/rejected_stamp.png');
+	                    ?>
+	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
+	                      <span class="small"><?=dateIndo($o->date_app)?></span><br/>
+	                     <span class="semi-bold"><?= getFullName($o->user_app_id)?></span><br/>
+	                     <span class="semi-bold">(<?= getUserGroup($o->user_app_id)?>)</span>
+	                    <?php endif; ?>
+	                  </div>
 					</div>
 					<!--
 					<div class="col-md-2">
@@ -209,20 +230,19 @@
 <?php endforeach;?>
 <!-- end: INVOICE -->
 
-<?php for($i=0;$i<4;$i++):?>
 <!--approval Modal -->
-<div class="modal fade" id="approval-modal<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="approval-modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="modaldialog">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Approval PO</h4>
+        <h4 class="modal-title" id="myModalLabel">Approval PR</h4>
       </div>
       <p class="error_msg" id="MsgBad" style="background: #fff; display: none;"></p>
       <div class="modal-body">
-        <form class="form-no-horizontal-spacing"  id="formApp<?= $i ?>">
+        <form class="form-no-horizontal-spacing"  id="formApp">
         <input type="hidden" value="<?=$id?>" name="id">
-        <input type="hidden" value="<?= $i ?>" name="level">
+        <input type="hidden" value="" name="level">
             <div class="row form-row">
             	<div class="col-md-6">
 					<div class="form-group">
@@ -230,12 +250,12 @@
 							Status Approval
 						</label>
 						<div class="clip-radio radio-primary">
-							<input type="radio" id="1<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="1">
-							<label for="1<?= $i ?>">
+							<input type="radio" id="1" name="app_status_id" value="1">
+							<label for="1">
 								Approve
 							</label>
-							<input type="radio" id="2<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="2">
-							<label for="2<?= $i ?>">
+							<input type="radio" id="2" name="app_status_id" value="2">
+							<label for="2">
 								Reject
 							</label>
 						</div>
@@ -248,18 +268,17 @@
 						<label class="block">
 							Note(Optional)
 						</label>
-						<textarea class="form-control" name="note_lv$level"></textarea>
+						<textarea class="form-control" name="note"></textarea>
 					</div>
 				</div>
             </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="icon-remove"></i>&nbsp;Close</button> 
-        <button type="button" id="btnApp" onclick="approve<?=$i?>()" class="btn btn-success btn-cons"><i class="icon-ok-sign"></i>&nbsp;Save</button>
+        <button type="button" id="btnApp" onclick="approve()" class="btn btn-success btn-cons"><i class="icon-ok-sign"></i>&nbsp;Save</button>
       </div>
         <?php echo form_close()?>
     </div>
   </div>
 </div>
 <!--end approve modal--> 
-<?php endfor; ?>
