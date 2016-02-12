@@ -72,6 +72,7 @@ function edit_user(id)
             $('[name="email"]').val(data.email);
             $('[name="alamat"]').val(data.alamat);
             $('[name="komisi"]').val(data.komisi);
+            $('[name="catatan"]').text(data.catatan);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Sales'); // Set title to Bootstrap modal title
 

@@ -104,6 +104,7 @@ class kontak extends MX_Controller {
                 'alamat' => implode(',', $this->input->post('alamat')),
                 'email' => $this->input->post('email'),
                 'fax' => $this->input->post('fax'),
+                'catatan' => $this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -124,6 +125,7 @@ class kontak extends MX_Controller {
                 'alamat' => implode(',', $this->input->post('alamat')),
                 'email' => $this->input->post('email'),
                 'fax' => $this->input->post('fax'),
+                'catatan' => $this->input->post('catatan'),
                 'edited_by' => sessId(),
                 'edited_on' => dateNow(),
             );

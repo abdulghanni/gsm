@@ -63,6 +63,7 @@ class lokasi_gudang extends MX_Controller {
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
+                'catatan' => $this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -76,6 +77,9 @@ class lokasi_gudang extends MX_Controller {
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
+                'catatan' => $this->input->post('catatan'),
+                'edited_by' => sessId(),
+                'edited_on' => dateNow(),
             );
         $this->lokasi_gudang->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));

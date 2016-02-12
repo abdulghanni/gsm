@@ -65,6 +65,7 @@ class Gudang extends MX_Controller {
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
+                'catatan' => $this->input->post('catatan'),
                 'lokasi_gudang_id' => $this->input->post('lokasi_gudang_id'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
@@ -79,7 +80,10 @@ class Gudang extends MX_Controller {
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
+                'catatan' => $this->input->post('catatan'),
                 'lokasi_gudang_id' => $this->input->post('lokasi_gudang_id'),
+                'edited_by' => sessId(),
+                'edited_on' => dateNow(),
             );
         $this->gudang->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));

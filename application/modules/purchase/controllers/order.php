@@ -34,7 +34,7 @@ class Order extends MX_Controller {
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['users'] = getAll('users');
         $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
-        $this->data['pr'] = GetAllSelect('purchase_request', array('id','no'), array('id'=>'order/desc', 'limit'=>'limit/100'))->result();
+        $this->data['pr'] = GetAllSelect('purchase_request', array('id','no'), array('id'=>'order/asc', 'limit'=>'limit/100'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 

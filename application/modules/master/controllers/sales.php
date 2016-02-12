@@ -72,6 +72,7 @@ class Sales extends MX_Controller {
                 'email' => $this->input->post('email'),
                 'alamat' => $this->input->post('alamat'),
                 'komisi' => $this->input->post('komisi'),
+                'catatan' => $this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -89,6 +90,9 @@ class Sales extends MX_Controller {
                 'email' => $this->input->post('email'),
                 'alamat' => $this->input->post('alamat'),
                 'komisi' => $this->input->post('komisi'),
+                'catatan' => $this->input->post('catatan'),
+                'edited_by' => sessId(),
+                'edited_on' => dateNow(),
             );
         $this->main->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));

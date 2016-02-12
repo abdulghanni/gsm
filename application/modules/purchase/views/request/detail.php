@@ -145,16 +145,17 @@
 				</div>
 				<hr/>
 				<div class="row">
-					<!--
+					
 					<div class="col-md-2">
 						<div class="approve text-center" style="align:center">
-						  <p class="text-center approve-head">request By, </p>
+						  <p class="text-center approve-head">Requested By, </p>
 						  <span class="small"></span><br/>
-	                      <span class="small"><?=dateIndo($o->created_on)?></span><br/>
-	                      <span class="semi-bold">(<?= getFullName($o->created_by)?>)</span>
+	                      <span class="semi-bold"><?= getFullName($o->created_by)?></span><br/>
+	                      <span class="semi-bold">(<?= getUserGroup($o->created_by)?>)</span><br/>
+	                      <span class="small"><?=dateIndo($o->created_on)?></span>
 						</div>
 					</div>
-
+					<!--
 					<div class="col-md-2">
 						<div class="approve text-center" style="align:center">
 						  <p class="text-center approve-head">ACC Vendor, </p>

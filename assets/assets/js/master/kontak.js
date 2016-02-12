@@ -81,6 +81,7 @@ function detail_user(id)
             $('[name="jenis"]').val(data.jenis);
             $('[name="email"]').val(data.email);
             $('[name="fax"]').val(data.fax);
+            $('[name="catatan"]').text(data.catatan);
             drawTelepon(telepon);
             drawAlamat(alamat);
             drawUp(up);

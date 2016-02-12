@@ -110,8 +110,8 @@ class order_model extends CI_Model {
     function get_detail($id)
     {
         $q = $this->db->select('no, kontak.title as kontak,
-                                kontak.up, 
-                                kontak.alamat,
+                                purchase_order.up, 
+                                purchase_order.alamat,
                                 metode_pembayaran_id, 
                                 metode_pembayaran.title as metode_pembayaran, 
                                 tanggal_transaksi, 
@@ -124,7 +124,7 @@ class order_model extends CI_Model {
                                 lama_angsuran_2, 
                                 lama_angsuran_1, 
                                 bunga,
-                                catatan, 
+                                purchase_order.catatan, 
                                 purchase_order.created_on,
                                 is_app_lv1,
                                 is_app_lv2,
@@ -155,10 +155,10 @@ class order_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.kode as kode_barang, deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.kode as kode_barang, purchase_order_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list)
                   ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
-                  ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id')
+                  ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id', 'left')
                   ->where('order_id', $id)
                   ->get();
         return $q;

@@ -84,6 +84,13 @@
                                 ?>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Catatan</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="catatan"></textarea>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

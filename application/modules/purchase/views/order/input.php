@@ -336,7 +336,7 @@
 	</div>
 </div>
 </form>
-<!-- end: INVOICE -->
+<!-- 
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
 	function addRow(tableID){

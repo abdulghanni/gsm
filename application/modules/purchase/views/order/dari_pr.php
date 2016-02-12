@@ -176,12 +176,52 @@
 						<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 						<input type="hidden" name="harga[]" class="form-control text-right harga" value="<?=$ol->harga?>" id="harga<?=$i?>">
 						<td class="text-right">
-						<input type="text" name="disc[]" class="form-control text-right disc" value=<?=$ol->disc?> id="disc<?=$i?>"></td>
-						<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=$subtotal?>" id="subtotal<?=$i?>" readonly></td>
+						<input type="text" name="disc[]" class="form-control text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>"></td>
+						<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
 						<td class="text-right"><input type="text" name="pajak[]" class="form-control text-right pajak" value="<?=$ol->pajak?>" id="pajak<?=$i?>" readonly></td>
 						<td><input type="hidden" name="subpajak[]" class="form-control text-right subpajak" value="0" id="subpajak<?=$i?>"></td>
 						</tr>
-					<?php endforeach;
+					<script>
+						$("#disc<?=$i?>").add("#lama_angsuran_1").add("#dibayar").add("#biaya_pengiriman").add("#bunga").keyup(function() {
+						var a = parseInt($("#jumlah<?=$i?>").val()),
+				    		bunga = parseFloat($('#bunga').val()),
+				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
+				        	c = parseFloat($("#disc<?=$i?>").val()),
+				        	p = parseFloat($("#pajak<?=$i?>").val()).toFixed(2),
+				        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
+				        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
+				        	lama_angsuran= parseInt($('#lama_angsuran_1').val()),
+				        	d = (a*b)*(c/100),//jumlah diskon
+				       		val = (a*b)-d,
+				        	subPajak = val*(p/100),//jumlah pajak
+				        	jmlPajak = 0,
+				        	total = 0;
+				        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
+				        $("#subpajak<?=$i?>").val(subPajak);
+				        $('.subpajak').each(function (index, element) {
+				            jmlPajak = jmlPajak + parseInt($(element).val());
+				        });
+				        $('.subtotal').each(function (index, element) {
+				            total = total + parseInt($(element).val().replace(/,/g,""));
+				        });
+				        total = total+biayaPengiriman;
+				        totalpluspajak = total + jmlPajak;
+				        diBayar = totalpluspajak * (diBayar/100);
+				        
+				        totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
+				        totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
+				        biayaAngsuran = totalPlusBunga/lama_angsuran;
+				        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
+				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+				        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
+				        var saldo = totalpluspajak-diBayar;
+				        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
+				       	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
+				       	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))
+				    });
+					</script>
+					<?php 
+					endforeach;
 						$totalpluspajak = $total+$totalpajak;
 					?>
 				</tbody>
@@ -235,7 +275,6 @@
 							</div>
 						</div>
 					</li>
-					
 					<div id="total_angsuran" style="display:none">
 						<li class="list-group-item">
 							<div class="row">
@@ -358,87 +397,6 @@ function getUp(id)
         }
     });
 }
-
-	<?php $i=1;foreach ($order_list->result() as $o):$i++;?>
-	$(".disc").keyup(function() {
-		hitung();
-		/*var a = parseInt($("#diskon<?=$i?>").val());
-			bunga = parseFloat($('#bunga').val()),
-        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
-        	c = parseFloat($("#disc<?=$i?>").val()),
-        	p = parseFloat($("#pajak<?=$i?>").val()).toFixed(2),
-        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
-        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
-        	lama_angsuran= parseInt($('#lama_angsuran_1').val()),
-        	d = (a*b)*(c/100),//jumlah diskon
-       		val = (a*b)-d,
-       		subPajak = val*(p/100),
-       		jmlPajak = 0,
-       		total = 0;
-
-        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
-        $("#subpajak<?=$i?>").val(subPajak);
-        $('.subpajak').each(function (index, element) {
-            jmlPajak = jmlPajak + parseInt($(element).val());
-        });
-        $('.subtotal').each(function (index, element) {
-            total = total + parseInt($(element).val().replace(/,/g,""));
-        });
-        total = total+biayaPengiriman;
-        totalpluspajak = total + jmlPajak;
-        totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
-        totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
-        biayaAngsuran = totalPlusBunga/lama_angsuran;
-
-        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
-        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
-        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
-        var saldo = totalpluspajak-diBayar;
-        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
-       	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
-       	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))
-       	*/
-    });
-
-    function hitung()
-    {
-    	var a = parseInt($("#jumlah<?=$i?>").val()),
-    		bunga = parseFloat($('#bunga').val()),
-        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
-        	c = parseFloat($("#disc<?=$i?>").val()),
-        	p = parseFloat($("#pajak<?=$i?>").val()).toFixed(2),
-        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
-        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
-        	lama_angsuran= parseInt($('#lama_angsuran_1').val()),
-        	d = (a*b)*(c/100),//jumlah diskon
-       		val = (a*b)-d,
-        	subPajak = val*(p/100),//jumlah pajak
-        	jmlPajak = 0,
-        	total = 0;
-
-        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
-        $("#subpajak<?=$i?>").val(subPajak);
-        $('.subpajak').each(function (index, element) {
-            jmlPajak = jmlPajak + parseInt($(element).val());
-        });
-        $('.subtotal').each(function (index, element) {
-            total = total + parseInt($(element).val().replace(/,/g,""));
-        });
-        total = total+biayaPengiriman;
-        totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
-        totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
-        biayaAngsuran = totalPlusBunga/lama_angsuran;
-        totalpluspajak = total + jmlPajak;
-        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
-        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
-        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
-        var saldo = totalpluspajak-diBayar;
-        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
-       	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
-       	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))
-    }
-    <?php endforeach;?>
-
     function addCommas(nStr)
     {
       nStr += '';

@@ -75,6 +75,7 @@ function edit_user(id)
             $('[name="kode"]').val(data.kode);
             $('[name="title"]').val(data.title);
             $('[name="lokasi_gudang_id"]').select2().select2('val',data.lokasi_gudang_id);
+            $('[name="catatan"]').text(data.catatan);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit gudang'); // Set title to Bootstrap modal title
 

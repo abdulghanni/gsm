@@ -70,6 +70,23 @@ if(!function_exists('getFullName')){
 	}
 }
 
+if(!function_exists('getUserGroup')){
+	function getUserGroup($id)
+    {
+        //$group = getAll('users_groups', array('user_id'=>'where/'.$id))->result();
+        $group = getJoin('users_groups', 'groups', 'users_groups.group_id = groups.id', 'left', 'groups.name as group_name, users_groups.*', array('users_groups.user_id'=>'where/'.$id), array('!=groups.id'=>'2'));
+        $groups = '';
+        if(!empty($group))
+        {
+            foreach ($group->result() as $key) {
+                $groups = ucwords($key->group_name);
+            }
+
+            return $groups;
+        }
+    }
+}
+
 if(!function_exists('dateNow')){
 	function dateNow()
 	{
@@ -79,7 +96,7 @@ if(!function_exists('dateNow')){
 
 
 if (!function_exists('print_ag')){	
-	function print_mz($data)
+	function print_ag($data)
 	{
 		echo "<pre>";
 		print_r($data);

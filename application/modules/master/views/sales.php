@@ -94,6 +94,12 @@
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-4">Catatan</label>
+                                    <div class="col-md-8">
+                                        <textarea class="form-control" name="catatan"></textarea>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

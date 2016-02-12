@@ -95,6 +95,7 @@ class request_model extends CI_Model {
             '.$this->table.'.keperluan,
             '.$this->table.'.catatan,
             '.$this->table.'.created_by,
+            '.$this->table.'.created_on,
             '.$this->table_join1.'.title as gudang,
             ')
                  ->from($this->table)
@@ -106,7 +107,7 @@ class request_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.kode as kode_barang, deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.kode as kode_barang, purchase_request_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list)
                   ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id')
