@@ -50,7 +50,7 @@ class Order extends MX_Controller {
         $this->data['user_app_lv1'] = getValue('created_by', 'purchase_request', array('id'=>'where/'.$no_pr));
         $this->data['user_app_lv2'] = getValue('user_id', 'approver', array('level'=>'where/2'));
         $this->data['user_app_lv3'] = getValue('user_id', 'approver', array('level'=>'where/3'));
-        $this->data['jabatan_lv1'] = getValue('jabatan', 'approver', array('level'=>'where/1'));
+        $this->data['jabatan_lv1'] = getUserGroup($this->data['user_app_lv1']);
         $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
         $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
