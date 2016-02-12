@@ -86,10 +86,21 @@ class Barang extends MX_Controller {
         if($is_update == 1) $this->barang->update(array('id' => $id), $data);
         else $id = $this->barang->save($data);
         $this->upload($id);
+        $this->cek_stok($id);
         //echo json_encode(array("status" => TRUE));
         redirect(base_url('master/barang'), 'refresh');
     }
 
+function cek_stok($id)
+{
+    $num_rows = GetAllSelect('stok', 'barang_id', array('barang_id'=>'where/'.$id))->num_rows();
+    $data = array('barang_id' => $id,
+                    'created_by' => sessId(),
+                    'created_on' => dateNow(),
+                );
+    if($num_rows < 1)$this->db->insert('stok', $data);
+    return true;
+}
     function upload($id)
     {
         if(!is_dir('./'.'uploads')){
