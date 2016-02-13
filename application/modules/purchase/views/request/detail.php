@@ -149,7 +149,7 @@
 					<div class="col-md-3">
 						<div class="approve text-center" style="align:center">
 						  <p class="text-center approve-head">Requested By, </p>
-						  <span class="small"></span><br/>
+						  <span class="small"></span><br/><br/><br/>
 	                      <span class="semi-bold"><?= getFullName($o->created_by)?></span><br/>
 	                      <span class="semi-bold">(<?= getUserGroup($o->created_by)?>)</span><br/>
 	                      <span class="small"><?=dateIndo($o->created_on)?></span>
@@ -167,12 +167,12 @@
 	                      <span class="small"></span><br/><br/>
 	                      <span class="semi-bold"></span><br/>
 	                    <?php else:
-	                    	$status = ($o->app_status_id==1) ? assets_url('images/approved_stamp.png') : assets_url('images/rejected_stamp.png');
+	                    	$status = ($o->app_status_id==1) ? assets_url('images/approved_stamp.png') : (($o->app_status_id == 2) ? assets_url('images/rejected_stamp.png') : (($o->app_status_id == 3) ? assets_url('images/pending_stamp.png')  : ""));
 	                    ?>
-	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
-	                      <span class="small"><?=dateIndo($o->date_app)?></span><br/>
+	                      <img height="50px" width="75px" class="margin-bottom-5" src="<?=$status?>"><br/>
 	                     <span class="semi-bold"><?= getFullName($o->user_app_id)?></span><br/>
-	                     <span class="semi-bold">(<?= getUserGroup($o->user_app_id)?>)</span>
+	                     <span class="semi-bold">(<?= getUserGroup($o->user_app_id)?>)</span><br/>
+	                      <span class="small"><?=dateIndo($o->date_app)?></span>
 	                    <?php endif; ?>
 	                  </div>
 					</div>
@@ -257,6 +257,10 @@
 							<input type="radio" id="2" name="app_status_id" value="2">
 							<label for="2">
 								Reject
+							</label>
+							<input type="radio" id="3" name="app_status_id" value="3">
+							<label for="3">
+								Pending
 							</label>
 						</div>
 					</div>

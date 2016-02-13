@@ -14,7 +14,7 @@ $(document).ready(function() {
 
     $("#list_so").change(function(){
         var id = $(this).val();
-        if(id != 0)$('#dari-so').load('get_dari_so/'+id);
+        if(id != 0)$('#dari-so').load('get_dari_penjualan/'+id);
     })
     .change();
     

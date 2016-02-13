@@ -38,8 +38,8 @@ class Retur extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
-        $this->data['no'] = GetAllSelect('receive_order', array('id','no'), array('id'=>'order/desc'))->result();
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
+        $this->data['no'] = GetAllSelect('pembelian', array('id','no'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -80,7 +80,7 @@ class Retur extends MX_Controller {
         $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
-                'supplier_id'=>$this->input->post('supplier_id'),
+                'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
                 'alamat'=>'',
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
@@ -133,7 +133,7 @@ class Retur extends MX_Controller {
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
             $row[] = $r->po;
-            $row[] = $r->supplier;
+            $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->tanggal_pengiriman;
             $row[] = $r->metode_pembayaran;
@@ -168,17 +168,6 @@ class Retur extends MX_Controller {
         $mpdf = new mPDF('A4');
         $mpdf->WriteHTML($html);
         $mpdf->Output($id.'-'.$title.'.pdf', 'I');
-    }
-
-    //FOR JS
-
-    function get_supplier_detail($id)
-    {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
-
-        echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
-
     }
     
     function _render_page($view, $data=null, $render=false)

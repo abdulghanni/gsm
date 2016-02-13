@@ -4,11 +4,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class order_model extends CI_Model {
 
     var $table = 'sales_order';
-    var $table_join1 = 'customer';
+    var $table_join1 = 'kontak';
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('id', 'customer', 'tanggal_transaksi', 'metode_pembayaran', 'so', 'gudang'); //set column field database for order and search
+    var $column = array('id', 'kontak', 'tanggal_transaksi', 'metode_pembayaran', 'so', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -24,12 +24,12 @@ class order_model extends CI_Model {
             $this->table.'.id as id,
             '.$this->table.'.so as so,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
-            '.$this->table_join1.'.title as customer,
+            '.$this->table_join1.'.title as kontak,
             '.$this->table_join2.'.title as metode_pembayaran,
             '.$this->table_join4.'.title as gudang,
             ');
         $this->db->from($this->table);
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.customer_id', 'left');
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.kontak_id', 'left');
         $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.metode_pembayaran_id', 'left');
         $this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table.'.gudang_id', 'left');
         //$this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.kurensi_id', 'left');
@@ -46,7 +46,7 @@ class order_model extends CI_Model {
                     $item = $this->table.'.tanggal_transaksi';
                 }elseif($item == 'so'){
                     $item = $this->table.'.so';
-                }elseif($item == 'customer'){
+                }elseif($item == 'kontak'){
                     $item = $this->table_join1.'.title';
                 }elseif($item == 'metode_pembayaran'){
                     $item = $this->table_join2.'.title';
@@ -105,9 +105,9 @@ class order_model extends CI_Model {
 
     function get_order_detail($id)
     {
-        $q = $this->db->select('no, customer.title as customer, customer.up,catatan, customer.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar, lama_angsuran_2, lama_angsuran_1, bunga, sales_order.created_on')
+        $q = $this->db->select('no, kontak.title as kontak, kontak.up,sales_order.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar, lama_angsuran_2, lama_angsuran_1, bunga, sales_order.created_on')
                  ->from($this->table)
-                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.customer_id', 'left')
+                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.kontak_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
                  ->join($this->table_join3, $this->table_join3.'.id ='.$this->table.'.kurensi_id', 'left')
                  ->join($this->table_join4, $this->table_join4.'.id ='.$this->table.'.gudang_id', 'left')
@@ -118,7 +118,7 @@ class order_model extends CI_Model {
 
     function get_order_list_detail($id)
     {
-        $q = $this->db->select('barang.kode as kode_barang, barang.title as barang, jumlah, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.kode as kode_barang, order_list.deskripsi as deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
                   ->from('sales_order_list as order_list')
                   ->join('barang', 'barang.id = order_list.kode_barang', 'left')
                   ->join('satuan', 'satuan.id = order_list.satuan_id')
@@ -145,9 +145,11 @@ class order_model extends CI_Model {
         $this->db->delete($this->table);
     }
 
-    public function get_customer()
+    
+    public function get_kontak()
     {   
-        $this->db->where($this->table_join1.'.is_deleted',0);
+        $this->db->where($this->table_join1.'.is_deleted',0)
+                 ->where($this->table_join1.'.jenis_id',2);
         $this->db->order_by($this->table_join1.'.title','asc');
         return $this->db->get($this->table_join1);
     }

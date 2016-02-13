@@ -38,7 +38,7 @@ class Order extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_customer'] = options_row($this->model_name,'get_customer','id','title','-- Pilih customer --');
+        $this->data['options_kontak'] = options_row('order','get_kontak','id','title','-- Pilih Customer --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -62,6 +62,7 @@ class Order extends MX_Controller {
         permissionUser();
         $order_list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
+                        'deskripsi' => 'deskripsi',
                         'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
@@ -71,7 +72,7 @@ class Order extends MX_Controller {
 
         $data = array(
                 'no' => $this->input->post('no'),
-                'customer_id'=>$this->input->post('customer_id'),
+                'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>$this->input->post('up'),
                 'alamat'=>$this->input->post('alamat'),
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
@@ -96,6 +97,7 @@ class Order extends MX_Controller {
             $data2 = array(
                 'order_id' => $order_id,
                 'kode_barang' => $order_list['kode_barang'][$i],
+                'deskripsi' => $order_list['deskripsi'][$i],
                 'jumlah' => str_replace(',', '', $order_list['jumlah'][$i]),
                 'satuan_id' => $order_list['satuan'][$i],
                 'harga' => str_replace(',', '', $order_list['harga'][$i]),
@@ -119,7 +121,7 @@ class Order extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$order->so.'</a>';
-            $row[] = $order->customer;
+            $row[] = $order->kontak;
             $row[] = $order->tanggal_transaksi;
             $row[] = $order->metode_pembayaran;
             $row[] = $order->gudang;
@@ -156,10 +158,10 @@ class Order extends MX_Controller {
 
     //FOR JS
 
-    function get_customer_detail($id)
+    function get_kontak_detail($id)
     {
-        $up = getValue('up', 'customer', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'customer', array('id'=>'where/'.$id));
+        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 

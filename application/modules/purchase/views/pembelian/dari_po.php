@@ -27,8 +27,8 @@
 								Supplier
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->supplier?>" class="form-control" readonly>
-								<input type="hidden" name="supplier_id" value="<?=$o->supplier_id?>" class="form-control" readonly>
+								<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" readonly>
+								<input type="hidden" name="kontak_id" value="<?=$o->kontak_id?>" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="form-group">
@@ -90,7 +90,7 @@
 								<input type="hidden" name="metode_pembayaran_id" value="<?=$o->metode_pembayaran_id?>" class="form-control" readonly>
 							</div>
 						</div>
-						<?php $d = "style='display:none'";?>
+						<?php $d = "display:none";?>
 						<div id="kredit" style="<?=($o->metode_pembayaran_id == 1) ? $d : ''?>">
 		<div class="form-group">
 			<label class="col-sm-4 control-label" for="inputPassword3">
@@ -178,6 +178,7 @@
 				</div>
 				<hr/>
 				<div class="row">
+				<!--
 					<div class="col-md-2">
 					  <div class="approve text-center" style="align:center">
 					  <p class="text-center">Menyetujui,</p>
@@ -234,7 +235,7 @@
 	                    <?php endif; ?>
 	                  </div>
 					</div>
-
+				-->
 					<!--
 					<div class="col-md-2">
 						<div class="approve text-center" style="align:center">

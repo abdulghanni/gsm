@@ -38,7 +38,7 @@ class Pembelian extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         $this->data['po'] = GetAllSelect('purchase_order', array('id','po'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -59,7 +59,8 @@ class Pembelian extends MX_Controller {
     {
         permissionUser();
 
-        $this->data['jabatan_lv1'] = getValue('jabatan', 'approver', array('level'=>'where/1'));
+        
+        $this->data['jabatan_lv1'] = getUserGroup($approver1);
         $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
         $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
         $this->data['order'] = $this->main->get_detail_po($id);
@@ -83,7 +84,7 @@ class Pembelian extends MX_Controller {
         $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
-                'supplier_id'=>$this->input->post('supplier_id'),
+                'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
                 'alamat'=>'',
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
@@ -136,7 +137,7 @@ class Pembelian extends MX_Controller {
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
             $row[] = $r->po;
-            $row[] = $r->supplier;
+            $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->tanggal_pengiriman;
             $row[] = $r->metode_pembayaran;
@@ -175,10 +176,10 @@ class Pembelian extends MX_Controller {
 
     //FOR JS
 
-    function get_supplier_detail($id)
+    function get_kontak_detail($id)
     {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
+        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 

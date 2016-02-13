@@ -36,7 +36,7 @@
                             <th width="5%" class="text-center"><?php echo 'Tanggal Faktur';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal pengiriman';?></th>
                             <th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>
-                            <th width="15%"><?php echo 'Dikirim Ke';?></th>
+                            <th width="15%"><?php echo 'Diretur Dari';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>

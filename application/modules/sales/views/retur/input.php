@@ -39,13 +39,13 @@
 				<div class="row form-row">
 					<div class="col-md-6">
 						<div class="col-md-4">
-							<label class="control-label">Salin Dari S.O</label>
+							<label class="control-label">Salin Dari Penjualan</label>
 						</div>
 						<div class="col-md-8">
 							<select class="select2" id="list_so" style="width:100%">
-								<option value="0">-- Pilih NO. S.O --</option>
-								<?php foreach($so as $p):?>
-								<option value="<?=$p->id?>"><?=$p->so?></option>
+								<option value="0">-- Pilih NO. Penjualan --</option>
+								<?php foreach($no as $p):?>
+								<option value="<?=$p->id?>"><?=$p->no?></option>
 								<?php endforeach;?>
 							</select>
 						</div>
@@ -83,8 +83,8 @@
 							</label>
 							<div class="col-sm-8">
 								<?php 
-                                	$js = 'class="select2" style="width:100%" id="customer_id"';
-                                	echo form_dropdown('customer_id', $options_customer,'',$js); 
+                                	$js = 'class="select2" style="width:100%" id="kontak_id"';
+                                	echo form_dropdown('kontak_id', $options_kontak,'',$js); 
                               	?>
 							</div>
 						</div>

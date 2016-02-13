@@ -27,8 +27,8 @@
 			Customer
 		</label>
 		<div class="col-sm-8">
-			<input type="text" name="up" value="<?=$o->customer?>" class="form-control" readonly>
-			<input type="hidden" name="customer_id" value="<?=$o->customer_id?>" class="form-control" readonly>
+			<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" readonly>
+			<input type="hidden" name="kontak_id" value="<?=$o->kontak_id?>" class="form-control" readonly>
 		</div>
 	</div>
 
@@ -96,7 +96,7 @@
 			<input type="hidden" name="metode_pembayaran_id" value="<?=$o->metode_pembayaran_id?>" class="form-control" readonly>
 		</div>
 	</div>
-						<?php $d = "style='display:none'";?>
+						<?php $d = "display:none";?>
 						<div id="kredit" style="<?=($o->metode_pembayaran_id == 1) ? $d : ''?>">
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="inputPassword3">
@@ -133,8 +133,8 @@
 									<th width="5%"> No. </th>
 									<th width="10%"> Kode </th>
 									<th width="15%"> Nama Barang </th>
-									<th width="10%">Di Order</th>
 									<th width="10%">Di Terima</th>
+									<th width="10%">Di Retur</th>
 									<th width="10%"> Satuan </th>
 									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
@@ -148,8 +148,8 @@
 									$i=1;foreach($order_list->result() as $ol): ?>
 								<tr>
 								<?php 
-									$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
-									$subtotal = $ol->jumlah*$ol->harga-$diskon;
+									$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
+									$subtotal = $ol->diterima*$ol->harga-$diskon;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 									$total = $total + $subtotal;
 								?>
@@ -158,9 +158,9 @@
 									<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->kode_barang?>">
 									<td><?=$ol->deskripsi?></td>
 									<input type="hidden" name="deskripsi[]" class="form-control text-right" value="<?=$ol->deskripsi?>">
-									<td class="text-right"><?=$ol->jumlah?></td>
-									<input type="hidden" name="diorder[]" class="form-control text-right" value="<?=$ol->jumlah?>">
-									<td class="text-right"><input type="text" name="diterima[]" class="form-control text-right diterima" value=<?=$ol->jumlah?> id="diterima<?=$i?>"></td>
+									<td class="text-right"><?=$ol->diterima?></td>
+									<input type="hidden" name="dikirim[]" class="form-control text-right" value="<?=$ol->diterima?>">
+									<td class="text-right"><input type="text" name="diretur[]" class="form-control text-right diretur" value=<?=$ol->diterima?> id="diretur<?=$i?>"></td>
 									<td><?=$ol->satuan?></td>
 									<input type="hidden" name="satuan[]" class="form-control text-right" value="<?=$ol->satuan_id?>">
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>

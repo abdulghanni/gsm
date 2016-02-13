@@ -21,21 +21,33 @@ $(document).ready(function() {
     })
     .change();
 
-    $("#supplier_id").change(function(){
+    $("#kontak_id").change(function(){
         var id = $(this).val();
-        if(id != 0)getSupDetail(id);
+        if(id != 0)getAlamat(id);
+        if(id != 0)getUp(id);
     })
     .change();
 
-    function getSupDetail(id)
+    function getAlamat(id)
     {
         $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: 'get_supplier_detail/'+id,
+            type: 'POST',
+            url: '/gsm/purchase/order/get_alamat/'+id,
+            data: {id : id},
             success: function(data) {
-                $('#up').val(data.up);
-                $('#alamat').val(data.alamat);
+                $('#alamat').html(data);
+            }
+        });
+    }
+
+    function getUp(id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/gsm/purchase/order/get_up/'+id,
+            data: {id : id},
+            success: function(data) {
+                $('#up').html(data);
             }
         });
     }

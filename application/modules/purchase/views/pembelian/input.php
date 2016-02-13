@@ -84,8 +84,8 @@
 								</label>
 								<div class="col-sm-8">
 									<?php 
-	                                	$js = 'class="select2" style="width:100%" id="supplier_id"';
-	                                	echo form_dropdown('supplier_id', $options_supplier,'',$js); 
+	                                	$js = 'class="select2" style="width:100%" id=""';
+	                                	echo form_dropdown('kontak_id', $options_kontak,'',$js); 
 	                              	?>
 								</div>
 							</div>

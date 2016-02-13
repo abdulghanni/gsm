@@ -68,7 +68,7 @@
 								Customer
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->customer?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 

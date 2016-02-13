@@ -27,8 +27,8 @@
 		 <i class="fa fa-print"></i> <?= lang('print')?>
 	</a>
 </div>
-<?php foreach ($delivery->result() as $o) :?>
-<form role="form" action="<?= base_url('transaksi/delivery/add')?>" method="post" class="form-horizontal">
+<?php foreach ($retur->result() as $o) :?>
+<form role="form" action="<?= base_url('transaksi/retur/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -68,7 +68,7 @@
 								Customer
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->customer?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 
@@ -162,8 +162,8 @@
 									<th width="5%"> No. </th>
 									<th width="10%"> Kode </th>
 									<th width="15%"> Nama Barang </th>
-									<th width="10%">Di Order</th>
-									<th width="10%">Di Terima</th>
+									<th width="10%">Di Kirim</th>
+									<th width="10%">Di Retur</th>
 									<th width="10%"> Satuan </th>
 									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
@@ -174,19 +174,19 @@
 							<tbody>
 								<?php 
 									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-									$i=1;foreach($delivery_list->result() as $ol): ?>
+									$i=1;foreach($retur_list->result() as $ol): ?>
 								<tr>
 								<?php 
-									$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
-									$subtotal = $ol->diterima*$ol->harga-$diskon;
+									$diskon = $ol->dikirim*$ol->harga*($ol->disc/100);
+									$subtotal = $ol->dikirim*$ol->harga-$diskon;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 									$total = $total + $subtotal;
 								?>
 									<td><?=$i++?></td>
 									<td><?=$ol->kode_barang?></td>
-									<td><?=$ol->barang?></td>
-									<td class="text-right"><?=$ol->diorder?></td>
-									<td class="text-right"><?=$ol->diterima?></td>
+									<td><?=$ol->deskripsi?></td>
+									<td class="text-right"><?=$ol->dikirim?></td>
+									<td class="text-right"><?=$ol->diretur?></td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>

@@ -45,9 +45,9 @@
 							</label>
 							<div class="col-sm-8">
 								<?php 
-                                	$js = 'class="select2" style="width:100%" id="customer_id"';
-                                	echo form_dropdown('customer_id', $options_customer,'',$js); 
-                              	?>
+			                    	$js = 'class="select2" style="width:100%" id="kontak_id"';
+			                    	echo form_dropdown('kontak_id', $options_kontak,'',$js); 
+			                  	?>
 							</div>
 						</div>
 						<div class="form-group">
@@ -55,7 +55,9 @@
 								Up.
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="Up" name="up" id="up" class="form-control" required="required">
+								<div id="up">
+									<input type="text" placeholder="Up" name="up" id="" class="form-control" required="required">
+								</div>
 							</div>
 						</div>
 						<div class="form-group">
@@ -63,7 +65,9 @@
 								Alamat
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="Alamat" name="alamat" id="alamat" class="form-control" required="required">
+								<select id="alamat" class="select2" style="width:100%" name="alamat">
+									<option value="">-- Pilih Alamat Customer --</option>
+								</select>
 							</div>
 						</div>
 
@@ -258,8 +262,13 @@
 											<div class="col-md-4">
 											Uang Muka
 											</div>
-											<div class="col-md-6 pull-right">
+											<div class="col-md-2">
+											</div>
+											<div class="col-md-4">
 											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
+											</div>
+											<div class="col-md-1">
+											%
 											</div>
 										</div>
 									</li>
@@ -402,15 +411,16 @@
             total = total + parseInt($(element).val().replace(/,/g,""));
         });
         total = total+biayaPengiriman;
+        totalpluspajak = total + jmlPajak;
+        diBayar = totalpluspajak * (diBayar/100);
+        
         totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
         totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
         biayaAngsuran = totalPlusBunga/lama_angsuran;
-        totalpluspajak = total + jmlPajak;
-        
         $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
         $('#total').val(addCommas(parseFloat(total).toFixed(2)));
         $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
-        var saldo = total-diBayar;
+        var saldo = totalpluspajak-diBayar;
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
        	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
        	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))

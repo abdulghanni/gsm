@@ -212,7 +212,7 @@
 	                      <span class="small"></span><br/><br/>
 	                      <span class="semi-bold"></span><br/>
 	                    <?php else:
-	                    	$status = ($o->app_status_id_lv1==1) ? assets_url('images/approved_stamp.png') : assets_url('images/rejected_stamp.png');
+	                    	$status = ($o->app_status_id_lv1==1) ? assets_url('images/approved_stamp.png') : (($o->app_status_id_lv1 == 2) ? assets_url('images/rejected_stamp.png') : (($o->app_status_id_lv1 == 3) ? assets_url('images/pending_stamp.png')  : ""));
 	                    ?>
 	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
 	                      <span class="small"><?=dateIndo($o->date_app_lv1)?></span><br/>
@@ -233,7 +233,7 @@
 	                      <span class="small"></span><br/><br/>
 	                      <span class="semi-bold"></span><br/>
 	                    <?php else:
-	                    	$status = ($o->app_status_id_lv2==1) ? assets_url('images/approved_stamp.png') : assets_url('images/rejected_stamp.png');
+	                    	$status = ($o->app_status_id_lv2==1) ? assets_url('images/approved_stamp.png') : (($o->app_status_id_lv2 == 2) ? assets_url('images/rejected_stamp.png') : (($o->app_status_id_lv2 == 3) ? assets_url('images/pending_stamp.png')  : ""));
 	                    ?>
 	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
 	                      <span class="small"><?=dateIndo($o->date_app_lv2)?></span><br/>
@@ -254,7 +254,7 @@
 	                      <span class="small"></span><br/><br/>
 	                      <span class="semi-bold"></span><br/>
 	                    <?php else:
-	                    	$status = ($o->app_status_id_lv3==1) ? assets_url('images/approved_stamp.png') : assets_url('images/rejected_stamp.png');
+	                    	$status = ($o->app_status_id_lv3==1) ? assets_url('images/approved_stamp.png') : (($o->app_status_id_lv3 == 2) ? assets_url('images/rejected_stamp.png') : (($o->app_status_id_lv3 == 3) ? assets_url('images/pending_stamp.png')  : ""));
 	                    ?>
 	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
 	                      <span class="small"><?=dateIndo($o->date_app_lv3)?></span><br/>
@@ -417,6 +417,10 @@
 							<input type="radio" id="2<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="2">
 							<label for="2<?= $i ?>">
 								Reject
+							</label>
+							<input type="radio" id="3<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="3">
+							<label for="3<?= $i ?>">
+								Pending
 							</label>
 						</div>
 					</div>

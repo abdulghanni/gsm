@@ -6,7 +6,7 @@ class Retur extends MX_Controller {
     var $title = 'Retur';
     var $file_name = 'retur';
     var $main_title = 'Retur Penjualan';
-    var $table_name = 'purchase_return';
+    var $table_name = 'sales_return';
     function __construct()
     {
         parent::__construct();
@@ -38,8 +38,8 @@ class Retur extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_customer'] = options_row('main','get_customer','id','title','-- Pilih customer --');
-        $this->data['no'] = GetAllSelect('receive_order', array('id','no'), array('id'=>'order/desc'))->result();
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Customer --');
+        $this->data['no'] = GetAllSelect('penjualan', array('id','no'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -47,21 +47,23 @@ class Retur extends MX_Controller {
     {
         $this->data['main_title'] = $this->main_title;
         $this->data['title'] = $this->title.' - Detail';
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
         permissionUser();
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);print_mz($this->data[$this->file_name]);
+        $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
-    function get_dari_pembelian($id)
+    function get_dari_penjualan($id)
     {
         permissionUser();
 
         $this->data['order'] = $this->main->get_detail_po($id);
         $this->data['order_list'] = $this->main->get_list_detail_po($id);
-        $this->load->view($this->module.'/'.$this->file_name.'/dari_pembelian', $this->data);
+        $this->load->view($this->module.'/'.$this->file_name.'/dari_penjualan', $this->data);
     }
 
     function add()
@@ -80,11 +82,11 @@ class Retur extends MX_Controller {
         $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
-                'customer_id'=>$this->input->post('customer_id'),
+                'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
                 'alamat'=>'',
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
-                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
+                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_faktur'))),
                 'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengantaran'))),
                 'so'=>$this->input->post('so'),
                 'gudang_id'=>$this->input->post('gudang_id'),
@@ -107,7 +109,7 @@ class Retur extends MX_Controller {
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
-                'diterima' => str_replace(',', '', $list['diterima'][$i]),
+                'dikirim' => str_replace(',', '', $list['dikirim'][$i]),
                 'diretur' => str_replace(',', '', $list['diretur'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
@@ -131,12 +133,11 @@ class Retur extends MX_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = "<a href=$detail>#".$r->no.'</a>';
+           $row[] = "<a href=$detail>#".$r->no.'</a>';
             $row[] = $r->so;
-            $row[] = $r->customer;
+            $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->tanggal_pengantaran;
-            $row[] = $r->metode_pembayaran;
             $row[] = $r->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
@@ -172,10 +173,10 @@ class Retur extends MX_Controller {
 
     //FOR JS
 
-    function get_customer_detail($id)
+    function get_kontak_detail($id)
     {
-        $up = getValue('up', 'customer', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'customer', array('id'=>'where/'.$id));
+        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 

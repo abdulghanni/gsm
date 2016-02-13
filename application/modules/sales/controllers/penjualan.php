@@ -38,7 +38,7 @@ class Penjualan extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_customer'] = options_row('main','get_customer','id','title','-- Pilih customer --');
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Customer --');
         $this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -73,7 +73,7 @@ class Penjualan extends MX_Controller {
 
         $data = array(
                 'no' => $this->input->post('no'),
-                'customer_id'=>$this->input->post('customer_id'),
+                'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
                 'alamat'=>'',
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
@@ -124,7 +124,7 @@ class Penjualan extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->customer;
+            $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->metode_pembayaran;
             $row[] = $r->so;
@@ -162,10 +162,10 @@ class Penjualan extends MX_Controller {
 
     //FOR JS
 
-    function get_customer_detail($id)
+    function get_kontak_detail($id)
     {
-        $up = getValue('up', 'customer', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'customer', array('id'=>'where/'.$id));
+        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 

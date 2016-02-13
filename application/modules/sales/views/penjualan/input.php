@@ -83,8 +83,8 @@
 							</label>
 							<div class="col-sm-8">
 								<?php 
-                                	$js = 'class="select2" style="width:100%" id="customer_id"';
-                                	echo form_dropdown('customer_id', $options_customer,'',$js); 
+                                	$js = 'class="select2" style="width:100%" id="kontak_id"';
+                                	echo form_dropdown('kontak_id', $options_kontak,'',$js); 
                               	?>
 							</div>
 						</div>
@@ -218,7 +218,7 @@
 									<th width="10%"> Kode </th>
 									<th width="15%"> Nama Barang </th>
 									<th width="10%">Di Order</th>
-									<th width="10%">Di Terima</th>
+									<th width="10%">Di Kirim</th>
 									<th width="10%"> Satuan </th>
 									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
