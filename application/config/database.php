@@ -77,6 +77,7 @@ $db['default'] = array(
 	'char_set' => 'utf8',
 	'dbcollat' => 'utf8_general_ci',
 	'swap_pre' => '',
+	'port'	  => '3333',
 	'encrypt' => FALSE,
 	'compress' => FALSE,
 	'stricton' => FALSE,
