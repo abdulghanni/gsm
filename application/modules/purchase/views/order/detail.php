@@ -212,6 +212,7 @@
                         <?php endif;?>
                         </div>
                     </div>
+                </div>
 				<div class="row">
 					<div class="col-md-2">
 					  <div class="approve text-center" style="align:center">
@@ -396,11 +397,28 @@
 			</div>
 		</div>
 	</div>
+	<?php 
+	for($a=0;$a<4;$a++):
+		$note = 'note_app_lv'.$a;
+		$user = 'user_app_id_lv'.$a;
+	if(!empty($o->$note)):
+		?>
+	<div class="row">
+    	<div class="col-md-4">
+			<div class="form-group">
+				<label class="block">
+					Note(<?= getFullName($o->$user)?>)
+				</label>
+				<textarea class="form-control" name="" disabled="disabled"><?= $o->$note ?></textarea>
+			</div>
+		</div>
+    </div>
+	<?php endif;endfor;?>
 </div>
 </form>
 <!-- end: INVOICE -->
 
-<?php for($i=0;$i<4;$i++):?>
+<?php for($i=1;$i<4;$i++):?>
 <!--approval Modal -->
 <div class="modal fade" id="approval-modal<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="modaldialog">
@@ -409,7 +427,6 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Approval PO</h4>
       </div>
-      <p class="error_msg" id="MsgBad" style="background: #fff; display: none;"></p>
       <div class="modal-body">
         <form class="form-no-horizontal-spacing"  id="formApp<?= $i ?>">
         <input type="hidden" value="<?=$id?>" name="id">

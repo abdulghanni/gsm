@@ -144,8 +144,16 @@
 					</div>
 				</div>
 				<hr/>
+				<div class="form-actions">
+                    <div class="row form-row">
+                        <div class="col-md-6 text-center">
+                        <?php if($o->is_app == 1 && $o->user_app_id == sessId()):?>
+                        	<div class='btn  btn-primary btn-xs text-center' title='Edit Approval' data-toggle="modal" data-target="#approval-modal"><i class='fa fa-edit'> Edit Approval</i></div>
+                        <?php endif;?>
+                        </div>
+                    </div>
+                </div>
 				<div class="row">
-					
 					<div class="col-md-3">
 						<div class="approve text-center" style="align:center">
 						  <p class="text-center approve-head">Requested By, </p>
@@ -225,6 +233,18 @@
 			</div>
 		</div>
 	</div>
+	<?php if(!empty($o->note_app)):?>
+	<div class="row">
+    	<div class="col-md-4">
+			<div class="form-group">
+				<label class="block">
+					Note(<?= getFullName($o->user_app_id)?>)
+				</label>
+				<textarea class="form-control" name="" disabled="disabled"><?= $o->note_app ?></textarea>
+			</div>
+		</div>
+    </div>
+	<?php endif;?>
 </div>
 </form>
 <?php endforeach;?>
@@ -248,17 +268,21 @@
 					<div class="form-group">
 						<label class="block">
 							Status Approval
+							<?php
+								$status ='app_status_id';
+								$note = 'note_app';
+							?>
 						</label>
 						<div class="clip-radio radio-primary">
-							<input type="radio" id="1" name="app_status_id" value="1">
+							<input type="radio" id="1" name="app_status_id" value="1" <?= ($o->$status == 1)?'checked':'';?>>
 							<label for="1">
 								Approve
 							</label>
-							<input type="radio" id="2" name="app_status_id" value="2">
+							<input type="radio" id="2" name="app_status_id" value="2" <?= ($o->$status == 2)?'checked':'';?>>
 							<label for="2">
 								Reject
 							</label>
-							<input type="radio" id="3" name="app_status_id" value="3">
+							<input type="radio" id="3" name="app_status_id" value="3" <?= ($o->$status == 3)?'checked':'';?>>
 							<label for="3">
 								Pending
 							</label>
@@ -272,7 +296,7 @@
 						<label class="block">
 							Note(Optional)
 						</label>
-						<textarea class="form-control" name="note"></textarea>
+						<textarea class="form-control" name="note"><?= $o->$note?></textarea>
 					</div>
 				</div>
             </div>

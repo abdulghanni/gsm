@@ -30,11 +30,11 @@
                         <tr>
                             <th width="5%" align="center">No.</th>
                             <th width="20%"><?php echo 'No. Request';?></th>
-                            <th width="15%"><?php echo 'Diajukan Untuk';?></th>
+                            <th width="20%"><?php echo 'Diajukan Untuk';?></th>
                             <th width="10%" class="text-center"><?php echo 'Tanggal Digunakan';?></th>
                             <th width="15%" class="text-center"><?php echo 'Gudang';?></th>
                             <th width="15%"><?php echo 'Keperluan';?></th>
-                            <th width="10%"><?php echo 'Status';?></th>
+                            <th width="5%"><?php echo 'Status';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>
