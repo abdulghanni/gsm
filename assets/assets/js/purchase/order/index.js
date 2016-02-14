@@ -17,10 +17,10 @@ $(document).ready(function() {
         //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [-1], //last column
+            "targets": [-1, -2, -3, -4], //last column
             "orderable": false, //set not orderable
         },
-        { "sClass": "text-center", "aTargets": [ -1 ] }
+        { "sClass": "text-center", "aTargets": [-1, -2, -3, -4] }
         ],
     });
 });

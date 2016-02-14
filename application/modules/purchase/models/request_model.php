@@ -6,7 +6,7 @@ class request_model extends CI_Model {
     var $table = 'purchase_request';
     var $table_list = 'purchase_request_list';
     var $table_join1 = 'gudang';
-    var $column = array('id', 'no', 'diajukan_ke', 'tanggal_digunakan', 'keperluan', 'gudang'); //set column field database for order and search
+    var $column = array('purchase_request.id', 'no', 'diajukan_ke', 'tanggal_digunakan', 'keperluan', 'gudang', 'app_status_id'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -24,6 +24,7 @@ class request_model extends CI_Model {
             '.$this->table.'.diajukan_ke,
             '.$this->table.'.tanggal_digunakan,
             '.$this->table.'.keperluan,
+            '.$this->table.'.app_status_id,
             '.$this->table_join1.'.title as gudang,
             ');
         $this->db->from($this->table);

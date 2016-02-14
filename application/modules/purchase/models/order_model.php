@@ -11,7 +11,7 @@ class order_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('purchase_order.id', 'po', 'kontak', 'tanggal_transaksi', 'metode_pembayaran', 'gudang'); //set column field database for order and search
+    var $column = array('purchase_order.id', 'po', 'kontak', 'tanggal_transaksi', 'app_status_id_lv1', 'app_status_id_lv2','app_status_id_lv3', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -28,6 +28,9 @@ class order_model extends CI_Model {
             '.$this->table.'.no as no,
             '.$this->table.'.po as po,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
+            '.$this->table.'.app_status_id_lv1,
+            '.$this->table.'.app_status_id_lv2,
+            '.$this->table.'.app_status_id_lv3,
             '.$this->table_join1.'.title as kontak,
             '.$this->table_join2.'.title as metode_pembayaran,
             '.$this->table_join4.'.title as gudang,

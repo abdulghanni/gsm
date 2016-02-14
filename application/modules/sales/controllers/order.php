@@ -106,6 +106,7 @@ class Order extends MX_Controller {
                 );
         $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         endfor;
+        $this->send_notif($order_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
@@ -154,6 +155,24 @@ class Order extends MX_Controller {
         $mpdf = new mPDF('A4');
         $mpdf->WriteHTML($html);
         $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+    }
+
+    function send_notif($id)
+    {
+        $group_id = array('3','4','8','9','10');
+        $user_id = $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result();//lastq();
+        $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
+        $isi = $isi = getName(sessId())." membuat sales Order, Untuk melihat detail silakan <a href=$url> KLIK DISINI </a>.";
+        foreach($user_id as $u):
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $u->user_id,
+                          'sent_on' => dateNow(),
+                          'judul' => 'Pembuatan Sales Order',
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+            $this->db->insert('notifikasi', $data);
+        endforeach;
     }
 
     //FOR JS

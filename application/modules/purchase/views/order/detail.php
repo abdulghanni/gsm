@@ -200,6 +200,18 @@
 					</div>
 				</div>
 				<hr/>
+				<div class="form-actions">
+                    <div class="row form-row">
+                        <div class="col-md-6 text-center">
+                        <?php if($o->is_app_lv1 == 1 && $user_app_lv1 == sessId()):?>
+                        	<div class='btn  btn-primary btn-xs text-center' title='Edit Approval' data-toggle="modal" data-target="#approval-modal1"><i class='fa fa-edit'> Edit Approval</i></div>
+                        <?php elseif($o->is_app_lv2 == 1 && $user_app_lv2 == sessId()):?>
+                        	<div class='btn  btn-primary btn-xs text-center' title='Edit Approval' data-toggle="modal" data-target="#approval-modal2"><i class='fa fa-edit'> Edit Approval</i></div>
+                        <?php elseif($o->is_app_lv3 == 1 && $user_app_lv3 == sessId()):?>
+                        	<div class='btn  btn-primary btn-xs text-center' title='Edit Approval' data-toggle="modal" data-target="#approval-modal3"><i class='fa fa-edit'> Edit Approval</i></div>
+                        <?php endif;?>
+                        </div>
+                    </div>
 				<div class="row">
 					<div class="col-md-2">
 					  <div class="approve text-center" style="align:center">
@@ -386,7 +398,6 @@
 	</div>
 </div>
 </form>
-<?php endforeach;?>
 <!-- end: INVOICE -->
 
 <?php for($i=0;$i<4;$i++):?>
@@ -408,17 +419,21 @@
 					<div class="form-group">
 						<label class="block">
 							Status Approval
+							<?php
+								$status ='app_status_id_lv'.$i;
+								$note = 'note_app_lv'.$i;
+							?>
 						</label>
 						<div class="clip-radio radio-primary">
-							<input type="radio" id="1<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="1">
+							<input type="radio" id="1<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="1" <?= ($o->$status == 1)?'checked':'';?>>
 							<label for="1<?= $i ?>">
 								Approve
 							</label>
-							<input type="radio" id="2<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="2">
+							<input type="radio" id="2<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="2" <?= ($o->$status == 2)?'checked':'';?>>
 							<label for="2<?= $i ?>">
 								Reject
 							</label>
-							<input type="radio" id="3<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="3">
+							<input type="radio" id="3<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="3" <?= ($o->$status == 3)?'checked':'';?>>
 							<label for="3<?= $i ?>">
 								Pending
 							</label>
@@ -432,7 +447,7 @@
 						<label class="block">
 							Note(Optional)
 						</label>
-						<textarea class="form-control" name="note_lv$level"></textarea>
+						<textarea class="form-control" name="note_lv<?= $i ?>"><?= $o->$note?></textarea>
 					</div>
 				</div>
             </div>
@@ -447,3 +462,5 @@
 </div>
 <!--end approve modal--> 
 <?php endfor; ?>
+
+<?php endforeach;?>

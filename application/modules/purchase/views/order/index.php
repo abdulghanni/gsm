@@ -29,13 +29,18 @@
                 <table class="table table-striped table-bordered table-hover table-full-width" id="table">
                     <thead>
                         <tr>
-                            <th width="5%" align="center">No.</th>
-                            <th width="15%"><?php echo 'No. P.O';?></th>
-                            <th width="15%"><?php echo 'Supplier';?></th>
-                            <th width="5%" class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
-                            <th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>
-                            <th width="15%"><?php echo 'Dikirim Ke';?></th>
-                            <th width="10%" class="text-center"><?php echo lang('action');?></th>
+                          <th rowspan="2" scope="col" width="5%" class="text-center">No</th>
+                          <th rowspan="2" scope="col" width="20">NO P.O</th>
+                          <th rowspan="2" scope="col" width="15">Supplier</th>
+                          <th rowspan="2" scope="col" width="5">Tgl. Pengiriman</th>
+                          <th rowspan="2" scope="col" width="20">Dikirim Ke</th>
+                          <th colspan="3" scope="col" width="15" class="text-center">Status</th>
+                          <th rowspan="2" scope="col" width="10" class="text-center">Action</th>
+                        </tr>
+                        <tr>
+                          <th scope="col" class="text-center" width="5%">Pembuat P.R</th>
+                          <th scope="col" class="text-center" width="5%">Manager</th>
+                          <th scope="col" class="text-center" width="5%">Direktur</th>
                         </tr>
                     </thead>
                     <tbody>

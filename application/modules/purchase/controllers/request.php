@@ -127,6 +127,7 @@ class Request extends MX_Controller {
             $row[] = $r->tanggal_digunakan;
             $row[] = $r->gudang;
             $row[] = $r->keperluan;
+            $row[] = $r->app_status_id;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
