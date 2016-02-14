@@ -59,7 +59,7 @@ class Pembelian extends MX_Controller {
     {
         permissionUser();
 
-        
+        $approver1 = '1';
         $this->data['jabatan_lv1'] = getUserGroup($approver1);
         $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
         $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
