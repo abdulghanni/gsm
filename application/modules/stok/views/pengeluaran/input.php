@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Penerimaan Stok</h1>
+			<h1 class="mainTitle">Pengeluaran Stok</h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -21,7 +21,7 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url('stok/penerimaan/add')?>" method="post" class="form-horizontal">
+<form role="form" action="<?= base_url('stok/pengeluaran/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">

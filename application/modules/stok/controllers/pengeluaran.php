@@ -205,13 +205,13 @@ class Pengeluaran extends MX_Controller {
         $this->send_notification($insert_id);
 		endfor;
 		//echo $sisaan;
-		if($sisaan==0){$this->db->query("UPDATE purchase_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
+		if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
 	function send_notification($id)
     {
         permissionUser();
-        $url = base_url().'purchase/order/INV/'.$id;
+        $url = base_url().'sales/order/INV/'.$id;
         $isi = getName(sessId())." Melakukan Transaksi Pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
         $approver = getAll('approver');
         foreach($approver->result() as $r):
@@ -228,14 +228,14 @@ class Pengeluaran extends MX_Controller {
     }
 	function cariref(){
 			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
+			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (no='$v' OR po='$v') ");
 			if($cariref->num_rows()>0){
 					
 					$data['refid']=$cariref->row_array();
 				if($data['refid']['is_app_lv1']==1){
 					if($data['refid']['is_closed']==0){
-						$data['reftype']='purchase_order';
-						$cekparsial=$this->db->query("SELECT * FROM stok_Pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
+						$data['reftype']='sales_order';
+						$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
 						if($cekparsial->num_rows()>0){
 							$data['part']=TRUE;	
 							$data['partno']=$cekparsial->num_rows()+1;	
@@ -250,7 +250,7 @@ class Pengeluaran extends MX_Controller {
 						}
 				}
 				else{
-					$data['message']="P.O BELUM di APPROVE";
+					$data['message']="S.O BELUM di APPROVE";
 				$this->load->view('stok/Pengeluaran/error',$data);}
 			}
 			else{
@@ -260,14 +260,14 @@ class Pengeluaran extends MX_Controller {
 	}
 	function carilist(){
 			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
+			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (no='$v' OR po='$v') ");
 			if($cariref->num_rows()>0){
 				$data['refid']=$cariref->row_array();
 				if($data['refid']['is_app_lv1']==1){
 					if($data['refid']['is_closed']==0){
 					
-					$data['reftype']='purchase_order';
-					$cekparsial=$this->db->query("SELECT * FROM stok_Pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."' ORDER BY id DESC LIMIT 1");
+					$data['reftype']='sales_order';
+					$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."' ORDER BY id DESC LIMIT 1");
 					if($cekparsial->num_rows()>0){
 						$data['part']=TRUE;	
 						$data['partno']=$cekparsial->num_rows()+1;
@@ -275,7 +275,7 @@ class Pengeluaran extends MX_Controller {
 						
 					}
 						
-						$data['list']=GetAll('purchase_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
+						$data['list']=GetAll('sales_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
 						$this->load->view('stok/Pengeluaran/input_list',$data);
 					}
 				}
