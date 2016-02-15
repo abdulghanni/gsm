@@ -120,13 +120,13 @@ setInterval("$('#flex1').flexReload()",50000 );
 					<td><?php echo form_checkbox('gdg','1',($this->input->post('gdg')?$this->input->post('gdg'):'')); ?>&nbsp;</td>
 					<td>Gudang</td>
 					<td>:</td>
-					<td><?php echo form_dropdown('gudang_id',$opt_gudang,($this->input->post('gudang_id')?$this->input->post('gudang_id'):'')); ?></td>
+					<td><?php echo bs_form_dropdown('gudang_id',$opt_gudang,($this->input->post('gudang_id')?$this->input->post('gudang_id'):'')); ?></td>
 				</tr>
 					<tr>
 						<td><?php echo form_checkbox('item','1',($this->input->post('item')?$this->input->post('item'):'')); ?>&nbsp;</td>
 					<td>Item</td>
 					<td>:</td>
-					<td><?php echo form_dropdown('barang_id',$opt_item,($this->input->post('barang_id')?$this->input->post('barang_id'):'')); ?></td>
+					<td><?php echo bs_form_dropdown('barang_id',$opt_item,($this->input->post('barang_id')?$this->input->post('barang_id'):'')); ?></td>
 				</tr>
 					<tr>
 						<td colspan='3'><input type="submit" value="GO"></td>

@@ -83,20 +83,22 @@ function edit_user(id)
         dataType: "JSON",
         success: function(data)
         {
-            var satuan = data.satuan.split(",");
+            //var satuan = data.satuan.split(",");
             $('[name="id"]').val(data.id);
             $('[name="kode"]').val(data.kode);
             $('[name="title"]').val(data.title);
             $('[name="alias"]').val(data.alias);
             $('[name="catatan"]').text(data.catatan);
             $('[name="jenis_barang_id"]').select2().select2('val',data.jenis_barang_id);
-            $('[name="satuan_id"]').select2().select2('val',data.satuan_id);
+            //$('[name="satuan_id"]').select2().select2('val',data.satuan_id);
+            $('[name="satuan"]').select2().select2('val',data.satuan);
             if(data.photo != ''){
             $("#photo").attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+data.id+"/"+data.photo);
             }else{
             $("#photo").attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
             }
-            drawSatuan(satuan);
+            drawSatuan(data.id);
+            //drawSatuan(satuan);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Ubah Data Barang'); // Set title to Bootstrap modal title
 
@@ -107,12 +109,16 @@ function edit_user(id)
         }
     });
 }
-
+ 
+function drawSatuan(data) {
+        $("#satuan-exist").load('barang/loadsatuanexist/'+data);
+} 
+/* 
 function drawSatuan(data) {
     for (var i = 0; i < data.length; i++) {
         $("#satuan-exist").append("<input type='hidden' class='form-control' value='"+data[i]+"' name='satuan[]' readonly><input type='text' class='form-control' value='"+getSatuanTitle(data[i])+"' readonly><br/>");
     }
-}
+} */
 
 function getSatuanTitle(id)
 {

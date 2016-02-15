@@ -33,6 +33,8 @@
         <link href="<?php echo assets_url('assets/css/styles.css'); ?>" rel="stylesheet" >
         <link rel="stylesheet" href="<?php echo assets_url('assets/css/plugins.css'); ?>">
         <link rel="stylesheet" href="<?php echo assets_url('assets/css/themes/theme-4.css'); ?>" id="skin_color" />
+        <script src="<?php echo assets_url('vendor/jquery/jquery.min.js'); ?>"></script>
+        <script src="<?php echo assets_url('flexigrid/js/flexigrid.pack.js'); ?>"></script>
         <!-- end: Custom CSS -->
 
         <!-- Custom styles -->
@@ -43,7 +45,6 @@
         <?php echo $body; ?>
         <!-- / -->
         
-        <script src="<?php echo assets_url('vendor/jquery/jquery.min.js'); ?>"></script>
         <script src="<?php echo assets_url('vendor/bootstrap/js/bootstrap.min.js'); ?>"></script>
         <script src="<?php echo assets_url('vendor/modernizr/modernizr.js'); ?>"></script>
          <script src="<?php echo assets_url('vendor/perfect-scrollbar/perfect-scrollbar.min.js'); ?>"></script>

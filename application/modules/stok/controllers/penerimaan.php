@@ -141,7 +141,7 @@ class Penerimaan extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         //$this->data['gudang'] = getAll('gudang')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-       // $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
+       // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -230,7 +230,7 @@ class Penerimaan extends MX_Controller {
 			if($cariref->num_rows()>0){
 					
 					$data['refid']=$cariref->row_array();
-				if(($data['refid']['is_app_lv1'] && $data['refid']['is_app_lv2'] && $data['refid']['is_app_lv3'])==1){
+				if($data['refid']['is_app_lv1']==1){
 					if($data['refid']['is_closed']==0){
 						$data['reftype']='purchase_order';
 						$cekparsial=$this->db->query("SELECT * FROM stok_penerimaan WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
@@ -261,7 +261,7 @@ class Penerimaan extends MX_Controller {
 			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
 			if($cariref->num_rows()>0){
 				$data['refid']=$cariref->row_array();
-				if(($data['refid']['is_app_lv1'] && $data['refid']['is_app_lv2'] && $data['refid']['is_app_lv3'])==1){
+				if($data['refid']['is_app_lv1']==1){
 					if($data['refid']['is_closed']==0){
 					
 					$data['reftype']='purchase_order';
@@ -272,9 +272,11 @@ class Penerimaan extends MX_Controller {
 							$data['partdata']=$cekparsial->row_array();
 						
 					}
-				}	
-				$data['list']=GetAll('purchase_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
-				$this->load->view('stok/penerimaan/input_list',$data);}
+						
+						$data['list']=GetAll('purchase_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
+						$this->load->view('stok/penerimaan/input_list',$data);
+					}
+				}
 			}
 	}
    
@@ -295,10 +297,10 @@ class Penerimaan extends MX_Controller {
 
     //FOR JS
 
-    function get_supplier_detail($id)
+    function get_kontak_detail($id)
     {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
+        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 

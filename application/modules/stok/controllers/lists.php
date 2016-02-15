@@ -40,7 +40,7 @@ class Lists extends MX_Controller {
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
 		$colModel['a.id'] = array('ID',100,TRUE,'left',2,TRUE);
 		$colModel['b.title'] = array('Barang',110,TRUE,'left',2);
-		$colModel['c.title'] = array('Supplier',110,TRUE,'left',2);
+		$colModel['c.title'] = array('kontak',110,TRUE,'left',2);
 		$colModel['d.title'] = array('Gudang',110,TRUE,'left',2);
 		$colModel['a.stok_dalam'] = array('Stok',110,TRUE,'left',2);
 		$colModel['a.minimum_stok'] = array('Stok Minimum',110,TRUE,'left',2);
@@ -56,13 +56,13 @@ class Lists extends MX_Controller {
 		'showTableToggleBtn' => TRUE
 		);
         
-		$buttons[] = array('select','check','btn');
+		/* $buttons[] = array('select','check','btn');
 		$buttons[] = array('deselect','uncheck','btn');
 		$buttons[] = array('separator');
 		$buttons[] = array('add','add','btn');
 		$buttons[] = array('separator');
 		$buttons[] = array('edit','edit','btn');
-		$buttons[] = array('delete','delete','btn');
+		$buttons[] = array('delete','delete','btn'); */
 		$buttons[] = array('separator');
 		
 		
@@ -73,9 +73,9 @@ class Lists extends MX_Controller {
 	function get_flexigrid($gdg,$brg)
 	{
 		//Build contents query
-		$this->db->select("a.id as id, b.title as barang,c.title as supplier,d.title as gudang,a.dalam_stok as stok,a.minimum_stok as stok_min,a.harga_beli as harga_beli,a.harga_jual as harga_jual")->from('stok a');
+		$this->db->select("a.id as id, b.title as barang,c.title as kontak,d.title as gudang,a.dalam_stok as stok,a.minimum_stok as stok_min,a.harga_beli as harga_beli,a.harga_jual as harga_jual")->from('stok a');
 		$this->db->join('barang b', "a.barang_id=b.id", 'left');
-		$this->db->join('supplier c', "a.supplier_id=c.id", 'left');
+		$this->db->join('kontak c', "a.supplier_id=c.id", 'left');
 		$this->db->join('gudang d', "a.gudang_id=d.id", 'left');
 		if($gdg!=0) $this->db->where('a.gudang_id',$gdg);
 		if($brg!=0) $this->db->where('a.barang_id',$brg);
@@ -130,7 +130,7 @@ class Lists extends MX_Controller {
 			$row->id,
 			$row->id,
 			$row->barang,
-			$row->supplier,
+			$row->kontak,
 			$row->gudang,
 			$row->stok,
 			$row->stok_min,
@@ -168,7 +168,7 @@ class Lists extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -246,7 +246,7 @@ class Lists extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->supplier;
+            $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->metode_pembayaran;
             $row[] = $r->po;
@@ -284,10 +284,10 @@ class Lists extends MX_Controller {
 
     //FOR JS
 
-    function get_supplier_detail($id)
+    function get_kontak_detail($id)
     {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
+        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 

@@ -114,25 +114,46 @@
                                 ?>
                             </div>
                         </div>
-
-                        <div class="form-group">
-                            <label class="control-label col-md-3"><?php echo lang('unit') ?></label>
-                            <div class="col-md-9">
-                                <div id="satuan-exist">
-                                </div>
-                                <div id="satuan-lain">
-                                </div>
-                                <button type="button" class="btn btn-xs btn-primary" id="btnTambahSatuan">Tambah <i class="fa fa-plus"></i></button>
-                            </div>
-                            
-                        </div>
+						
                         <div class="form-group">
                             <label class="control-label col-md-3">Catatan</label>
                             <div class="col-md-9">
                                 <textarea class="form-control" name="catatan"></textarea>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Satuan Dasar</label>
+                            <div class="col-md-9">
+                                <?php 
+                                    $js = 'class="select2" style="width:100%" id="satuan"';
+                                    echo form_dropdown('satuan', $options_satuan,'',$js); 
+                                ?>
+                            </div>
+                            
+                        </div>
                     </div>
+					<div class="col-md-12">
+							<div class="form-group">
+								<div class="col-md-6">
+									<label class="control-label"><?php echo lang('unit') ?></label>
+								</div>
+								<div class="col-md-6">
+									<label class="control-label">Konversi Ke Satuan Dasar</label>
+								</div>
+								
+							</div>
+                    </div>
+					<div class="col-md-12">
+							<div class="form-group">
+								<div class="col-md-12">
+									<div id="satuan-exist">
+									</div>
+									<div id="satuan-lain">
+									</div>
+									<button type="button" class="btn btn-xs btn-primary" id="btnTambahSatuan">Tambah <i class="fa fa-plus"></i></button>
+								</div>
+								
+							</div>
                     </div>
                     </div>
             <div class="modal-footer">

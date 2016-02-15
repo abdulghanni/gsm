@@ -4,7 +4,7 @@ class Pengeluaran extends MX_Controller {
     public $data;
     var $module = 'stok';
     var $title = 'Pengeluaran';
-    var $file_name = 'pengeluaran';
+    var $file_name = 'Pengeluaran';
     
     function __construct()
     {
@@ -27,12 +27,13 @@ class Pengeluaran extends MX_Controller {
 	function get_column(){
 		
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
-		
 		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
 		$colModel['ref'] = array('Ref',110,TRUE,'left',2);
 		
 		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
 		$colModel['tgl'] = array('Tanggal',110,TRUE,'left',2);
+		$colModel['bast'] = array('BAST',110,TRUE,'left',2);
+		$colModel['invoice'] = array('Invoice',110,TRUE,'left',2);
         
 		$gridParams = array(
 		'rp' => 25,
@@ -43,7 +44,8 @@ class Pengeluaran extends MX_Controller {
 		'showTableToggleBtn' => TRUE
 		);
         
-		$buttons[] = array('select','check','btn');
+		$buttons[] = array('separator');
+		/* $buttons[] = array('select','check','btn');
 		$buttons[] = array('deselect','uncheck','btn');
 		$buttons[] = array('separator');
 		$buttons[] = array('add','add','btn');
@@ -51,7 +53,7 @@ class Pengeluaran extends MX_Controller {
 		$buttons[] = array('edit','edit','btn');
 		$buttons[] = array('delete','delete','btn');
 		$buttons[] = array('separator');
-		
+		 */
 		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','asc',$gridParams,$buttons);
 	}
 	
@@ -104,7 +106,9 @@ class Pengeluaran extends MX_Controller {
 			$row->id,
 			$row->ref,
 			$row->gudang_to,
-			$row->tgl
+			$row->tgl,
+			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/Pengeluaran/bast' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
+			"",
 			);
 		}
 		
@@ -139,7 +143,7 @@ class Pengeluaran extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         //$this->data['gudang'] = getAll('gudang')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-       // $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
+       // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -160,78 +164,124 @@ class Pengeluaran extends MX_Controller {
         permissionUser();
 		//print_mz($this->input->post());
         $list = array(
-                        'chkbox'=>$this->input->post('chkbox'),
-                        'kode_barang'=>$this->input->post('kode_barang'),
-                        'deskripsi'=>$this->input->post('deskripsi'),
+                        'list_id'=>$this->input->post('list'),
                         'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
-                        'harga'=>$this->input->post('harga'),
-                        'disc'=>$this->input->post('disc'),
-                        'pajak'=>$this->input->post('pajak'),
+                        'jumlah_po'=>$this->input->post('jumlah_po'),
+						'kode_barang'=>$this->input->post('brg')
                         );
 
         $data = array(
                 'ref'=>$this->input->post('ref'),
+                'ref_type'=>$this->input->post('ref_type'),
+                'ref_id'=>$this->input->post('ref_id'),
                 
                 'tgl'=>date('Y-m-d',strtotime($this->input->post('tgl'))),
                 
-                'gudang_to'=>$this->input->post('gudang_to'),
+                'gudang_to'=>$this->input->post('gudang_id'),
                
                 'keterangan' =>$this->input->post('keterangan'),
+                'created_on' =>date("Y-m-d"),
+                'created_by' =>sessId(),
             );
 
         $this->db->insert($this->module.'_'.$this->file_name, $data);
         $insert_id = $this->db->insert_id();
+		$sisaan=0;
         for($i=1;$i<=sizeof($list['kode_barang']);$i++):
-		if(isset($list['chkbox'][$i])){
+		$sisa=$list['jumlah_po'][$i]-$list['jumlah'][$i];
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
-                'kode_barang' => $list['kode_barang'][$i],
-                'deskripsi' => $list['deskripsi'][$i],
+                'order_id' => $this->input->post('ref_id'),
+                'list_id' => $list['list_id'][$i],
+                'barang_id' => $list['kode_barang'][$i],
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],
-                'harga' => str_replace(',', '', $list['harga'][$i]),
-                'disc' => str_replace(',', '', $list['disc'][$i]),
-                'pajak' => str_replace(',', '', $list['pajak'][$i]),
+                'sisa' => $sisa,
                 );
-        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);}
-        endfor;
+        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
+        $sisaan=+$sisa;
+		masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
+        $this->send_notification($insert_id);
+		endfor;
+		//echo $sisaan;
+		if($sisaan==0){$this->db->query("UPDATE purchase_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
-    }
-
-    public function ajax_list()
+    }  
+	function send_notification($id)
     {
-        $list = $this->main->get_datatables();
-        $data = array();
-        $no = $_POST['start'];
-        foreach ($list as $r) {
-            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
-            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->supplier;
-            $row[] = $r->tanggal_transaksi;
-            $row[] = $r->metode_pembayaran;
-            $row[] = $r->po;
-            $row[] = $r->gudang;
-
-            $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
-            $data[] = $row;
-        }
-
-        $output = array(
-                        "draw" => $_POST['draw'],
-                        "recordsTotal" => $this->main->count_all(),
-                        "recordsFiltered" => $this->main->count_filtered(),
-                        "data" => $data,
-                );
-        //output to json format
-        echo json_encode($output);
+        permissionUser();
+        $url = base_url().'purchase/order/INV/'.$id;
+        $isi = getName(sessId())." Melakukan Transaksi Pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
+        $approver = getAll('approver');
+        foreach($approver->result() as $r):
+		$data = array('sender_id' => sessId(),
+		'receiver_id' => $r->user_id,
+		'sent_on' => dateNow(),
+		'judul' => 'Pengeluaran Order',
+		'isi' => $isi,
+		'url' => $url,
+		);
+        $this->db->insert('notifikasi', $data);
+        endforeach;
+        return TRUE;
     }
-
+	function cariref(){
+			$v=$_POST['v'];
+			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
+			if($cariref->num_rows()>0){
+					
+					$data['refid']=$cariref->row_array();
+				if($data['refid']['is_app_lv1']==1){
+					if($data['refid']['is_closed']==0){
+						$data['reftype']='purchase_order';
+						$cekparsial=$this->db->query("SELECT * FROM stok_Pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
+						if($cekparsial->num_rows()>0){
+							$data['part']=TRUE;	
+							$data['partno']=$cekparsial->num_rows()+1;	
+						}
+						
+						$this->load->view('stok/Pengeluaran/input_id',$data);
+						
+						}
+					else{
+							$data['message']="Transaksi sudah CLOSED";
+							$this->load->view('stok/Pengeluaran/error',$data);
+						}
+				}
+				else{
+					$data['message']="P.O BELUM di APPROVE";
+				$this->load->view('stok/Pengeluaran/error',$data);}
+			}
+			else{
+				$data['message']="Transaksi TIDAK DITEMUKAN";
+				$this->load->view('stok/Pengeluaran/error',$data);
+			}
+	}
+	function carilist(){
+			$v=$_POST['v'];
+			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
+			if($cariref->num_rows()>0){
+				$data['refid']=$cariref->row_array();
+				if($data['refid']['is_app_lv1']==1){
+					if($data['refid']['is_closed']==0){
+					
+					$data['reftype']='purchase_order';
+					$cekparsial=$this->db->query("SELECT * FROM stok_Pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."' ORDER BY id DESC LIMIT 1");
+					if($cekparsial->num_rows()>0){
+						$data['part']=TRUE;	
+						$data['partno']=$cekparsial->num_rows()+1;
+							$data['partdata']=$cekparsial->row_array();
+						
+					}
+						
+						$data['list']=GetAll('purchase_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
+						$this->load->view('stok/Pengeluaran/input_list',$data);
+					}
+				}
+			}
+	}
+   
     function print_pdf($id)
     {
         permissionUser();
@@ -249,10 +299,10 @@ class Pengeluaran extends MX_Controller {
 
     //FOR JS
 
-    function get_supplier_detail($id)
+    function get_kontak_detail($id)
     {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
+        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 
@@ -317,4 +367,7 @@ class Pengeluaran extends MX_Controller {
             return $this->load->view($view, $data, TRUE);
         }
     }
+	function bast($id=NULL){
+			$this->load->view('stok/Pengeluaran/bast');
+	}
 }

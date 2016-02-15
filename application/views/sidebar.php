@@ -39,7 +39,7 @@ $idp=GetValue('id_parents','menu',array('filez'=>'where/'.$this->uri->segment(1)
 				?>
 				<ul class="sub-menu">
 					<?php 
-						$submenu=getAll('menu',array('id_parents'=>'where/'.$isi->id,'sort'=>'order/asc'))->result();
+						$submenu=getAll('menu',array('is_active'=>'where/Active', 'id_parents'=>'where/'.$isi->id,'sort'=>'order/asc'))->result();
 						
 						foreach ($submenu as $sb){
 								//echo $this->uri->segment(1).'/'.$this->uri->segment(2);

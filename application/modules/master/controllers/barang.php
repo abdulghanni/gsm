@@ -65,28 +65,52 @@ class Barang extends MX_Controller {
     public function ajax_edit($id)
     {
         $data = $this->barang->get_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
-        echo json_encode($data);
+		echo json_encode($data);
     }
-
+	public function loadsatuanexist($id){
+		$data['ex']=GetAll('barang_satuan',array('barang_id'=>'where/'.$id))->result_array();
+        $data['options_satuan'] = options_row('barang', 'get_satuan','id','title', '-- Pilih Satuan --');
+		$this->load->view('barang/satuan_exist',$data);
+	}
     public function ajax_add()
     {
         //$this->_validate();
+		$satuanlain=$this->input->post('satuan_lain');
+		$valuelain=$this->input->post('value_lain');
         $is_update = $this->input->post('is_update');
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
                 'alias' => $this->input->post('alias'),
                 'jenis_barang_id' => $this->input->post('jenis_barang_id'),
-                'satuan' => implode(',', $this->input->post('satuan')),
+                'satuan' => $this->input->post('satuan'),
                 'catatan' => $this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
         $id = $this->input->post('id');
-        if($is_update == 1) $this->barang->update(array('id' => $id), $data);
-        else $id = $this->barang->save($data);
+        if($is_update == 1) {$this->barang->update(array('id' => $id), $data);
+			
+			$satuanlain_id=$this->input->post('satuan_lain_id');
+			$a=0;
+			foreach($satuanlain as $sl){
+				$this->db->where('id',$satuanlain_id[$a]);
+				$this->db->update('barang_satuan',array('value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+				$a++;
+			}
+		
+		}
+        else{ $id = $this->barang->save($data);
+			
+			$a=0;
+			foreach($satuanlain as $sl){
+				$this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+				$a++;
+			}
+		}
         $this->upload($id);
         $this->cek_stok($id);
+		
         //echo json_encode(array("status" => TRUE));
         redirect(base_url('master/barang'), 'refresh');
     }
@@ -186,14 +210,23 @@ function cek_stok($id)
 
     public function ajax_update()
     {
+		$satuanlain_id=$this->input->post('satuan_lain_id');
+		$satuanlain=$this->input->post('satuan_lain');
+		$valuelain=$this->input->post('value_lain');
         //$this->_validate();
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
                 'jenis_barang_id' => $this->input->post('jenis_barang_id'),
-                'satuan' => implode(',', $this->input->post('satuan')),
+                'satuan' => $this->input->post('satuan'),
             );
         $this->barang->update(array('id' => $this->input->post('id')), $data);
+		$a=0;
+		foreach($satuanlain as $sl){
+				$this->db->where('id',$satuanlain_id[$a]);
+			$this->db->update('barang_satuan',array('value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+			$a++;
+		}
         echo json_encode(array("status" => TRUE));
     }
 
