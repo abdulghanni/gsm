@@ -92,6 +92,7 @@ function edit_user(id)
             $('[name="jenis_barang_id"]').select2().select2('val',data.jenis_barang_id);
             //$('[name="satuan_id"]').select2().select2('val',data.satuan_id);
             $('[name="satuan"]').select2().select2('val',data.satuan);
+            $('[name="satuan_laporan"]').select2().select2('val',data.satuan_laporan);
             if(data.photo != ''){
             $("#photo").attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+data.id+"/"+data.photo);
             }else{

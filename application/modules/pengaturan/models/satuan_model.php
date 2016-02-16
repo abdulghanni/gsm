@@ -5,7 +5,7 @@ class satuan_model extends CI_Model {
 
 	var $table = 'satuan';
 	var $table_join1 = 'satuan_jenis';
-	var $column = array('satuan.id', 'title', 'nama', 'jenis', 'deskripsi'); //set column field database for order and search
+	var $column = array('satuan.id', 'title', 'nama', 'deskripsi'); //set column field database for order and search
 	var $order = array('id' => 'desc'); // default order 
 
 	public function __construct()
@@ -21,10 +21,10 @@ class satuan_model extends CI_Model {
 			'.$this->table.'.title as title,
 			'.$this->table.'.nama,
 			'.$this->table.'.deskripsi,
-			'.$this->table_join1.'.title as jenis,
+			'.$this->table.'.satuan_dasar_id,
+			'.$this->table.'.is_dasar,
 			');
 		$this->db->from($this->table);
-		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.satuan_jenis_id', 'left');
 
 		$i = 0;
 	
@@ -111,8 +111,8 @@ class satuan_model extends CI_Model {
 
 	public function get_jenis_satuan()
 	{	
-		$this->db->where($this->table_join1.'.is_deleted',0);
-		$this->db->order_by($this->table_join1.'.title','asc');
-		return $this->db->get($this->table_join1);
+		$this->db->where($this->table.'.is_dasar',1);
+		$this->db->order_by($this->table.'.title','asc');
+		return $this->db->get($this->table);
 	}
 }

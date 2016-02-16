@@ -31,10 +31,11 @@ class Request extends MX_Controller {
         $this->data['module'] = $this->module;
         permissionUser();
         $num_rows = getAll($this->table_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'desc')->limit(1)->get($this->table_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
+        $this->data['options_satuan'] = options_row('main', 'get_satuan','id','title', '-- Pilih Satuan --');
         $this->data['users'] = getAll('users')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
@@ -174,6 +175,19 @@ class Request extends MX_Controller {
         $mpdf = new mPDF('A4');
         $mpdf->WriteHTML($html);
         $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+    }
+
+    function get_satuan()
+    {
+        $id = $this->input->post('id');
+        $tbl = 'barang_satuan';
+        $tbl_join = 'satuan';
+        $condition = 'barang_satuan.satuan = satuan.id';
+        $type = 'left';
+        $select = 'satuan.id as id, satuan.title as satuan';
+        $filter = array('barang_id'=>'where/'.$id);
+        $data['satuan'] = GetAll($tbl,$tbl_join,$condition,$type,$select,$filter)->result();
+        $this->load->view('purchase/request/satuan', $data);
     }
 
     function _render_page($view, $data=null, $render=false)

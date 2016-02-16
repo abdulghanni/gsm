@@ -114,8 +114,18 @@
                 <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" style="display:none">
                     <?= 'Remove' ?> <i class="fa fa-remove"></i>
                 </button>
+
+				<div class="row pull-right">
+					<div class="checkbox clip-check check-primary checkbox-inline">
+						<input type="checkbox" id="fraksi" value="1" name="fraksi">
+						<label for="fraksi">
+							Fraksi
+						</label>
+					</div>
+				</div>
 				<div class="row">
 					<div class="col-sm-12">
+					
 					<div class="table-responsive">
 						<table id="table" class="table table-striped">
 							<thead>
@@ -284,6 +294,31 @@
 
 	var cell9=row.insertCell(8);
 	cell9.innerHTML = '<input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
+	//var a = $('input[name="fraksi"]').val();alert(a);
+	$('#jumlah'+rowCount).on('click', function () {
+        if($('input[name="fraksi"]').is(":checked")){
+        	showFModal(rowCount);
+        	$('#satuan'+id).html("<input type='text'>");
+        }
+    });
+function showFModal(id){
+	$('[name="fraksi_id"]').val(id);
+	$('#modal_fraksi').modal('show');
+}
+
+$('#btnFraksi').on('click', function () {
+        
+	var id = $('[name="fraksi_id"]').val(),
+		tf_1 = $('#tf-1').val();
+		sf_1 = $('#sf-1 option:selected').val();
+		tf_2 = $('#tf-2').val();
+		sf_2 = $('#sf-2 option:selected').val();
+		tf_3 = $('#tf-3').val();
+		sf_3 = $('#sf-3 option:selected').val();
+		$('#jumlah'+id).val(tf_1+'.'+tf_2+'.'+tf_3);
+		//$('#satuan'+id).select2().select2('val',tf_1);
+		$('#modal_fraksi').modal('hide');
+    });
 
 	$("#barang_id"+rowCount).change(function(){
         var id = $(this).val();
@@ -295,6 +330,15 @@
                 $('#deskripsi'+rowCount).val(data);
             }
         });
+         $.ajax({
+            type: 'POST',
+            url: '/gsm/purchase/request/get_satuan/'+id,
+            data: {id : id},
+            success: function(data) {
+                $('#satuan'+rowCount).html(data);
+            }
+        });
+
     })
     .change();
 
@@ -309,7 +353,7 @@
     });
     function hitung()
     {
-    	var a = parseInt($('#jumlah'+rowCount).val()),
+    	var a = parseFloat($('#jumlah'+rowCount).val()),
     		bunga = parseFloat($('#bunga').val()),
         	b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
         	c = parseFloat($('#disc'+rowCount).val()),
@@ -322,8 +366,9 @@
         	subPajak = val*(p/100),//jumlah pajak
         	jmlPajak = 0,
         	total = 0;
-
+        	
         $('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
+        
         $('#subpajak'+rowCount).val(subPajak);
         $('.subpajak').each(function (index, element) {
             jmlPajak = jmlPajak + parseInt($(element).val());
@@ -360,3 +405,64 @@
 	}
 	function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
 </script>
+<div class="modal fade" id="modal_fraksi" role="dialog">
+    <div class="modal-dialog modal-xs">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">User Form</h3>
+            </div>
+            <div class="modal-body form">
+                <form class="form-horizontal">
+                <input type="hidden" value="" name="fraksi_id"/>
+                <div class="form-body">
+                	<div class="row">
+	                    <div class="col-md-12">
+	                        <div class="form-group">
+	                            <label class="control-label col-md-3">Fraksi 1</label>
+	                            <div class="col-md-3">
+	                            <input type="text" class="form-control" id="tf-1">
+	                            </div>
+	                            <div class="col-md-6">
+	                                <?php 
+	                                    $js = 'class="select2" style="width:100%" id="sf-1"';
+	                                    echo form_dropdown('satuan', $options_satuan,'',$js); 
+	                                ?>
+	                            </div>
+	                        </div>
+	                        <div class="form-group">
+	                            <label class="control-label col-md-3">Fraksi 2</label>
+	                            <div class="col-md-3">
+	                            <input type="text" class="form-control" id="tf-2">
+	                            </div>
+	                            <div class="col-md-6">
+	                                <?php 
+	                                    $js = 'class="select2" style="width:100%" id="sf-2"';
+	                                    echo form_dropdown('satuan', $options_satuan,'',$js); 
+	                                ?>
+	                            </div>
+	                        </div>
+	                        <div class="form-group">
+	                            <label class="control-label col-md-3">Fraksi 3</label>
+	                            <div class="col-md-3">
+	                            <input type="text" class="form-control" id="tf-3">
+	                            </div>
+	                            <div class="col-md-6">
+	                                <?php 
+	                                    $js = 'class="select2" style="width:100%" id="sf-1"';
+	                                    echo form_dropdown('satuan', $options_satuan,'',$js); 
+	                                ?>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" id="btnFraksi" class="btn btn-primary" value="ok">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -17,7 +17,7 @@ class satuan extends MX_Controller {
 	function index()
 	{
         permissionUser();
-        $this->data['options_jenis_satuan'] = options_row('satuan', 'get_jenis_satuan','id','title', '-- Pilih Jenis Satuan --');
+        $this->data['options_jenis_satuan'] = options_row('satuan', 'get_jenis_satuan','id','title', '-- Pilih Satuan Dasar --');
 		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
@@ -32,7 +32,6 @@ class satuan extends MX_Controller {
             $row[] = $no;
             $row[] = $satuan->title;
             $row[] = $satuan->nama;
-            $row[] = $satuan->jenis;
             $row[] = $satuan->deskripsi;
 
 
@@ -66,7 +65,9 @@ class satuan extends MX_Controller {
                 'title' => $this->input->post('title'),
                 'nama' => $this->input->post('nama'),
                 'deskripsi' => $this->input->post('deskripsi'),
-                'satuan_jenis_id' => $this->input->post('satuan_jenis_id'),
+                'satuan_dasar_num' => $this->input->post('satuan_dasar_num'),
+                'satuan_dasar_id' => $this->input->post('satuan_dasar_id'),
+                'is_dasar' => $this->input->post('is_dasar'),
             );
         $insert = $this->satuan->save($data);
         echo json_encode(array("status" => TRUE));
@@ -75,11 +76,14 @@ class satuan extends MX_Controller {
     public function ajax_update()
     {
         //$this->_validate();
+        //print_ag($this->input->post('satuan_dasar_id'));
         $data = array(
                 'title' => $this->input->post('title'),
                 'nama' => $this->input->post('nama'),
                 'deskripsi' => $this->input->post('deskripsi'),
-                'satuan_jenis_id' => $this->input->post('satuan_jenis_id'),
+                'satuan_dasar_num' => $this->input->post('satuan_dasar_num'),
+                'satuan_dasar_id' => $this->input->post('satuan_dasar_id'),
+                'is_dasar' => $this->input->post('is_dasar'),
             );
         $this->satuan->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));

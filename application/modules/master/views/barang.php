@@ -129,9 +129,18 @@
                                     echo form_dropdown('satuan', $options_satuan,'',$js); 
                                 ?>
                             </div>
-                            
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Satuan Laporan</label>
+                            <div class="col-md-9">
+                                <?php 
+                                    $js = 'class="select2" style="width:100%" id="satuan_laporan"';
+                                    echo form_dropdown('satuan_laporan', $options_satuan,'',$js); 
+                                ?>
+                            </div>
                         </div>
                     </div>
+                    <!--
 					<div class="col-md-12">
 							<div class="form-group">
 								<div class="col-md-6">
@@ -155,7 +164,8 @@
 								
 							</div>
                     </div>
-                    </div>
+                    -->
+            </div>
             <div class="modal-footer">
                 <input type="submit" id="" onclick="" class="btn btn-primary" value="save">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>

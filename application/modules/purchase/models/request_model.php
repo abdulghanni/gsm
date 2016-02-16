@@ -6,6 +6,7 @@ class request_model extends CI_Model {
     var $table = 'purchase_request';
     var $table_list = 'purchase_request_list';
     var $table_join1 = 'gudang';
+    var $table_join2 = 'satuan';
     var $column = array('purchase_request.id', 'no', 'diajukan_ke', 'tanggal_digunakan', 'keperluan', 'gudang', 'app_status_id'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
@@ -132,6 +133,13 @@ class request_model extends CI_Model {
     {
         $this->db->update($this->table, $data, $where);
         return $this->db->affected_rows();
+    }
+
+    public function get_satuan()
+    {   
+        $this->db->where($this->table_join2.'.is_deleted',0);
+        $this->db->order_by($this->table_join2.'.title','asc');
+        return $this->db->get($this->table_join2);
     }
 
     public function delete_by_id($id)

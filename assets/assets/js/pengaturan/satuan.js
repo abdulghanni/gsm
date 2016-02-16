@@ -48,6 +48,9 @@ function edit_user(id)
 {
     save_method = 'update';
     $('#form')[0].reset(); // reset form on modals
+
+    $('#konversi').show();
+    
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
 
@@ -63,10 +66,12 @@ function edit_user(id)
             $('[name="title"]').val(data.title);
             $('[name="nama"]').val(data.nama);
             $('[name="deskripsi"]').val(data.deskripsi);
-            $('[name="satuan_jenis_id"]').select2().select2('val',data.satuan_jenis_id);
+            $('[name="satuan_dasar_num"]').val(data.satuan_dasar_num);
+            $('#satuan-text').text(data.title);
+            $('[name="satuan_dasar_id"]').select2().select2('val',data.satuan_dasar_id);
+            if(data.is_dasar == 1)$('[name="is_dasar"]').prop("checked", "checked");
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit satuan'); // Set title to Bootstrap modal title
-
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
