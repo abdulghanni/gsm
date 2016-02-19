@@ -13,11 +13,11 @@
 									<th width="5%">Disc(%)</th>
 									<th width="15%"> Sub Total </th>
 									<th width="5%">Pajak(%)</th-->
-									<th width="5%">Diterima</th>
+									<th width="5%">Dikirim</th>
 									<th width="5%">Satuan</th>
 								</tr><?php $c=1; foreach($list as $daftar){
 										if(isset($part)){
-												$carisisa=$this->db->query("SELECT * FROM stok_penerimaan_list WHERE penerimaan_id='".$partdata['id']."' AND list_id='".$daftar['id']."' ORDER BY id DESC LIMIT 1")->row_array();
+												$carisisa=$this->db->query("SELECT * FROM stok_pengeluaran_list WHERE pengeluaran_id='".$partdata['id']."' AND list_id='".$daftar['id']."' ORDER BY id DESC LIMIT 1")->row_array();
 												
 										}
 										

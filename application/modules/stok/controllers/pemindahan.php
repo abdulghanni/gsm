@@ -42,13 +42,7 @@ class Pemindahan extends MX_Controller {
 		'showTableToggleBtn' => TRUE
 		);
         
-		$buttons[] = array('select','check','btn');
-		$buttons[] = array('deselect','uncheck','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('add','add','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('edit','edit','btn');
-		$buttons[] = array('delete','delete','btn');
+	
 		$buttons[] = array('separator');
 		
 		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','asc',$gridParams,$buttons);
@@ -124,7 +118,11 @@ class Pemindahan extends MX_Controller {
 		//$error = "Selected countries (id's: ".$this->input->post('items').") deleted with success. Disabled for demo";
 		//echo "Sukses!";
 	}
-
+	function liststok(){
+			$gudang=$_POST['g'];
+			$data['list']=GetAll('stok',array('gudang_id'=>'where/'.$gudang));
+			$this->load->view('pemindahan/input_list',$data);
+	}
     function input()
     {
         $this->data['title'] = $this->title.' - Input';
@@ -139,7 +137,7 @@ class Pemindahan extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         //$this->data['gudang'] = getAll('gudang')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-        $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
+        //$this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -160,14 +158,10 @@ class Pemindahan extends MX_Controller {
         permissionUser();
 		//print_mz($this->input->post());
         $list = array(
-                        'chkbox'=>$this->input->post('chkbox'),
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
                         'jumlah'=>$this->input->post('jumlah'),
-                        'satuan'=>$this->input->post('satuan'),
-                        'harga'=>$this->input->post('harga'),
-                        'disc'=>$this->input->post('disc'),
-                        'pajak'=>$this->input->post('pajak'),
+                        'satuan'=>$this->input->post('satuan')
                         );
 
         $data = array(
@@ -180,23 +174,24 @@ class Pemindahan extends MX_Controller {
                
                 'keterangan' =>$this->input->post('keterangan'),
             );
-
+		if(array_sum($list['jumlah']) > 0){
         $this->db->insert($this->module.'_'.$this->file_name, $data);
         $insert_id = $this->db->insert_id();
         for($i=1;$i<=sizeof($list['kode_barang']);$i++):
-		if(isset($list['chkbox'][$i])){
+		if($list['jumlah'][$i]>0){
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
-                'satuan_id' => $list['satuan'][$i],
-                'harga' => str_replace(',', '', $list['harga'][$i]),
-                'disc' => str_replace(',', '', $list['disc'][$i]),
-                'pajak' => str_replace(',', '', $list['pajak'][$i]),
+                'satuan_id' => $list['satuan'][$i]
                 );
-        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);}
+        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
+		keluarstok($data['gudang_from'],$data2['kode_barang'],$data2['jumlah']);
+		masukstok($data['gudang_to'],$data2['kode_barang'],$data2['jumlah']);
+		}
         endfor;
+		}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 

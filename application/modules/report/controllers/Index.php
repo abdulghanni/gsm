@@ -2,6 +2,9 @@
 
 class Index extends MX_Controller {
     public $data;
+    var $module = 'report';
+    var $title = 'Custom Report';
+    var $file_name = 'report';
 	function __construct()
 	{
 		parent::__construct();
@@ -15,6 +18,8 @@ class Index extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
+        $this->data['title'] = $this->title;
+        $this->data['main_title'] = $this->module.'';
 		$q=$this->stok->get_judul();
 		$this->data['tipedokumen']= $q->result();
 		$filter['statusisasi']='where/1';
@@ -113,7 +118,7 @@ class Index extends MX_Controller {
         {
             $this->load->library('template');
 
-                if(in_array($view, array('master/stok/index')))
+                if(in_array($view, array('report/menu/menu')))
                 {
                     $this->template->set_layout('default');
 
@@ -124,7 +129,7 @@ class Index extends MX_Controller {
                     $this->template->add_js('assets/js/form-validation.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('vendor/select2/select2.min.js');
-                    $this->template->add_js('assets/js/master/stok/index.js');
+                    //$this->template->add_js('assets/js/master/stok/index.js');
                 }
 
             if ( ! empty($data['title']))

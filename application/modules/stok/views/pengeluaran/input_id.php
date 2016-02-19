@@ -1,5 +1,5 @@
 	<fieldset>
-	<legend><?php echo ucfirst(str_replace('_',' ',$reftype)) ?> No. <?php echo $refid['po'] ;?> <?php if(isset($part)){echo "(Penerimaan Ke ".$partno.")"; }?></legend>
+	<legend><?php echo ucfirst(str_replace('_',' ',$reftype)) ?> No. <?php echo $refid['so'] ;?> <?php if(isset($part)){echo "(Pengiriman Ke ".$partno.")"; }?></legend>
 	<div class="row">
 					<div class="col-md-5">
 						<div class="form-group">
@@ -91,11 +91,11 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputPassword3">
-								No. PO
+								No. so
 							</label>
 							<div class="col-sm-9">	
 								<?php 
-								$nm_f='po';
+								$nm_f='so';
 								$js = 'style="width:100%" class="form-control"  id="'.$nm_f.'"';
 								//echo form_input($nm_f, $refid[$nm_f],$js); 
 								echo $refid[$nm_f]; 
@@ -139,7 +139,7 @@
 							
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputEmail3">
-									Tgl. Penerimaan
+									Tgl. Pengiriman
 								</label>
 								<div class="col-sm-9">
 									<?php 
@@ -152,7 +152,7 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputPassword3">
-									Penempatan
+									Asal Gudang
 								</label>
 								<div class="col-sm-9">
 									<?php 

@@ -1946,7 +1946,7 @@ function getkurs($id){
 	return $q['kurs'];
 	
 }
-function keluarstok($gudang,$barang,$qty){
+function keluarstok($gudang,$barang,$qty,$satuan=NULL){
 	$CI=&get_instance();
 		$dalam=GetValue('dalam_stok','stok',array('barang_id'=>'where/'.$barang,'gudang_id'=>'where/'.$gudang));
 		if($dalam>=$qty){
@@ -1956,7 +1956,7 @@ function keluarstok($gudang,$barang,$qty){
 		else return FALSE;
 		}
 }
-function masukstok($gudang,$barang,$qty){
+function masukstok($gudang,$barang,$qty,$satuan=NULL){
 	$CI=&get_instance();
 		$dalam=$CI->db->query("SELECT * FROM stok WHERE gudang_id='$gudang' AND barang_id='$barang'");
 		if($dalam->num_rows()>0){

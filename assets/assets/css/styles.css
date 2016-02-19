@@ -59,7 +59,7 @@ html {
 }
 
 body {
-  color: #8e8e93;
+  color: #00BDCC;
   direction: ltr;
   overflow-x: hidden;
   height: 100%;
@@ -9860,14 +9860,14 @@ div.timeline .column_center .timeline_element:before, div.timeline .column_cente
 }
 
 .table-bordered.table > thead > tr > th {
-  border-bottom: 1px solid #777c2b;
-  background-color: #FAF549; 
+  border-bottom: 1px solid #fff;
+  background-color: #00BDCC; 
   color : #fff;
 }
 
 .table > thead > tr > th, .table > tbody > tr > th, .table > tfoot > tr > th, .table > thead > tr > td, .table > tbody > tr > td, .table > tfoot > tr > td {
   border-bottom: 1px solid #e2e2e4;
-  color: #5b5b60 !important;
+  color: #000 !important;
   border-top: none;
 }
 
@@ -11178,7 +11178,7 @@ td.small-width {
   margin: 0 15px;
 }
 #page-title h1 {
-  color: #777C2B;
+  color: #00BDCC;
   font-size: 36px;
   font-weight: 500;
   letter-spacing: 1px;

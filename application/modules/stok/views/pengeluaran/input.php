@@ -164,8 +164,8 @@
 	
 	function cariref(val){
 		$('.loadingimg').show();
-		$('#detailtrans').load('<?php echo base_url() ?>stok/penerimaan/cariref',{v:val});
-		$('#list').load('<?php echo base_url() ?>stok/penerimaan/carilist',{v:val});
+		$('#detailtrans').load('<?php echo base_url() ?>stok/pengeluaran/cariref',{v:val});
+		$('#list').load('<?php echo base_url() ?>stok/pengeluaran/carilist',{v:val});
 	}
 	function addRow(tableID){
 	var table=document.getElementById(tableID);

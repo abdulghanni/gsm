@@ -1,54 +1,41 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Lists extends MX_Controller {
+class Pengeluaran extends MX_Controller {
     public $data;
     var $module = 'stok';
-    var $title = 'List Stok';
-    var $file_name = 'lists';
+    var $title = 'Pengeluaran';
+    var $file_name = 'pengeluaran';
     
     function __construct()
     {
         parent::__construct();
 		$this->load->library('flexigrid');
         $this->load->helper('flexigrid');
-        $this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+        //$this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
     }
 
     function index()
     {
-			
-		//print_r($this->input->post());
-		$gdg=($this->input->post('gdg')?$this->input->post('gudang_id'):0);
-		$brg=($this->input->post('item')?$this->input->post('barang_id'):0);
-			
         $this->data['title'] = $this->title;
+        $this->data['modul'] = $this->module;
+        $this->data['filename'] = $this->file_name;
         $this->data['main_title'] = $this->module.'';
-		$this->data['js_grid']=$this->get_column($gdg,$brg);
-		$this->data['opt_gudang']=GetOptAll('gudang','-Gudang-');
-		$this->data['opt_item']=GetOptAll('barang','-Barang-');
+		$this->data['js_grid']=$this->get_column();
         permissionUser();
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
-	
-	}
-	
-	function get_column($gdg,$brg){
-			
+		}
+	function get_column(){
 		
-		/* $gdg=($this->input->post('gdg')?$this->input->post('gudang_id'):'');
-		$brg=($this->input->post('item')?$this->input->post('barang_id'):''); */
-
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
-		$colModel['a.id'] = array('ID',100,TRUE,'left',2,TRUE);
-		$colModel['b.title'] = array('Barang',110,TRUE,'left',2);
-		$colModel['c.title'] = array('kontak',110,TRUE,'left',2);
-		$colModel['d.title'] = array('Gudang',110,TRUE,'left',2);
-		$colModel['a.stok_dalam'] = array('Stok',110,TRUE,'left',2);
-		$colModel['a.minimum_stok'] = array('Stok Minimum',110,TRUE,'left',2);
-		$colModel['a.harga_beli'] = array('Harga Beli',110,TRUE,'left',2);
-		$colModel['a.harga_jual'] = array('Harga Jual',110,TRUE,'left',2);
+		
+		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
+		$colModel['ref'] = array('Ref',110,TRUE,'left',2);
+		
+		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
+		$colModel['tgl'] = array('Tanggal',110,TRUE,'left',2);
         
 		$gridParams = array(
-		'rp' => 10,
+		'rp' => 25,
 		'rpOptions' => '[10,20,30,40]',
 		'pagestat' => 'Displaying: {from} to {to} of {total} items.',
 		'blockOpacity' => 0.5,
@@ -56,64 +43,50 @@ class Lists extends MX_Controller {
 		'showTableToggleBtn' => TRUE
 		);
         
-		/* $buttons[] = array('select','check','btn');
+		$buttons[] = array('select','check','btn');
 		$buttons[] = array('deselect','uncheck','btn');
 		$buttons[] = array('separator');
 		$buttons[] = array('add','add','btn');
 		$buttons[] = array('separator');
 		$buttons[] = array('edit','edit','btn');
-		$buttons[] = array('delete','delete','btn'); */
+		$buttons[] = array('delete','delete','btn');
 		$buttons[] = array('separator');
 		
-		
-		
-		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record").'/'.$gdg.'/'.$brg,$colModel,'id','asc',$gridParams,$buttons);
+		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','asc',$gridParams,$buttons);
 	}
 	
-	function get_flexigrid($gdg,$brg)
+	function get_flexigrid()
 	{
+		
 		//Build contents query
-		$this->db->select("a.id as id, b.title as barang,c.title as kontak,d.title as gudang,a.dalam_stok as stok,a.minimum_stok as stok_min,a.harga_beli as harga_beli,a.harga_jual as harga_jual")->from('stok a');
-		$this->db->join('barang b', "a.barang_id=b.id", 'left');
-		$this->db->join('kontak c', "a.supplier_id=c.id", 'left');
-		$this->db->join('gudang d', "a.gudang_id=d.id", 'left');
-		if($gdg!=0) $this->db->where('a.gudang_id',$gdg);
-		if($brg!=0) $this->db->where('a.barang_id',$brg);
-		$this->flexigrid->build_query(TRUE);
+		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on")->from('stok_Pengeluaran a');
+		//$this->db->join('gudang b','b.id=a.gudang_from','left');
+		$this->db->join('gudang c','c.id=a.gudang_to','left');
+		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
+		$this->flexigrid->build_query();
 		
 		//Get contents
 		$return['records'] = $this->db->get();
-		//lastq();
-		 /* */ 
+		/* 
 		//Build count query
-		/* $this->db->select("count(id) as record_count")->from('stok');
+		$this->db->select("count(id) as record_count")->from($this->file_name);
 		$this->flexigrid->build_query(FALSE);
 		$record_count = $this->db->get();
 		$row = $record_count->row();
 		
 		//Get Record Count
 		$return['record_count'] = $row->record_count; */
-		$return['record_count'] =$return['records']->num_rows();
-		
+		$return['record_count'] = $return['records']->num_rows();
 		//Return all
 		return $return;
 	}
 	
-	function get_record($gdg,$brg){
+	function get_record(){
 		
-		//print_r($this->input->post());
-		$valid_fields = array('a.id',
-		'b.title',
-		'c.title',
-		'd.title',
-		'a.stok_dalam',
-		'a.minimum_stok',
-		'a.harga_beli',
-		'a.harga_jual'
-		);
+		$valid_fields = array('id','name','code','origin');
 		
 		$this->flexigrid->validate_post('id','DESC',$valid_fields);
-		$records = $this->get_flexigrid($gdg,$brg);
+		$records = $this->get_flexigrid();
 		
 		$this->output->set_header($this->config->item('json_header'));
 		
@@ -129,13 +102,9 @@ class Lists extends MX_Controller {
 			$row->id,
 			$row->id,
 			$row->id,
-			$row->barang,
-			$row->kontak,
-			$row->gudang,
-			$row->stok,
-			$row->stok_min,
-			$row->harga_beli,
-			$row->harga_jual
+			$row->ref,
+			$row->gudang_to,
+			$row->tgl
 			);
 		}
 		
@@ -150,7 +119,7 @@ class Lists extends MX_Controller {
 		foreach($countries_ids_post_array as $index => $country_id){
 			/*if (is_numeric($country_id) && $country_id > 0) {
 			$this->delete($country_id);}*/
-			$this->db->delete($this->file_name,array('id'=>$country_id));				
+			$this->db->delete($this->module.'_'.$this->file_name,array('id'=>$country_id));				
 		}
 		//$error = "Selected countries (id's: ".$this->input->post('items').") deleted with success. Disabled for demo";
 		//echo "Sukses!";
@@ -163,12 +132,14 @@ class Lists extends MX_Controller {
         $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+		
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
-        $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
+        //$this->data['gudang'] = getAll('gudang')->result();
+        $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
+       // $this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -187,7 +158,9 @@ class Lists extends MX_Controller {
     function add()
     {
         permissionUser();
+		//print_mz($this->input->post());
         $list = array(
+                        'chkbox'=>$this->input->post('chkbox'),
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
                         'jumlah'=>$this->input->post('jumlah'),
@@ -198,27 +171,19 @@ class Lists extends MX_Controller {
                         );
 
         $data = array(
-                'no' => $this->input->post('no'),
-                'supplier_id'=>$this->input->post('supplier_id'),
-                'up'=>$this->input->post('up'),
-                'alamat'=>$this->input->post('alamat'),
-                'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
-                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'po'=>$this->input->post('po'),
-                'gudang_id'=>$this->input->post('gudang_id'),
-                'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'kurensi_id'=>$this->input->post('kurensi_id'),
-                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
-                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
-                'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
-                'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
+                'ref'=>$this->input->post('ref'),
+                
+                'tgl'=>date('Y-m-d',strtotime($this->input->post('tgl'))),
+                
+                'gudang_to'=>$this->input->post('gudang_to'),
+               
                 'keterangan' =>$this->input->post('keterangan'),
             );
 
         $this->db->insert($this->module.'_'.$this->file_name, $data);
         $insert_id = $this->db->insert_id();
-        for($i=0;$i<sizeof($list['kode_barang']);$i++):
+        for($i=1;$i<=sizeof($list['kode_barang']);$i++):
+		if(isset($list['chkbox'][$i])){
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
@@ -229,7 +194,7 @@ class Lists extends MX_Controller {
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 );
-        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
+        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);}
         endfor;
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
@@ -246,7 +211,7 @@ class Lists extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->kontak;
+            $row[] = $r->supplier;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->metode_pembayaran;
             $row[] = $r->po;
@@ -284,10 +249,10 @@ class Lists extends MX_Controller {
 
     //FOR JS
 
-    function get_kontak_detail($id)
+    function get_supplier_detail($id)
     {
-        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
+        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 
@@ -313,12 +278,10 @@ class Lists extends MX_Controller {
                     $this->template->set_layout('default');
 
                     $this->template->add_css('flexigrid/css/flexigrid.css');
-                    $this->template->add_css('vendor/select2/select2.css');
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('flexigrid/js/flexigrid.pack.js');
-                    $this->template->add_js('vendor/select2/select2.min.js');
-                   // $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
                 {
                     $this->template->set_layout('default');
@@ -333,7 +296,7 @@ class Lists extends MX_Controller {
                     $this->template->add_js('vendor/select2/select2.min.js');
                     $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
                     $this->template->add_js('assets/js/form-elements.js');
-                   // $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/input.js');
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/input.js');
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/detail')))
                 {
                     $this->template->set_layout('default');

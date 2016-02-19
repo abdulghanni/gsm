@@ -1,7 +1,7 @@
 <style>
 .bDiv{
 		height:300px!important;
-}
+}.container-fullw{padding-top:5px!important;}
 </style>
 
 <?php
@@ -12,7 +12,7 @@ error_reporting(0);
 var _base_url = '<?php echo  base_url() ?>';
 var controller = '<?php echo $this->file_name?>/';
 function del(id) { 
-  i = confirm('Hapus : ' + id + ' ?');;
+  i = confirm('Hapus : ' + id + ' ?');
   if (i) {
     window.location = _base_url + controller + 'delete/' + id;
   }
@@ -74,7 +74,7 @@ function btn(com,grid)
 					  	
 					$.ajax({
 					   type: "POST",
-					   url: "<?php echo site_url($this->utama."/deletec");?>",
+					   url: "<?php echo site_url($modul.'/'.$filename."/deletec");?>",
 					   data: "items="+itemlist,
 					   success: function(data){
 					   	$('#flex1').flexReload();
@@ -94,7 +94,7 @@ setInterval("$('#flex1').flexReload()",50000 );
 <section id="page-title">
     <div class="row">
         <div class="col-sm-8">
-            <h1 class="mainTitle"><?php echo $title?></h1>
+            <h1 class="mainTitle"><?php echo $title ?></h1>
         </div>
         <ol class="breadcrumb">
             <li>
@@ -110,35 +110,11 @@ setInterval("$('#flex1').flexReload()",50000 );
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-				<div class="col-md-12">
-				<form method="post">
-					<table >
-						<tr>
-						<th><h4>FILTER</h4></th>
-						</tr>
-				<tr>
-					<td width="2%"><?php echo form_checkbox('gdg','1',($this->input->post('gdg')?$this->input->post('gdg'):'')); ?>&nbsp;</td>
-					<td>Gudang</td>
-					<td>:</td>
-					<td><?php echo form_dropdown('gudang_id',$opt_gudang,($this->input->post('gudang_id')?$this->input->post('gudang_id'):''),'class="select2 form-control"'); ?></td>
-				</tr>
-					<tr>
-						<td width="2%"><?php echo form_checkbox('item','1',($this->input->post('item')?$this->input->post('item'):'')); ?>&nbsp;</td>
-					<td>Item</td>
-					<td>:</td>
-					<td><?php echo form_dropdown('barang_id',$opt_item,($this->input->post('barang_id')?$this->input->post('barang_id'):''),'class="select2 form-control"'); ?></td>
-				</tr>
-					<tr>
-						<td colspan='3'><input type="submit" value="GO"></td>
-					</tr>
-				</table>
-				</form><br/>
-				</div>
-				<!--div class="col-md-12 space20">
-                    <a href="<?= base_url('purchase/order/input')?>" class="btn btn-green add-row">
+                <div class="col-md-12 space20">
+                    <a href="<?= base_url($modul.'/'.$filename.'/input')?>" class="btn btn-green add-row">
                         <?= lang('add') ?> <i class="fa fa-plus"></i>
                     </a>
-                </div-->
+                </div>
             </div>
             <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
             <div class="table-responsive">
@@ -167,8 +143,3 @@ setInterval("$('#flex1').flexReload()",50000 );
         </div>
     </div>
 </div>
-<script>
-$(document).ready(function(e){
-		$('.select2').select2();
-});
-</script>

@@ -75,8 +75,9 @@ class Barang extends MX_Controller {
     public function ajax_add()
     {
         //$this->_validate();
-		//$satuanlain=$this->input->post('satuan_lain');//print_ag($satuanlain);
-		//$valuelain=$this->input->post('value_lain');
+		$satuanlain=$this->input->post('satuan_lain');//print_ag($satuanlain);
+		$satuanlain_id=$this->input->post('satuan_lain_id');
+		$valuelain=$this->input->post('value_lain');
         $is_update = $this->input->post('is_update');
         $data = array(
                 'kode' => $this->input->post('kode'),
@@ -90,38 +91,42 @@ class Barang extends MX_Controller {
                 'created_on' => dateNow(),
             );
         $id = $this->input->post('id');
-        if($is_update == 1) {$this->barang->update(array('id' => $id), $data);
-            /*
-			$satuanlain_id=$this->input->post('satuan_lain_id');
-            $num_satuan_dasar = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$this->input->post('satuan')))->num_rows();
+        if($is_update == 1) {
+			$this->barang->update(array('id' => $id), $data);
+            
+            /* $num_satuan_dasar = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$this->input->post('satuan')))->num_rows();
             if($num_satuan_dasar>0):
                 $this->db->where('satuan',$this->input->post('satuan'))->where('barang_id', $id);
                 $this->db->update('barang_satuan',array('value'=>1,'satuan'=>$this->input->post('satuan')));
             else:
                 $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>1,'satuan'=>$this->input->post('satuan')));
-            endif;
+            endif; */
 			$a=0;
 			foreach($satuanlain as $sl){
                 $num_satuan = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$satuanlain[$a]))->num_rows();
-                if($num_satuan>0):
+                if(isset($satuanlain_id[$a])):
 				    $this->db->where('id',$satuanlain_id[$a]);
 				    $this->db->update('barang_satuan',array('value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
                 else:
+					if(isset($satuanlain[$a])){
                     $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+					}
                 endif;
 				$a++;
 			}
-            */
+            
 		}
         else{ $id = $this->barang->save($data);
-			/*
+			
 			$a=0;
                 $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>1,'satuan'=>$this->input->post('satuan')));
 			foreach($satuanlain as $sl){
+				if(isset($sl[$a])){
 				$this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+				}
 				$a++;
 			}
-            */
+            
 		}
         $this->upload($id);
         $this->cek_stok($id);

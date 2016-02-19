@@ -1,10 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pengeluaran extends MX_Controller {
+class pengeluaran extends MX_Controller {
     public $data;
     var $module = 'stok';
-    var $title = 'Pengeluaran';
-    var $file_name = 'Pengeluaran';
+    var $title = 'pengeluaran';
+    var $file_name = 'pengeluaran';
     
     function __construct()
     {
@@ -32,7 +32,7 @@ class Pengeluaran extends MX_Controller {
 		
 		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
 		$colModel['tgl'] = array('Tanggal',110,TRUE,'left',2);
-		$colModel['bast'] = array('BAST',110,TRUE,'left',2);
+		$colModel['surat_jalan'] = array('Surat Jalan',110,TRUE,'left',2);
 		$colModel['invoice'] = array('Invoice',110,TRUE,'left',2);
         
 		$gridParams = array(
@@ -61,7 +61,7 @@ class Pengeluaran extends MX_Controller {
 	{
 		
 		//Build contents query
-		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on")->from('stok_Pengeluaran a');
+		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on")->from('stok_pengeluaran a');
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
 		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
@@ -107,7 +107,7 @@ class Pengeluaran extends MX_Controller {
 			$row->ref,
 			$row->gudang_to,
 			$row->tgl,
-			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/Pengeluaran/bast' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
+			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/bast' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
 			"",
 			);
 		}
@@ -201,7 +201,7 @@ class Pengeluaran extends MX_Controller {
                 );
         $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         $sisaan=+$sisa;
-		masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
+		keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
         $this->send_notification($insert_id);
 		endfor;
 		//echo $sisaan;
@@ -212,13 +212,13 @@ class Pengeluaran extends MX_Controller {
     {
         permissionUser();
         $url = base_url().'sales/order/INV/'.$id;
-        $isi = getName(sessId())." Melakukan Transaksi Pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
+        $isi = getName(sessId())." Melakukan Transaksi pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
         $approver = getAll('approver');
         foreach($approver->result() as $r):
 		$data = array('sender_id' => sessId(),
 		'receiver_id' => $r->user_id,
 		'sent_on' => dateNow(),
-		'judul' => 'Pengeluaran Order',
+		'judul' => 'pengeluaran Order',
 		'isi' => $isi,
 		'url' => $url,
 		);
@@ -228,11 +228,11 @@ class Pengeluaran extends MX_Controller {
     }
 	function cariref(){
 			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (no='$v' OR po='$v') ");
+			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (no='$v' OR so='$v') ");
 			if($cariref->num_rows()>0){
 					
 					$data['refid']=$cariref->row_array();
-				if($data['refid']['is_app_lv1']==1){
+				//if($data['refid']['is_app_lv1']==1){
 					if($data['refid']['is_closed']==0){
 						$data['reftype']='sales_order';
 						$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
@@ -241,29 +241,29 @@ class Pengeluaran extends MX_Controller {
 							$data['partno']=$cekparsial->num_rows()+1;	
 						}
 						
-						$this->load->view('stok/Pengeluaran/input_id',$data);
+						$this->load->view('stok/pengeluaran/input_id',$data);
 						
 						}
 					else{
 							$data['message']="Transaksi sudah CLOSED";
-							$this->load->view('stok/Pengeluaran/error',$data);
+							$this->load->view('stok/pengeluaran/error',$data);
 						}
-				}
+				/* }
 				else{
 					$data['message']="S.O BELUM di APPROVE";
-				$this->load->view('stok/Pengeluaran/error',$data);}
+				$this->load->view('stok/pengeluaran/error',$data);} */
 			}
 			else{
 				$data['message']="Transaksi TIDAK DITEMUKAN";
-				$this->load->view('stok/Pengeluaran/error',$data);
+				$this->load->view('stok/pengeluaran/error',$data);
 			}
 	}
 	function carilist(){
 			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (no='$v' OR po='$v') ");
+			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (no='$v' OR so='$v') ");
 			if($cariref->num_rows()>0){
 				$data['refid']=$cariref->row_array();
-				if($data['refid']['is_app_lv1']==1){
+				//if($data['refid']['is_app_lv1']==1){
 					if($data['refid']['is_closed']==0){
 					
 					$data['reftype']='sales_order';
@@ -276,9 +276,9 @@ class Pengeluaran extends MX_Controller {
 					}
 						
 						$data['list']=GetAll('sales_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
-						$this->load->view('stok/Pengeluaran/input_list',$data);
+						$this->load->view('stok/pengeluaran/input_list',$data);
 					}
-				}
+				//}
 			}
 	}
    
@@ -368,6 +368,6 @@ class Pengeluaran extends MX_Controller {
         }
     }
 	function bast($id=NULL){
-			$this->load->view('stok/Pengeluaran/bast');
+			$this->load->view('stok/pengeluaran/bast');
 	}
 }

@@ -140,7 +140,7 @@
                             </div>
                         </div>
                     </div>
-                    <!--
+                    
 					<div class="col-md-12">
 							<div class="form-group">
 								<div class="col-md-6">
@@ -164,7 +164,7 @@
 								
 							</div>
                     </div>
-                    -->
+                    
             </div>
             <div class="modal-footer">
                 <input type="submit" id="" onclick="" class="btn btn-primary" value="save">
