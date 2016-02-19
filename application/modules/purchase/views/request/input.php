@@ -130,19 +130,21 @@
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
-									<th width="5%"> # </th>
+									<!--<th width="5%"> # </th>-->
 									<th width="5%"> No. </th>
-									<th width="10%"> Kode Barang </th>
-									<th width="20%"> Deskripsi </th>
+									<th width="25%"> Kode Barang </th>
+									<th width="25%"> Deskripsi </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
-									<th width="20%"> Harga </th>
+									<th width="10%"> Harga </th>
 									<th width="5%"  style="display:none">Disc(%)</th>
-									<th width="15%"> Sub Total </th>
+									<th width="10%"> Sub Total </th>
 									<th width="5%">Pajak(%)</th>
 								</tr>
 							</thead>
 							<tbody>
+								<div id="tb">
+								</div>
 							</tbody>
 						</table>
 					</div>
@@ -255,6 +257,8 @@
 		</div>
 	</div>
 </div>
+
+
 </form>
 <!-- end: INVOICE -->
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
@@ -262,9 +266,16 @@
 	function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
-	var row=table.insertRow(rowCount);
-
-	var cell1=row.insertCell(0);
+	$.ajax({
+            url: '/gsm/purchase/request/add_row/'+rowCount,
+            success: function(response){
+	         	$("#"+tableID).find('tbody').append(response);
+	         },
+	         dataType:"html"
+        });
+	
+}
+	/*var cell1=row.insertCell(0);
 	var element1=document.createElement("input");
 	element1.type="checkbox";
 	element1.name="chkbox[]";
@@ -284,7 +295,7 @@
 	cell5.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 
 	var cell6=row.insertCell(5);
-	cell6.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
+	cell6.innerHTML = "<select id="+'satuanlist'+rowCount+" name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select><input type='text' value='0' id="+'satuanlist_num'+rowCount+"> ";
 
 	var cell7=row.insertCell(6);
 	cell7.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'"><input name="disc[]"  style="display:none" value="0" type="hidden" class="form-control text-right" required="required" id="disc'+rowCount+'">';  
@@ -297,26 +308,19 @@
 	//var a = $('input[name="fraksi"]').val();alert(a);
 	$('#jumlah'+rowCount).on('click', function () {
         if($('input[name="fraksi"]').is(":checked")){
+        	$('#form_fraksi')[0].reset();
+			$('[name="fraksi_id"]').val(rowCount);
+			$('.sf-1').attr('id', 'sf-1'+rowCount);
+			$('.tf-1').attr('id', 'tf-1'+rowCount);
         	showFModal(rowCount);
-        	$('#satuan'+id).html("<input type='text'>");
         }
     });
 function showFModal(id){
-	$('[name="fraksi_id"]').val(id);
+	
 	$('#modal_fraksi').modal('show');
 }
 
 $('#btnFraksi').on('click', function () {
-        
-	var id = $('[name="fraksi_id"]').val(),
-		tf_1 = $('#tf-1').val();
-		sf_1 = $('#sf-1 option:selected').val();
-		tf_2 = $('#tf-2').val();
-		sf_2 = $('#sf-2 option:selected').val();
-		tf_3 = $('#tf-3').val();
-		sf_3 = $('#sf-3 option:selected').val();
-		$('#jumlah'+id).val(tf_1+'.'+tf_2+'.'+tf_3);
-		//$('#satuan'+id).select2().select2('val',tf_1);
 		$('#modal_fraksi').modal('hide');
     });
 
@@ -341,14 +345,14 @@ $('#btnFraksi').on('click', function () {
 
     })
     .change();
-
+    
 	$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
 	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).add("#pajak"+rowCount).keyup(function() {
 		hitung();
     });
 
     $('.harga').maskMoney({allowZero:true});
-    $('#dibayar, #biaya_pengiriman').keyup(function(){
+    $('#dibayar, #biaya_pengiriman, #tf-1, #tf-2, #tf-3').keyup(function(){
     	hitung();
     });
     function hitung()
@@ -366,8 +370,25 @@ $('#btnFraksi').on('click', function () {
         	subPajak = val*(p/100),//jumlah pajak
         	jmlPajak = 0,
         	total = 0;
-        	
-        $('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
+        	if($('input[name="fraksi"]').is(":checked")){
+        		tf_1 = parseFloat($('#tf-1').val());
+				tf_2 = parseFloat($('#tf-2').val());
+				tf_3 = parseFloat($('#tf-3').val());
+				sf_1_num = parseFloat($("#sf1-num").val());
+				sf_2_num = parseFloat($("#sf2-num").val());
+				sf_3_num = parseFloat($("#sf3-num").val());
+				sf_3_num = parseFloat($("#sf3-num").val());
+				satuan_utama_num = parseFloat($('#satuanlist_num'+rowCount).val());
+				b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
+				//$('#satuan'+id).select2().select2('val',tf_1);
+				v1 = tf_1*(sf_1_num/satuan_utama_num)*b,
+				v2 = tf_2*(sf_2_num/satuan_utama_num)*b,
+				v3 = tf_3*(sf_3_num/satuan_utama_num)*b,
+				val = parseFloat(v1) + parseFloat(v2) + parseFloat(v3);//alert(v1+'='+tf_1+'*('+sf_1_num+'/'+satuan_utama_num+'*'+b);
+        		$('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
+        	}else{
+        		$('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
+        	}
         
         $('#subpajak'+rowCount).val(subPajak);
         $('.subpajak').each(function (index, element) {
@@ -404,6 +425,19 @@ $('#btnFraksi').on('click', function () {
     }
 	}
 	function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
+	*/
+	function addCommas(nStr)
+    {
+      nStr += '';
+      x = nStr.split('.');
+      x1 = x[0];
+      x2 = x.length > 1 ? '.' + x[1] : '';
+      var rgx = /(\d+)(\d{3})/;
+      while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+      }
+      return x1 + x2;
+    }
 </script>
 <div class="modal fade" id="modal_fraksi" role="dialog">
     <div class="modal-dialog modal-xs">
@@ -413,7 +447,7 @@ $('#btnFraksi').on('click', function () {
                 <h3 class="modal-title">User Form</h3>
             </div>
             <div class="modal-body form">
-                <form class="form-horizontal">
+                <form class="form-horizontal" id="form_fraksi">
                 <input type="hidden" value="" name="fraksi_id"/>
                 <div class="form-body">
                 	<div class="row">
@@ -421,19 +455,20 @@ $('#btnFraksi').on('click', function () {
 	                        <div class="form-group">
 	                            <label class="control-label col-md-3">Fraksi 1</label>
 	                            <div class="col-md-3">
-	                            <input type="text" class="form-control" id="tf-1">
+	                            <input type="text" class="form-control tf-1" value="0">
 	                            </div>
 	                            <div class="col-md-6">
 	                                <?php 
-	                                    $js = 'class="select2" style="width:100%" id="sf-1"';
+	                                    $js = 'class="sf-1" style="width:100%" ';
 	                                    echo form_dropdown('satuan', $options_satuan,'',$js); 
 	                                ?>
 	                            </div>
+	                            <input type="text" id="sf1-num" value="0">
 	                        </div>
 	                        <div class="form-group">
 	                            <label class="control-label col-md-3">Fraksi 2</label>
 	                            <div class="col-md-3">
-	                            <input type="text" class="form-control" id="tf-2">
+	                            <input type="text" class="form-control" id="tf-2" value="0">
 	                            </div>
 	                            <div class="col-md-6">
 	                                <?php 
@@ -441,18 +476,20 @@ $('#btnFraksi').on('click', function () {
 	                                    echo form_dropdown('satuan', $options_satuan,'',$js); 
 	                                ?>
 	                            </div>
+	                            <input type="text" id="sf2-num" value="0">
 	                        </div>
 	                        <div class="form-group">
 	                            <label class="control-label col-md-3">Fraksi 3</label>
 	                            <div class="col-md-3">
-	                            <input type="text" class="form-control" id="tf-3">
+	                            <input type="text" class="form-control" id="tf-3" value="0">
 	                            </div>
 	                            <div class="col-md-6">
 	                                <?php 
-	                                    $js = 'class="select2" style="width:100%" id="sf-1"';
+	                                    $js = 'class="select2" style="width:100%" id="sf-3"';
 	                                    echo form_dropdown('satuan', $options_satuan,'',$js); 
 	                                ?>
 	                            </div>
+	                            <input type="text" id="sf3-num" value="0">
 	                        </div>
 	                    </div>
 	                </div>
@@ -466,3 +503,4 @@ $('#btnFraksi').on('click', function () {
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+<div id="modal"></div>

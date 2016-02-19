@@ -159,6 +159,24 @@ class Request extends MX_Controller {
         echo json_encode(array("status" => $id));
     }
 
+    function add_row($id)
+    {
+        $data['id'] = $id;
+        $data['barang'] = getAll('barang')->result_array();
+        $data['satuan'] = getAll('satuan')->result_array();
+        $data['options_satuan'] = options_row('main', 'get_satuan','id','title', '-- Pilih Satuan --');
+        $this->load->view('request/row', $data);
+    }
+
+    function show_modal($id)
+    {
+        $data['id'] = $id;
+        $data['barang'] = getAll('barang')->result_array();
+        $data['satuan'] = getAll('satuan')->result_array();
+        $data['options_satuan'] = options_row('main', 'get_satuan','id','title', '-- Pilih Satuan --');
+        $this->load->view('request/modal', $data);
+    }
+
     function print_pdf($id)
     {
         $this->data['main_title'] = $this->main_title;
@@ -188,6 +206,13 @@ class Request extends MX_Controller {
         $filter = array('barang_id'=>'where/'.$id);
         $data['satuan'] = GetAll($tbl,$tbl_join,$condition,$type,$select,$filter)->result();
         $this->load->view('purchase/request/satuan', $data);
+    }
+    function get_satuan_num($id)
+    {
+        $is_dasar = getValue('is_dasar', 'satuan', array('id'=>'where/'.$id));
+        $num = getValue('satuan_dasar_num', 'satuan', array('id'=>'where/'.$id));
+        if($is_dasar == 1)$num = 1;
+        echo json_encode($num);
     }
 
     function _render_page($view, $data=null, $render=false)
