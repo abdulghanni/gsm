@@ -139,18 +139,21 @@ class Order extends MX_Controller {
                        'level' => 'where/2',
                        'level' => 'where/1'
                        );
-            $approver = $this->db->where('level', 1)->where('level', 2)->where('level', 3)->get('approver');
+            $list = array(1,2,3);
+            $approver = $this->db->where_in('level', $list)->get('approver');
             }else{
                 $level = array(
                        'level' => 'where/1'
                        );
-                $approver = $this->db->where('level', 1)->get('approver');
+                 $list = array(1);
+            $approver = $this->db->where_in('level', $list)->get('approver');
             }
         else:
             $level = array('level' => 'where/3',
                        'level' => 'where/2',
                        );
-        $approver = $this->db->where('level', 2)->where('level', 3)->get('approver');
+         $list = array(2,3);
+            $approver = $this->db->where_in('level', $list)->get('approver');
         endif;
         //$approver = GetAllSelect('approver','id', array('level' => 'where/3','level' => 'where/2','level' => 'where/1'));lastq();print_mz($approver->result());
         foreach($approver->result() as $r):

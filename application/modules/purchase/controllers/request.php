@@ -122,22 +122,23 @@ class Request extends MX_Controller {
                           'isi' => $isi,
                           'url' => $url,
              );
-        $this->db->insert('notifikasi', $data);
+            $this->db->insert('notifikasi', $data);
         endif;
+
         if($jenis == 3):
-        $level = array('level' => 'where/3',
-                       'level' => 'where/2',
-                       'level' => 'where/1'
-                       );
-    $approver = $this->db->where('level', 1)->where('level', 2)->where('level', 3)->get('approver');
-        else:
             $level = array('level' => 'where/3',
+                           'level' => 'where/2',
+                           'level' => 'where/1'
+                           );
+        $list = array(1,2,3);
+            $approver = $this->db->where_in('level', $list)->get('approver');
+        else:
+                $level = array('level' => 'where/3',
                        'level' => 'where/2',
                        );
-        $approver = $this->db->where('level', 2)->where('level', 3)->get('approver');
+                $list = array(2,3);
+            $approver = $this->db->where_in('level', $list)->get('approver');
         endif;
-        //$approver = getAll('approver', $level);
-        //lastq();
         foreach($approver->result() as $r):
             $data = array('sender_id' => sessId(),
                           'receiver_id' => $r->user_id,
