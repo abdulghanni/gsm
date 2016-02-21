@@ -248,7 +248,7 @@
 	                    <?php endif; ?>
 	                  </div>
 					</div>
-					<?php if($jenis != 3):?>
+					<?php if($jenis == 3):?>
 					<div class="col-md-<?=$col?>">
 					  <div class="approve text-center" style="align:center">
 					  <p class="text-center">Menyetujui,</p>
