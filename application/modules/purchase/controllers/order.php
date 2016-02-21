@@ -35,7 +35,7 @@ class Order extends MX_Controller {
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['users'] = getAll('users');
         $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
-        $this->data['pr'] = GetAllSelect('purchase_request', array('id','no'), array('id'=>'order/desc','is_app'=>'where/1', 'limit'=>'limit/100'))->result();
+        $this->data['pr'] = GetAllSelect('purchase_request', array('id','no'), array('id'=>'order/desc','app_status_id_lv4'=>'where/1', 'limit'=>'limit/100'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -48,11 +48,13 @@ class Order extends MX_Controller {
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
         $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$id));
         $this->data['user_app_lv1'] = getValue('created_by', 'purchase_request', array('id'=>'where/'.$no_pr));
-        $this->data['user_app_lv2'] = getValue('user_id', 'approver', array('level'=>'where/2'));
-        $this->data['user_app_lv3'] = getValue('user_id', 'approver', array('level'=>'where/3'));
+        $this->data['user_app_lv2'] = getValue('user_id', 'approver', array('level'=>'where/1'));
+        $this->data['user_app_lv3'] = getValue('user_id', 'approver', array('level'=>'where/2'));
+        $this->data['user_app_lv4'] = getValue('user_id', 'approver', array('level'=>'where/3'));
         $this->data['jabatan_lv1'] = getUserGroup($this->data['user_app_lv1']);
-        $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
-        $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
+        $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/1'));
+        $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
+        $this->data['jabatan_lv4'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
@@ -85,6 +87,7 @@ class Order extends MX_Controller {
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
+                'gtotal' =>str_replace(',', '', $this->input->post('gtotal')),
                 'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
@@ -111,30 +114,55 @@ class Order extends MX_Controller {
     }
 
     function send_notification($id)
-    {
+    { 
         permissionUser();
         $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
         $isi = getName(sessId())." Mengajuan Purchase Order, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a>.";
-        $approver = getAll('approver', array('level' => 'where/3'));
+        $approver = getAll('approver');
         $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$id));
+        $no = getValue('po', $this->table_name, array('id'=>'where/'.$id));
         $creator_pr = getValue('created_by', 'purchase_request', array('id'=>'where/'.$no_pr));
+        $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$no_pr));
+        $gtotal = getValue('gtotal', 'purchase_order', array('id'=>'where/'.$id));
         $data = array('sender_id' => sessId(),
                           'receiver_id' => $creator_pr,
                           'sent_on' => dateNow(),
                           'judul' => 'Pengajuan Purchase Order',
+                          'no' => $no,
                           'isi' => $isi,
                           'url' => $url,
              );
-        $this->db->insert('notifikasi', $data);
+        $this->db->insert('notifikasi', $data);//print_r($this->db->last_query());
+        if($jenis == 3):
+            if($gtotal > 1000000){
+            $level = array('level' => 'where/3',
+                       'level' => 'where/2',
+                       'level' => 'where/1'
+                       );
+            $approver = $this->db->where('level', 1)->where('level', 2)->where('level', 3)->get('approver');
+            }else{
+                $level = array(
+                       'level' => 'where/1'
+                       );
+                $approver = $this->db->where('level', 1)->get('approver');
+            }
+        else:
+            $level = array('level' => 'where/3',
+                       'level' => 'where/2',
+                       );
+        $approver = $this->db->where('level', 2)->where('level', 3)->get('approver');
+        endif;
+        //$approver = GetAllSelect('approver','id', array('level' => 'where/3','level' => 'where/2','level' => 'where/1'));lastq();print_mz($approver->result());
         foreach($approver->result() as $r):
             $data = array('sender_id' => sessId(),
                           'receiver_id' => $r->user_id,
                           'sent_on' => dateNow(),
                           'judul' => 'Pengajuan Purchase Order',
+                          'no' => $no,
                           'isi' => $isi,
                           'url' => $url,
              );
-        $this->db->insert('notifikasi', $data);
+        $this->db->insert('notifikasi', $data);echo $this->db->last_query();
         endforeach;
         return TRUE;
     }
@@ -150,16 +178,39 @@ class Order extends MX_Controller {
             $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
             $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
             $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+
+
+        $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$r->id));
+        $creator_pr = getValue('created_by', 'purchase_request', array('id'=>'where/'.$no_pr));
+        $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$no_pr));
+        $gtotal = getValue('gtotal', 'purchase_order', array('id'=>'where/'.$r->id));
+        if($jenis == 3):
+            if($gtotal > 1000000){
+                $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
+                $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+                $status4 = ($r->app_status_id_lv4==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv4 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv4 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+            }else{
+                $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
+                $status3 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
+                $status4 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
+            }
+        else:
+            $status2 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
+            $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+            $status4 = ($r->app_status_id_lv4==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv4 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv4 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+        endif;
+
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->po.'</a>';
             $row[] = $r->kontak;
-            $row[] = $r->tanggal_transaksi;
+            $row[] = dateIndo($r->tanggal_transaksi);
             $row[] = $r->gudang;
             $row[] = $status1;
             $row[] = $status2;
             $row[] = $status3;
+            $row[] = $status4;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
@@ -218,7 +269,7 @@ class Order extends MX_Controller {
         $data = array('is_app_lv'.$level => 1,
                       'app_status_id_lv'.$level => $this->input->post('app_status_id_lv'.$level),
                       'date_app_lv'.$level=>dateNow(),
-                      'user_app_id_lv'.$level => sessId(),
+                      'user_app_lv'.$level => sessId(),
                       'note_app_lv'.$level => $this->input->post('note_lv'.$level)
             );
         $this->db->where('id', $id)->update($this->table_name, $data);

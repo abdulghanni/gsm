@@ -151,4 +151,40 @@ class Stok extends MX_Controller {
             return $this->load->view($view, $data, TRUE);
         }
     }
+
+    function upload(){
+        $file = fopen('D:\barang__.csv', "r");
+
+        $count = 0;
+        /*satuan :
+        Pcs
+        M
+        roll=300m
+        roll
+        pack
+        set
+        */
+
+        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
+        {
+            $count++; 
+            if($count>10){
+
+                $barang_id = getValue('id', 'barang', array('kode'=>'where/'.$emapData[4]));
+                $data = array(
+                    'barang_id'=>$barang_id,
+                    'dalam_stok'=>$emapData[91],
+                    'created_by'=>1,
+                    'created_on'=>dateNow(),
+                );
+                $this->db->insert('stok', $data);
+                //$cek = getAll('barang', array('kode'=>'where/'.$emapData[4]))->num_rows();
+
+                //if($cek<1)$this->db->insert('barang', $data);else $this->db->where('kode', $emapData[4])->update('barang', $data);
+                echo '<pre>';
+                echo $this->db->last_query();
+                echo '</pre>';
+            }                           
+        }
+    }
 }

@@ -31,16 +31,17 @@
                         <tr>
                           <th rowspan="2" scope="col" width="5%" class="text-center">No</th>
                           <th rowspan="2" scope="col" width="20">NO P.O</th>
-                          <th rowspan="2" scope="col" width="15">Supplier</th>
-                          <th rowspan="2" scope="col" width="5">Tgl. Pengiriman</th>
-                          <th rowspan="2" scope="col" width="20">Dikirim Ke</th>
-                          <th colspan="3" scope="col" width="15" class="text-center">Status</th>
+                          <th rowspan="2" scope="col" width="20">Supplier</th>
+                          <th rowspan="2" scope="col" width="5">Tgl Kirim</th>
+                          <th rowspan="2" scope="col" width="15">Dikirim Ke</th>
+                          <th colspan="4" scope="col" width="20" class="text-center">Status</th>
                           <th rowspan="2" scope="col" width="10" class="text-center">Action</th>
                         </tr>
                         <tr>
-                          <th scope="col" class="text-center" width="5%">Pembuat P.R</th>
-                          <th scope="col" class="text-center" width="5%">Manager</th>
-                          <th scope="col" class="text-center" width="5%">Direktur</th>
+                          <th scope="col" class="text-center" width="5%">PR</th>
+                          <th scope="col" class="text-center" width="5%">GA</th>
+                          <th scope="col" class="text-center" width="5%">Mgr</th>
+                          <th scope="col" class="text-center" width="5%">Dir</th>
                         </tr>
                     </thead>
                     <tbody>

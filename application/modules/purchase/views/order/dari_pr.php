@@ -68,8 +68,6 @@
 				</div>
 			</div>
 
-
-
 			<div class="form-group">
 				<label class="col-sm-4 control-label" for="inputPassword3">
 					No. PO
@@ -93,6 +91,15 @@
 
 			<div class="form-group">
 				<label class="col-sm-4 control-label" for="inputPassword3">
+					Jenis Barang
+				</label>
+				<div class="col-sm-8">
+					<input type="text" placeholder="No. PO" name="" class="form-control" required="required" value="<?=$o->jenis_barang?>" readonly>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-4 control-label" for="inputPassword3">
 					Term
 				</label>
 				<div class="col-sm-8">
@@ -109,31 +116,19 @@
 			<div id="kredit" style="display:none">
 				<div class="form-group">
 					<label class="col-sm-4 control-label" for="inputPassword3">
-						Lama Angsuran
+						Tempo Pembayaran
 					</label>
 					<div class="col-sm-2">
 						<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
 					</div>
 					<div class="col-sm-6">
 						<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
-						<option value="0">-- Pilih Lama Angsuran --</option>
+						<option value="0">-- Pilih Tempo Pembayaran --</option>
 						<option value="hari">Hari</option>
 						<option value="bulan">Bulan</option>
 						<option value="tahun">Tahun</option>
                       	</select>
 					</div>
-				</div>
-
-				<div class="form-group">
-					<label class="col-sm-4 control-label" for="inputPassword3">
-						Bunga
-					</label>
-					<div class="col-sm-2">
-						<input type="text" placeholder="" name="bunga" id="bunga" class="form-control text-right" value="0">
-					</div>
-					<label class="col-sm-1 control-label" for="inputPassword3">
-						%
-					</label>
 				</div>
 			</div>
         </div>
@@ -157,7 +152,7 @@
 				</thead>
 				<tbody>
 					<?php 
-						$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
+						$totalpajak = $total = $saldo = 0;
 						$i=1;foreach($order_list->result() as $ol): 
 						$subtotal = $ol->jumlah*$ol->harga;
 						$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
@@ -173,7 +168,7 @@
 						<input type="hidden" name="jumlah[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>">
 						<td><?=$ol->satuan?></td>
 						<input type="hidden" name="satuan[]" class="form-control text-right" value="<?=$ol->satuan?>">
-						<td class="text-right"><?= number_format($ol->harga, 2)?></td>
+						<td class="text-right"><input type="text" name="harga[]" class="form-control text-right harga" value="<?=number_format($ol->harga, 2)?>" id="harga<?=$i?>"></td>
 						<input type="hidden" name="harga[]" class="form-control text-right harga" value="<?=$ol->harga?>" id="harga<?=$i?>">
 						<td class="text-right">
 						<input type="text" name="disc[]" class="form-control text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>"></td>
@@ -182,15 +177,14 @@
 						<td><input type="hidden" name="subpajak[]" class="form-control text-right subpajak" value="0" id="subpajak<?=$i?>"></td>
 						</tr>
 					<script>
-						$("#disc<?=$i?>").add("#lama_angsuran_1").add("#dibayar").add("#biaya_pengiriman").add("#bunga").keyup(function() {
+					$("#harga<?=$i?>").maskMoney({allowZero:true});
+						$("#disc<?=$i?>").add("#harga<?=$i?>").add("#dibayar").add("#biaya_pengiriman").keyup(function() {
 						var a = parseInt($("#jumlah<?=$i?>").val()),
-				    		bunga = parseFloat($('#bunga').val()),
 				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
 				        	c = parseFloat($("#disc<?=$i?>").val()),
 				        	p = parseFloat($("#pajak<?=$i?>").val()).toFixed(2),
 				        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
 				        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
-				        	lama_angsuran= parseInt($('#lama_angsuran_1').val()),
 				        	d = (a*b)*(c/100),//jumlah diskon
 				       		val = (a*b)-d,
 				        	subPajak = val*(p/100),//jumlah pajak
@@ -208,16 +202,11 @@
 				        totalpluspajak = total + jmlPajak;
 				        diBayar = totalpluspajak * (diBayar/100);
 				        
-				        totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
-				        totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
-				        biayaAngsuran = totalPlusBunga/lama_angsuran;
 				        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
 				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
 				        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
 				        var saldo = totalpluspajak-diBayar;
 				        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
-				       	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
-				       	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))
 				    });
 					</script>
 					<?php 
@@ -271,7 +260,7 @@
 							Total+Pajak
 							</div>
 							<div class="col-md-6 pull-right">
-							<input type="text" class="form-control text-right" id="totalpluspajak" value="<?=$totalpluspajak?>" readonly="readonly">
+							<input type="text" class="form-control text-right" name="gtotal" id="totalpluspajak" value="<?=$totalpluspajak?>" readonly="readonly">
 							</div>
 						</div>
 					</li>
@@ -288,30 +277,6 @@
 								</div>
 								<div class="col-md-1">
 								%
-								</div>
-							</div>
-						</li>
-						<li class="list-group-item">
-							<div class="row">
-								<div class="col-md-4">
-								Biaya Angsuran
-								</div>
-								<div class="col-md-2">
-								</div>
-								<div class="col-md-4">
-								<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="0">
-								</div>
-								<div class="col-md-2" id="angsuran" style="margin-left:-10px">
-								</div>
-							</div>
-						</li>
-						<li class="list-group-item">
-							<div class="row">
-								<div class="col-md-4">
-								Total+Bunga Angsuran
-								</div>
-								<div class="col-md-6 pull-right">
-								<input type="text" id="totalplusbunga" class="form-control text-right" value="0">
 								</div>
 							</div>
 						</li>

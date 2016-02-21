@@ -6,8 +6,8 @@ class barang_model extends CI_Model {
 	var $table = 'barang';
 	var $table_join1 = 'jenis_barang';
 	var $table_join2 = 'satuan';
-	var $column = array('barang.id', 'kode', 'title', 'alias', 'jenis_barang', 'satuan', 'photo'); //set column field database for order and search
-	var $order = array('id' => 'desc'); // default order 
+	var $column = array('barang.id', 'photo', 'kode', 'title', 'alias', 'jenis_barang', 'satuan'); //set column field database for order and search
+	var $order = array('title' => 'asc'); // default order 
 
 	public function __construct()
 	{

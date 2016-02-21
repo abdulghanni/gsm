@@ -305,4 +305,64 @@ function cek_stok($id)
             return $this->load->view($view, $data, TRUE);
         }
     }
+
+    function upload_barang(){
+        $file = fopen('D:\barang.csv', "r");
+
+        $count = 0;
+        /*satuan :
+        Pcs
+        M
+        roll=300m
+        roll
+        pack
+        set
+        */
+
+        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
+        {
+            $count++; 
+            if($count>10){
+
+                switch ($emapData[5]) {
+                    case 'Pcs':
+                        $satuan = 1;
+                        break;
+                    case 'roll':
+                        $satuan = 2;
+                        break;
+                    case 'roll=300m':
+                        $satuan = 3;
+                        break;
+                    case 'm':
+                        $satuan = 4;
+                        break;
+                    case 'pack':
+                        $satuan = 5;
+                        break;
+                    case 'set':
+                        $satuan = 6;
+                        break;
+                    
+                    default:
+                        $satuan = 1;
+                        break;
+                }
+                $data = array(
+                    'kode'=>$emapData[4],
+                    'title' => $emapData[2],
+                    'satuan' => $satuan,
+                    'jenis_barang_id'=>1,
+                    'created_by'=>1,
+                    'created_on'=>dateNow(),
+                );
+                $cek = getAll('barang', array('kode'=>'where/'.$emapData[4]))->num_rows();
+
+                if($cek<1)$this->db->insert('barang', $data);else $this->db->where('kode', $emapData[4])->update('barang', $data);
+                echo '<pre>';
+                echo $count.'-'.$this->db->last_query();
+                echo '</pre>';
+            }                           
+        }
+    }
 }

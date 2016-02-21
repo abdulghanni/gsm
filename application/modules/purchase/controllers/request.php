@@ -38,6 +38,7 @@ class Request extends MX_Controller {
         $this->data['options_satuan'] = options_row('main', 'get_satuan','id','title', '-- Pilih Satuan --');
         $this->data['users'] = getAll('users')->result();
         $this->data['gudang'] = getAll('gudang')->result();
+        $this->data['jenis'] = getAll('jenis_barang');
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -51,6 +52,14 @@ class Request extends MX_Controller {
         $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
+        $this->data['user_app_lv1'] = getValue('diajukan_ke', 'purchase_request', array('id'=>'where/'.$id));
+        $this->data['user_app_lv2'] = getValue('user_id', 'approver', array('level'=>'where/1'));
+        $this->data['user_app_lv3'] = getValue('user_id', 'approver', array('level'=>'where/2'));
+        $this->data['user_app_lv4'] = getValue('user_id', 'approver', array('level'=>'where/3'));
+        $this->data['jabatan_lv1'] = getUserGroup($this->data['user_app_lv1']);
+        $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/1'));
+        $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
+        $this->data['jabatan_lv4'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
@@ -72,6 +81,7 @@ class Request extends MX_Controller {
                 'tanggal_digunakan'=>date('Y-m-d',strtotime($this->input->post('tanggal_digunakan'))),
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'keperluan'=>$this->input->post('keperluan'),
+                'jenis_barang_id'=>$this->input->post('jenis_barang_id'),
                 'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
@@ -101,14 +111,44 @@ class Request extends MX_Controller {
         $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
         $isi = getName(sessId())." Mengajuan Purchase Request, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a>.";
         $approver = getValue('diajukan_ke', $this->table_name, array('id'=>'where/'.$id));
+        $no = getValue('no', $this->table_name, array('id'=>'where/'.$id));
+        $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$id));
+        if(!empty($approver)):
             $data = array('sender_id' => sessId(),
                           'receiver_id' => $approver,
                           'sent_on' => dateNow(),
                           'judul' => 'Pengajuan Purchase Request',
+                          'no' => $no,
                           'isi' => $isi,
                           'url' => $url,
              );
         $this->db->insert('notifikasi', $data);
+        endif;
+        if($jenis == 3):
+        $level = array('level' => 'where/3',
+                       'level' => 'where/2',
+                       'level' => 'where/1'
+                       );
+    $approver = $this->db->where('level', 1)->where('level', 2)->where('level', 3)->get('approver');
+        else:
+            $level = array('level' => 'where/3',
+                       'level' => 'where/2',
+                       );
+        $approver = $this->db->where('level', 2)->where('level', 3)->get('approver');
+        endif;
+        //$approver = getAll('approver', $level);
+        //lastq();
+        foreach($approver->result() as $r):
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $r->user_id,
+                          'sent_on' => dateNow(),
+                          'judul' => 'Pengajuan Purchase Request',
+                          'no' => $no,
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+        $this->db->insert('notifikasi', $data);
+        endforeach;
         return TRUE;
     }
 
@@ -120,16 +160,30 @@ class Request extends MX_Controller {
         foreach ($list as $r) {
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
-            $status = ($r->app_status_id==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            if(!empty($r->diajukan_ke)){
+                $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
+            }else{
+                $status1 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
+            }
+            if($r->jenis_barang_id == 3){
+            $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
+            }else{
+                $status2 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
+            }
+            $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+            $status4 = ($r->app_status_id_lv4==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv4 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv4 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = getFullName($r->diajukan_ke);
             $row[] = $r->tanggal_digunakan;
             $row[] = $r->gudang;
-            $row[] = $r->keperluan;
-            $row[] = $status;
+            $row[] = $status1;
+            $row[] = $status2;
+            $row[] = $status3;
+            $row[] = $status4;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
@@ -148,12 +202,14 @@ class Request extends MX_Controller {
 
     function approve()
     {
+        $level = $this->input->post('level');//die($level);
         $id = $this->input->post('id');
-        $data = array('is_app' => 1,
-                      'app_status_id' => $this->input->post('app_status_id'),
-                      'date_app'=>dateNow(),
-                      'user_app_id' => sessId(),
-                      'note_app' => $this->input->post('note')
+        //if($level == 1)$this->notif_manager($id);
+        $data = array('is_app_lv'.$level => 1,
+                      'app_status_id_lv'.$level => $this->input->post('app_status_id_lv'.$level),
+                      'date_app_lv'.$level=>dateNow(),
+                      'user_app_lv'.$level => sessId(),
+                      'note_app_lv'.$level => $this->input->post('note_lv'.$level)
             );
         $this->db->where('id', $id)->update($this->table_name, $data);
         echo json_encode(array("status" => $id));

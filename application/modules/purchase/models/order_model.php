@@ -11,7 +11,8 @@ class order_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('purchase_order.id', 'po', 'kontak', 'tanggal_transaksi', 'app_status_id_lv1', 'app_status_id_lv2','app_status_id_lv3', 'gudang'); //set column field database for order and search
+    var $table_join5 = 'jenis_barang';
+    var $column = array('purchase_order.id', 'po', 'kontak', 'tanggal_transaksi', 'gudang', 'app_status_id_lv1', 'app_status_id_lv2','app_status_id_lv3', 'app_status_id_lv4', 'user_app_lv1'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -28,9 +29,10 @@ class order_model extends CI_Model {
             '.$this->table.'.no as no,
             '.$this->table.'.po as po,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
-            '.$this->table.'.app_status_id_lv1,
+             '.$this->table.'.app_status_id_lv1,
             '.$this->table.'.app_status_id_lv2,
             '.$this->table.'.app_status_id_lv3,
+            '.$this->table.'.app_status_id_lv4,
             '.$this->table_join1.'.title as kontak,
             '.$this->table_join2.'.title as metode_pembayaran,
             '.$this->table_join4.'.title as gudang,
@@ -132,18 +134,23 @@ class order_model extends CI_Model {
                                 is_app_lv1,
                                 is_app_lv2,
                                 is_app_lv3,
-                                user_app_id_lv1,
-                                user_app_id_lv2,
-                                user_app_id_lv3,
+                                is_app_lv4,
+                                user_app_lv1,
+                                user_app_lv2,
+                                user_app_lv3,
+                                user_app_lv4,
                                 date_app_lv1,
                                 date_app_lv2,
                                 date_app_lv3,
+                                date_app_lv4,
                                 app_status_id_lv1,
                                 app_status_id_lv2,
                                 app_status_id_lv3,
+                                app_status_id_lv4,
                                 note_app_lv1,
                                 note_app_lv2,
                                 note_app_lv3,
+                                note_app_lv4,
                                 purchase_order.created_by'
                                 )
                  ->from($this->table)
@@ -179,9 +186,11 @@ class order_model extends CI_Model {
             '.$this->table_pr.'.catatan,
             '.$this->table_pr.'.created_by,
             '.$this->table_join4.'.title as gudang,
+            '.$this->table_join5.'.title as jenis_barang,
             ')
                  ->from($this->table_pr)
                  ->join($this->table_join4, $this->table_join4.'.id ='.$this->table_pr.'.gudang_id', 'left')
+                 ->join($this->table_join5, $this->table_join5.'.id ='.$this->table_pr.'.jenis_barang_id', 'left')
                  ->where($this->table_pr.'.id', $id)
                  ->get();
         return $q;

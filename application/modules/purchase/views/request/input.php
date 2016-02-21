@@ -106,6 +106,20 @@
                                 </div>
 							</div>
 						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Jenis Barang
+							</label>
+							<div class="col-sm-8">
+								<select class="select2" name="jenis_barang_id">
+									<option value="0">-- Pilih Jenis Barang --</option>
+									<?php foreach($jenis->result() as $j):?>
+										<option value="<?=$j->id?>"><?=$j->title?></option>
+									<?php endforeach;?>
+								</select>
+							</div>
+						</div>
                     </div>
 				</div>
 				<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">

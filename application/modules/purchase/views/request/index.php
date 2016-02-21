@@ -27,6 +27,21 @@
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover table-full-width" id="table">
                     <thead>
+                         <tr>
+                          <th rowspan="2" scope="col" width="5%" class="text-center">No</th>
+                          <th rowspan="2" scope="col" width="20">NO P.R</th>
+                          <th rowspan="2" scope="col" width="5">Tgl. Digunakan</th>
+                          <th rowspan="2" scope="col" width="10">Gudang</th>
+                          <th colspan="4" scope="col" width="20" class="text-center">Status</th>
+                          <th rowspan="2" scope="col" width="10" class="text-center">Action</th>
+                        </tr>
+                        <tr>
+                          <th scope="col" class="text-center" width="5%">KA.Div</th>
+                          <th scope="col" class="text-center" width="5%">GA</th>
+                          <th scope="col" class="text-center" width="5%">Mgr</th>
+                          <th scope="col" class="text-center" width="5%">Dir</th>
+                        </tr>
+                        <!--
                         <tr>
                             <th width="5%" align="center">No.</th>
                             <th width="20%"><?php echo 'No. Request';?></th>
@@ -37,6 +52,7 @@
                             <th width="5%"><?php echo 'Status';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
+                        -->
                     </thead>
                     <tbody>
                     </tbody>

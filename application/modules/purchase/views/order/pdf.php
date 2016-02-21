@@ -12,11 +12,12 @@ td{ height:30px;}
 </head>
 
 <body>
-<hr/>
-<strong>PURCHASE ORDER </strong>
+<div align="center" style="margin-bottom:-10px">
+  <p align="left"><img height="50" width="75" src="<?php echo assets_url('images/your-logo-here.png')?>"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="margin-top:-150px">Purchase Order</span></p>
+</div>
 <hr/>
 <?php foreach ($order->result() as $o) :?>
-<table width="800" border="0">
+<table width="1000" border="0">
   <tbody>
     <tr>
       <td width="180">No. P.O</td>
@@ -29,45 +30,24 @@ td{ height:30px;}
     <tr>
       <td>Kepada</td>
       <td>:</td>
-      <td><?=$o->supplier?></td>
+      <td><?=$o->kontak?></td>
       <td>Dikirim Ke</td>
       <td>:</td>
       <td><?=$o->gudang?></td>
     </tr>
     <tr>
-      <td>Up</td>
+      <td>Alamat</td>
       <td>:</td>
-      <td><?=$o->up?></td>
+      <td><?=$o->alamat?></td>
       <td>Metode Pembayaran</td>
       <td>:</td>
       <td><?=$o->metode_pembayaran?></td>
     </tr>
     <tr>
-      <td>Alamat</td>
-      <td>:</td>
-      <td><?=$o->alamat?></td>
       <td>Mata Uang</td>
       <td>:</td>
       <td><?=$o->kurensi?></td>
     </tr>
-    <?php if ($o->metode_pembayaran_id == 2):?>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Lama Angsuran</td>
-      <td>:</td>
-      <td><?=$o->lama_angsuran_1.' ' .$o->lama_angsuran_2?></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Bunga</td>
-      <td>:</td>
-      <td><?=$o->bunga?>%</td>
-    </tr>
-<?php endif; ?>
   </tbody>
 </table>
 
@@ -97,7 +77,7 @@ td{ height:30px;}
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang?></td>
 		<td width="20%"><?=$ol->deskripsi?></td>
-		<td width="5%"align="right"><?=$ol->jumlah?></td>
+		<td width="5%" align="right"><?=$ol->jumlah?></td>
 		<td width="10%"><?=$ol->satuan?></td>
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<td width="5%" align="right"><?=$ol->disc?></td>
@@ -155,8 +135,8 @@ td{ height:30px;}
 	</tr>
 
 	<tr>
-		<td align="center"><?=(!empty($o->user_app_id_lv2))?getName($o->user_app_id_lv2):'';?></td>
-		<td align="center"><?=getName($o->created_by)?></td>
+		<td align="center"><?=(!empty($o->user_app_id_lv2))?getFullName($o->user_app_id_lv2):'';?></td>
+		<td align="center"><?=getFullName($o->created_by)?></td>
 		<td align="center"><?=$o->supplier?></td>
 		<td colspan="3">Total + Pajak</td>
 		<td align="right">:</td>
@@ -177,17 +157,17 @@ td{ height:30px;}
 	<tr><td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Total+bunga Angsuran</td>
-		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($grandtotal+$bunga,2)?></td>
+		<td colspan="3">&nbsp;</td>
+		<td align="right">&nbsp;</td>
+		<td align="right" colspan="2">&nbsp;</td>
 	</tr>
 
 	<tr><td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Biaya Angsuran</td>
+		<td colspan="3">&nbsp;</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format(($grandtotal+$bunga)/$o->lama_angsuran_1, 2)?>/<?=ucwords($o->lama_angsuran_2)?></td>
+		<td align="right" colspan="2">&nbsp;</td>
 	</tr>
 
 	<tr><td align="center">&nbsp;</td>

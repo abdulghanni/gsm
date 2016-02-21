@@ -136,7 +136,7 @@
 								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" disabled="disabled">
 							</div>
 						</div>
-
+						<!--
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Bunga
@@ -148,6 +148,7 @@
 								%
 							</label>
 						</div>
+						-->
 						<?php endif ?>
 					</div>
 				</div>
@@ -213,8 +214,21 @@
                         </div>
                     </div>
                 </div>
+                <?php $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$id));
+			        $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$no_pr));
+			        $gtotal = getValue('gtotal', 'purchase_order', array('id'=>'where/'.$id));
+			        if($jenis == 3):
+			            if($gtotal > 1000000){
+			           		$col = 2;
+			            }else{
+			                $col = 4;
+			            }
+			        else:
+			            $col  = 3;
+			        endif;
+			    ?>
 				<div class="row">
-					<div class="col-md-2">
+					<div class="col-md-<?=$col?>">
 					  <div class="approve text-center" style="align:center">
 					  <p class="text-center">Menyetujui,</p>
 					  <?php if($o->is_app_lv1 == 0 && $user_app_lv1 == sessId()):?>
@@ -229,13 +243,13 @@
 	                    ?>
 	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
 	                      <span class="small"><?=dateIndo($o->date_app_lv1)?></span><br/>
-	                     <span class="semi-bold"><?= getFullName($o->user_app_id_lv1)?></span><br/>
+	                     <span class="semi-bold"><?= getFullName($o->user_app_lv1)?></span><br/>
 	                     <span class="semi-bold">(<?= $jabatan_lv1?>)</span>
 	                    <?php endif; ?>
 	                  </div>
 					</div>
 
-					<div class="col-md-2">
+					<div class="col-md-<?=$col?>">
 					  <div class="approve text-center" style="align:center">
 					  <p class="text-center">Menyetujui,</p>
 					  <?php if($o->is_app_lv2 == 0 && $user_app_lv2 == sessId()):?>
@@ -250,13 +264,13 @@
 	                    ?>
 	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
 	                      <span class="small"><?=dateIndo($o->date_app_lv2)?></span><br/>
-	                     <span class="semi-bold"><?= getFullName($o->user_app_id_lv2)?></span><br/>
+	                     <span class="semi-bold"><?= getFullName($o->user_app_lv2)?></span><br/>
 	                     <span class="semi-bold">(<?= $jabatan_lv2?>)</span>
 	                    <?php endif; ?>
 	                  </div>
 					</div>
 
-					<div class="col-md-2">
+					<div class="col-md-<?=$col?>">
 					  <div class="approve text-center" style="align:center">
 					  <p class="text-center">Menyetujui,</p>
 					  <?php if($o->is_app_lv3 == 0 && $user_app_lv3 == sessId()):?>
@@ -271,8 +285,29 @@
 	                    ?>
 	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
 	                      <span class="small"><?=dateIndo($o->date_app_lv3)?></span><br/>
-	                     <span class="semi-bold"><?= getFullName($o->user_app_id_lv3)?></span><br/>
+	                     <span class="semi-bold"><?= getFullName($o->user_app_lv3)?></span><br/>
 	                     <span class="semi-bold">(<?= $jabatan_lv3?>)</span>
+	                    <?php endif; ?>
+	                  </div>
+					</div>
+
+					<div class="col-md-<?=$col?>">
+					  <div class="approve text-center" style="align:center">
+					  <p class="text-center">Menyetujui,</p>
+					  <?php if($o->is_app_lv4 == 0 && $user_app_lv4 == sessId()):?>
+						  <div class="btn btn-blue" id="" type="" data-toggle="modal" data-target="#approval-modal4"><i class="icon-ok"></i>Submit</div><br/><br/>
+	                   <?php elseif($o->is_app_lv4 == 0 && $user_app_lv4 != sessId()): ?>
+	                      <span class="small"></span>
+	                      <span class="semi-bold"></span>
+	                      <span class="small"></span><br/><br/>
+	                      <span class="semi-bold"></span><br/>
+	                    <?php else:
+	                    	$status = ($o->app_status_id_lv4==1) ? assets_url('images/approved_stamp.png') : (($o->app_status_id_lv4 == 2) ? assets_url('images/rejected_stamp.png') : (($o->app_status_id_lv4 == 3) ? assets_url('images/pending_stamp.png')  : ""));
+	                    ?>
+	                      <img height="50px" width="75px" src="<?=$status?>"><br/>
+	                      <span class="small"><?=dateIndo($o->date_app_lv4)?></span><br/>
+	                     <span class="semi-bold"><?= getFullName($o->user_app_lv4)?></span><br/>
+	                     <span class="semi-bold">(<?= $jabatan_lv4?>)</span>
 	                    <?php endif; ?>
 	                  </div>
 					</div>
@@ -297,88 +332,49 @@
 					</div>
 					-->
 
-					<div id="panel-total" class="panel-body col-md-5 pull-right">
+					<div id="panel-total" class="panel-body col-md-4 pull-right">
 						<ul class="list-group">
 							<li class="list-group-item">
 								<div class="row">
-									<div class="col-md-4">
+									<div class="col-md-3">
 									Total Pajak
 									</div>
-									<div class="col-md-6 pull-right">
+									<div class="col-md-7 pull-right">
 									<input type="text" id="totalPajak" value="<?= number_format($totalpajak, 2)?>" class="form-control text-right" readonly="readonly">
 									</div>
 								</div>
 							</li>
 							<li class="list-group-item">
 								<div class="row">
-									<div class="col-md-4">
+									<div class="col-md-3">
 									Biaya Pengiriman
 									</div>
-									<div class="col-md-6 pull-right">
+									<div class="col-md-7 pull-right">
 									<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="<?= number_format($o->biaya_pengiriman, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
 							<li class="list-group-item">
 								<div class="row">
-									<div class="col-md-4">
+									<div class="col-md-3">
 									Total
 									</div>
-									<div class="col-md-6 pull-right">
+									<div class="col-md-7 pull-right">
 									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
 							<li class="list-group-item">
 								<div class="row">
-									<div class="col-md-4">
+									<div class="col-md-3">
 									Total + Pajak
 									</div>
-									<div class="col-md-6 pull-right">
+									<div class="col-md-7 pull-right">
 									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
 							<?php if($o->metode_pembayaran_id == 2):?>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Uang Muka
-										</div>
-										<div class="col-md-2">
-										</div>
-										<div class="col-md-4">
-										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=number_format($o->dibayar,2)?>" disabled>
-										</div>
-										<div class="col-md-1">
-										%
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total+Bunga Angsuran
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="totalplusbunga" class="form-control text-right" value="<?= number_format($grandtotal,2)?>" readonly>
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Biaya Angsuran
-										</div>
-										<div class="col-md-2">
-										</div>
-										<div class="col-md-4">
-										<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="<?php echo number_format(($grandtotal)/$o->lama_angsuran_1, 2)?>" readonly>
-										</div>
-										<div class="col-md-2" id="angsuran" style="margin-left:-10px">/<?= strtoupper($o->lama_angsuran_2)?>
-										</div>
-									</div>
-								</li>
 								<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-4">
@@ -398,9 +394,9 @@
 		</div>
 	</div>
 	<?php 
-	for($a=0;$a<4;$a++):
+	for($a=0;$a<5;$a++):
 		$note = 'note_app_lv'.$a;
-		$user = 'user_app_id_lv'.$a;
+		$user = 'user_app_lv'.$a;
 	if(!empty($o->$note)):
 		?>
 	<div class="row">
@@ -418,7 +414,7 @@
 </form>
 <!-- end: INVOICE -->
 
-<?php for($i=1;$i<4;$i++):?>
+<?php for($i=1;$i<5;$i++):?>
 <!--approval Modal -->
 <div class="modal fade" id="approval-modal<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog" id="modaldialog">

@@ -1,67 +1,59 @@
 <tr>
 	<td><?= $id ?></td>
-	<td><select name='kode_barang[]' class='select2' id="barang_id<?=$id?>" style='width:100%'><?php foreach($barang as $value=>$b):?><option value='<?php echo $b['id']?>'><?php echo $b['kode'].' - '.$b['title']?></option><?php endforeach;?></select></td>
+	<td><select name='kode_barang[]' class='select2' id="barang_id<?=$id?>" style='width:100%'>		<option value="0">-- Pilih Barang --</option>
+		<?php foreach($barang as $value=>$b):?>
+		<option value='<?php echo $b['id']?>'><?php echo $b['kode'].' - '.$b['title']?></option><?php endforeach;?></select>
+	</td>
 	<td><input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi<?=$id?>"></td>
 	<td><input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah<?=$id?>"></td>
 	<td><select id="satuanlist<?=$id?>" name='satuan[]' class='select2' style='width:100%'><?php foreach($satuan as $s):?><option value='<?php echo $s['id']?>'><?php echo $s['title']?></option><?php endforeach;?></select><input type='hidden' value='0' id="satuanlist_num<?=$id?>"></td>
 	<td><input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga<?=$id?>"></td>
 	<td><input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal<?=$id?>" value="0" readonly></td>
-	<td><input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak<?=$id?>"></td>
+	<td><input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak<?=$id?>">
+	<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$id?>">
+	</td>
 </tr>
 <script type="text/javascript"> $(document).find("select.select2").select2();</script>
 <script type="text/javascript">
+	var a = parseFloat($("#jumlah<?=$id?>").val()),
+		b = parseFloat($("#harga<?=$id?>").val().replace(/,/g,"")).toFixed(2),
+		c = parseFloat($("#disc<?=$id?>").val()),
+		p = parseFloat($("#pajak<?=$id?>").val()).toFixed(2),
+		d = (a*b)*(c/100),//jumlah diskon
+		val = (a*b)-d;
 
-var a = parseFloat($("#jumlah<?=$id?>").val()),
-	b = parseFloat($("#harga<?=$id?>").val().replace(/,/g,"")).toFixed(2),
-	c = parseFloat($("#disc<?=$id?>").val()),
-	p = parseFloat($("#pajak<?=$id?>").val()).toFixed(2),
-	d = (a*b)*(c/100),//jumlah diskon
-	val = (a*b)-d;
+	$("#barang_id<?=$id?>").change(function(){
+	        var id = $(this).val();
+	         $.ajax({
+	            type: "GET",
+	            dataType: "JSON",
+	            url: '../order/get_nama_barang/'+id,
+	            success: function(data) {
+	            	if(id != '0')$('#deskripsi<?=$id?>').val(data);
+	            }
+	        });
+	    })
 
-$("#barang_id<?=$id?>").change(function(){
-        var id = $(this).val();
-         $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: '../order/get_nama_barang/'+id,
-            success: function(data) {
-                $('#deskripsi<?=$id?>').val(data);
-            }
-        });
-         /*
-         $.ajax({
-            type: 'POST',
-            url: '/gsm/purchase/request/get_satuan/'+id,
-            data: {id : id},
-            success: function(data) {
-                $('#satuan'+rowCount).html(data);
-            }
-        });
-        */
+	$("#jumlah<?=$id?>").on('click', function () {
+	    if($('input[name="fraksi"]').is(":checked")){
+	    	$.ajax({
+	            url: '/gsm/purchase/request/show_modal/'+<?=$id?>,
+	            success: function(response){
+		         	$("#modal").append(response);
+		         	$("#modal_fraksi<?=$id?>").modal('show');
+		         },
+		         dataType:"html"
+	        });
+	    }
+	});
 
-    })
-
-$("#jumlah<?=$id?>").on('click', function () {
-    if($('input[name="fraksi"]').is(":checked")){
-    	$.ajax({
-            url: '/gsm/purchase/request/show_modal/'+<?=$id?>,
-            success: function(response){
-	         	$("#modal").append(response);
-	         	$("#modal_fraksi<?=$id?>").modal('show');
-	         },
-	         dataType:"html"
-        });
-    }
-});
-
-$("#harga<?=$id?>").add("#jumlah<?=$id?>").add("#disc<?=$id?>").add("#pajak<?=$id?>").keyup(function() {
-		hitung<?=$id?>();
-    });
+	$("#harga<?=$id?>").add("#jumlah<?=$id?>").add("#disc<?=$id?>").add("#pajak<?=$id?>").keyup(function() {
+			hitung<?=$id?>();
+	    });
 
 function hitung<?=$id?>()
    	{
    		if($('input[name="fraksi"]').is(":checked")){
-   			alert('an');
 			tf_1 = parseFloat($("#tf-1<?=$id?>").val());
 			tf_2 = parseFloat($("#tf-2<?=$id?>").val());
 			tf_3 = parseFloat($("#tf-3<?=$id?>").val());
@@ -77,11 +69,31 @@ function hitung<?=$id?>()
 			val = parseFloat(v1) + parseFloat(v2) + parseFloat(v3),
 			f_val = tf_1+'.'+tf_2+'.'+tf_3;
 			$("#jumlah<?=$id?>").val(f_val);
+			p = parseFloat($("#pajak<?=$id?>").val()).toFixed(2),
 			$("#subtotal<?=$id?>").val(addCommas(parseFloat(val).toFixed(2)));
 		}else{
-			alert('dsa');
+			var a = parseFloat($("#jumlah<?=$id?>").val()),
+			b = parseFloat($("#harga<?=$id?>").val().replace(/,/g,"")).toFixed(2),
+			p = parseFloat($("#pajak<?=$id?>").val()).toFixed(2),
+		val = (a*b);
 			$("#subtotal<?=$id?>").val(addCommas(parseFloat(val).toFixed(2)));
 		}
+
+		subPajak = val*(p/100),//jumlah pajak
+    	jmlPajak = 0,
+    	total = 0;
+
+    	$("#subpajak<?=$id?>").val(subPajak);
+        $('.subpajak').each(function (index, element) {
+            jmlPajak = jmlPajak + parseInt($(element).val());
+        });
+        $('.subtotal').each(function (index, element) {
+            total = total + parseInt($(element).val().replace(/,/g,""));
+        });
+        totalpluspajak = total + jmlPajak;
+        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
+        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
    	}
 </script>
 

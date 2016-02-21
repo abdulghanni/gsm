@@ -7,7 +7,8 @@ class request_model extends CI_Model {
     var $table_list = 'purchase_request_list';
     var $table_join1 = 'gudang';
     var $table_join2 = 'satuan';
-    var $column = array('purchase_request.id', 'no', 'diajukan_ke', 'tanggal_digunakan', 'keperluan', 'gudang', 'app_status_id'); //set column field database for order and search
+    var $table_join3 = 'jenis_barang';
+    var $column = array('purchase_request.id', 'no', 'tanggal_digunakan', 'gudang', 'app_status_id_lv1', 'app_status_id_lv2','app_status_id_lv3', 'app_status_id_lv4', 'user_app_lv1', 'user_app_lv2', 'jenis_barang_id'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -25,7 +26,11 @@ class request_model extends CI_Model {
             '.$this->table.'.diajukan_ke,
             '.$this->table.'.tanggal_digunakan,
             '.$this->table.'.keperluan,
-            '.$this->table.'.app_status_id,
+            '.$this->table.'.app_status_id_lv1,
+            '.$this->table.'.app_status_id_lv2,
+            '.$this->table.'.app_status_id_lv3,
+            '.$this->table.'.app_status_id_lv4,
+            '.$this->table.'.jenis_barang_id,
             '.$this->table_join1.'.title as gudang,
             ');
         $this->db->from($this->table);
@@ -95,18 +100,36 @@ class request_model extends CI_Model {
             '.$this->table.'.diajukan_ke,
             '.$this->table.'.tanggal_digunakan,
             '.$this->table.'.keperluan,
+            '.$this->table.'.jenis_barang_id,
+            '.$this->table_join3.'.title as jenis_barang,
             '.$this->table.'.catatan,
             '.$this->table.'.created_by,
             '.$this->table.'.created_on,
-            '.$this->table.'.is_app,
-            '.$this->table.'.user_app_id,
-            '.$this->table.'.date_app,
-            '.$this->table.'.app_status_id,
-            '.$this->table.'.note_app,
+            '.$this->table.'.is_app_lv1,
+            '.$this->table.'.is_app_lv2,
+            '.$this->table.'.is_app_lv3,
+            '.$this->table.'.is_app_lv4,
+            '.$this->table.'.user_app_lv1,
+            '.$this->table.'.user_app_lv2,
+            '.$this->table.'.user_app_lv3,
+            '.$this->table.'.user_app_lv4,
+            '.$this->table.'.date_app_lv1,
+            '.$this->table.'.date_app_lv2,
+            '.$this->table.'.date_app_lv3,
+            '.$this->table.'.date_app_lv4,
+            '.$this->table.'.app_status_id_lv1,
+            '.$this->table.'.app_status_id_lv2,
+            '.$this->table.'.app_status_id_lv3,
+            '.$this->table.'.app_status_id_lv4,
+            '.$this->table.'.note_app_lv1,
+            '.$this->table.'.note_app_lv2,
+            '.$this->table.'.note_app_lv3,
+            '.$this->table.'.note_app_lv4,
             '.$this->table_join1.'.title as gudang,
             ')
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.gudang_id', 'left')
+                 ->join($this->table_join3, $this->table_join3.'.id ='.$this->table.'.jenis_barang_id', 'left')
                  ->where($this->table.'.id', $id)
                  ->get();
         return $q;
