@@ -165,7 +165,7 @@ class Order extends MX_Controller {
                           'isi' => $isi,
                           'url' => $url,
              );
-        $this->db->insert('notifikasi', $data);echo $this->db->last_query();
+        $this->db->insert('notifikasi', $data);//echo $this->db->last_query();
         endforeach;
         return TRUE;
     }

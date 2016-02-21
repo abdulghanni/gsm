@@ -130,7 +130,7 @@
 						<?php if($o->metode_pembayaran_id == 2):?>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								Lama Angsuran
+								Tempo Pembayaran
 							</label>
 							<div class="col-sm-4">
 								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" disabled="disabled">
@@ -248,7 +248,7 @@
 	                    <?php endif; ?>
 	                  </div>
 					</div>
-
+					<?php if($jenis != 3):?>
 					<div class="col-md-<?=$col?>">
 					  <div class="approve text-center" style="align:center">
 					  <p class="text-center">Menyetujui,</p>
@@ -269,7 +269,8 @@
 	                    <?php endif; ?>
 	                  </div>
 					</div>
-
+				<?php endif;?>
+			            <?php if(($gtotal > 1000000 && $jenis == 3) || $jenis !=3){?>
 					<div class="col-md-<?=$col?>">
 					  <div class="approve text-center" style="align:center">
 					  <p class="text-center">Menyetujui,</p>
@@ -311,7 +312,7 @@
 	                    <?php endif; ?>
 	                  </div>
 					</div>
-
+				<?php endif;?>
 					<!--
 					<div class="col-md-2">
 						<div class="approve text-center" style="align:center">
