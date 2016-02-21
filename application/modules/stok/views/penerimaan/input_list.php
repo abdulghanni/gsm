@@ -38,7 +38,7 @@
 									<th width="15%"> Sub Total </th>
 									<th width="5%"><?php echo $daftar['pajak'] ?></th-->
 									<th width="5%"><?php echo form_input("jumlah[$c]",isset($part)?$carisisa['sisa'] : $daftar['jumlah']) ?></th>
-									<th width="5%"><?php echo form_dropdown("satuan[$c]",GetOptAll('satuan'),$daftar['satuan_id']) ?></th>
+									<th width="5%"><?php echo form_dropdown("satuan[$c]",getoptsatuan($daftar['kode_barang']),$daftar['satuan_id']) ?></th>
 								</tr><?php $c++;}  ?>
 							</thead>
 							<tbody>
