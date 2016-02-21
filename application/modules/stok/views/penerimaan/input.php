@@ -166,7 +166,7 @@
 		$('#detailtrans').load('<?php echo base_url() ?>stok/penerimaan/cariref',{v:val});
 		$('#list').load('<?php echo base_url() ?>stok/penerimaan/carilist',{v:val});
 	}
-	function addRow(tableID){
+	/* function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
 	var row=table.insertRow(rowCount);
@@ -280,7 +280,7 @@
       }
       return x1 + x2;
     }
-	}
+	} */
 	function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
 
 </script>
