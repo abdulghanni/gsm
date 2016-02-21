@@ -312,7 +312,7 @@
 	                    <?php endif; ?>
 	                  </div>
 					</div>
-				<?php endif;?>
+					<?php } ?>
 					<!--
 					<div class="col-md-2">
 						<div class="approve text-center" style="align:center">
