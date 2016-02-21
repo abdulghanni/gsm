@@ -300,6 +300,22 @@ if ( ! function_exists('dateIndo'))
 	}
 }
 
+function monthRomawi($date)
+{
+	$month['01']  = 'I';
+	$month['02']  = 'II';
+	$month['03']  = 'III';
+	$month['04']  = 'IV';
+	$month['05']  = 'V';
+	$month['06']  = 'VI';
+	$month['07']  = 'VII';
+	$month['08']  = 'VIII';
+	$month['09']  = 'IX';
+	$month['10'] = 'X';
+	$month['11'] = 'XII';
+	$month['12'] = 'XII';
+	return $month[$date];
+}
 function monthIndo($date)
 	{
 		try {

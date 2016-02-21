@@ -66,79 +66,78 @@
                     <input type="hidden" value="" name="id"/> 
                     <div class="form-body">
                         <div class="row form-row">
-                            <div class="col-md-6">
-                            <fieldset>
-                                <legend>Info Barang</legend>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4"><?= 'Nama'?></label>
-                                    <div class="col-md-8">
-                                      <?php 
-                                        $js = 'class="select2" style="width:100%" id="barang_id"';
-                                        echo form_dropdown('barang_id', $options_barang,'',$js); 
-                                      ?>
+                            <div class="col-md-12">
+                                <fieldset>
+                                    <legend>Info Barang</legend>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><?= 'Nama'?></label>
+                                        <div class="col-md-10">
+                                          <?php 
+                                            $js = 'class="select2" style="width:100%" id="barang_id"';
+                                            echo form_dropdown('barang_id', $options_barang,'',$js); 
+                                          ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4"><?= lang('unit')?></label>
-                                    <div class="col-md-8">
-                                        <input name="satuan" id="satuan" class="form-control" type="text" readonly>
-                                        <span class="help-block"></span>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2"><?= lang('unit')?></label>
+                                        <div class="col-md-10">
+                                            <input name="satuan" id="satuan" class="form-control" type="text" readonly>
+                                            <span class="help-block"></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Gudang</label>
-                                    <div class="col-md-8">
-                                      <?php 
-                                        $js = 'class="select2" style="width:100%"';
-                                        echo form_dropdown('gudang_id', $options_gudang,'',$js); 
-                                      ?>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Gudang</label>
+                                        <div class="col-md-10">
+                                          <?php 
+                                            $js = 'class="select2" style="width:100%"';
+                                            echo form_dropdown('gudang_id', $options_gudang,'',$js); 
+                                          ?>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Detail Lokasi</label>
-                                    <div class="col-md-8">
-                                      <?php 
-                                        $js = ' style="width:100%"';
-                                        echo form_textarea('lokasi_detail', '',$js); 
-                                      ?>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Detail Lokasi</label>
+                                        <div class="col-md-10">
+                                          <?php 
+                                            $js = ' style="width:100%"';
+                                            echo form_textarea('lokasi_detail', '',$js); 
+                                          ?>
+                                        </div>
                                     </div>
-                                </div>
-                            </fieldset>
-                            
+                                </fieldset>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <fieldset>
-                                <legend>Info Persediaan</legend>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Dalam Stok</label>
-                                    <div class="col-md-8">
-                                        <input name="dalam_stok" id="satuan" class="form-control text-right" type="text">
-                                        <span class="help-block"></span>
+                                    <legend>Info Persediaan</legend>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Dalam Stok</label>
+                                        <div class="col-md-10">
+                                            <input name="dalam_stok" id="satuan" class="form-control text-right" type="text">
+                                            <span class="help-block"></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Minimum Stok</label>
-                                    <div class="col-md-8">
-                                        <input name="minimum_stok" id="satuan" class="form-control text-right" type="text">
-                                        <span class="help-block"></span>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Minimum Stok</label>
+                                        <div class="col-md-10">
+                                            <input name="minimum_stok" id="satuan" class="form-control text-right" type="text">
+                                            <span class="help-block"></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Harga Beli</label>
-                                    <div class="col-md-8">
-                                        <input name="harga_beli" id="satuan" class="form-control text-right" type="text">
-                                        <span class="help-block"></span>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Harga Beli</label>
+                                        <div class="col-md-10">
+                                            <input name="harga_beli" id="satuan" class="form-control text-right" type="text">
+                                            <span class="help-block"></span>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="control-label col-md-4">Harga Jual</label>
-                                    <div class="col-md-8">
-                                        <input name="harga_jual" id="satuan" class="form-control text-right" type="text">
-                                        <span class="help-block"></span>
+                                    <div class="form-group">
+                                        <label class="control-label col-md-2">Harga Jual</label>
+                                        <div class="col-md-10">
+                                            <input name="harga_jual" id="satuan" class="form-control text-right" type="text">
+                                            <span class="help-block"></span>
+                                        </div>
                                     </div>
-                                </div>
-                            </fieldset>
+                                </fieldset>
                             </div>
                         </div>
                     </div>

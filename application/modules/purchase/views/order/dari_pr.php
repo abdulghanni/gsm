@@ -73,7 +73,7 @@
 					No. PO
 				</label>
 				<div class="col-sm-8">
-					<input type="text" placeholder="No. PO" name="po" class="form-control" required="required" value="<?=$last_id.'/PO-I/GSM/I/'.date('Y')?>">
+					<input type="text" placeholder="No. PO" name="po" class="form-control" required="required" value="<?=$last_id.'/PO-I/GSM/'.monthRomawi(date('m')).'/'.date('Y')?>">
 				</div>
 			</div>
 
@@ -167,7 +167,7 @@
 						<td class="text-right"><?=$ol->jumlah?></td>
 						<input type="hidden" name="jumlah[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>">
 						<td><?=$ol->satuan?></td>
-						<input type="hidden" name="satuan[]" class="form-control text-right" value="<?=$ol->satuan?>">
+						<input type="hidden" name="satuan[]" class="form-control text-right" value="<?=$ol->satuan_id?>">
 						<td class="text-right"><input type="text" name="harga[]" class="form-control text-right harga" value="<?=number_format($ol->harga, 2)?>" id="harga<?=$i?>"></td>
 						<input type="hidden" name="harga[]" class="form-control text-right harga" value="<?=$ol->harga?>" id="harga<?=$i?>">
 						<td class="text-right">

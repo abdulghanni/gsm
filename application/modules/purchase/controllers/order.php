@@ -231,18 +231,27 @@ class Order extends MX_Controller {
     }
 
     function print_pdf($id)
-    {
+    { 
         permissionUser();
         $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-        
+        $kontak_id = getValue('kontak_id', 'purchase_order', array('id'=>'where/'.$id));
+        $this->data['phone'] = getValue('telepon', 'kontak', array('id'=>'where/'.$kontak_id));
+        $this->data['fax'] = getValue('fax', 'kontak', array('id'=>'where/'.$kontak_id));
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+        $this->mpdf = new mPDF();
+        $this->mpdf->AddPage('p', // L - landscape, P - portrait
+            '', '', '', '',
+            5, // margin_left
+            5, // margin right
+            0, // margin top
+            0, // margin bottom
+            0, // margin header
+            5); // margin footer
+    $this->mpdf->WriteHTML($html);
+    $this->mpdf->Output($id.'-'.'.pdf', 'I');
     }
 
     //FOR JS
