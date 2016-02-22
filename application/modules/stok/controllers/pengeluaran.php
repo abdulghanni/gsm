@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class pengeluaran extends MX_Controller {
+class Pengeluaran extends MX_Controller {
     public $data;
     var $module = 'stok';
     var $title = 'pengeluaran';
@@ -104,7 +104,7 @@ class pengeluaran extends MX_Controller {
 			$row->id,
 			$row->id,
 			$row->id,
-			$row->ref,
+			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>",
 			$row->gudang_to,
 			$row->tgl,
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/bast' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
@@ -153,8 +153,11 @@ class pengeluaran extends MX_Controller {
         $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
+		$this->data['pengeluaran']=GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row();
+		$this->data['list']=GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id));
+		$this->data['refid']=GetAll($this->data['pengeluaran']->ref_type,array('id'=>'where/'.$this->data['pengeluaran']->ref_id))->row_array();
+       // $this->data[$this->file_name] = $this->main->get_detail($id);
+       // $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }

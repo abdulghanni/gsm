@@ -11,7 +11,14 @@ td{ height:30px;}
 </style>
 </head>
 <body>
-  <img height="40%" width="100%" style="margin-bottom: -75px;margin-top:-50px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
+  <img height="140px" width="920px" style="margin-bottom: -40px;margin-top:5px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
+  <p>
+  <br>
+  <div style="text-align:center;margin-left:100px;">
+  Jl. Utan Kayu Raya No. 1 Matraman, Jakarta Timur<br>
+  Phone : +62 21 29821601<br>
+  Fax : +62 21 85914371
+  </div>
 <hr/>
 <?php foreach ($order->result() as $o) :?>
 <table width="1000" border="0">
@@ -148,6 +155,9 @@ td{ height:30px;}
 		<tr><td colspan="4">- Dokumen & Faktur ditujukan kepada finance PT. Gramaselindo Utama Diserahkan Melalui</td></tr>
 		<tr><td colspan="4">  &nbsp;&nbsp;Receptionist Kami</td></tr>
 		<tr><td colspan="4">- Barang akan dikembalikan bila tidak sesuai pesanan</td></tr>
+		<tr><td colspan="4">- No PO Harus di Cantumkan dalam Nota/Faktur dan Surat jalan</td>
+	</tr>
+	<tr><td>&nbsp;</td></tr>
 	<tr>
 		<td align="center">Approved,</td>
 		<td align="center">Order By,</td>

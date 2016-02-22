@@ -95,7 +95,7 @@ class Penyesuaian extends MX_Controller {
 			$row->id,
 			$row->id,
 			$row->id,
-			$row->ref,
+			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penyesuaian/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>",
 			$row->gudang,
 			$row->gudang_to,
 			$row->tgl
@@ -141,17 +141,23 @@ class Penyesuaian extends MX_Controller {
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
-
+	
+	
     function detail($id)
     {
-        $this->data['title'] = $this->title.' - Detail';
+		$this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-
+		$this->data['penyesuaian']=GetAll('stok_penyesuaian',array('id'=>'where/'.$id))->row_array();
+		$this->data['list']=GetAll('stok_penyesuaian_list',array('penyesuaian_id'=>'where/'.$id));
+		
+        $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');//$this->data['refid']=GetAll($this->data['penyesuaian']->ref_type,array('id'=>'where/'.$this->data['penyesuaian']->ref_id))->row_array();
+		// $this->data[$this->file_name] = $this->main->get_detail($id);
+		// $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
+		
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
+	
 
     function add()
     {

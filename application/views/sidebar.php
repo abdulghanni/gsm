@@ -17,7 +17,8 @@ $idp=GetValue('id_parents','menu',array('filez'=>'where/'.$this->uri->segment(1)
 		
 		foreach($menu as $isi){
 				$isi->filez=str_replace('base_url()',base_url(),$isi->filez);
-				
+				$id_user=$this->session->userdata('user_id');
+		if(GetValue('view','users_permission',array('menu_id'=>'where/'.$isi->id,'user_id'=>'where/'.$id_user))=='1'){
 				?>
 			<li  class="<?php echo ($idp==$isi->id ? 'active open' : '' ) ?>">
           <a href="<?php echo $isi->filez ?>">
@@ -42,7 +43,8 @@ $idp=GetValue('id_parents','menu',array('filez'=>'where/'.$this->uri->segment(1)
 						$submenu=getAll('menu',array('is_active'=>'where/Active', 'id_parents'=>'where/'.$isi->id,'sort'=>'order/asc'))->result();
 						
 						foreach ($submenu as $sb){
-								//echo $this->uri->segment(1).'/'.$this->uri->segment(2);
+							//echo $this->uri->segment(1).'/'.$this->uri->segment(2);
+							if(GetValue('view','users_permission',array('menu_id'=>'where/'.$sb->id,'user_id'=>'where/'.$id_user))=='1'){
 								?>
 					<li class="<?php echo ($this->uri->segment(1).'/'.$this->uri->segment(2) == $sb->filez ? 'active open' : '') ?>">
 						<a href="<?php echo base_url().$sb->filez ?>">
@@ -86,11 +88,13 @@ $idp=GetValue('id_parents','menu',array('filez'=>'where/'.$this->uri->segment(1)
 							</ul>
 						<?php }?>
 					</li>    
-						<?php }  ?>
+						<?php }
+						}						?>
 				</ul>
 		  <?php }?>
         </li>
-		<?php } ?>
+		<?php }
+		}		?>
                
       </ul>
     </nav>

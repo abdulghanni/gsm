@@ -1,10 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Penerimaan extends MX_Controller {
+class Hak_akses extends MX_Controller {
     public $data;
-    var $module = 'stok';
-    var $title = 'Penerimaan';
-    var $file_name = 'penerimaan';
+    var $module = 'pengaturan';
+    var $title = 'Hak Akses';
+    var $file_name = 'hak_akses';
     
     function __construct()
     {
@@ -28,11 +28,9 @@ class Penerimaan extends MX_Controller {
 		
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
 		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
-		$colModel['ref'] = array('Ref',150,TRUE,'left',2);
-		
-		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
-		$colModel['tgl'] = array('Tanggal',110,TRUE,'left',2);
-		//$colModel['bast'] = array('BAST',110,TRUE,'left',2);
+		$colModel['username'] = array('Username',110,TRUE,'left',2);
+		$colModel['full_name'] = array('Full Name',110,TRUE,'left',2);
+		$colModel['name'] = array('User Group',110,TRUE,'left',2);
         
 		$gridParams = array(
 		'rp' => 25,
@@ -43,16 +41,9 @@ class Penerimaan extends MX_Controller {
 		'showTableToggleBtn' => TRUE
 		);
         
+	
 		$buttons[] = array('separator');
-		/* $buttons[] = array('select','check','btn');
-		$buttons[] = array('deselect','uncheck','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('add','add','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('edit','edit','btn');
-		$buttons[] = array('delete','delete','btn');
-		$buttons[] = array('separator');
-		 */
+		
 		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','asc',$gridParams,$buttons);
 	}
 	
@@ -60,9 +51,13 @@ class Penerimaan extends MX_Controller {
 	{
 		
 		//Build contents query
-		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on")->from('stok_Penerimaan a');
-		//$this->db->join('gudang b','b.id=a.gudang_from','left');
-		$this->db->join('gudang c','c.id=a.gudang_to','left');
+		/* $this->db->select("a.id as id,a.ref as ref,b.title as gudang_from,c.title as gudang_to,a.tgl as tgl,a.created_on")->from('stok_pemindahan a');
+		$this->db->join('gudang b','b.id=a.gudang_from','left');
+		$this->db->join('gudang c','c.id=a.gudang_to','left'); */
+		$this->db->select('a.id as id,a.username as username,a.full_name as full_name,b.group_id as group_id,c.name as name');
+		$this->db->from('users a');
+		$this->db->join('users_groups b','b.user_id=a.id','left');
+		$this->db->join('groups c','c.id=b.group_id','left');
 		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
 		$this->flexigrid->build_query();
 		
@@ -103,10 +98,9 @@ class Penerimaan extends MX_Controller {
 			$row->id,
 			$row->id,
 			$row->id,
-			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>",
-			$row->gudang_to,
-			$row->tgl,
-			/* "<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/bast' target='_blank' title='detail'><i class='fa fa-file'></i></a>" */
+			"<a class='btn btn-sm btn-light-azure' href='".base_url()."pengaturan/hak_akses/input/".$row->id."' title='detail'>".$row->username."</i></a>",
+			$row->full_name,
+			$row->name
 			);
 		}
 		
@@ -121,17 +115,24 @@ class Penerimaan extends MX_Controller {
 		foreach($countries_ids_post_array as $index => $country_id){
 			/*if (is_numeric($country_id) && $country_id > 0) {
 			$this->delete($country_id);}*/
-			$this->db->delete($this->module.'_'.$this->file_name,array('id'=>$country_id));				
+			$this->db->delete($this->file_name,array('id'=>$country_id));				
 		}
 		//$error = "Selected countries (id's: ".$this->input->post('items').") deleted with success. Disabled for demo";
 		//echo "Sukses!";
 	}
-
-    function input()
+	function liststok(){
+			$gudang=$_POST['g'];
+			$data['list']=GetAll('stok',array('gudang_id'=>'where/'.$gudang));
+			$this->load->view('pemindahan/input_list',$data);
+	}
+    function input($id)
     {
         $this->data['title'] = $this->title.' - Input';
         permissionUser();
-        $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
+		$this->data['modul']=GetAll('menu',array('id_parents'=>'where/0'));
+		$this->data['id_user']=$id;
+		$this->data['id_grup']=GetValue('id','users_groups',array('user_id'=>'where/'.$id));
+       /*  $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
 		
@@ -140,151 +141,118 @@ class Penerimaan extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         //$this->data['gudang'] = getAll('gudang')->result();
-        $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-       // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
+        $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-'); */
+        //$this->data['options_supplier'] = options_row('main','get_supplier','id','title','-- Pilih Supplier --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
-
-   
+	
     function detail($id)
     {
         $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
-		$this->data['penerimaan']=GetAll('stok_penerimaan',array('id'=>'where/'.$id))->row();
-		$this->data['list']=GetAll('stok_penerimaan_list',array('penerimaan_id'=>'where/'.$id));
-		$this->data['refid']=GetAll($this->data['penerimaan']->ref_type,array('id'=>'where/'.$this->data['penerimaan']->ref_id))->row_array();
-	// $this->data[$this->file_name] = $this->main->get_detail($id);
+		$this->data['pemindahan']=GetAll('stok_pemindahan',array('id'=>'where/'.$id))->row_array();
+		$this->data['list']=GetAll('stok_pemindahan_list',array('pemindahan_id'=>'where/'.$id));
+		
+        $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');//$this->data['refid']=GetAll($this->data['pemindahan']->ref_type,array('id'=>'where/'.$this->data['pemindahan']->ref_id))->row_array();
+		// $this->data[$this->file_name] = $this->main->get_detail($id);
 		// $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
 		
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
-	
 
     function add()
     {
+			error_reporting(0);
         permissionUser();
 		//print_mz($this->input->post());
-        $list = array(
-                        'list_id'=>$this->input->post('list'),
-                        'jumlah'=>$this->input->post('jumlah'),
-                        'satuan'=>$this->input->post('satuan'),
-                        'jumlah_po'=>$this->input->post('jumlah_po'),
-						'kode_barang'=>$this->input->post('brg')
-                        );
-
-        $data = array(
-                'ref'=>$this->input->post('ref'),
-                'ref_type'=>$this->input->post('ref_type'),
-                'ref_id'=>$this->input->post('ref_id'),
-                
-                'tgl'=>date('Y-m-d',strtotime($this->input->post('tgl'))),
-                
-                'gudang_to'=>$this->input->post('gudang_id'),
-               
-                'keterangan' =>$this->input->post('keterangan'),
-                'created_on' =>date("Y-m-d"),
-                'created_by' =>sessId(),
-            );
-
-        $this->db->insert($this->module.'_'.$this->file_name, $data);
-        $insert_id = $this->db->insert_id();
-		$sisaan=0;
-        for($i=1;$i<=sizeof($list['kode_barang']);$i++):
-		$sisa=$list['jumlah_po'][$i]-$list['jumlah'][$i];
-            $data2 = array(
-                $this->file_name.'_id' => $insert_id,
-                'order_id' => $this->input->post('ref_id'),
-                'list_id' => $list['list_id'][$i],
-                'barang_id' => $list['kode_barang'][$i],
-                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
-                'satuan_id' => $list['satuan'][$i],
-                'sisa' => $sisa,
-                );
-        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
-        $sisaan=+$sisa;
-		masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
-        $this->send_notification($insert_id);
-		endfor;
-		//echo $sisaan;
-		if($sisaan==0){$this->db->query("UPDATE purchase_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
-        redirect($this->module.'/'.$this->file_name, 'refresh');
-    }  
-	function send_notification($id)
-    {
-        permissionUser();
-        $url = base_url().'purchase/order/INV/'.$id;
-        $isi = getName(sessId())." Melakukan Transaksi Penerimaan Barang <a href=$url> KLIK DISINI </a> ";
-        $approver = getAll('approver');
-        foreach($approver->result() as $r):
-		$data = array('sender_id' => sessId(),
-		'receiver_id' => $r->user_id,
-		'sent_on' => dateNow(),
-		'judul' => 'Penerimaan Order',
-		'isi' => $isi,
-		'url' => $url,
-		);
-        $this->db->insert('notifikasi', $data);
-        endforeach;
-        return TRUE;
-    }
-	function cariref(){
-			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
-			if($cariref->num_rows()>0){
-					
-					$data['refid']=$cariref->row_array();
-				if($data['refid']['is_app_lv1']==1){
-					if($data['refid']['is_closed']==0){
-						$data['reftype']='purchase_order';
-						$cekparsial=$this->db->query("SELECT * FROM stok_penerimaan WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
-						if($cekparsial->num_rows()>0){
-							$data['part']=TRUE;	
-							$data['partno']=$cekparsial->num_rows()+1;	
-						}
-						
-						$this->load->view('stok/penerimaan/input_id',$data);
-						
-						}
-					else{
-							$data['message']="Transaksi sudah CLOSED";
-							$this->load->view('stok/penerimaan/error',$data);
-						}
+		$menu=$this->input->post('menu');
+		
+		$m_c=$this->input->post('m_c');
+		$m_v=$this->input->post('m_v');
+		$m_u=$this->input->post('m_u');
+		$m_d=$this->input->post('m_d');
+		
+		$submenu=$this->input->post('submenu');
+		$s_c=$this->input->post('s_c');
+		$s_v=$this->input->post('s_v');
+		$s_u=$this->input->post('s_u');
+		$s_d=$this->input->post('s_d');
+		
+		$user=$this->input->post('user_id');
+		foreach($menu as $m){
+				$cek=GetAll('users_permission',array('user_id'=>'where/'.$user,'menu_id'=>'where/'.$m))->num_rows();
+				$data['menu_id']=$m;
+				$data['create']=($m_c[$m] ? '1':'0');
+				$data['view']=($m_v[$m] ? '1':'0');
+				$data['update']=($m_u[$m] ? '1':'0');
+				$data['delete']=($m_d[$m] ? '1':'0');
+				$data['user_id']=$user;
+				$data['user_group']=GetValue('group_id','users_groups',array('user_id'=>'where/'.$user));
+				
+				if($cek==0){
+						$this->db->insert('users_permission',$data);
 				}
 				else{
-					$data['message']="P.O BELUM di APPROVE";
-				$this->load->view('stok/penerimaan/error',$data);}
+						$this->db->where(array('user_id'=>$user,'menu_id'=>$m));
+						$this->db->update('users_permission',$data);
+				}
+		}
+		foreach($submenu as $sm){
+			$cek=GetAll('users_permission',array('user_id'=>'where/'.$user,'menu_id'=>'where/'.$sm))->num_rows();
+			$data['menu_id']=$sm;
+			$data['create']=($s_c[$sm] ? '1':'0');
+			$data['view']=($s_v[$sm] ? '1':'0');
+			$data['update']=($s_u[$sm] ? '1':'0');
+			$data['delete']=($s_d[$sm] ? '1':'0');
+			$data['user_id']=$user;
+			$data['user_group']=GetValue('group_id','users_groups',array('user_id'=>'where/'.$user));	
+			
+			if($cek==0){
+				$this->db->insert('users_permission',$data);
 			}
 			else{
-				$data['message']="Transaksi TIDAK DITEMUKAN";
-				$this->load->view('stok/penerimaan/error',$data);
+				$this->db->where(array('user_id'=>$user,'menu_id'=>$sm));
+				$this->db->update('users_permission',$data);
 			}
-	}
-	function carilist(){
-			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
-			if($cariref->num_rows()>0){
-				$data['refid']=$cariref->row_array();
-				if($data['refid']['is_app_lv1']==1){
-					if($data['refid']['is_closed']==0){
-					
-					$data['reftype']='purchase_order';
-					$cekparsial=$this->db->query("SELECT * FROM stok_penerimaan WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."' ORDER BY id DESC LIMIT 1");
-					if($cekparsial->num_rows()>0){
-						$data['part']=TRUE;	
-						$data['partno']=$cekparsial->num_rows()+1;
-							$data['partdata']=$cekparsial->row_array();
-						
-					}
-						
-						$data['list']=GetAll('purchase_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
-						$this->load->view('stok/penerimaan/input_list',$data);
-					}
-				}
-			}
-	}
-   
+		}
+        redirect($this->module.'/'.$this->file_name, 'refresh');
+    }
+
+    public function ajax_list()
+    {
+        $list = $this->main->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $r) {
+            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = $r->supplier;
+            $row[] = $r->tanggal_transaksi;
+            $row[] = $r->metode_pembayaran;
+            $row[] = $r->po;
+            $row[] = $r->gudang;
+
+            $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
+                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->main->count_all(),
+                        "recordsFiltered" => $this->main->count_filtered(),
+                        "data" => $data,
+                );
+        //output to json format
+        echo json_encode($output);
+    }
+
     function print_pdf($id)
     {
         permissionUser();
@@ -302,10 +270,10 @@ class Penerimaan extends MX_Controller {
 
     //FOR JS
 
-    function get_kontak_detail($id)
+    function get_supplier_detail($id)
     {
-        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
+        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
 
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 
@@ -370,7 +338,4 @@ class Penerimaan extends MX_Controller {
             return $this->load->view($view, $data, TRUE);
         }
     }
-	function bast($id=NULL){
-			$this->load->view('stok/penerimaan/bast');
-	}
 }

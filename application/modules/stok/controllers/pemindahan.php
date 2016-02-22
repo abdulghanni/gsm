@@ -95,7 +95,7 @@ class Pemindahan extends MX_Controller {
 			$row->id,
 			$row->id,
 			$row->id,
-			$row->ref,
+			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pemindahan/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>",
 			$row->gudang_from,
 			$row->gudang_to,
 			$row->tgl
@@ -141,15 +141,19 @@ class Pemindahan extends MX_Controller {
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
-
+	
     function detail($id)
     {
         $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-
+		$this->data['pemindahan']=GetAll('stok_pemindahan',array('id'=>'where/'.$id))->row_array();
+		$this->data['list']=GetAll('stok_pemindahan_list',array('pemindahan_id'=>'where/'.$id));
+		
+        $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');//$this->data['refid']=GetAll($this->data['pemindahan']->ref_type,array('id'=>'where/'.$this->data['pemindahan']->ref_id))->row_array();
+		// $this->data[$this->file_name] = $this->main->get_detail($id);
+		// $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
+		
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
