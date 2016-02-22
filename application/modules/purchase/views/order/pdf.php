@@ -11,7 +11,7 @@ td{ height:30px;}
 </style>
 </head>
 <body>
-  <img height="40%" width="100%" style="margin-bottom: -75px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
+  <img height="40%" width="100%" style="margin-bottom: -75px;margin-top:-50px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
 <hr/>
 <?php foreach ($order->result() as $o) :?>
 <table width="1000" border="0">
@@ -29,39 +29,50 @@ td{ height:30px;}
       <td>:</td>
       <td><?= getValue('no','purchase_request', array('id'=>'where/'.$o->no))?></td>
       
+      <td>Kontak Personal</td>
+      <td>:</td>
+      <td><?=$o->up?></td>
+      
+    </tr>
+
+    <tr>
+      <td width="180">Tanggal</td>
+      <td width="20">:</td>
+      <td width="300"><?=dateIndo($o->created_on)?></td>
+      
       <td>Telepon</td>
       <td>:</td>
       <td><?=$phone?></td>
     </tr>
-
     <tr>
-      <td width="180">Tanggal Pengiriman</td>
+
+      <td width="180">Batas Pengiriman</td>
       <td width="20">:</td>
       <td width="300"><?=dateIndo($o->tanggal_transaksi)?></td>
-      
+
+
+      <td>Fax</td>
+      <td>:</td>
+      <td><?=$fax?></td>
+    </tr>
+    <tr>
+
+
+      <td>Mata Uang</td>
+      <td>:</td>
+      <td><?=$o->kurensi?></td>
+
       <td>Alamat</td>
       <td>:</td>
       <td><?=$o->alamat?></td>
     </tr>
     <tr>
-      <td>Mata Uang</td>
-      <td>:</td>
-      <td><?=$o->kurensi?></td>
-      <?php if(!empty($o->up)):?>
-      <td>Up</td>
-      <td>:</td>
-      <td><?=$o->up?></td>
-  	  <?php endif; ?>
-    </tr>
-    <tr>
       <td>Metode Pembayaran</td>
       <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
       <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
-      <?php if(!empty($fax)):?>
-      <td>Fax</td>
+      <td>Proyek</td>
       <td>:</td>
-      <td><?=$fax?></td>
-      <?php endif; ?>
+      <td><?=$o->proyek?></td>
     </tr>
   </tbody>
 </table>
@@ -98,6 +109,7 @@ td{ height:30px;}
 		$subtotal = $ol->jumlah*$ol->harga-$diskon;
 		$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 		$total = $total + $subtotal;
+		$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 	?>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang?></td>
@@ -131,6 +143,11 @@ td{ height:30px;}
 		<th width="10%"></th>
 		<th width="10%"></th>
 	</tr>
+		<tr><td colspan="4">Keterangan :</td></tr>
+		<tr><td colspan="4">- Semua Pengiriman Barang Disertakan Nota/Faktur</td></tr>
+		<tr><td colspan="4">- Dokumen & Faktur ditujukan kepada finance PT. Gramaselindo Utama Diserahkan Melalui</td></tr>
+		<tr><td colspan="4">  &nbsp;&nbsp;Receptionist Kami</td></tr>
+		<tr><td colspan="4">- Barang akan dikembalikan bila tidak sesuai pesanan</td></tr>
 	<tr>
 		<td align="center">Approved,</td>
 		<td align="center">Order By,</td>
@@ -149,6 +166,14 @@ td{ height:30px;}
 		<td align="right" colspan="2"><?=number_format($o->biaya_pengiriman, 2)?></td>
 	</tr>
 	<?php endif;?>
+	<tr>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td colspan="3">Diskon</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?=number_format($total_diskon, 2)?></td>
+	</tr>
 	<tr>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>

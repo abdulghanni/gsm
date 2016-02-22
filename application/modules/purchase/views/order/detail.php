@@ -93,7 +93,14 @@
 
 
                     <div class="col-md-6">
-
+                    	<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Proyek
+							</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" name="proyek" value="<?=$o->proyek?>" disabled>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								No. PO
@@ -170,11 +177,12 @@
 							</thead>
 							<tbody>
 								<?php
-									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
+									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= 0;
 									$i=1;foreach($order_list->result() as $ol): 
 									$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
 									$subtotal = $ol->jumlah*$ol->harga-$diskon;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+									$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 									$total = $total + $subtotal;
 									?>
 								<tr>
@@ -352,6 +360,16 @@
 									</div>
 									<div class="col-md-7 pull-right">
 									<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="<?= number_format($o->biaya_pengiriman, 2)?>" readonly="readonly">
+									</div>
+								</div>
+							</li>
+							<li class="list-group-item">
+								<div class="row">
+									<div class="col-md-3">
+									Diskon
+									</div>
+									<div class="col-md-7 pull-right">
+									<input type="text" class="form-control text-right" id="diskon" value="<?=number_format($total_diskon, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>

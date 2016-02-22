@@ -89,6 +89,7 @@ class Order extends MX_Controller {
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'gtotal' =>str_replace(',', '', $this->input->post('gtotal')),
                 'catatan' =>$this->input->post('catatan'),
+                'proyek' =>$this->input->post('proyek'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );

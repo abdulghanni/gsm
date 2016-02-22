@@ -60,6 +60,15 @@
         <div class="col-md-5">
         	<div class="form-group">
 				<label class="col-sm-4 control-label" for="inputPassword3">
+					Proyek
+				</label>
+				<div class="col-sm-8">
+					<input type="text" class="form-control" name="proyek" value="<?=$o->keperluan?>">
+				</div>
+			</div>
+
+        	<div class="form-group">
+				<label class="col-sm-4 control-label" for="inputPassword3">
 					Dikirim Ke
 				</label>
 				<div class="col-sm-8">
