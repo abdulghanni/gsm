@@ -127,4 +127,23 @@ class barang_model extends CI_Model {
 		$this->db->order_by($this->table_join1.'.title','asc');
 		return $this->db->get($this->table_join1);
 	}
+
+	public function get_barang()
+	{
+		
+		$this->db->select(
+			$this->table.'.id as id,
+			'.$this->table.'.kode as kode,
+			'.$this->table.'.title as title,
+			'.$this->table.'.alias,
+			'.$this->table_join1.'.title as jenis_barang,
+			'.$this->table_join2.'.title as satuan,
+			');
+		$this->db->from($this->table);
+		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.jenis_barang_id', 'left');
+		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.satuan', 'left');
+
+		$q = $this->db->get();
+		return $q->result_array();
+	}
 }

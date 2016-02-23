@@ -233,7 +233,7 @@ class Order extends MX_Controller {
 
     function print_pdf($id)
     { 
-        permissionUser();
+        //permissionUser();
         $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);

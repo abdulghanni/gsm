@@ -6,19 +6,28 @@
 <style type="text/css">
 td{ height:30px;}
 .catatan {font-family:Arial, sans-serif;font-size:10px;}
-.list td{ height:40px;font-family:Arial, sans-serif;font-size:14px;padding:12px 16px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.list th{height:40px; font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:12px 16px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.list td{ height:40px;font-family:sans, sans-serif;font-size:14px;padding:12px 16px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.list th{height:40px; font-family:sans, sans-serif;font-size:14px;font-weight:normal;padding:12px 16px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
+.myfixed1 { position: absolute; 
+	overflow: visible; 
+	left: 0; 
+	bottom: 0; 
+	padding: 1.5em; 
+	font-family:sans; 
+	margin: 0;
+}
 </style>
 </head>
 <body>
-  <img height="140px" width="920px" style="margin-bottom: -40px;margin-top:5px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
+  <img style="text-align:center;margin-bottom: -50px;margin-left: 70px;margin-top:5px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
   <p>
   <br>
-  <div style="text-align:center;margin-left:100px;">
+  <div style="text-align:center;margin-left:100px;font-size: 11px;margin-bottom: -20px;">
   Jl. Utan Kayu Raya No. 1 Matraman, Jakarta Timur<br>
   Phone : +62 21 29821601<br>
   Fax : +62 21 85914371
   </div>
+  <h3 style="margin-bottom: -10px;margin-top:-10px">Purchase Order</h3>
 <hr/>
 <?php foreach ($order->result() as $o) :?>
 <table width="1000" border="0">
@@ -103,7 +112,7 @@ td{ height:30px;}
 			<hr style="width:100%">
 			<th>Sub Total</th>
 			<hr style="width:100%">
-			<th>Pajak</th>
+			<th>Pajak(%)</th>
 			<hr style="width:100%">
     	</tr>
     </tr>
@@ -138,6 +147,22 @@ td{ height:30px;}
 
 
 	<hr/>
+	
+<?php endforeach;?>
+<br/>
+<!--
+
+<div class="catatan">
+<?php if(!empty($o->catatan)):?>
+Catatan :<br/>
+<textarea class="catatan"><?=$o->catatan?></textarea>
+<?php endif;?>
+</div>
+
+-->
+
+
+<div class="myfixed1">
 	<table table width="1000" style="border:0">
 	<tr>
 		<th width="20%"></th>
@@ -155,8 +180,9 @@ td{ height:30px;}
 		<tr><td colspan="4">- Dokumen & Faktur ditujukan kepada finance PT. Gramaselindo Utama Diserahkan Melalui</td></tr>
 		<tr><td colspan="4">  &nbsp;&nbsp;Receptionist Kami</td></tr>
 		<tr><td colspan="4">- Barang akan dikembalikan bila tidak sesuai pesanan</td></tr>
-		<tr><td colspan="4">- No PO Harus di Cantumkan dalam Nota/Faktur dan Surat jalan</td>
+		<tr><td colspan="9">- No PO Harus di Cantumkan dalam Nota/Faktur dan Surat jalan</td>
 	</tr>
+	<hr style="width:100%">
 	<tr><td>&nbsp;</td></tr>
 	<tr>
 		<td align="center">Approved,</td>
@@ -213,25 +239,15 @@ td{ height:30px;}
 	</tr>
 
 	<tr>
-		<td align="center">(<?=(!empty($o->user_app_id_lv2))?getFullName($o->user_app_id_lv2):'';?>)</td>
+		<td align="center">(<?=(!empty($o->user_app_id_lv4))?getFullName($o->user_app_id_lv4):'';?>)</td>
 		<td align="center">(<?=getFullName($o->created_by)?>)</td>
 		<td align="center">(Sign & Return by Fax)</td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Saldo<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
 		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($grandtotal, 2)?><?php endif; ?></td>
 	</tr>
-
-	
-	
-	
 </table>
-<div class="catatan">
-<?php endforeach;?>
-<br/>
-<?php if(!empty($o->catatan)):?>
-Catatan :<br/>
-<textarea class="catatan"><?=$o->catatan?></textarea>
-<?php endif;?>
 </div>
+
 </body>
 </html>

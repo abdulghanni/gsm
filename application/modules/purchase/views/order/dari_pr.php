@@ -100,15 +100,6 @@
 
 			<div class="form-group">
 				<label class="col-sm-4 control-label" for="inputPassword3">
-					Jenis Barang
-				</label>
-				<div class="col-sm-8">
-					<input type="text" placeholder="No. PO" name="" class="form-control" required="required" value="<?=$o->jenis_barang?>" readonly>
-				</div>
-			</div>
-
-			<div class="form-group">
-				<label class="col-sm-4 control-label" for="inputPassword3">
 					Term
 				</label>
 				<div class="col-sm-8">
@@ -161,16 +152,17 @@
 				</thead>
 				<tbody>
 					<?php 
-						$totalpajak = $total = $saldo = 0;
+						$totalpajak = $total = $saldo = $totaldiskon = 0;
 						$i=1;foreach($order_list->result() as $ol): 
 						$subtotal = $ol->jumlah*$ol->harga;
 						$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+						$totaldiskon = $totaldiskon + ($subtotal * ($ol->disc/100));
 						$total = $total + $subtotal;
 					?>
 					<tr>
 						<td><?=$i++?></td>
 						<td><?=$ol->kode_barang?></td>
-						<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->kode_barang?>">
+						<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->barang_id?>">
 						<td><?=$ol->deskripsi?></td>
 						<input type="hidden" name="deskripsi[]" class="form-control text-right" value="<?=$ol->deskripsi?>">
 						<td class="text-right"><?=$ol->jumlah?></td>
@@ -180,15 +172,17 @@
 						<td class="text-right"><input type="text" name="harga[]" class="form-control text-right harga" value="<?=number_format($ol->harga, 2)?>" id="harga<?=$i?>"></td>
 						<input type="hidden" name="harga[]" class="form-control text-right harga" value="<?=$ol->harga?>" id="harga<?=$i?>">
 						<td class="text-right">
-						<input type="text" name="disc[]" class="form-control text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>"></td>
+						<input type="text" name="disc[]" class="form-control text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>">
+						<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$i?>">
+						</td>
 						<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
-						<td class="text-right"><input type="text" name="pajak[]" class="form-control text-right pajak" value="<?=$ol->pajak?>" id="pajak<?=$i?>" readonly></td>
+						<td class="text-right"><input type="text" name="pajak[]" class="form-control text-right pajak" value="<?=$ol->pajak?>" id="pajak<?=$i?>"></td>
 						<td><input type="hidden" name="subpajak[]" class="form-control text-right subpajak" value="0" id="subpajak<?=$i?>"></td>
 						</tr>
 					<script>
 					$("#harga<?=$i?>").maskMoney({allowZero:true});
-						$("#disc<?=$i?>").add("#harga<?=$i?>").add("#dibayar").add("#biaya_pengiriman").keyup(function() {
-						var a = parseInt($("#jumlah<?=$i?>").val()),
+						$("#disc<?=$i?>").add("#harga<?=$i?>").add("#dibayar").add("#biaya_pengiriman").add("#pajak<?=$i?>").keyup(function() {
+						var a = parseFloat($("#jumlah<?=$i?>").val()),
 				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
 				        	c = parseFloat($("#disc<?=$i?>").val()),
 				        	p = parseFloat($("#pajak<?=$i?>").val()).toFixed(2),
@@ -196,22 +190,30 @@
 				        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
 				        	d = (a*b)*(c/100),//jumlah diskon
 				       		val = (a*b)-d,
+				       		disc = (a*b)*(c/100),
 				        	subPajak = val*(p/100),//jumlah pajak
 				        	jmlPajak = 0,
+				        	jmlDisc = 0,
 				        	total = 0;
 				        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
+				        $("#subdisc<?=$i?>").val(addCommas(parseFloat(disc).toFixed(2)));
 				        $("#subpajak<?=$i?>").val(subPajak);
 				        $('.subpajak').each(function (index, element) {
 				            jmlPajak = jmlPajak + parseInt($(element).val());
 				        });
+				        $('.subdisc').each(function (index, element) {
+				            jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
+				        });
+
 				        $('.subtotal').each(function (index, element) {
-				            total = total + parseInt($(element).val().replace(/,/g,""));
+				            total = total + parseFloat($(element).val().replace(/,/g,""));
 				        });
 				        total = total+biayaPengiriman;
 				        totalpluspajak = total + jmlPajak;
 				        diBayar = totalpluspajak * (diBayar/100);
 				        
 				        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
+				        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
 				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
 				        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
 				        var saldo = totalpluspajak-diBayar;
@@ -250,6 +252,16 @@
 							</div>
 							<div class="col-md-6 pull-right">
 							<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="0">
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item">
+						<div class="row">
+							<div class="col-md-4">
+							Diskon
+							</div>
+							<div class="col-md-6 pull-right">
+							<input type="text" name="total-diskon" id="total-diskon" class="form-control text-right" value="<?=$totaldiskon?>" readonly>
 							</div>
 						</div>
 					</li>

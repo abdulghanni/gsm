@@ -255,6 +255,71 @@ function cek_stok($id)
         $this->barang->delete_by_id($id);
         echo json_encode(array("status" => TRUE));
     }
+    function excel()
+    {
+    //load our new PHPExcel library
+        $this->load->library('excel');
+        //activate worksheet number 1
+        $this->excel->setActiveSheetIndex(0);
+        //name the worksheet
+        $this->excel->getActiveSheet()->setTitle('Master Barang');
+
+
+        $this->excel->getActiveSheet()->mergeCells('C1:E1');
+        $this->excel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('Logo');
+        $objDrawing->setDescription('Logo');
+        $objDrawing->setPath(base_url('assets/images/logo-po.jpg'));
+        $objDrawing->setHeight(36);
+
+        $objDrawing->setWorksheet($this->excel->getActiveSheet());
+
+        $this->excel->getActiveSheet()->setCellValue('C1', 'PT Gramaselindo');
+
+         $this->excel->getActiveSheet()->setCellValue('A7', 'No');
+         $this->excel->getActiveSheet()->setCellValue('B7', 'Kode');
+         $this->excel->getActiveSheet()->setCellValue('C7', 'Deskripsi');
+         $this->excel->getActiveSheet()->setCellValue('D7', 'Alias');
+         $this->excel->getActiveSheet()->setCellValue('E7', 'Jenis Barang');
+         $this->excel->getActiveSheet()->setCellValue('F7', 'Satuan');
+
+
+        for($col = ord('A'); $col <= ord('F'); $col++){
+            //set column dimension
+            $this->excel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
+             //change the font size
+            $this->excel->getActiveSheet()->getStyle(chr($col))->getFont()->setSize(12);
+        }
+
+        $this->excel->getActiveSheet()->getStyle(chr(ord('A')))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->excel->getActiveSheet()->getStyle(chr(ord('B')))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->excel->getActiveSheet()->getColumnDimension('C')->setSize(40);
+
+        $rs = $this->barang->get_barang();
+                $exceldata="";
+        foreach ($rs as $row){
+                $exceldata[] = $row;
+        }
+                //Fill data 
+                $this->excel->getActiveSheet()->fromArray($exceldata, null, 'A8');
+                 
+                $this->excel->getActiveSheet()->getStyle('A7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('B7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('C7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $filename='just_some_random_name.xls'; //save our workbook as this file name
+        header('Content-Type: application/vnd.ms-excel'); //mime type
+        header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+        header('Cache-Control: max-age=0'); //no cache
+                    
+        //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+        //if you want to save it as .XLSX Excel 2007 format
+        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+        //force user to download the Excel file without writing it to server's HD
+        $objWriter->save('php://output');
+    }
 
     //JS  FUNCTION
 
