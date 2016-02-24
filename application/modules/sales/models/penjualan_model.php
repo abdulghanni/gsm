@@ -10,7 +10,7 @@ class penjualan_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('no', 'kontak', 'tanggal_transaksi', 'metode_pembayaran', 'so', 'gudang'); //set column field database for order and search
+    var $column = array('no', 'so', 'kontak','tanggal_transaksi', 'tanggal_pengantaran', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -27,8 +27,8 @@ class penjualan_model extends CI_Model {
             '.$this->table.'.no as no,
             '.$this->table.'.so as so,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
+            '.$this->table.'.tanggal_pengantaran,
             '.$this->table_join1.'.title as kontak,
-            '.$this->table_join2.'.title as metode_pembayaran,
             '.$this->table_join4.'.title as gudang,
             ');
         $this->db->from($this->table);
@@ -169,7 +169,7 @@ class penjualan_model extends CI_Model {
 
     function get_list_detail_so($id)
     {
-        $q = $this->db->select('barang.id as kode_barang, sales_order_list.deskripsi, jumlah,sales_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id, barang.kode as kode_barang, sales_order_list.deskripsi, jumlah,sales_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list_so)
                   ->join('barang', 'barang.id ='.$this->table_list_so.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list_so.'.satuan_id')

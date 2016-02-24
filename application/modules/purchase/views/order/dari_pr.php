@@ -324,6 +324,7 @@
 	</div>
 <?php endforeach;?>
 <script type="text/javascript" src="<?=assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js')?>"></script>
+<script type="text/javascript" src="<?=assets_url('vendor/jquery-mask-money/jquery.MaskMoney.js')?>"></script>
 <script type="text/javascript">
 $(document).ready(function() {
 	$('.input-append.date')

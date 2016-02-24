@@ -395,11 +395,26 @@
 							</li>
 							<?php if($o->metode_pembayaran_id == 2):?>
 								<li class="list-group-item">
+										<div class="row">
+											<div class="col-md-4">
+											Uang Muka
+											</div>
+											<div class="col-md-2">
+											</div>
+											<div class="col-md-4">
+											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->dibayar?>" readonly>
+											</div>
+											<div class="col-md-1">
+											%
+											</div>
+										</div>
+									</li>
+								<li class="list-group-item">
 								<div class="row">
-									<div class="col-md-4">
+									<div class="col-md-3">
 									Saldo
 									</div>
-									<div class="col-md-6 pull-right">
+									<div class="col-md-7 pull-right">
 									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($totalpluspajak-$dp, 2)?>" readonly="readonly">
 									</div>
 								</div>

@@ -255,6 +255,16 @@ class Order extends MX_Controller {
     $this->mpdf->Output($id.'-'.'.pdf', 'I');
     }
 
+    function export_word($id){
+        $this->data['id'] = $id;
+        $this->data[$this->file_name] = $this->main->get_detail($id);
+        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
+        $kontak_id = getValue('kontak_id', 'purchase_order', array('id'=>'where/'.$id));
+        $this->data['phone'] = getValue('telepon', 'kontak', array('id'=>'where/'.$kontak_id));
+        $this->data['fax'] = getValue('fax', 'kontak', array('id'=>'where/'.$kontak_id));
+        $this->load->view($this->module.'/'.$this->file_name.'/word', $this->data); 
+    }
+
     //FOR JS
 
     function get_kontak_detail($id)

@@ -77,8 +77,8 @@ class Penjualan extends MX_Controller {
                 'up'=>'',
                 'alamat'=>'',
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
-                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_faktur'))),
-                'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengantaran'))),
+                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
+                'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
                 'so'=>$this->input->post('so'),
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
@@ -124,10 +124,10 @@ class Penjualan extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = $r->so;
             $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
-            $row[] = $r->metode_pembayaran;
-            $row[] = $r->so;
+            $row[] = $r->tanggal_pengantaran;
             $row[] = $r->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
@@ -183,6 +183,9 @@ class Penjualan extends MX_Controller {
     {
         permissionUser();
 
+         $num_rows = getAll($this->table_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
+        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['order'] = $this->main->get_detail_so($id);
         $this->data['order_list'] = $this->main->get_list_detail_so($id);
         $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);

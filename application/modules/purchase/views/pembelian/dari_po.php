@@ -158,6 +158,8 @@
 						</tr>
 					<script>
 					$("#harga<?=$i?>").maskMoney({allowZero:true});
+					$("#biaya_pengiriman").maskMoney({allowZero:true});
+					$("#dibayar").maskMoney({allowZero:true});
 						$("#disc<?=$i?>").add("#diterima<?=$i?>").add("#harga<?=$i?>").add("#dibayar").add("#biaya_pengiriman").add("#pajak<?=$i?>").keyup(function() {
 						var a = parseFloat($("#diterima<?=$i?>").val()),
 				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
@@ -262,7 +264,8 @@
 							</div>
 						</div>
 					</li>
-					<div id="total_angsuran" style="display:none">
+					<?php if($o->metode_pembayaran_id == 2):?>
+					<div id="total_angsuran">
 						<li class="list-group-item">
 							<div class="row">
 								<div class="col-md-4">
@@ -271,7 +274,7 @@
 								<div class="col-md-2">
 								</div>
 								<div class="col-md-4">
-								<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
+								<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="0">
 								</div>
 								<div class="col-md-1">
 								%
@@ -289,7 +292,7 @@
 						</div>
 					</li>
 					</div>
-					
+					<?php endif;?>
 				</ul>
 			</div>
 		</div>
@@ -340,6 +343,7 @@
     <?php endforeach;?>
 --><script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript" src="<?=assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js')?>"></script>
+<script type="text/javascript" src="<?=assets_url('vendor/jquery-mask-money/jquery.MaskMoney.js')?>"></script>
 <script type="text/javascript">
 	$('.input-append.date')
         .datepicker({
