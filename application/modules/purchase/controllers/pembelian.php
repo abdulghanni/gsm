@@ -59,6 +59,9 @@ class Pembelian extends MX_Controller {
     {
         permissionUser();
 
+        $num_rows = getAll($this->table_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
+        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $approver1 = '1';
         $this->data['jabatan_lv1'] = getUserGroup($approver1);
         $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
@@ -98,7 +101,6 @@ class Pembelian extends MX_Controller {
                 'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
@@ -140,7 +142,6 @@ class Pembelian extends MX_Controller {
             $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->tanggal_pengiriman;
-            $row[] = $r->metode_pembayaran;
             $row[] = $r->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>

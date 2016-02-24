@@ -54,6 +54,7 @@
 
 				<hr>
 				<div id="dari-po">
+				<!--
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
@@ -332,12 +333,14 @@
 						</div>
 					</div>
 				</div>
+			-->
 			</div>
 		</div>
 	</div>
 </div>
 </form>
 <!-- end: INVOICE -->
+<!--
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
 	function addRow(tableID){
@@ -457,3 +460,4 @@
 	}
 	function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
 </script>
+-->

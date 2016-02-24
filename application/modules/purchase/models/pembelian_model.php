@@ -10,7 +10,7 @@ class pembelian_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('id', 'no','po', 'kontak', 'tanggal_pengiriman', 'tanggal_transaksi', 'metode_pembayaran', 'gudang'); //set column field database for order and search
+    var $column = array('id', 'no','po', 'kontak', 'tanggal_pengiriman', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -180,21 +180,7 @@ class pembelian_model extends CI_Model {
                                 bunga,
                                 purchase_order.catatan, 
                                 purchase_order.created_on,
-                                is_app_lv1,
-                                is_app_lv2,
-                                is_app_lv3,
-                                user_app_id_lv1,
-                                user_app_id_lv2,
-                                user_app_id_lv3,
-                                date_app_lv1,
-                                date_app_lv2,
-                                date_app_lv3,
-                                app_status_id_lv1,
-                                app_status_id_lv2,
-                                app_status_id_lv3,
-                                note_app_lv1,
-                                note_app_lv2,
-                                note_app_lv3,
+                                
                                 purchase_order.created_by'
                                 )
                  ->from($this->table_po)
@@ -209,7 +195,7 @@ class pembelian_model extends CI_Model {
 
     function get_list_detail_po($id)
     {
-        $q = $this->db->select('barang.id as kode_barang, purchase_order_list.deskripsi, jumlah, purchase_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id, barang.kode as kode_barang, purchase_order_list.deskripsi, jumlah, purchase_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list_po)
                   ->join('barang', 'barang.id ='.$this->table_list_po.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list_po.'.satuan_id', 'left')

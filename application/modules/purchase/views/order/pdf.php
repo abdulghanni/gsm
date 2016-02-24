@@ -19,15 +19,16 @@ td{ height:30px;}
 </style>
 </head>
 <body>
-  <img style="text-align:center;margin-bottom: -50px;margin-left: 70px;margin-top:5px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
+  <img height="87" width="515px" style="text-align:center;margin-bottom: -45px;margin-left: 70px;margin-top:5px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
   <p>
   <br>
-  <div style="text-align:center;margin-left:100px;font-size: 11px;margin-bottom: -20px;">
+  <div style="text-align:center;font-size: 11px;font-weight:600;margin-bottom: 0px;">
   Jl. Utan Kayu Raya No. 1 Matraman, Jakarta Timur<br>
   Phone : +62 21 29821601<br>
   Fax : +62 21 85914371
   </div>
-  <h3 style="margin-bottom: -10px;margin-top:-10px">Purchase Order</h3>
+ <hr/>
+  <h3 style="margin-bottom: -10px;margin-top: -10px;text-align: center">Purchase Order</h3>
 <hr/>
 <?php foreach ($order->result() as $o) :?>
 <table width="1000" border="0">
@@ -145,9 +146,6 @@ td{ height:30px;}
 	
 	</table>
 
-
-	<hr/>
-	
 <?php endforeach;?>
 <br/>
 <!--

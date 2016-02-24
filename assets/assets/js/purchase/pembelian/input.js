@@ -15,7 +15,6 @@ $(document).ready(function() {
     $("#list_po").change(function(){
         var id = $(this).val();
         if(id != 0){
-            id = id.substring(0,1);
             $('#dari-po').load('get_dari_po/'+id);
         }
     })

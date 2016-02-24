@@ -150,7 +150,7 @@
 						<div id="kredit" style="display:none">
 							<div class="form-group">
 								<label class="col-sm-4 control-label" for="inputPassword3">
-									Lama Angsuran
+									Tempo Pembayaran
 								</label>
 								<div class="col-sm-2">
 									<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
@@ -163,18 +163,6 @@
 									<option value="tahun">Tahun</option>
 	                              	</select>
 								</div>
-							</div>
-
-							<div class="form-group">
-								<label class="col-sm-4 control-label" for="inputPassword3">
-									Bunga
-								</label>
-								<div class="col-sm-2">
-									<input type="text" placeholder="" name="bunga" id="bunga" class="form-control text-right" value="0">
-								</div>
-								<label class="col-sm-1 control-label" for="inputPassword3">
-									%
-								</label>
 							</div>
 						</div>
                     </div>
@@ -238,6 +226,16 @@
 								<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-4">
+										Diskon
+										</div>
+										<div class="col-md-6 pull-right">
+										<input type="text" name="total-diskon" id="total-diskon" class="form-control text-right" value="0" readonly>
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item">
+									<div class="row">
+										<div class="col-md-4">
 										Total
 										</div>
 										<div class="col-md-6 pull-right">
@@ -275,39 +273,14 @@
 									<li class="list-group-item">
 										<div class="row">
 											<div class="col-md-4">
-											Biaya Angsuran
-											</div>
-											<div class="col-md-2">
-											</div>
-											<div class="col-md-4">
-											<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="0">
-											</div>
-											<div class="col-md-2" id="angsuran" style="margin-left:-10px">
-											</div>
-										</div>
-									</li>
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Total+Bunga Angsuran
+											Saldo
 											</div>
 											<div class="col-md-6 pull-right">
-											<input type="text" id="totalplusbunga" class="form-control text-right" value="0">
+											<input type="text" id="saldo" class="form-control text-right" value="0" readonly="readonly">
 											</div>
 										</div>
 									</li>
-									<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Saldo
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="saldo" class="form-control text-right" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
 								</div>
-								
 							</ul>
 						</div>
 					</div>
@@ -341,7 +314,8 @@
 	cell2.innerHTML=rowCount+1-1;
 
 	var cell3=row.insertCell(2);
-	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.$barang[$i]['title']?></option><?php endfor;?></select>";  
+	<?php $s = array('"', "'");$r=array('&quot;','&#39;');?>
+	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>";  
 
 	var cell4=row.insertCell(3);
 	cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">';
@@ -356,7 +330,7 @@
 	cell7.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
 
 	var cell8=row.insertCell(7);
-	cell8.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'">';
+	cell8.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'"><input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc'+rowCount+'">';
 
 	var cell9=row.insertCell(8);
 	cell9.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
@@ -389,41 +363,40 @@
     function hitung()
     {
     	var a = parseInt($('#jumlah'+rowCount).val()),
-    		bunga = parseFloat($('#bunga').val()),
         	b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
         	c = parseFloat($('#disc'+rowCount).val()),
         	p = parseFloat($('#pajak'+rowCount).val()).toFixed(2),
         	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
         	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
-        	lama_angsuran= parseInt($('#lama_angsuran_1').val()),
         	d = (a*b)*(c/100),//jumlah diskon
        		val = (a*b)-d,
+       		disc = (a*b)*(c/100),
         	subPajak = val*(p/100),//jumlah pajak
         	jmlPajak = 0,
+        	jmlDisc = 0,
         	total = 0;
 
         $('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
         $('#subpajak'+rowCount).val(subPajak);
+        $("#subdisc"+rowCount).val(addCommas(parseFloat(disc).toFixed(2)));
         $('.subpajak').each(function (index, element) {
             jmlPajak = jmlPajak + parseInt($(element).val());
         });
         $('.subtotal').each(function (index, element) {
             total = total + parseInt($(element).val().replace(/,/g,""));
         });
+        $('.subdisc').each(function (index, element) {
+            jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
+        });
         total = total+biayaPengiriman;
         totalpluspajak = total + jmlPajak;
         diBayar = totalpluspajak * (diBayar/100);
-        
-        totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
-        totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
-        biayaAngsuran = totalPlusBunga/lama_angsuran;
         $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
         $('#total').val(addCommas(parseFloat(total).toFixed(2)));
         $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
+         $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
         var saldo = totalpluspajak-diBayar;
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
-       	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
-       	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))
     }
 
     function addCommas(nStr)
