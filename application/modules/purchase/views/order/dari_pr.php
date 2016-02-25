@@ -358,7 +358,8 @@ $(document).ready(function() {
     })
     .change();
 
-    $('#dibayar, #biaya_pengiriman').maskMoney({allowZero:true});
+    $('#dibayar').maskMoney({allowZero:true}).attr('maxlength', 6);
+    $('#biaya_pengiriman').maskMoney({allowZero:true});
 });
 
 function getAlamat(id)

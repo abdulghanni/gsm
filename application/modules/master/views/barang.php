@@ -22,11 +22,42 @@
                     <button class="btn btn-green add-row" onclick="add_user()">
                         <?= lang('add') ?> <i class="fa fa-plus"></i>
                     </button>
+                    <!--
                     <button class="btn btn-green add-row" onclick="reload_table()">
                         Refresh <i class="fa fa-refresh"></i>
                     </button>
+                    -->
+                    <div class="btn-group">
+                        <a href="#" data-toggle="dropdown" class="btn btn-azure dropdown-toggle">
+                            Export <i class="fa fa-download"></i> <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="#">
+                                    PDF
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    XLS
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    DOC
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <span class="btn btn-light-azure fileinput-button"><span>Import <i class="fa fa-upload"></i></span>
+                        <input name="files[]" multiple="" type="file">
+                    </span>
                 </div>
             </div>
+            <div class="row">
+                
+            </div>
+            <br/>
             <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover table-full-width" id="table">

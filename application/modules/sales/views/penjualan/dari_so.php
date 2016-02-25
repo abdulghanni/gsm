@@ -159,7 +159,7 @@
 					<script>
 					$("#harga<?=$i?>").maskMoney({allowZero:true});
 					$("#biaya_pengiriman").maskMoney({allowZero:true});
-					$("#dibayar").maskMoney({allowZero:true});
+					$("#dibayar").maskMoney({allowZero:true}).attr('maxlength', 6);
 						$("#disc<?=$i?>").add("#diterima<?=$i?>").add("#harga<?=$i?>").add("#dibayar").add("#biaya_pengiriman").add("#pajak<?=$i?>").keyup(function() {
 						var a = parseFloat($("#diterima<?=$i?>").val()),
 				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),

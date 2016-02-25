@@ -357,6 +357,9 @@
     });
 
     $('.harga').maskMoney({allowZero:true});
+    $('.biaya_pengiriman').maskMoney({allowZero:true});
+    $("#dibayar").maskMoney({allowZero:true}).attr('maxlength', 6);
+    $('.harga').maskMoney({allowZero:true});
     $('#dibayar, #biaya_pengiriman').keyup(function(){
     	hitung();
     });

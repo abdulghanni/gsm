@@ -154,10 +154,17 @@ class Penjualan extends MX_Controller {
         
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+        $this->mpdf = new mPDF();
+        $this->mpdf->AddPage('p', // L - landscape, P - portrait
+            '', '', '', '',
+            5, // margin_left
+            5, // margin right
+            0, // margin top
+            0, // margin bottom
+            0, // margin header
+            5); // margin footer
+    $this->mpdf->WriteHTML($html);
+    $this->mpdf->Output($id.'-'.'.pdf', 'I');
     }
 
     //FOR JS
