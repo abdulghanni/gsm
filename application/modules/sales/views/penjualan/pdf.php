@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>Invoice</title>
 <style type="text/css">
 td{ height:30px;}
 .catatan {font-family:Arial, sans-serif;font-size:10px;}
@@ -19,67 +19,64 @@ td{ height:30px;}
 </style>
 </head>
 <body>
-  <img height="87" width="515px" style="text-align:center;margin-bottom: -45px;margin-left: 70px;margin-top:5px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
-  <p>
-  <br>
-  <div style="text-align:center;font-size: 11px;font-weight:600;margin-bottom: 0px;">
-  Jl. Utan Kayu Raya No. 1 Matraman, Jakarta Timur<br>
-  Phone : +62 21 29821601<br>
-  Fax : +62 21 85914371
-  </div>
+<div style="text-align: center;">
+  <!--<img height="100px" width="100px" src="<?php echo assets_url('images/logo-gsm.png')?>"/>-->
+  <img width="100%" src="<?php echo assets_url('images/logo-full.png')?>"/>
+</div>
  <hr/>
   <h3 style="margin-bottom: -10px;margin-top: -10px;text-align: center">Invoice</h3>
 <hr/>
-<?php foreach ($penjualan->result() as $o) :?>
+<?php foreach ($penjualan->result() as $o) :
+	  $pajak_komponen = explode(',', $o->pajak_komponen_id);
+?>
 <table width="1000" border="0">
   <tbody>
     <tr>
-      <td width="180">No. Invoice</td>
+      <td width="180">Invoice No.</td>
       <td width="20">:</td>
       <td width="300"><?=$o->no?></td>
-      <td width="180">Kepada</td>
+      <td width="180">Charged To</td>
       <td width="20">:</td>
       <td width="300"><?=$o->kontak?></td>
     </tr>
     <tr>
-      <td>No. SO</td>
+
+      <td width="180">Invoice Date</td>
+      <td width="20">:</td>
+      <td width="300"><?=dateIndo($o->tanggal_transaksi)?></td>
+       <td>Address</td>
       <td>:</td>
-      <td><?=$o->so?></td>
+      <td><?=$o->alamat?></td>
       
+      
+    </tr>
+
+    <tr>
+      <td width="180">Due Date</td>
+      <td width="20">:</td>
+      <td width="300"><?=dateIndo($o->tanggal_pengantaran)?></td>
       <td>Attn</td>
       <td>:</td>
       <td>Finance</td>
-      
+     
     </tr>
-
     <tr>
-      <td width="180">Tanggal Invoice</td>
-      <td width="20">:</td>
-      <td width="300"><?=dateIndo($o->tanggal_transaksi)?></td>
-
-      <td>Alamat</td>
+      <td>PO No.</td>
       <td>:</td>
-      <td><?=$o->alamat?></td>
-    </tr>
-    <tr>
-      <td width="180">Batas Pengiriman</td>
-      <td width="20">:</td>
-      <td width="300"><?=dateIndo($o->tanggal_pengantaran)?></td>
-
-      <td>Proyek</td>
+      <td><?=$o->so?></td>
+      <td>Project</td>
       <td>:</td>
       <td><?=$o->proyek?></td>
     </tr>
     <tr>
-      <td>Mata Uang</td>
+      <td>Currency</td>
       <td>:</td>
       <td><?=$o->kurensi?></td>
-
-    </tr>
-    <tr>
-      <td>Metode Pembayaran</td>
+      <td>Payment Term</td>
       <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
       <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
+    </tr>
+    <tr>
     </tr>
   </tbody>
 </table>
@@ -103,7 +100,7 @@ td{ height:30px;}
 			<hr style="width:100%">
 			<th>Sub Total</th>
 			<hr style="width:100%">
-			<th>Pajak(%)</th>
+			<?= (in_array(1, $pajak_komponen))?"<th>PPN(%)</th>":''?>
 			<hr style="width:100%">
     	</tr>
     </tr>
@@ -125,12 +122,14 @@ td{ height:30px;}
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<td width="5%" align="right"><?=$ol->disc?></td>
 		<td width="20%" align="right"><?= number_format($subtotal, 2)?></td>
-		<td width="5%" align="right"><?=$ol->pajak?></td>
+		<?= (in_array(1, $pajak_komponen))?'<td align="right">'.$ol->pajak.'</td>':''?>
 	</tr>
 
 	<?php endforeach;		
+		if(in_array(2, $pajak_komponen))$p2 = $o->total_pph22;
+		if(in_array(3, $pajak_komponen))$p3 = $o->total_pph23;
 		$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
-		$grandtotal = $totalpluspajak + $o->biaya_pengiriman - $o->dibayar;
+		$grandtotal = $totalpluspajak + $o->biaya_pengiriman - $o->dibayar+$o->total_pph22+$o->total_pph23;
 		$bunga =  ($grandtotal) * ($o->bunga/100);
 	?>
 	
@@ -175,13 +174,35 @@ Catatan :<br/>
 	<hr style="width:100%">
 	<tr><td>&nbsp;</td></tr>
 	<tr>
-		<td align="center"><!--Approved,--></td>
+		<td align="center">Director</td>
 		<td align="center"><!--Order By,--></td>
-		<td align="center"><!--ACC Vendor--></td>
-		<td colspan="3">Total Pajak</td>
+		<td align="center">Chief Executive Officer</td>
+	<?php if(in_array(1, $pajak_komponen)){?>
+		<td colspan="3">PPN</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($totalpajak, 2)?></td>
 	</tr>
+	<?php } ?>
+	<?php if(in_array(2, $pajak_komponen)){?>
+	<tr>
+		<td align="center"><!--Approved,--></td>
+		<td align="center"><!--Order By,--></td>
+		<td align="center"><!--ACC Vendor--></td>
+		<td colspan="3">PPH 22</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?=number_format($o->total_pph22, 2)?></td>
+	</tr>
+	<?php } ?>
+	<?php if(in_array(3, $pajak_komponen)){?>
+	<tr>
+		<td align="center"><!--Approved,--></td>
+		<td align="center"><!--Order By,--></td>
+		<td align="center"><!--ACC Vendor--></td>
+		<td colspan="3">PPH 23</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?=number_format($o->total_pph23, 2)?></td>
+	</tr>
+	<?php } ?>
 	<?php if(!empty($o->biaya_pengiriman)):?>
 	<tr>
 		<td align="center">&nbsp;</td>
@@ -215,7 +236,7 @@ Catatan :<br/>
 		<td align="center"></td>
 		<td colspan="3">Total + Pajak</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman+$totalpajak+$o->total_pph22+$o->total_pph23, 2)?></td>
 	</tr>
 
 	
@@ -229,9 +250,9 @@ Catatan :<br/>
 	</tr>
 
 	<tr>
-		<td align="center"><!--(<?=(!empty($o->user_app_id_lv4))?getFullName($o->user_app_id_lv4):'';?>)--></td>
+		<td align="center">(Iriawan)</td>
 		<td align="center"><!--(<?=getFullName($o->created_by)?>)--></td>
-		<td align="center"><!--(Sign & Return by Fax)--></td>
+		<td align="center">(Mursiawaty Suryadinata)</td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Saldo<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
 		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($grandtotal, 2)?><?php endif; ?></td>

@@ -126,7 +126,9 @@
 								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" disabled="disabled">
 							</div>
 						</div>
-						<?php endif ?>
+						<?php endif;
+							  $pajak_komponen = explode(',', $o->pajak_komponen_id);
+						 ?>
 					</div>
 				</div>
 				<div class="row">
@@ -143,12 +145,12 @@
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="20%"> Sub Total </th>
-									<th width="5%">Pajak(%)</th>
+									<?= (in_array(1, $pajak_komponen))?"<th width='5%''>PPN(%)</th>":''?>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
-									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= 0;
+									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= $p2 = $p3 = 0;
 									$i=1;foreach($penjualan_list->result() as $ol): 
 									$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
 									$subtotal = $ol->diterima*$ol->harga-$diskon;
@@ -166,10 +168,12 @@
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
-									<td class="text-right"><?=$ol->pajak?></td>
+									<?= (in_array(1, $pajak_komponen))?'<td class="text-right">'.$ol->pajak.'</td>':''?>
 								</tr>
 								<?php endforeach;
-									$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
+									if(in_array(2, $pajak_komponen))$p2 = $o->total_pph22;
+									if(in_array(3, $pajak_komponen))$p3 = $o->total_pph23;
+									$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak+$p2+$p3;
 									$dp = $totalpluspajak * ($o->dibayar/100);
 									$totalplusbunga = ($totalpluspajak-$dp)*($o->bunga/100);
 									//$totalplusbunga = ($totalpluspajak-$dp)+$totalplusbunga;
@@ -184,16 +188,42 @@
 
 					<div id="panel-total" class="panel-body col-md-5 pull-right">
 						<ul class="list-group">
+							<?php if(in_array(1, $pajak_komponen)){?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">
-									Total Pajak
+									PPN
 									</div>
 									<div class="col-md-7 pull-right">
 									<input type="text" id="totalPajak" value="<?= number_format($totalpajak, 2)?>" class="form-control text-right" readonly="readonly">
 									</div>
 								</div>
 							</li>
+							<?php } ?>
+							<?php if(in_array(2, $pajak_komponen)){?>
+							<li class="list-group-item" id="totalPPH22">
+								<div class="row">
+									<div class="col-md-3">
+									PPH 22%
+									</div>
+									<div class="col-md-7 pull-right">
+									<input type="text" id="totalp2" name="total-pph22" value="<?= number_format($o->total_pph22, 2)?>" class="form-control text-right" readonly="readonly">
+									</div>
+								</div>
+							</li>
+							<?php } ?>
+							<?php if(in_array(3, $pajak_komponen)){?>
+							<li class="list-group-item" id="totalPPH23">
+								<div class="row">
+									<div class="col-md-3">
+									PPH 23%
+									</div>
+									<div class="col-md-7 pull-right">
+									<input type="text" id="totalp3" name="total-pph23" value="<?= number_format($o->total_pph23, 2)?>" class="form-control text-right" readonly="readonly">
+									</div>
+								</div>
+							</li>
+							<?php } ?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">
@@ -230,7 +260,7 @@
 									Total + Pajak
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak+$p2+$p3, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>

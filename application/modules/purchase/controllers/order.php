@@ -247,7 +247,7 @@ class Order extends MX_Controller {
             '', '', '', '',
             5, // margin_left
             5, // margin right
-            0, // margin top
+            5, // margin top
             0, // margin bottom
             0, // margin header
             5); // margin footer

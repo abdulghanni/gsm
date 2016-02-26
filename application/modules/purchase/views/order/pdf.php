@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>Sales Order</title>
 <style type="text/css">
 td{ height:30px;}
 .catatan {font-family:Arial, sans-serif;font-size:10px;}
@@ -19,14 +19,10 @@ td{ height:30px;}
 </style>
 </head>
 <body>
-  <img height="87" width="515px" style="text-align:center;margin-bottom: -45px;margin-left: 70px;margin-top:5px" src="<?php echo assets_url('images/logo-po.jpg')?>"/>
-  <p>
-  <br>
-  <div style="text-align:center;font-size: 11px;font-weight:600;margin-bottom: 0px;">
-  Jl. Utan Kayu Raya No. 1 Matraman, Jakarta Timur<br>
-  Phone : +62 21 29821601<br>
-  Fax : +62 21 85914371
-  </div>
+ <div style="text-align: center;">
+  <!--<img height="100px" width="100px" src="<?php echo assets_url('images/logo-gsm.png')?>"/>-->
+  <img width="100%" src="<?php echo assets_url('images/logo-full.png')?>"/>
+</div>
  <hr/>
   <h3 style="margin-bottom: -10px;margin-top: -10px;text-align: center">Purchase Order</h3>
 <hr/>

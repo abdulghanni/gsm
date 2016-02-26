@@ -53,6 +53,7 @@
 				</div>
 				<hr>
 				<div id="dari-so">
+				<!--
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -335,7 +336,7 @@
 						</button>
 					</div>
 				</div>
-				
+				-->
 				</div>
 			</div>
 		</div>

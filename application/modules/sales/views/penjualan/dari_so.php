@@ -31,6 +31,14 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Alamat Customer
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="" value="<?=$o->alamat?>" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Mata Uang
 							</label>
@@ -51,15 +59,15 @@
                     <div class="col-md-6">
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. SO
+								No. PO
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="so" value="<?=$o->so?>" class="form-control" readonly>
+								<input type="text" name="so" value="" class="form-control">
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tanggal Pengiriman
+								Batas Pembayaran
 							</label>
 							<div class="col-sm-8">
 								<div id="tanggal_pengiriman" class="input-append date success no-padding">
@@ -80,6 +88,15 @@
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
+								Project
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="project" value="<?=$o->project?>" class="form-control">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Term
 							</label>
 							<div class="col-sm-8">
@@ -89,20 +106,38 @@
 						</div>
 						<?php $d = "display:none";?>
 						<div id="kredit" style="<?=($o->metode_pembayaran_id == 1) ? $d : ''?>">
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputPassword3">
+									Tempo Pembayaran
+								</label>
+								<div class="col-sm-2">
+									<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
+								</div>
+								<div class="col-sm-6">
+									<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
+									<option value="0">-- Pilih Tempo Pembayaran --</option>
+								    <option value="hari">Hari</option>
+						            <option value="bulan">Bulan</option>
+						            <option value="tahun">Tahun</option>
+		              	            </select>
+								</div>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								Tempo Pembayaran
+								Komponen Pajak
 							</label>
-							<div class="col-sm-2">
-								<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
-							</div>
 							<div class="col-sm-6">
-								<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
-								<option value="0">-- Pilih Tempo Pembayaran --</option>
-							    <option value="hari">Hari</option>
-					            <option value="bulan">Bulan</option>
-					            <option value="tahun">Tahun</option>
-	              	            </select>
+								<div id="pajak">
+								<?php foreach($pajak_komponen as $p):?>
+								<div class="checkbox clip-check check-primary checkbox-inline">
+									<input type="checkbox" id="kpajak<?=$p->id?>" value="<?=$p->id?>" class="<?=$p->title?>" name="pajak_komponen_id[]" <?=($p->id)==1?'checked':''?>>
+									<label for="kpajak<?=$p->id?>">
+										<?=$p->title?>
+									</label>
+								</div>
+								<?php endforeach;?>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -122,14 +157,16 @@
 						<th width="20%"> Harga </th>
 						<th width="5%">Disc(%)</th>
 						<th width="15%"> Sub Total </th>
-						<th width="5%">Pajak(%)</th>
+						<?php foreach ($pajak_komponen as $p) {?>
+						<th width="5%" class="<?=$p->title?>" <?=($p->id!=1)?'style="display:none"':'';?>><?=$p->title?>(%)</th>
+						<?php } ?>
 					</tr>
 				</thead>
 				<tbody>
 					<?php 
 						$totalpajak = $total = $saldo = $totaldiskon = 0;
 						$i=1;foreach($order_list->result() as $ol): 
-						$subtotal = $ol->jumlah*$ol->harga;
+						$subtotal = $ol->jumlah*$ol->harga-($ol->jumlah*$ol->harga*($ol->disc/100));
 						$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 						$totaldiskon = $totaldiskon + ($subtotal * ($ol->disc/100));
 						$total = $total + $subtotal;
@@ -138,8 +175,7 @@
 						<td><?=$i++?></td>
 						<td><?=$ol->kode_barang?></td>
 						<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->barang_id?>">
-						<td><?=$ol->deskripsi?></td>
-						<input type="hidden" name="deskripsi[]" class="form-control text-right" value="<?=$ol->deskripsi?>">
+						<td><textarea name="deskripsi[]" class="form-control"><?=$ol->deskripsi?></textarea></td>
 						<td class="text-right"><?=$ol->jumlah?></td>
 						<input type="hidden" name="diorder[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>">
 						<td class="text-right"><input type="text" name="diterima[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="diterima<?=$i?>"></td>
@@ -153,14 +189,19 @@
 						<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$i?>">
 						</td>
 						<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
-						<td class="text-right"><input type="text" name="pajak[]" class="form-control text-right pajak" value="<?=$ol->pajak?>" id="pajak<?=$i?>"></td>
-						<td><input type="hidden" name="subpajak[]" class="form-control text-right subpajak" value="0" id="subpajak<?=$i?>"></td>
+						<td class="PPN"><input type="text" name="pajak[]" class="form-control text-right pajak" value="<?=$ol->pajak?>" id="pajak<?=$i?>"></td>
+						<td class="PPH22" style="display: none"><input type="text" name="pph22[]" class="form-control text-right val-PPH22" value="0" id="val-PPH22<?=$i?>"></td>
+						<td class="PPH23" style="display: none"><input type="text" name="pph23[]" class="form-control text-right val-PPH23" value="0" id="val-PPH23<?=$i?>"></td>
+						<td><input type="hidden" name="subpajak[]" class="form-control text-right subpajak" value="0" id="subpajak<?=$i?>">
+							<input type="hidden" name="subpajak[]" class="form-control text-right subpph22" value="0" id="subpph22<?=$i?>">
+							<input type="hidden" name="subpajak[]" class="form-control text-right subpph23" value="0" id="subpph23<?=$i?>">
+						</td>
 						</tr>
 					<script>
 					$("#harga<?=$i?>").maskMoney({allowZero:true});
 					$("#biaya_pengiriman").maskMoney({allowZero:true});
 					$("#dibayar").maskMoney({allowZero:true}).attr('maxlength', 6);
-						$("#disc<?=$i?>").add("#diterima<?=$i?>").add("#harga<?=$i?>").add("#dibayar").add("#biaya_pengiriman").add("#pajak<?=$i?>").keyup(function() {
+						$("#disc<?=$i?>").add("#diterima<?=$i?>").add("#harga<?=$i?>").add("#dibayar").add("#biaya_pengiriman").add("#pajak<?=$i?>").add("#val-PPH22<?=$i?>").add("#val-PPH23<?=$i?>").keyup(function() {
 						var a = parseFloat($("#diterima<?=$i?>").val()),
 				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
 				        	c = parseFloat($("#disc<?=$i?>").val()),
@@ -174,6 +215,12 @@
 				        	jmlPajak = 0,
 				        	jmlDisc = 0,
 				        	total = 0;
+				        	p2 = parseFloat($("#val-PPH22<?=$i?>").val()).toFixed(2),
+				        	p3 = parseFloat($("#val-PPH23<?=$i?>").val()).toFixed(2),
+				        	subP2 = val*(p2/100),//jumlah pajak
+				        	subP3 = val*(p3/100),//jumlah pajak
+				        	jmlP2 = 0,
+				        	jmlP3 = 0,
 				        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
 				        $("#subdisc<?=$i?>").val(addCommas(parseFloat(disc).toFixed(2)));
 				        $("#subpajak<?=$i?>").val(subPajak);
@@ -187,11 +234,28 @@
 				        $('.subtotal').each(function (index, element) {
 				            total = total + parseFloat($(element).val().replace(/,/g,""));
 				        });
+
+				        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
+				        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
+				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+				        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
+				        $("#subpph22<?=$i?>").val(subP2);
+				        $('.subpph22').each(function (index, element) {
+				            jmlP2 = jmlP2 + parseInt($(element).val());
+				        });
+
+				        $("#subpph23<?=$i?>").val(subP3);
+				        $('.subpph23').each(function (index, element) {
+				            jmlP3 = jmlP3 + parseInt($(element).val());
+				        });
+
 				        total = total+biayaPengiriman;
-				        totalpluspajak = total + jmlPajak;
+				        totalpluspajak = total + jmlPajak+jmlP3+jmlP2;
 				        diBayar = totalpluspajak * (diBayar/100);
 				        
 				        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
+				        $('#totalp2').val(addCommas(parseFloat(jmlP2).toFixed(2)));
+				        $('#totalp3').val(addCommas(parseFloat(jmlP3).toFixed(2)));
 				        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
 				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
 				        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
@@ -214,13 +278,33 @@
 		<div class="row">
 			<div id="panel-total" class="panel-body col-md-5 pull-right">
 				<ul class="list-group">
-					<li class="list-group-item">
+					<li class="list-group-item" id="totalPPN">
 						<div class="row">
 							<div class="col-md-4">
-							Total Pajak
+							PPN 10%
 							</div>
 							<div class="col-md-6 pull-right">
-							<input type="text" id="totalPajak" value="<?=$totalpajak?>" class="form-control text-right" readonly="readonly">
+							<input type="text" id="totalPajak" name="total-ppn" value="<?=$totalpajak?>" class="form-control text-right" readonly="readonly">
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item" id="totalPPH22">
+						<div class="row">
+							<div class="col-md-4">
+							PPH 22%
+							</div>
+							<div class="col-md-6 pull-right">
+							<input type="text" id="totalp2" name="total-pph22" value="0" class="form-control text-right" readonly="readonly">
+							</div>
+						</div>
+					</li>
+					<li class="list-group-item" id="totalPPH23">
+						<div class="row">
+							<div class="col-md-4">
+							PPH 23%
+							</div>
+							<div class="col-md-6 pull-right">
+							<input type="text" id="totalp3" name="total-pph23" value="0" class="form-control text-right" readonly="readonly">
 							</div>
 						</div>
 					</li>
@@ -264,8 +348,8 @@
 							</div>
 						</div>
 					</li>
-					<?php if($o->metode_pembayaran_id == 2):?>
-					<div id="total_angsuran">
+					<?php $d = ($o->metode_pembayaran_id != 2)?'style="display:none"':'';?>
+					<div id="total_angsuran" <?=$d?>>
 						<li class="list-group-item">
 							<div class="row">
 								<div class="col-md-4">
@@ -292,7 +376,6 @@
 						</div>
 					</li>
 					</div>
-					<?php endif;?>
 				</ul>
 			</div>
 		</div>
@@ -341,10 +424,28 @@
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
     });
     <?php endforeach;?>
---><script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
+-->
+<script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript" src="<?=assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js')?>"></script>
 <script type="text/javascript" src="<?=assets_url('vendor/jquery-mask-money/jquery.MaskMoney.js')?>"></script>
 <script type="text/javascript">
+	$("input:checkbox:not(:checked)").each(function() {
+	    var column = "table ." + $(this).attr("class");
+	    var total = "#total"+$(this).attr("class");
+	    $(column).hide();
+	    $(total).hide();
+	});
+
+	$("input:checkbox").click(function(){
+	    var column = "table ." + $(this).attr("class");
+	     var total = "#total"+$(this).attr("class");
+	     var val = ".val-"+$(this).attr("class");
+	    $(column).toggle();
+	    $(total).toggle();
+	    $('.pajak').val(0);
+	    $('.val').val(0);
+	});
+
 	$('.input-append.date')
         .datepicker({
             todayHighlight: true,

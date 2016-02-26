@@ -103,10 +103,10 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tgl. Pengiriman
+								Batas. Pembayaran
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->tanggal_transaksi?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=dateIndo($o->tanggal_transaksi)?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 						<div class="form-group">
@@ -115,6 +115,15 @@
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Project
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="up" value="<?=$o->project?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 
@@ -129,23 +138,11 @@
 						<?php if($o->metode_pembayaran_id == 2):?>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								Lama Angsuran
+								Tempo Pembayaran
 							</label>
 							<div class="col-sm-4">
 								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" disabled="disabled">
 							</div>
-						</div>
-
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Bunga
-							</label>
-							<div class="col-sm-2">
-								<input type="text" value="<?=$o->bunga?>" name="bunga" id="bunga" class="form-control text-right" disabled="disabled">
-							</div>
-							<label class="col-sm-1 control-label" for="inputPassword3">
-								%
-							</label>
 						</div>
 						<?php endif ?>
 					</div>
@@ -163,12 +160,12 @@
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="20%"> Sub Total </th>
-									<th width="5%">Pajak(%)</th>
+									<th width="5%">PPN(%)</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
-									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
+									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $total_diskon= $saldo = 0;
 									$i=1;foreach($order_list->result() as $ol): 
 									$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
 									$subtotal = $ol->jumlah*$ol->harga-$diskon;
@@ -190,6 +187,7 @@
 									$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
 									$totalplusbunga = ($totalpluspajak-$dp)*($o->bunga/100);
+									$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 									//$totalplusbunga = ($totalpluspajak-$dp)+$totalplusbunga;
 									$grandtotal = ($totalpluspajak-$dp)+$totalplusbunga;//print_mz($totalpluspajak.'-'.$dp.'+'.$totalplusbunga);
 									$bunga =  ($grandtotal) * ($o->bunga/100);
@@ -218,6 +216,16 @@
 									</div>
 									<div class="col-md-6 pull-right">
 									<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="<?= number_format($o->biaya_pengiriman, 2)?>" readonly="readonly">
+									</div>
+								</div>
+							</li>
+							<li class="list-group-item">
+								<div class="row">
+									<div class="col-md-4">
+									Diskon
+									</div>
+									<div class="col-md-6 pull-right">
+									<input type="text" class="form-control text-right" id="diskon" value="<?=number_format($total_diskon, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -254,30 +262,6 @@
 										</div>
 										<div class="col-md-1">
 										%
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total+Bunga Angsuran
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="totalplusbunga" class="form-control text-right" value="<?= number_format($grandtotal,2)?>" readonly>
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Biaya Angsuran
-										</div>
-										<div class="col-md-2">
-										</div>
-										<div class="col-md-4">
-										<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="<?php echo number_format(($grandtotal)/$o->lama_angsuran_1, 2)?>" readonly>
-										</div>
-										<div class="col-md-2" id="angsuran" style="margin-left:-10px">/<?= strtoupper($o->lama_angsuran_2)?>
 										</div>
 									</div>
 								</li>

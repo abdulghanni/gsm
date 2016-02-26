@@ -134,6 +134,14 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
+								Project
+							</label>
+							<div class="col-sm-8">
+								<input type="text" placeholder="Project" name="project" class="form-control" value="">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Term
 							</label>
 							<div class="col-sm-8">
@@ -188,7 +196,7 @@
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="15%"> Sub Total </th>
-									<th width="5%">Pajak(%)</th>
+									<th width="5%">PPN(%)</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -318,7 +326,7 @@
 	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>";  
 
 	var cell4=row.insertCell(3);
-	cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">';
+	cell4.innerHTML = '<textarea name="deskripsi[]" value="0" class="form-control" required="required" id="deskripsi'+rowCount+'"></textarea>';
 
 	var cell5=row.insertCell(4);
 	cell5.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
@@ -336,7 +344,7 @@
 	cell9.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
 
 	var cell10=row.insertCell(9);
-	cell10.innerHTML = '<input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
+	cell10.innerHTML = '<input name="pajak[]" value="10" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
 
 	$("#barang_id"+rowCount).change(function(){
         var id = $(this).val();
@@ -345,7 +353,7 @@
             dataType: "JSON",
             url: 'get_nama_barang/'+id,
             success: function(data) {
-                $('#deskripsi'+rowCount).val(data);
+                $('#deskripsi'+rowCount).text(data);
             }
         });
     })

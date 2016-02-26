@@ -62,7 +62,7 @@ class Order extends MX_Controller {
         permissionUser();
         $order_list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
-                        'deskripsi' => 'deskripsi',
+                        'deskripsi' => $this->input->post('deskripsi'),
                         'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
@@ -87,6 +87,7 @@ class Order extends MX_Controller {
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'catatan' =>$this->input->post('catatan'),
+                'project' =>$this->input->post('project'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -156,7 +157,7 @@ class Order extends MX_Controller {
             '', '', '', '',
             5, // margin_left
             5, // margin right
-            0, // margin top
+            5, // margin top
             0, // margin bottom
             0, // margin header
             5); // margin footer

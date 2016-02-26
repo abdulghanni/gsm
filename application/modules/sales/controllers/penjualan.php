@@ -89,6 +89,10 @@ class Penjualan extends MX_Controller {
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'catatan' =>$this->input->post('catatan'),
+                'pajak_komponen_id' =>implode(',',$this->input->post('pajak_komponen_id')),
+                'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
+                'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
+                'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -159,7 +163,7 @@ class Penjualan extends MX_Controller {
             '', '', '', '',
             5, // margin_left
             5, // margin right
-            0, // margin top
+            5, // margin top
             0, // margin bottom
             0, // margin header
             5); // margin footer
@@ -195,6 +199,7 @@ class Penjualan extends MX_Controller {
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['order'] = $this->main->get_detail_so($id);
         $this->data['order_list'] = $this->main->get_list_detail_so($id);
+        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
         $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
     }
 	function _render_page($view, $data=null, $render=false)
