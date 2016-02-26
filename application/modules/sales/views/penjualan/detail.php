@@ -81,6 +81,15 @@
 							</div>
 						</div>
 
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Catatan
+							</label>
+							<div class="col-sm-8">
+								<textarea name="up" class="form-control" disabled="disabled"><?=$o->catatan?></textarea>
+							</div>
+						</div>
+
                     </div>
 
                     <div class="col-md-6">

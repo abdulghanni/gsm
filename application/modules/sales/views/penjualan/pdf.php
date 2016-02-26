@@ -162,14 +162,13 @@ Catatan :<br/>
 		<th width="10%"></th>
 		<th width="10%"></th>
 	</tr>
-		<!--
-		<tr><td colspan="4">Keterangan :</td></tr>
-		<tr><td colspan="4">- Semua Pengiriman Barang Disertakan Nota/Faktur</td></tr>
-		<tr><td colspan="4">- Dokumen & Faktur ditujukan kepada finance PT. Gramaselindo Utama Diserahkan Melalui</td></tr>
-		<tr><td colspan="4">  &nbsp;&nbsp;Receptionist Kami</td></tr>
-		<tr><td colspan="4">- Barang akan dikembalikan bila tidak sesuai pesanan</td></tr>
-		<tr><td colspan="9">- No PO Harus di Cantumkan dalam Nota/Faktur dan Surat jalan</td></tr>
-	-->
+		<?php 
+		if(!empty($o->catatan)){
+			echo '<tr><td colspan="4">Notes :</td></tr>';
+		$c = explode(PHP_EOL, $o->catatan);
+			  foreach ($c as $key => $value) {?>
+		<tr><td colspan="4"><?=$value?></td></tr>
+		<?php }} ?>
 	<tr><td colspan="9"></td></tr>
 	<hr style="width:100%">
 	<tr><td>&nbsp;</td></tr>
