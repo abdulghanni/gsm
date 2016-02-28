@@ -30,8 +30,8 @@
                     <thead>
                         <tr>
                             <th width="5%" align="center">No.</th>
-                            <th width="15%"><?php echo 'No. PO';?></th>
-                            <th width="15%"><?php echo 'Supplier';?></th>
+                            <th width="15%"><?php echo 'No. Invoice';?></th>
+                            <th width="15%"><?php echo 'Customer';?></th>
                             <th width="5%"><?php echo 'Kurensi';?></th>
                             <th width="10%"><?php echo 'Dibayar';?></th>
                             <th width="10%"><?php echo 'Terbayar';?></th>
@@ -49,6 +49,7 @@
     </div>
 </div>
 
+
 <!-- Bootstrap modal -->
 <div class="modal fade" id="modal_form" role="dialog">
     <div class="modal-dialog modal-lg">
@@ -64,11 +65,11 @@
                 <div class="row">
                 <div class="col-md-6">
                      <div class="form-group">
-                        <label class="control-label col-md-3">No. P.O</label>
+                        <label class="control-label col-md-3">No. INVOICE</label>
                         <div class="col-md-9">
                             <?php 
-                                $js = 'class="select2" style="width:100%" id="po"';
-                                echo form_dropdown('po', $options_po,'',$js); 
+                                $js = 'class="select2" style="width:100%" id="no"';
+                                echo form_dropdown('so', $options_so,'',$js); 
                             ?>
                         </div>
                     </div>

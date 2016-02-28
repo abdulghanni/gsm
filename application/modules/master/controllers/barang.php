@@ -74,6 +74,7 @@ class Barang extends MX_Controller {
 	}
     public function ajax_add()
     {
+
         //$this->_validate();
 		$satuanlain=$this->input->post('satuan_lain');//print_ag($satuanlain);
 		$satuanlain_id=$this->input->post('satuan_lain_id');
@@ -128,6 +129,7 @@ class Barang extends MX_Controller {
 			}
             
 		}
+        $this->upload_attachment($id);
         $this->upload($id);
         $this->cek_stok($id);
 		
@@ -135,16 +137,47 @@ class Barang extends MX_Controller {
         redirect(base_url('master/barang'), 'refresh');
     }
 
-function cek_stok($id)
-{
-    $num_rows = GetAllSelect('stok', 'barang_id', array('barang_id'=>'where/'.$id))->num_rows();
-    $data = array('barang_id' => $id,
-                    'created_by' => sessId(),
-                    'created_on' => dateNow(),
-                );
-    if($num_rows < 1)$this->db->insert('stok', $data);
-    return true;
-}
+    function cek_stok($id)
+    {
+        $num_rows = GetAllSelect('stok', 'barang_id', array('barang_id'=>'where/'.$id))->num_rows();
+        $data = array('barang_id' => $id,
+                        'created_by' => sessId(),
+                        'created_on' => dateNow(),
+                    );
+        if($num_rows < 1)$this->db->insert('stok', $data);
+        return true;
+    }
+
+    function upload_attachment($id){
+        if(!is_dir('./'.'uploads')){
+        mkdir('./'.'uploads', 0777);
+        }
+        if(!is_dir('./uploads/barang/')){
+        mkdir('./uploads/barang/', 0777);
+        }
+        if(!is_dir('./uploads/barang/'.$id)){
+        mkdir('./uploads/barang/'.$id, 0777);
+        }
+        if(!is_dir('./uploads/barang/'.$id.'/attachment')){
+        mkdir('./uploads/barang/'.$id.'/attachment', 0777);
+        }
+
+        $config =  array(
+          'upload_path'     => './uploads/barang/'.$id.'/attachment',
+          'allowed_types'   => '*',
+          'overwrite'       => TRUE,
+        );    
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('attachment')){
+            //print_r($this->upload->display_errors());
+         }else{
+            $upload_data = $this->upload->data();
+            $image_name = $upload_data['file_name'];
+            $data = array('attachment'=>$image_name);
+            $this->db->where('id', $id)->update('barang', $data);
+        }
+        //print_r($this->db->last_query());
+    }
     function upload($id)
     {
         if(!is_dir('./'.'uploads')){

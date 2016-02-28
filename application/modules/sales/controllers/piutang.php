@@ -1,10 +1,11 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Return_no_invoice extends MX_Controller {
+class Piutang extends MX_Controller {
     public $data;
-    var $module = 'purchase';
-    var $title = 'Return Without Invoice';
-    var $file_name = 'return_no_invoice';
+    var $module = 'sales';
+    var $title = 'Pembayaran Piutang';
+    var $file_name = 'piutang';
+    var $table_name = 'sales_piutang';
     function __construct()
     {
         parent::__construct();
@@ -14,8 +15,9 @@ class Return_no_invoice extends MX_Controller {
     function index()
     {
         $this->data['title'] = $this->title;
-        $this->data['main_title'] = $this->title.' Order';
+        $this->data['main_title'] = $this->title;
         permissionUser();
+        $this->data['options_so'] = options_row('main','get_so','no','no','-- Pilih No. Invoice --');//print_mz($this->data['options_po']);
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
     }
 
@@ -23,15 +25,9 @@ class Return_no_invoice extends MX_Controller {
     {
         $this->data['title'] = $this->title.' - Input';
         permissionUser();
-        $num_rows = getAll($this->file_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->file_name)->last_row()->id : 0;
-        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-        $this->data['barang'] = getAll('barang')->result_array();
-        $this->data['satuan'] = getAll('satuan')->result_array();
-        $this->data['kurensi'] = getAll('kurensi')->result();
-        $this->data['metode'] = getAll('metode_pembayaran')->result();
-        $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_supplier'] = options_row($this->model_name,'get_supplier','id','title','-- Pilih Supplier --');
+        $this->data['options_kontak'] = options_row($this->model_name,'get_kontak','id','title','-- Pilih Supplier --');
+        $this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
+        
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -39,59 +35,34 @@ class Return_no_invoice extends MX_Controller {
     function detail($id)
     {
         $this->data['title'] = $this->title.' - Detail';
+        $this->data['main_title'] = $this->title;
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
         permissionUser();
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'list'] = $this->main->get_list_detail($id);
+        $this->data['det'] = $this->main->get_detail($id);
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
-    function add()
+    public function ajax_add()
     {
-        permissionUser();
-        $list = array(
-                        'kode_barang'=>$this->input->post('kode_barang'),
-                        'jumlah'=>$this->input->post('jumlah'),
-                        'satuan'=>$this->input->post('satuan'),
-                        'harga'=>$this->input->post('harga'),
-                        'disc'=>$this->input->post('disc'),
-                        'pajak'=>$this->input->post('pajak'),
-                        );
-
+        //$this->_validate();
         $data = array(
-                'no' => $this->input->post('no'),
-                'supplier_id'=>$this->input->post('supplier_id'),
-                'up'=>$this->input->post('up'),
-                'alamat'=>$this->input->post('alamat'),
-                'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
-                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'po'=>$this->input->post('po'),
-                'gudang_id'=>$this->input->post('gudang_id'),
-                'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'kurensi_id'=>$this->input->post('kurensi_id'),
-                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
-                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
-                'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
-                'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
+                'jatuh_tempo' => $this->input->post('jatuh_tempo'),
+                'so'=>$this->input->post('so'),
+                'kontak'=>$this->input->post('kontak_id'),
+                'kurensi'=>$this->input->post('kurensi'),
+                'total'=>$this->input->post('total'),
+                'dibayar'=>$this->input->post('dibayar'),
+                'terbayar'=>$this->input->post('terbayar'),
+                'saldo'=>$this->input->post('saldo'),
+                'catatan'=>$this->input->post('catatan'),
+                'created_by'=>sessId(),
+                'created_on'=>dateNow(),
             );
-
-        $this->db->insert($this->file_name, $data);
-        $insert_id = $this->db->insert_id();
-        for($i=0;$i<sizeof($list['kode_barang']);$i++):
-            $data2 = array(
-                $this->file_name.'_id' => $insert_id,
-                'kode_barang' => $list['kode_barang'][$i],
-                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
-                'satuan_id' => $list['satuan'][$i],
-                'harga' => str_replace(',', '', $list['harga'][$i]),
-                'disc' => str_replace(',', '', $list['disc'][$i]),
-                'pajak' => str_replace(',', '', $list['pajak'][$i]),
-                );
-        $this->db->insert($this->file_name.'_list', $data2);
-        endfor;
-        redirect($this->module.'/'.$this->file_name, 'refresh');
+        $insert = $this->main->save($data);
+        echo json_encode(array("status" => TRUE));
     }
 
     public function ajax_list()
@@ -105,12 +76,14 @@ class Return_no_invoice extends MX_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->supplier;
-            $row[] = $r->tanggal_transaksi;
-            $row[] = $r->metode_pembayaran;
-            $row[] = $r->po;
-            $row[] = $r->gudang;
+            $row[] = "<a href=$detail>#".$r->so.'</a>';
+            $row[] = $r->kontak;
+            $row[] = $r->kurensi;
+            $row[] = $r->dibayar;
+            $row[] = $r->terbayar;
+            $row[] = $r->total;
+            $row[] = $r->saldo;
+            $row[] = $r->jatuh_tempo;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
@@ -132,7 +105,6 @@ class Return_no_invoice extends MX_Controller {
         permissionUser();
         $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
         
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
@@ -144,12 +116,29 @@ class Return_no_invoice extends MX_Controller {
 
     //FOR JS
 
-    function get_supplier_detail($id)
+    function get_no_detail()
     {
-        $up = getValue('up', 'supplier', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'supplier', array('id'=>'where/'.$id));
+        $id = $this->input->post('id');
+        $table = 'penjualan';
+        $filter = array('no'=>'where/'.$id);
 
-        echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
+        $kontak = getWhere('kontak_id', $table, 'no', $id);//lastq();
+        $kontak = getWhere('title', 'kontak', 'id', $kontak);
+
+        $kurensi = getWhere('kurensi_id', $table, 'no', $id);
+        $kurensi = getWhere('title', 'kurensi', 'id', $kurensi);;
+
+        $jatuh_tempo = getWhere('tanggal_transaksi', $table, 'no', $id);
+        $lama_angsuran_1 = getWhere('lama_angsuran_1', $table, 'no', $id);
+        $lama_angsuran_2 = getWhere('lama_angsuran_2', $table, 'no', $id);
+        if($lama_angsuran_2 == 'hari'){
+            $jatuh_tempo = date( "Y-m-d", strtotime( "$jatuh_tempo +$lama_angsuran_1 day" ) );
+        }elseif($lama_angsuran_2 == 'bulan'){
+            $jatuh_tempo = date( "Y-m-d", strtotime( "$jatuh_tempo +$lama_angsuran_1 month" ) );
+        }elseif($lama_angsuran_2 == 'tahun'){
+            $jatuh_tempo = date( "Y-m-d", strtotime( "$jatuh_tempo +$lama_angsuran_1 year" ) );
+        }
+        echo json_encode(array('kontak'=>$kontak, 'kurensi'=>$kurensi, 'jatuh_tempo'=>$jatuh_tempo));
 
     }
     
@@ -164,7 +153,9 @@ class Return_no_invoice extends MX_Controller {
                 {
                     $this->template->set_layout('default');
 
+                    $this->template->add_css('vendor/select2/select2.css');
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
+                    $this->template->add_js('vendor/select2/select2.min.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))

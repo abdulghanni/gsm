@@ -61,10 +61,11 @@
                 <form action="#" id="form" class="form-horizontal">
                     <input type="hidden" value="" name="id"/> 
                     <div class="row form-row">
-                        <div class="col-md-6">
+                        <div class="col-md-12">
                         <fieldset>
                         <legend>Info Identitas</legend>
                             <div class="form-body">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label col-md-3"><?= lang('code')?></label>
                                     <div class="col-md-7">
@@ -93,6 +94,8 @@
                                         <span class="help-block"></span>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label class="control-label col-md-3">UP</label>
                                     <div class="col-md-7">
@@ -106,16 +109,19 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Catatan</label>
                                     <div class="col-md-9">
-                                        <textarea class="form-control" name="catatan"></textarea>
+                                        <textarea class="form-control" name="catatan" disabled></textarea>
                                     </div>
                                 </div>
                             </div>
+                            </div>
                             </fieldset>
                         </div>
-
-                        <div class="col-md-6">
-                        <fieldset>
-                        <legend>Info Kontak</legend>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                            <fieldset>
+                            <legend>Info Kontak</legend>
                             <div class="form-body">
                                 <div class="form-group">
                                     <label class="control-label col-md-3">Email</label>
@@ -148,8 +154,57 @@
                                     </div>
                                 </div>
                             </div>
-                        </fieldset>
-                        </div>
+                            </fieldset>
+                            </div>
+
+                            <div class="col-sm-6">
+                            <fieldset>
+                                <legend>Info Finansial</legend>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">NPWP</label>
+                                    <div class="col-sm-7">
+                                        <input name="npwp" placeholder="" class="form-control" type="text" value="" disabled>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">No. Rekening</label>
+                                    <div class="col-sm-7">
+                                        <input name="no_rekening" placeholder="" class="form-control" type="text" value="" disabled>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">Nama Bank</label>
+                                    <div class="col-sm-7">
+                                        <input name="bank" placeholder="" class="form-control" type="text" value="" disabled>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">Atas Nama</label>
+                                    <div class="col-sm-7">
+                                        <input name="a_n" placeholder="" class="form-control" type="text" value="" disabled>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">Alamat Pajak</label>
+                                    <div class="col-sm-7">
+                                        <input name="alamat_pajak" placeholder="" class="form-control" type="text" value="" disabled>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-3">Acc</label>
+                                    <div class="col-sm-7">
+                                        <input name="acc" placeholder="" class="form-control" type="text" value="" disabled>
+                                        <span class="help-block"></span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div> 
+                    </div>
                     </div>
                 </form>
             </div>

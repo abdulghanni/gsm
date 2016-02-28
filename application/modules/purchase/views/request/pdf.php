@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>Purchase Request</title>
 <style type="text/css">
 td{ height:30px;}
 .catatan {font-family:Arial, sans-serif;font-size:10px;}
@@ -125,19 +125,18 @@ Catatan :<br/>
 		<th width="10%"></th>
 		<th width="10%"></th>
 	</tr>
-	<!--
-		<tr><td colspan="4">Keterangan :</td></tr>
-		<tr><td colspan="4">- Semua Pengiriman Barang Disertakan Nota/Faktur</td></tr>
-		<tr><td colspan="4">- Dokumen & Faktur ditujukan kepada finance PT. Gramaselindo Utama Diserahkan Melalui</td></tr>
-		<tr><td colspan="4">  &nbsp;&nbsp;Receptionist Kami</td></tr>
-		<tr><td colspan="4">- Barang akan dikembalikan bila tidak sesuai pesanan</td></tr>
-		<tr><td colspan="9">- No PO Harus di Cantumkan dalam Nota/Faktur dan Surat jalan</td></tr>
-	-->
+	<?php 
+		if(!empty($o->catatan)){
+			echo '<tr><td colspan="4">Notes :</td></tr>';
+		$c = explode(PHP_EOL, $o->catatan);
+			  foreach ($c as $key => $value) {?>
+			  <tr><td colspan="4"><?=$value?></td></tr>
+		<?php }} ?>
 	<tr><td colspan="9"></td></tr>
 	<hr style="width:100%">
-	<tr><td>&nbsp;</td></tr>
+	<tr><td align="center">Jakarta, <?=date('d M Y', strtotime($o->created_on))?></td></tr>
 	<tr>
-		<td align="center"><!--Approved,--></td>
+		<td align="center">Created By,</td>
 		<td align="center"><!--Order By,--></td>
 		<td align="center"><!--ACC Vendor--></td>
 		<td colspan="3">Total Pajak</td>
@@ -182,7 +181,7 @@ Catatan :<br/>
 
 	
 	<tr>
-		<td align="center">&nbsp;</td>
+		<td align="center"><?=getFullName($o->created_by)?></td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Dibayar<?php endif; ?></td>
@@ -191,7 +190,7 @@ Catatan :<br/>
 	</tr>
 
 	<tr>
-		<td align="center"><!--(<?=(!empty($o->user_app_id_lv4))?getFullName($o->user_app_id_lv4):'';?>)--></td>
+		<td align="center">(<?=getUserGroup($o->created_by)?>)</td>
 		<td align="center"><!--(<?=getFullName($o->created_by)?>)--></td>
 		<td align="center"><!--(Sign & Return by Fax)--></td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Saldo<?php endif; ?></td>

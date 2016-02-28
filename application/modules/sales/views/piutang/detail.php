@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/'.$file_name)?>"><?=$main_title?></a></span>
+				<span><a href="<?=base_url('sales/'.$file_name)?>"><?=$main_title?></a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url("purchase/$file_name/detail/".$id)?>">detail</a></span>
+				<span><a href="<?=base_url("sales/$file_name/detail/".$id)?>">detail</a></span>
 			</li>
 		</ol>
 	</div>
@@ -23,13 +23,13 @@
 <div class="container-fluid container-fullw bg-white">
 
 	<div class="row pull-right">
-		<a href="<?=base_url().'transaksi/order/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
+		<a href="<?=base_url().'sales/piutang/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 			 <i class="fa fa-print"></i> <?= lang('print')?>
 		</a>
 	</div>
 	<?php 
 	foreach ($det->result() as $o) :?>
-	<form role="form" action="<?= base_url('transaksi/order/add')?>" method="post" class="form-horizontal">
+	<form role="form" action="<?= base_url('sales/piutang/add')?>" method="post" class="form-horizontal">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="invoice">
@@ -39,7 +39,7 @@
 						</div>
 						<div class="col-sm-6">
 							<p class="text-dark">
-								#<?=$o->po?> <small class="text-light"></small>
+								#<?=$o->so?> <small class="text-light"></small>
 							</p>
 						</div>
 					</div>
@@ -48,10 +48,10 @@
 						<div class="col-md-5">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputEmail3">
-									NO. P.O
+									NO. S.O
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->po?>" class="form-control" disabled="disabled">
+									<input type="text" name="up" value="<?=$o->so?>" class="form-control" disabled="disabled">
 								</div>
 							</div>
 							<div class="form-group">
@@ -95,7 +95,7 @@
 									Dibayar
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->po?>" class="form-control" disabled="disabled">
+									<input type="text" name="up" value="<?=$o->dibayar?>" class="form-control" disabled="disabled">
 								</div>
 							</div>
 							<div class="form-group">

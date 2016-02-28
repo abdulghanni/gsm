@@ -1,12 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class receive_model extends CI_Model {
+class Piutang_model extends CI_Model {
 
-    var $table = 'receive';
-    //var $column = array('id', 'no','po', 'supplier', 'tanggal_pengiriman', 'tanggal_transaksi', 'metode_pembayaran', 'gudang');
-    var $column = array('id', 'no','no_surat', 'po', 'tanggal_terima', 'project');
-    var $order = array('id' => 'desc'); // default order 
+    var $table = 'sales_piutang';
+    var $table_join1 = 'kontak';
+    var $table_join2 = 'kurensi';
+    var $column = array('id', 'so', 'kontak', 'kurensi', 'total', 'dibayar', 'terbayar', 'saldo', 'jatuh_tempo');
+    var $order = array('id' => 'desc');
 
     public function __construct()
     {
@@ -76,9 +77,60 @@ class receive_model extends CI_Model {
         return $this->db->count_all_results();
     }
 
+    public function get_by_id($id)
+    {
+        $this->db->from($this->table);
+        $this->db->where('id',$id);
+        $query = $this->db->get();
+
+        return $query->row();
+    }
+
     function get_detail($id)
     {
-        $q = $this->db->get($this->table);
+        $q= $this->db->select('*')
+             ->from($this->table)
+             ->where($this->table.'.id', $id)
+             ->get();
         return $q;
+    }
+
+    public function save($data)
+    {
+        $this->db->insert($this->table, $data);
+        return $this->db->insert_id();
+    }
+
+    public function update($where, $data)
+    {
+        $this->db->update($this->table, $data, $where);
+        return $this->db->affected_rows();
+    }
+
+    public function delete_by_id($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete($this->table);
+    }
+
+    public function get_kontak()
+    {   
+        $this->db->where($this->table_join1.'.is_deleted',0)
+                 ->where($this->table_join1.'.jenis_id',1);
+        $this->db->order_by($this->table_join1.'.title','asc');
+        return $this->db->get($this->table_join1);
+    }
+
+
+    public function get_kurensi()
+    {   
+        $this->db->where($this->table_join2.'.is_deleted',0);
+        $this->db->order_by($this->table_join2.'.title','asc');
+        return $this->db->get($this->table_join2);
+    }
+
+    public function get_so()
+    {   
+        return GetAllSelect('penjualan', 'no', array('metode_pembayaran_id'=>'where/2','id'=>'order/desc'));
     }
 }

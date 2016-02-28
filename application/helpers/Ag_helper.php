@@ -300,6 +300,13 @@ if ( ! function_exists('dateIndo'))
 	}
 }
 
+function getWhere($select, $table,$field, $value)
+{
+	$CI =& get_instance();
+	$q = $CI->db->select($select)->where($field, $value)->get($table)->row();
+	return $q->$select;
+}
+
 function monthRomawi($date)
 {
 	$month['01']  = 'I';

@@ -81,6 +81,12 @@ function detail_user(id)
             $('[name="jenis"]').val(data.jenis);
             $('[name="email"]').val(data.email);
             $('[name="fax"]').val(data.fax);
+            $('[name="npwp"]').val(data.npwp);
+            $('[name="alamat_pajak"]').val(data.alamat_pajak);
+            $('[name="bank"]').val(data.bank);
+            $('[name="no_rekening"]').val(data.no_rekening);
+            $('[name="a_n"]').val(data.a_n);
+            $('[name="acc"]').val(data.acc);
             $('[name="catatan"]').text(data.catatan);
             drawTelepon(telepon);
             drawAlamat(alamat);

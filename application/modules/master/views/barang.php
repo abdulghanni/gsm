@@ -147,12 +147,6 @@
                         </div>
 						
                         <div class="form-group">
-                            <label class="control-label col-md-3">Catatan</label>
-                            <div class="col-md-9">
-                                <textarea class="form-control" name="catatan"></textarea>
-                            </div>
-                        </div>
-                        <div class="form-group">
                             <label class="control-label col-md-3">Satuan Dasar</label>
                             <div class="col-md-9">
                                 <?php 
@@ -170,6 +164,24 @@
                                 ?>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Attachment</label>
+                            <div class="col-md-9">
+                                <span class=""><span>
+                                    <div id="attachment" style="display:none;"><button onclick="removeFile()" type='button' class='btn btn-danger btn-small' title='Remove File'><i class='icon-remove'></i></button></div>
+                                    <input type='file' name='attachment' id="file" style="display:none;">
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Catatan</label>
+                            <div class="col-md-9">
+                                <textarea class="form-control" name="catatan"></textarea>
+                            </div>
+                        </div>
+                        
                     </div>
                     
 					<div class="col-md-12">
@@ -207,3 +219,10 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Bootstrap modal -->
+
+<script type="text/javascript">
+  function removeFile(){
+    $('#attachment').hide();
+    $('#file').show();
+  }
+</script>

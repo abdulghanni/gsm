@@ -2,7 +2,7 @@ var save_method; //for save method string
 var table;
 $(document).ready(function() {
     $(".select2").select2();
-    $("#po").change(function(){
+    $("#no").change(function(){
         var id = $(this).val();
         if(id!=0)getDetail(id);
     })
@@ -12,7 +12,7 @@ $(document).ready(function() {
     {
         $.ajax({
             type: 'POST',
-            url: '/gsm/purchase/debt_payment/get_po_detail/',
+            url: '/gsm/sales/piutang/get_no_detail/',
             data: {id : id},
             dataType: "JSON",
             success: function(data) {
@@ -35,7 +35,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "debt_payment/ajax_list",
+            "url": "piutang/ajax_list",
             "type": "POST"
         },
         //Set column definition initialisation properties.
@@ -72,9 +72,9 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "debt_payment/ajax_add";
+        url = "piutang/ajax_add";
     } else {
-        url = "debt_payment/ajax_update";
+        url = "piutang/ajax_update";
     }
 
     // ajax adding data to database
