@@ -208,13 +208,14 @@
 						</tr>
 					<script>
 					$("#harga<?=$i?>").maskMoney({allowZero:true});
-					$("#disc<?=$i?>").add('#diskon-tambahan').add("#harga<?=$i?>").add("#jumlah<?=$i?>").add("#dibayar").add("#biaya_pengiriman").keyup(function() {
+					$("#disc<?=$i?>").add('#diskon-tambahan').add("#harga<?=$i?>").add("#jumlah<?=$i?>").add("#dibayar").add("#dibayar-nominal").add("#biaya_pengiriman").keyup(function() {
 						
 						
 						var a = parseFloat($("#jumlah<?=$i?>").val()),
 				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
 				        	c = parseFloat($("#disc<?=$i?>").val()),
 				        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
+				        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
 				        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
 				        	diskonTambahan = parseFloat($('#diskon-tambahan').val().replace(/,/g,"")),
 				        	d = (a*b)*(c/100),//jumlah diskon
@@ -264,7 +265,7 @@
 				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
 				        
 				        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
-				        var saldo = totalpluspajak-diBayar;
+				        var saldo = totalpluspajak-diBayar-diBayarNominal;
 				        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
 				    });
 					</script>
@@ -366,16 +367,27 @@
 					<div id="total_angsuran" style="display:none">
 						<li class="list-group-item">
 							<div class="row">
-								<div class="col-md-4">
+								<div class="col-md-6">
 								Uang Muka
+									<div class="checkbox clip-check check-primary checkbox-inline">
+										<input type="checkbox" onchange="hitung()" id="dp-persen-cek" value="" name="row">
+										<label for="dp-persen-cek">
+											Persen
+										</label>
+									</div>
 								</div>
-								<div class="col-md-2">
+								<div id="dp-persen">
+									<div class="col-md-4">
+									<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="0">
+									</div>
+									<div class="col-md-1">
+									%
+									</div>
 								</div>
-								<div class="col-md-4">
-								<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
-								</div>
-								<div class="col-md-1">
-								%
+								<div id="dp-nominal">
+									<div class="col-md-6">
+										<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="0">
+									</div>
 								</div>
 							</div>
 						</li>
@@ -407,7 +419,16 @@
 
 					function hitung()
 					{
+
+
+						if($('#dp-persen-cek').is(':checked')){
+							$('#dibayar-nominal').val(parseFloat(0));
+						}else{
+							$('#dibayar').val(parseFloat(0));
+						}
+
 				        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
+				        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
 				        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
 				        	diskonTambahan = parseFloat($('#diskon-tambahan').val().replace(/,/g,"")),
 				        	jmlDisc = 0,
@@ -444,6 +465,7 @@
 				        totalpluspajak = total+p1+p2+p3;
 				        diBayar = totalpluspajak * (diBayar/100);
 				        
+				        var saldo = totalpluspajak-diBayar-diBayarNominal;
 				        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
 				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
 				        
@@ -452,7 +474,6 @@
 				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
 				        
 				        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
-				        var saldo = totalpluspajak-diBayar;
 				        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
 					}
 $(document).ready(function() {
@@ -478,6 +499,16 @@ $(document).ready(function() {
         $('table tr').has('input[name="row"]:checked').remove();
         hitung();
     })
+
+	 $("#dp-persen-cek:not(:checked)").each(function() {
+	     $("#dp-persen").hide("slow");
+	     $("#dp-nominal").show("slow");
+	});
+
+	$("#dp-persen-cek").click(function(){
+	     $("#dp-persen").toggle("slow");
+	     $("#dp-nominal").toggle("slow");
+	});
 
 	$('.input-append.date')
         .datepicker({
@@ -511,6 +542,7 @@ $(document).ready(function() {
     .change();
 
     $('#dibayar').maskMoney({allowZero:true}).attr('maxlength', 6);
+    $('#dibayar-nominal').maskMoney({allowZero:true});
     $('#biaya_pengiriman').maskMoney({allowZero:true});
 });
 

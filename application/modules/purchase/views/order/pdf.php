@@ -152,7 +152,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		$total = $total+$o->biaya_pengiriman-$diskon_tambahan;
 		$totalpluspajak = $total+$total_pajak;
 		$dp = $totalpluspajak * ($o->dibayar/100);
-		$saldo = $totalpluspajak - $dp;
+		$saldo = $totalpluspajak - $dp - $o->dibayar_nominal;
 	?>
 	
 	</table>
@@ -262,14 +262,14 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<td align="right" colspan="2"><?=number_format($totalpluspajak, 2)?></td>
 	</tr>
 
-	
+	<?php $dp = ($o->dibayar !=0) ? number_format($o->dibayar,2).' %':number_format($o->dibayar_nominal, 2);?>
 	<tr>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Dibayar<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
-		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($o->dibayar,2)?> %<?php endif; ?></td>
+		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=$dp?><?php endif; ?></td>
 	</tr>
 
 	<tr>

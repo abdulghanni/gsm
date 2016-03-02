@@ -207,7 +207,7 @@
 									$total = $total+$o->biaya_pengiriman-$diskon_tambahan;
 									$totalpluspajak = $total+$total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
-									$saldo = $totalpluspajak - $dp;
+									$saldo = $totalpluspajak - $dp - $o->dibayar_nominal;
 								?>
 							</tbody>
 						</table>
@@ -443,12 +443,20 @@
 											</div>
 											<div class="col-md-2">
 											</div>
+											<?php if($o->dibayar != 0){?>
 											<div class="col-md-4">
 											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->dibayar?>" readonly>
 											</div>
 											<div class="col-md-1">
 											%
 											</div>
+											<?php }else{?>
+											<div id="dp-nominal">
+												<div class="col-md-6">
+													<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="<?=number_format($o->dibayar_nominal, 2)?>" readonly>
+												</div>
+											</div>
+											<?php  } ?>
 										</div>
 									</li>
 								<li class="list-group-item">
