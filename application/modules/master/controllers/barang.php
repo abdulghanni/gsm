@@ -129,7 +129,7 @@ class Barang extends MX_Controller {
 			}
             
 		}
-        $this->upload_attachment($id);
+        //$this->upload_attachment($id);
         $this->upload($id);
         $this->cek_stok($id);
 		
@@ -148,6 +148,7 @@ class Barang extends MX_Controller {
         return true;
     }
 
+    /*
     function upload_attachment($id){
         if(!is_dir('./'.'uploads')){
         mkdir('./'.'uploads', 0777);
@@ -178,6 +179,8 @@ class Barang extends MX_Controller {
         }
         //print_r($this->db->last_query());
     }
+    */
+    
     function upload($id)
     {
         if(!is_dir('./'.'uploads')){

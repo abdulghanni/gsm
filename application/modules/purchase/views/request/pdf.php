@@ -22,7 +22,7 @@ td{ height:30px;}
 <body>
   <div style="text-align: center;">
   <!--<img height="100px" width="100px" src="<?php echo assets_url('images/logo-gsm.png')?>"/>-->
-  <img width="100%" src="<?php echo assets_url('images/logo-full.png')?>"/>
+  <img width="100%" src="<?php echo assets_url('images/logo-po.png')?>"/>
 </div>
  <hr/>
   <h3 style="margin-bottom: -10px;margin-top: -10px;text-align: center">Purchase Request</h3>
@@ -67,8 +67,8 @@ td{ height:30px;}
 			<hr style="width:100%">
 			<th>Sub Total</th>
 			<hr style="width:100%">
-			<th>Pajak(%)</th>
-			<hr style="width:100%">
+			<!--<th>Pajak(%)</th>
+			<hr style="width:100%">-->
     	</tr>
     </tr>
 	<?php 
@@ -87,7 +87,6 @@ td{ height:30px;}
 		<td width="5%" align="right"><?=$ol->jumlah?> <?=$ol->satuan?></td>
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<td width="20%" align="right"><?= number_format($subtotal, 2)?></td>
-		<td width="5%" align="right"><?=$ol->pajak?></td>
 	</tr>
 
 	<?php endforeach;		
@@ -139,9 +138,9 @@ Catatan :<br/>
 		<td align="center">Created By,</td>
 		<td align="center"><!--Order By,--></td>
 		<td align="center"><!--ACC Vendor--></td>
-		<td colspan="3">Total Pajak</td>
+		<td colspan="3">Total</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($totalpajak, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman, 2)?></td>
 	</tr>
 	<?php if(!empty($o->biaya_pengiriman)):?>
 	<tr>
@@ -157,26 +156,26 @@ Catatan :<br/>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Diskon</td>
-		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($total_diskon, 2)?></td>
+		<td colspan="3"><!--Diskon--></td>
+		<td align="right"><!--:--></td>
+		<td align="right" colspan="2"><!--<?=number_format($total_diskon, 2)?>--></td>
 	</tr>
 	<tr>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Total</td>
-		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman, 2)?></td>
+		<td colspan="3"><!--Total Pajak--></td>
+		<td align="right"><!--:--></td>
+		<td align="right" colspan="2"><!--<?=number_format($totalpajak, 2)?>--></td>
 	</tr>
 
 	<tr>
 		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
-		<td colspan="3">Total + Pajak</td>
-		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?></td>
+		<td colspan="3"><!--Total + Pajak--></td>
+		<td align="right"><!--:--></td>
+		<td align="right" colspan="2"><!--<?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?>--></td>
 	</tr>
 
 	

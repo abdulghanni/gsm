@@ -147,6 +147,7 @@
 								<tr>
 									<th width="5%"> No. </th>
 									<th width="5%"> Kode Barang </th>
+									<th width="8%"> SS Barang </th>
 									<th width="25%"> Nama Barang </th>
 									<th width="5%">Diorder</th>
 									<th width="5%">Dikirim</th>
@@ -154,7 +155,6 @@
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="20%"> Sub Total </th>
-									<?= (in_array(1, $pajak_komponen))?"<th width='5%''>PPN(%)</th>":''?>
 								</tr>
 							</thead>
 							<tbody>
@@ -166,10 +166,14 @@
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 									$total_diskon= $total_diskon + ($ol->diterima*$ol->harga * ($ol->disc/100));
 									$total = $total + $subtotal;
+									$ss_link = base_url("uploads/barang/$ol->barang_id/$ol->photo");
+                 					$ss_headers = @get_headers($ss_link);
+									$src = ($ss_headers[0] != 'HTTP/1.1 404 Not Found')?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png');
 									?>
 								<tr>
 									<td><?=$i++?></td>
 									<td><?=$ol->kode_barang?></td>
+									<td><img height="75px" width="75px" src="<?=$src?>"></td>
 									<td><?=$ol->deskripsi?></td>
 									<td class="text-right"><?=$ol->diorder?></td>
 									<td class="text-right"><?=$ol->diterima?></td>
@@ -177,17 +181,13 @@
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
-									<?= (in_array(1, $pajak_komponen))?'<td class="text-right">'.$ol->pajak.'</td>':''?>
 								</tr>
 								<?php endforeach;
-									if(in_array(2, $pajak_komponen))$p2 = $o->total_pph22;
-									if(in_array(3, $pajak_komponen))$p3 = $o->total_pph23;
-									$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak+$p2+$p3;
+									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
+									$total = $total+$o->biaya_pengiriman;
+									$totalpluspajak = $total+$total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
-									$totalplusbunga = ($totalpluspajak-$dp)*($o->bunga/100);
-									//$totalplusbunga = ($totalpluspajak-$dp)+$totalplusbunga;
-									$grandtotal = ($totalpluspajak-$dp)+$totalplusbunga;//print_mz($totalpluspajak.'-'.$dp.'+'.$totalplusbunga);
-									$bunga =  ($grandtotal) * ($o->bunga/100);
+									$saldo = $totalpluspajak - $dp;
 								?>
 							</tbody>
 						</table>
@@ -195,16 +195,18 @@
 				</div>
 				<hr/>
 
-					<div id="panel-total" class="panel-body col-md-5 pull-right">
+					<div id="panel-total" class="panel-body col-md-4 pull-right">
 						<ul class="list-group">
-							<?php if(in_array(1, $pajak_komponen)){?>
+							<?php
+							 $pajak_komponen = explode(',', $o->pajak_komponen_id);
+							 if(in_array(1, $pajak_komponen)){?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">
 									PPN
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" id="totalPajak" value="<?= number_format($totalpajak, 2)?>" class="form-control text-right" readonly="readonly">
+									<input type="text" id="totalPajak" value="<?= number_format($o->total_ppn, 2)?>" class="form-control text-right" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -259,7 +261,7 @@
 									Total
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -269,12 +271,12 @@
 									Total + Pajak
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak+$p2+$p3, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($totalpluspajak, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
 							<?php if($o->metode_pembayaran_id == 2):?>
-									<li class="list-group-item">
+								<li class="list-group-item">
 										<div class="row">
 											<div class="col-md-4">
 											Uang Muka
@@ -295,7 +297,7 @@
 									Saldo
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($totalpluspajak-$dp, 2)?>" readonly="readonly">
+									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($saldo, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>

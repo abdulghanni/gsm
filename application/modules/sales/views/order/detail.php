@@ -152,45 +152,50 @@
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
-									<th width="5%"> No. </th>
-									<th width="5%"> Kode Barang </th>
+									<th width="1%"> No. </th>
+									<th width="10%"> Kode Barang </th>
+									<th width="9%"> SS Barang </th>
 									<th width="25%"> Nama Barang </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="20%"> Sub Total </th>
-									<th width="5%">PPN(%)</th>
+									<th width="5%" style="display: none">PPN(%)</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
-									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $total_diskon= $saldo = 0;
+									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= 0;
 									$i=1;foreach($order_list->result() as $ol): 
 									$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
 									$subtotal = $ol->jumlah*$ol->harga-$diskon;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+									$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 									$total = $total + $subtotal;
+									$ss_link = base_url("uploads/barang/$ol->barang_id/$ol->photo");
+                 					$ss_headers = @get_headers($ss_link);
+									$src = ($ss_headers[0] != 'HTTP/1.1 404 Not Found')?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png');
 									?>
 								<tr>
 									<td><?=$i++?></td>
 									<td><?=$ol->kode_barang?></td>
+									<td><img height="75px" width="75px" src="<?=$src?>"></td>
 									<td><?=$ol->deskripsi?></td>
 									<td class="text-right"><?=$ol->jumlah?></td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
-									<td class="text-right"><?=$ol->pajak?></td>
+									<td class="text-right" style="display: none"><?=$ol->pajak?></td>
 								</tr>
 								<?php endforeach;
-									$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
-									$dp = $totalpluspajak * ($o->dibayar/100);
-									$totalplusbunga = ($totalpluspajak-$dp)*($o->bunga/100);
-									$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
-									//$totalplusbunga = ($totalpluspajak-$dp)+$totalplusbunga;
-									$grandtotal = ($totalpluspajak-$dp)+$totalplusbunga;//print_mz($totalpluspajak.'-'.$dp.'+'.$totalplusbunga);
-									$bunga =  ($grandtotal) * ($o->bunga/100);
+									//$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
+									//$diskon_tambahan = $o->diskon_tambahan_persen + $o->diskon_tambahan_nominal;
+									$total = $total+$o->biaya_pengiriman;
+									//$totalpluspajak = $total+$total_pajak;
+									$dp = $total * ($o->dibayar/100);
+									$saldo = $total - $dp;
 								?>
 							</tbody>
 						</table>
@@ -199,7 +204,7 @@
 				<div class="row">
 					<div id="panel-total" class="panel-body col-md-5 pull-right">
 						<ul class="list-group">
-							<li class="list-group-item">
+							<li class="list-group-item" style="display: none">
 								<div class="row">
 									<div class="col-md-4">
 									Total Pajak
@@ -235,11 +240,11 @@
 									Total
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
-							<li class="list-group-item">
+							<li class="list-group-item" style="display: none">
 								<div class="row">
 									<div class="col-md-4">
 									Total + Pajak
@@ -271,7 +276,7 @@
 									Saldo
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($totalpluspajak-$dp, 2)?>" readonly="readonly">
+									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($saldo, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>

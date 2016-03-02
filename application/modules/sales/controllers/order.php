@@ -39,7 +39,7 @@ class Order extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['options_kontak'] = options_row('order','get_kontak','id','title','-- Pilih Customer --');
-        
+        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 

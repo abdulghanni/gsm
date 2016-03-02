@@ -131,6 +131,12 @@ class order_model extends CI_Model {
                                 bunga,
                                 proyek,
                                 purchase_order.catatan, 
+                                purchase_order.pajak_komponen_id, 
+                                purchase_order.total_ppn, 
+                                purchase_order.total_pph22, 
+                                purchase_order.total_pph23, 
+                                purchase_order.diskon_tambahan_nominal, 
+                                purchase_order.diskon_tambahan_persen, 
                                 purchase_order.created_on,
                                 is_app_lv1,
                                 is_app_lv2,
@@ -166,7 +172,7 @@ class order_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.kode as kode_barang, purchase_order_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id, barang.photo,barang.kode as kode_barang,barang.title as nama_barang, purchase_order_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list)
                   ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id', 'left')
@@ -200,7 +206,7 @@ class order_model extends CI_Model {
 
     function get_list_detail_pr($id)
     {
-        $q = $this->db->select('barang.id as barang_id,barang.kode as kode_barang, purchase_request_list.deskripsi, jumlah, purchase_request_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id,barang.kode as kode_barang, barang.title as nama_barang, barang.photo, purchase_request_list.deskripsi, jumlah, purchase_request_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list_pr)
                   ->join('barang', 'barang.id ='.$this->table_list_pr.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list_pr.'.satuan_id')

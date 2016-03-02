@@ -57,8 +57,8 @@ $(document).ready(function() {
 function add_user()
 {
     $('#form')[0].reset(); // reset form on modals
-    $("#attachment").hide();
-    $("#file").show();
+    //$("#attachment").hide();
+    //$("#file").show();
     $('#is_update').val('0');
     $("#satuan-exist").empty();
     $("#satuan-lain").empty();
@@ -95,13 +95,14 @@ function edit_user(id)
             //$('[name="satuan_id"]').select2().select2('val',data.satuan_id);
             $('[name="satuan"]').select2().select2('val',data.satuan);
             $('[name="satuan_laporan"]').select2().select2('val',data.satuan_laporan);
-            
+            /*
             if(data.attachment != ''){
                 $("#attachment").html(data.attachment+"<button onclick='removeFile()' type='button' class='btn btn-danger btn-small' title='Remove File'><i class='fa fa-remove'></i></button>");
                 $("#attachment").show();
             }else{
                 $("#file").show();
             }
+            */
             if(data.photo != ''){
             $("#photo").attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+data.id+"/"+data.photo);
             }else{

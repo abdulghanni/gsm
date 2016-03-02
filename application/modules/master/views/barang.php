@@ -164,7 +164,7 @@
                                 ?>
                             </div>
                         </div>
-
+                        <!--
                         <div class="form-group">
                             <label class="control-label col-md-3">Attachment</label>
                             <div class="col-md-9">
@@ -174,7 +174,7 @@
                                 </span>
                             </div>
                         </div>
-
+                        -->
                         <div class="form-group">
                             <label class="control-label col-md-3">Catatan</label>
                             <div class="col-md-9">

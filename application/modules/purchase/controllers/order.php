@@ -90,6 +90,12 @@ class Order extends MX_Controller {
                 'gtotal' =>str_replace(',', '', $this->input->post('gtotal')),
                 'catatan' =>$this->input->post('catatan'),
                 'proyek' =>$this->input->post('proyek'),
+                'pajak_komponen_id' =>implode(',',$this->input->post('pajak_komponen_id')),
+                'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
+                'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
+                'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
+                'diskon_tambahan_nominal' => str_replace(',', '', $this->input->post('diskon_tambahan_nominal')),
+                'diskon_tambahan_persen' => str_replace(',', '', $this->input->post('diskon_tambahan_persen')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -279,9 +285,9 @@ class Order extends MX_Controller {
     function get_nama_barang($id)
     {
         $q = getValue('title', 'barang', array('id'=>'where/'.$id));
+        $p = getValue('photo', 'barang', array('id'=>'where/'.$id));
 
-        echo json_encode($q);
-
+        echo json_encode(array('nama_barang'=>$q, 'photo'=>$p));
     }
 
     function approve()
@@ -335,6 +341,7 @@ class Order extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['users'] = getAll('users');
+        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
         $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
         $this->load->view($this->module.'/'.$this->file_name.'/dari_pr', $this->data);
     }

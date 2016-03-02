@@ -108,7 +108,7 @@ class penjualan_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.kode as kode_barang, 
+        $q = $this->db->select('barang.id as barang_id, barang.photo,barang.kode as kode_barang, 
                                 order_list.deskripsi, 
                                 diorder, 
                                 diterima,
@@ -174,7 +174,7 @@ class penjualan_model extends CI_Model {
 
     function get_list_detail_so($id)
     {
-        $q = $this->db->select('barang.id as barang_id, barang.kode as kode_barang, sales_order_list.deskripsi, jumlah,sales_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id,barang.title as nama_barang, barang.kode as kode_barang, sales_order_list.deskripsi, jumlah,sales_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list_so)
                   ->join('barang', 'barang.id ='.$this->table_list_so.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list_so.'.satuan_id')

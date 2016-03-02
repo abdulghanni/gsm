@@ -164,15 +164,16 @@
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
-									<th width="5%"> No. </th>
+									<th width="1%"> No. </th>
 									<th width="5%"> Kode Barang </th>
-									<th width="25%"> Nama Barang </th>
+									<th width="8%"> SS Barang </th>
+									<th width="15%"> Nama Barang </th>
+									<th width="20%"> Deskripsi & Catatan </th>
 									<th width="5%">Quantity</th>
-									<th width="10%"> Satuan </th>
-									<th width="20%"> Harga </th>
+									<th width="5%"> Satuan </th>
+									<th width="10%"> Harga </th>
 									<th width="5%">Disc(%)</th>
-									<th width="20%"> Sub Total </th>
-									<th width="5%">Pajak(%)</th>
+									<th width="10%"> Sub Total </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -184,25 +185,29 @@
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 									$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 									$total = $total + $subtotal;
+									$ss_link = base_url("uploads/barang/$ol->barang_id/$ol->photo");
+                 					$ss_headers = @get_headers($ss_link);
+									$src = ($ss_headers[0] != 'HTTP/1.1 404 Not Found')?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png');
 									?>
 								<tr>
 									<td><?=$i++?></td>
 									<td><?=$ol->kode_barang?></td>
-									<td><?=$ol->deskripsi?></td>
+									<td><img height="75px" width="75px" src="<?=$src?>"></td>
+									<td><textarea class="form-control" readonly="readonly"><?=$ol->nama_barang?></textarea></td>
+									<td><textarea class="form-control" readonly="readonly"><?=$ol->deskripsi?></textarea></td>
 									<td class="text-right"><?=$ol->jumlah?></td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
-									<td class="text-right"><?=$ol->pajak?></td>
 								</tr>
 								<?php endforeach;
-									$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
+									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
+									$diskon_tambahan = $o->diskon_tambahan_persen + $o->diskon_tambahan_nominal;
+									$total = $total+$o->biaya_pengiriman-$diskon_tambahan;
+									$totalpluspajak = $total+$total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
-									$totalplusbunga = ($totalpluspajak-$dp)*($o->bunga/100);
-									//$totalplusbunga = ($totalpluspajak-$dp)+$totalplusbunga;
-									$grandtotal = ($totalpluspajak-$dp)+$totalplusbunga;//print_mz($totalpluspajak.'-'.$dp.'+'.$totalplusbunga);
-									$bunga =  ($grandtotal) * ($o->bunga/100);
+									$saldo = $totalpluspajak - $dp;
 								?>
 							</tbody>
 						</table>
@@ -321,38 +326,46 @@
 	                  </div>
 					</div>
 					<?php } ?>
-					<!--
-					<div class="col-md-2">
-						<div class="approve text-center" style="align:center">
-						  <p class="text-center approve-head">Order By, </p>
-						  <span class="small"></span><br/>
-	                      <span class="small"><?=dateIndo($o->created_on)?></span><br/>
-	                      <span class="semi-bold">(<?= getFullName($o->created_by)?>)</span>
-						</div>
-					</div>
-
-					<div class="col-md-2">
-						<div class="approve text-center" style="align:center">
-						  <p class="text-center approve-head">ACC Vendor, </p>
-						  <span class="small"></span><br/>
-	                      <span class="semi-bold"></span><br/>
-	                      <span class="semi-bold">Sign & Return By Fax</span>
-						</div>
-					</div>
-					-->
-
 					<div id="panel-total" class="panel-body col-md-4 pull-right">
 						<ul class="list-group">
+							<?php
+							 $pajak_komponen = explode(',', $o->pajak_komponen_id);
+							 if(in_array(1, $pajak_komponen)){?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">
-									Total Pajak
+									PPN
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" id="totalPajak" value="<?= number_format($totalpajak, 2)?>" class="form-control text-right" readonly="readonly">
+									<input type="text" id="totalPajak" value="<?= number_format($o->total_ppn, 2)?>" class="form-control text-right" readonly="readonly">
 									</div>
 								</div>
 							</li>
+							<?php } ?>
+							<?php if(in_array(2, $pajak_komponen)){?>
+							<li class="list-group-item" id="totalPPH22">
+								<div class="row">
+									<div class="col-md-3">
+									PPH 22%
+									</div>
+									<div class="col-md-7 pull-right">
+									<input type="text" id="totalp2" name="total-pph22" value="<?= number_format($o->total_pph22, 2)?>" class="form-control text-right" readonly="readonly">
+									</div>
+								</div>
+							</li>
+							<?php } ?>
+							<?php if(in_array(3, $pajak_komponen)){?>
+							<li class="list-group-item" id="totalPPH23">
+								<div class="row">
+									<div class="col-md-3">
+									PPH 23%
+									</div>
+									<div class="col-md-7 pull-right">
+									<input type="text" id="totalp3" name="total-pph23" value="<?= number_format($o->total_pph23, 2)?>" class="form-control text-right" readonly="readonly">
+									</div>
+								</div>
+							</li>
+							<?php } ?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">
@@ -373,13 +386,42 @@
 									</div>
 								</div>
 							</li>
+							<?php if(!empty($o->diskon_tambahan_nominal)){?>
+							<li class="list-group-item">
+								<div class="row">
+									<div class="col-md-4">
+									Diskon Tambahan
+									</div>
+									<div class="col-md-7 pull-right">
+									<input type="text" class="form-control text-right" id="diskon" value="<?=number_format($o->diskon_tambahan_nominal, 2)?>" readonly="readonly">
+									</div>
+								</div>
+							</li>
+							<?php }
+							if(!empty($ol->diskon_tambahan_persen)){?>
+							<li class="list-group-item">
+								<div class="row">
+									<div class="col-md-4">
+									Diskon Tambahan
+									</div>
+									<div class="col-md-2">
+									</div>
+									<div class="col-md-4">
+									<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->diskon_tambahan_persen?>" readonly>
+									</div>
+									<div class="col-md-1">
+									%
+									</div>
+								</div>
+							</li>
+							<?php } ?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">
 									Total
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -389,7 +431,7 @@
 									Total + Pajak
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($totalpluspajak, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -415,7 +457,7 @@
 									Saldo
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($totalpluspajak-$dp, 2)?>" readonly="readonly">
+									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($saldo, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>

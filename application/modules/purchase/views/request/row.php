@@ -1,5 +1,7 @@
 <tr>
 	<td><?= $id ?></td>
+	<?php $src = (!empty($ol->photo))?assets_url("gsm/uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
+	<td><div id="ss"><img width="100px" width="100px" id="photo<?=$id?>" src="<?=assets_url('assets/images/no-image-mid.png')?>" /></div></td>
 	<td><select name='kode_barang[]' class='select2' id="barang_id<?=$id?>" style='width:100%'>		<option value="0">-- Pilih Barang --</option>
 		<?php foreach($barang as $value=>$b):?>
 		<option value='<?php echo $b['id']?>'><?php echo $b['kode'].' - '.$b['title']?></option><?php endforeach;?></select>
@@ -9,9 +11,8 @@
 	<td><select id="satuanlist<?=$id?>" name='satuan[]' class='select2' style='width:100%'><?php foreach($satuan as $s):?><option value='<?php echo $s['id']?>'><?php echo $s['title']?></option><?php endforeach;?></select><input type='hidden' value='0' id="satuanlist_num<?=$id?>"></td>
 	<td><input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga<?=$id?>"></td>
 	<td><input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal<?=$id?>" value="0" readonly></td>
-	<td><input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak<?=$id?>">
+	<input name="pajak[]" value="0" type="hiddent" class="form-control text-right" required="required" id="pajak<?=$id?>">
 	<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$id?>">
-	</td>
 </tr>
 <script type="text/javascript"> $(document).find("select.select2").select2();</script>
 <script type="text/javascript">
@@ -29,7 +30,14 @@
 	            dataType: "JSON",
 	            url: '../order/get_nama_barang/'+id,
 	            success: function(data) {
-	            	if(id != '0')$('#deskripsi<?=$id?>').val(data);
+	            	if(id != '0'){
+	            		$('#deskripsi<?=$id?>').val(data.nama_barang);
+	            		if(data.photo != ''){
+				            $("#photo<?=$id?>").attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+id+"/"+data.photo);
+				        }else{
+				            $("#photo<?=$id?>").attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
+				        }
+	            	}
 	            }
 	        });
 	    })

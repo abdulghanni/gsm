@@ -32,7 +32,6 @@
 					<div class="col-sm-6">
 						<p class="text-dark">
 							#<?=$last_id.'/PO-I/GSM/I/'.date('Y')?><small class="text-light"></small>
-							
 						</p>
 					</div>
 				</div>

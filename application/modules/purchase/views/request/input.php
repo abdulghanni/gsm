@@ -146,14 +146,14 @@
 								<tr>
 									<!--<th width="5%"> # </th>-->
 									<th width="5%"> No. </th>
-									<th width="25%"> Kode Barang </th>
-									<th width="25%"> Deskripsi </th>
+									<th width="10%"> SS Barang </th>
+									<th width="20%"> Kode Barang </th>
+									<th width="20%"> Deskripsi </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
 									<th width="10%"> Harga </th>
 									<th width="5%"  style="display:none">Disc(%)</th>
 									<th width="10%"> Sub Total </th>
-									<th width="5%">Pajak(%)</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -170,6 +170,7 @@
 					<div class="row">
 						<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
 							<ul class="list-group">
+								<!--
 								<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-4">
@@ -180,6 +181,7 @@
 										</div>
 									</div>
 								</li>
+								-->
 								<li class="list-group-item"  style="display:none">
 									<div class="row">
 										<div class="col-md-4">
@@ -200,6 +202,7 @@
 										</div>
 									</div>
 								</li>
+								<!--
 								<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-4">
@@ -210,7 +213,7 @@
 										</div>
 									</div>
 								</li>
-								
+								-->
 								<div id="total_angsuran" style="display:none">
 									<li class="list-group-item">
 										<div class="row">

@@ -173,6 +173,25 @@
 								</div>
 							</div>
 						</div>
+						<!--
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Komponen Pajak
+							</label>
+							<div class="col-sm-6">
+								<div id="pajak">
+								<?php foreach($pajak_komponen as $p):?>
+								<div class="checkbox clip-check check-primary checkbox-inline">
+									<input type="checkbox" id="kpajak<?=$p->id?>" onchange="hitung()" value="<?=$p->id?>" class="<?=$p->title?>" name="pajak_komponen_id[]">
+									<label for="kpajak<?=$p->id?>">
+										<?=$p->title?>
+									</label>
+								</div>
+								<?php endforeach;?>
+								</div>
+							</div>
+						</div>
+						-->
                     </div>
 				</div>
 				<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">
@@ -190,13 +209,13 @@
 									<th width="5%"> # </th>
 									<th width="5%"> No. </th>
 									<th width="10%"> Kode Barang </th>
+									<th width="10%"> SS Barang </th>
 									<th width="20%"> Deskripsi </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
-									<th width="20%"> Harga </th>
+									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="15%"> Sub Total </th>
-									<th width="5%">PPN(%)</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -211,7 +230,8 @@
 					<div class="row">
 						<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
 							<ul class="list-group">
-								<li class="list-group-item">
+							
+								<li class="list-group-item" style="display: none;">
 									<div class="row">
 										<div class="col-md-4">
 										Total Pajak
@@ -221,6 +241,7 @@
 										</div>
 									</div>
 								</li>
+						
 								<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-4">
@@ -251,7 +272,8 @@
 										</div>
 									</div>
 								</li>
-								<li class="list-group-item">
+								
+								<li class="list-group-item" style="display: none;">
 									<div class="row">
 										<div class="col-md-4">
 										Total+Pajak
@@ -325,39 +347,47 @@
 	<?php $s = array('"', "'");$r=array('&quot;','&#39;');?>
 	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>";  
 
+	<?php $src = assets_url('assets/images/no-image-mid.png')?>
 	var cell4=row.insertCell(3);
-	cell4.innerHTML = '<textarea name="deskripsi[]" value="0" class="form-control" required="required" id="deskripsi'+rowCount+'"></textarea>';
+	cell4.innerHTML = '<img width="100px" width="100px" id="photo'+rowCount+'" src="<?=$src?>" />';
+
 
 	var cell5=row.insertCell(4);
-	cell5.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
+	cell5.innerHTML = '<textarea name="deskripsi[]" value="0" class="form-control" required="required" id="deskripsi'+rowCount+'"></textarea>';
 
 	var cell6=row.insertCell(5);
-	cell6.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
+	cell6.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 
 	var cell7=row.insertCell(6);
-	cell7.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
+	cell7.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 
 	var cell8=row.insertCell(7);
-	cell8.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'"><input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc'+rowCount+'">';
+	cell8.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
 
 	var cell9=row.insertCell(8);
-	cell9.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
+	cell9.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'"><input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc'+rowCount+'">';
 
 	var cell10=row.insertCell(9);
-	cell10.innerHTML = '<input name="pajak[]" value="10" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
+	cell10.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
 
 	$("#barang_id"+rowCount).change(function(){
-        var id = $(this).val();
-         $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: 'get_nama_barang/'+id,
-            success: function(data) {
-                $('#deskripsi'+rowCount).text(data);
-            }
-        });
-    })
-    .change();
+	        var id = $(this).val();
+	         $.ajax({
+	            type: "GET",
+	            dataType: "JSON",
+	            url: '/gsm/purchase/order/get_nama_barang/'+id,
+	            success: function(data) {
+	            	if(id != '0'){
+	            		$("#deskripsi"+rowCount).val(data.nama_barang);
+	            		if(data.photo != ''){
+				            $("#photo"+rowCount).attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+id+"/"+data.photo);
+				        }else{
+				            $("#photo"+rowCount).attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
+				        }
+	            	}
+	            }
+	        });
+	    })
 
 	$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
 	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).add("#pajak"+rowCount).keyup(function() {
@@ -401,12 +431,12 @@
         });
         total = total+biayaPengiriman;
         totalpluspajak = total + jmlPajak;
-        diBayar = totalpluspajak * (diBayar/100);
+        diBayar = total * (diBayar/100);
         $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
         $('#total').val(addCommas(parseFloat(total).toFixed(2)));
         $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
          $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-        var saldo = totalpluspajak-diBayar;
+        var saldo = total-diBayar;
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
     }
 

@@ -108,8 +108,6 @@ td{ height:30px;}
 			<hr style="width:100%">
 			<th>Sub Total</th>
 			<hr style="width:100%">
-			<th>Pajak(%)</th>
-			<hr style="width:100%">
     	</tr>
     </tr>
 	<?php 
@@ -130,7 +128,6 @@ td{ height:30px;}
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<td width="5%" align="right"><?=$ol->disc?></td>
 		<td width="20%" align="right"><?= number_format($subtotal, 2)?></td>
-		<td width="5%" align="right"><?=$ol->pajak?></td>
 	</tr>
 
 	<?php endforeach;		
@@ -143,17 +140,6 @@ td{ height:30px;}
 
 <?php endforeach;?>
 <br/>
-<!--
-
-<div class="catatan">
-<?php if(!empty($o->catatan)):?>
-Catatan :<br/>
-<textarea class="catatan"><?=$o->catatan?></textarea>
-<?php endif;?>
-</div>
-
--->
-
 
 <div class="myfixed1">
 	<table table width="1000" style="border:0">

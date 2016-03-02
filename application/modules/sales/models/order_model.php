@@ -118,7 +118,7 @@ class order_model extends CI_Model {
 
     function get_order_list_detail($id)
     {
-        $q = $this->db->select('barang.kode as kode_barang, order_list.deskripsi as deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id, barang.photo,barang.kode as kode_barang, order_list.deskripsi as deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
                   ->from('sales_order_list as order_list')
                   ->join('barang', 'barang.id = order_list.kode_barang', 'left')
                   ->join('satuan', 'satuan.id = order_list.satuan_id')

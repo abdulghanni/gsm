@@ -100,8 +100,6 @@ td{ height:30px;}
 			<hr style="width:100%">
 			<th>Sub Total</th>
 			<hr style="width:100%">
-			<?= (in_array(1, $pajak_komponen))?"<th>PPN(%)</th>":''?>
-			<hr style="width:100%">
     	</tr>
     </tr>
 	<?php 
@@ -122,15 +120,14 @@ td{ height:30px;}
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<td width="5%" align="right"><?=$ol->disc?></td>
 		<td width="20%" align="right"><?= number_format($subtotal, 2)?></td>
-		<?= (in_array(1, $pajak_komponen))?'<td align="right">'.$ol->pajak.'</td>':''?>
 	</tr>
 
 	<?php endforeach;		
-		if(in_array(2, $pajak_komponen))$p2 = $o->total_pph22;
-		if(in_array(3, $pajak_komponen))$p3 = $o->total_pph23;
-		$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
-		$grandtotal = $totalpluspajak + $o->biaya_pengiriman - $o->dibayar+$o->total_pph22+$o->total_pph23;
-		$bunga =  ($grandtotal) * ($o->bunga/100);
+		$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
+		$total = $total+$o->biaya_pengiriman;
+		$totalpluspajak = $total+$total_pajak;
+		$dp = $totalpluspajak * ($o->dibayar/100);
+		$saldo = $totalpluspajak - $dp;
 	?>
 	
 	</table>
@@ -179,7 +176,7 @@ Catatan :<br/>
 	<?php if(in_array(1, $pajak_komponen)){?>
 		<td colspan="3">PPN</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($totalpajak, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($o->total_ppn, 2)?></td>
 	</tr>
 	<?php } ?>
 	<?php if(in_array(2, $pajak_komponen)){?>
@@ -226,7 +223,7 @@ Catatan :<br/>
 		<td align="center">&nbsp;</td>
 		<td colspan="3">Total</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($total, 2)?></td>
 	</tr>
 
 	<tr>
@@ -235,7 +232,7 @@ Catatan :<br/>
 		<td align="center"></td>
 		<td colspan="3">Total + Pajak</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman+$totalpajak+$o->total_pph22+$o->total_pph23, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($totalpluspajak, 2)?></td>
 	</tr>
 
 	
@@ -254,7 +251,7 @@ Catatan :<br/>
 		<td align="center">(Mursiawaty Suryadinata)</td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Saldo<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
-		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($grandtotal, 2)?><?php endif; ?></td>
+		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($saldo, 2)?><?php endif; ?></td>
 	</tr> 
 </table>
 </div>
