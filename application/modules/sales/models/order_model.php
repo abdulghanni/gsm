@@ -8,7 +8,7 @@ class order_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('id', 'kontak', 'tanggal_transaksi', 'metode_pembayaran', 'so', 'gudang'); //set column field database for order and search
+    var $column = array('id','so', 'kontak', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -23,6 +23,7 @@ class order_model extends CI_Model {
         $this->db->select(
             $this->table.'.id as id,
             '.$this->table.'.so as so,
+            '.$this->table.'.is_draft,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
             '.$this->table_join1.'.title as kontak,
             '.$this->table_join2.'.title as metode_pembayaran,
@@ -103,9 +104,9 @@ class order_model extends CI_Model {
         return $query->row();
     }
 
-    function get_order_detail($id)
+    function get_detail($id)
     {
-        $q = $this->db->select('no, kontak.title as kontak,project, kontak.up,sales_order.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar, lama_angsuran_2, lama_angsuran_1, bunga, sales_order.created_on')
+        $q = $this->db->select('no, kontak.title as kontak,kontak_id,kurensi_id,gudang_id,project,pajak_komponen_id, total_ppn, total_pph22, total_pph23, kontak.up,sales_order.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar,dibayar_nominal, lama_angsuran_2, lama_angsuran_1, bunga, sales_order.created_on')
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.kontak_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
@@ -116,9 +117,9 @@ class order_model extends CI_Model {
         return $q;
     }
 
-    function get_order_list_detail($id)
+    function get_list_detail($id)
     {
-        $q = $this->db->select('barang.id as barang_id, barang.photo,barang.kode as kode_barang, order_list.deskripsi as deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id,satuan_id, barang.photo,barang.kode as kode_barang, order_list.deskripsi as deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
                   ->from('sales_order_list as order_list')
                   ->join('barang', 'barang.id = order_list.kode_barang', 'left')
                   ->join('satuan', 'satuan.id = order_list.satuan_id')

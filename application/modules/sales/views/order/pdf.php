@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Untitled Document</title>
+<title>Sales Order</title>
 <style type="text/css">
 td{ height:30px;}
 .catatan {font-family:Arial, sans-serif;font-size:10px;}
@@ -26,7 +26,9 @@ td{ height:30px;}
  <hr/>
   <h3 style="margin-bottom: -10px;margin-top: -10px;text-align: center">Sales Order</h3>
 <hr/>
-<?php foreach ($order->result() as $o) :?>
+<?php foreach ($order->result() as $o) :
+$pajak_komponen = explode(',', $o->pajak_komponen_id);
+?>
 <table width="1000" border="0">
   <tbody>
     <tr>
@@ -84,7 +86,7 @@ td{ height:30px;}
     <tr>
       <td>Proyek</td>
       <td>:</td>
-      <td><?=$o->proyek?></td>
+      <td><?=$o->project?></td>
     </tr>
   </tbody>
 </table>
@@ -118,8 +120,8 @@ td{ height:30px;}
 		$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
 		$subtotal = $ol->jumlah*$ol->harga-$diskon;
 		$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
-		$total = $total + $subtotal;
 		$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
+		$total = $total + $subtotal;
 	?>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang?></td>
@@ -131,9 +133,11 @@ td{ height:30px;}
 	</tr>
 
 	<?php endforeach;		
-		$totalpluspajak = $total+$o->biaya_pengiriman+$totalpajak;
-		$grandtotal = $totalpluspajak + $o->biaya_pengiriman - $o->dibayar;
-		$bunga =  ($grandtotal) * ($o->bunga/100);
+		$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
+		$total = $total+$o->biaya_pengiriman;
+		$totalpluspajak = $total+$total_pajak;
+		$dp = $totalpluspajak * ($o->dibayar/100);
+		$saldo = $totalpluspajak - $dp - $o->dibayar_nominal;
 	?>
 	
 	</table>
@@ -154,25 +158,46 @@ td{ height:30px;}
 		<th width="10%"></th>
 		<th width="10%"></th>
 	</tr>
-		<!--
 		<tr><td colspan="4">Keterangan :</td></tr>
-		<tr><td colspan="4">- Semua Pengiriman Barang Disertakan Nota/Faktur</td></tr>
-		<tr><td colspan="4">- Dokumen & Faktur ditujukan kepada finance PT. Gramaselindo Utama Diserahkan Melalui</td></tr>
-		<tr><td colspan="4">  &nbsp;&nbsp;Receptionist Kami</td></tr>
-		<tr><td colspan="4">- Barang akan dikembalikan bila tidak sesuai pesanan</td></tr>
-		<tr><td colspan="9">- No PO Harus di Cantumkan dalam Nota/Faktur dan Surat jalan</td></tr>
-	-->
-	<tr><td colspan="9"></td></tr>
+		<?php if(!empty($o->catatan)){
+		$c = explode(PHP_EOL, $o->catatan);
+			  foreach ($c as $key => $value) {?>
+			  <tr><td colspan="4">- <?=$value?></td></tr>
+		<?php }} ?>
+		<tr><td colspan="9"></td>
+	</tr>
 	<hr style="width:100%">
 	<tr><td>&nbsp;</td></tr>
+	<tr>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<?php if(in_array(1, $pajak_komponen)){?>
+		<td colspan="3">PPN</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?= number_format($o->total_ppn, 2)?></td>
+	</tr>
+	<?php } ?>
+	<?php if(in_array(2, $pajak_komponen)){?>
 	<tr>
 		<td align="center"><!--Approved,--></td>
 		<td align="center"><!--Order By,--></td>
 		<td align="center"><!--ACC Vendor--></td>
-		<td colspan="3">Total Pajak</td>
+		<td colspan="3">PPH 22</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($totalpajak, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($o->total_pph22, 2)?></td>
 	</tr>
+	<?php } ?>
+	<?php if(in_array(3, $pajak_komponen)){?>
+	<tr>
+		<td align="center"><!--Approved,--></td>
+		<td align="center"><!--Order By,--></td>
+		<td align="center"><!--ACC Vendor--></td>
+		<td colspan="3">PPH 23</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?=number_format($o->total_pph23, 2)?></td>
+	</tr>
+	<?php } ?>
 	<?php if(!empty($o->biaya_pengiriman)):?>
 	<tr>
 		<td align="center">&nbsp;</td>
@@ -197,7 +222,7 @@ td{ height:30px;}
 		<td align="center">&nbsp;</td>
 		<td colspan="3">Total</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($total, 2)?></td>
 	</tr>
 
 	<tr>
@@ -206,17 +231,18 @@ td{ height:30px;}
 		<td align="center"></td>
 		<td colspan="3">Total + Pajak</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?></td>
+		<td align="right" colspan="2"><?=number_format($totalpluspajak, 2)?></td>
 	</tr>
 
 	
+	<?php $dp = ($o->dibayar !=0) ? number_format($o->dibayar,2).' %':number_format($o->dibayar_nominal, 2);?>
 	<tr>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Dibayar<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
-		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($o->dibayar,2)?> %<?php endif; ?></td>
+		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=$dp?><?php endif; ?></td>
 	</tr>
 
 	<tr>
@@ -225,7 +251,7 @@ td{ height:30px;}
 		<td align="center"><!--(Sign & Return by Fax)--></td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Saldo<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
-		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($grandtotal, 2)?><?php endif; ?></td>
+		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($saldo, 2)?><?php endif; ?></td>
 	</tr> 
 </table>
 </div>

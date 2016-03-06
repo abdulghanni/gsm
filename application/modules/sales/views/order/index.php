@@ -33,8 +33,9 @@
                             <th width="15%"><?php echo 'No. SO';?></th>
                             <th width="15%"><?php echo 'Customer';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
-                            <th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>
+                            <!--<th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>-->
                             <th width="15%"><?php echo 'Dikirim Dari';?></th>
+                            <th width="5%"><?php echo 'Status';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>

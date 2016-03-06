@@ -190,12 +190,11 @@
 									<td class="text-right" style="display: none"><?=$ol->pajak?></td>
 								</tr>
 								<?php endforeach;
-									//$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
-									//$diskon_tambahan = $o->diskon_tambahan_persen + $o->diskon_tambahan_nominal;
+									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
 									$total = $total+$o->biaya_pengiriman;
-									//$totalpluspajak = $total+$total_pajak;
-									$dp = $total * ($o->dibayar/100);
-									$saldo = $total - $dp;
+									$totalpluspajak = $total+$total_pajak;
+									$dp = $totalpluspajak * ($o->dibayar/100);
+									$saldo = $totalpluspajak - $dp - $o->dibayar_nominal;
 								?>
 							</tbody>
 						</table>
@@ -204,16 +203,44 @@
 				<div class="row">
 					<div id="panel-total" class="panel-body col-md-5 pull-right">
 						<ul class="list-group">
-							<li class="list-group-item" style="display: none">
+							<?php
+							 $pajak_komponen = explode(',', $o->pajak_komponen_id);
+							 if(in_array(1, $pajak_komponen)){?>
+							<li class="list-group-item">
 								<div class="row">
-									<div class="col-md-4">
-									Total Pajak
+									<div class="col-md-3">
+									PPN
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" id="totalPajak" value="<?= number_format($totalpajak, 2)?>" class="form-control text-right" readonly="readonly">
+									<input type="text" id="totalPajak" value="<?= number_format($o->total_ppn, 2)?>" class="form-control text-right" readonly="readonly">
 									</div>
 								</div>
 							</li>
+							<?php } ?>
+							<?php if(in_array(2, $pajak_komponen)){?>
+							<li class="list-group-item" id="totalPPH22">
+								<div class="row">
+									<div class="col-md-3">
+									PPH 22%
+									</div>
+									<div class="col-md-6 pull-right">
+									<input type="text" id="totalp2" name="total-pph22" value="<?= number_format($o->total_pph22, 2)?>" class="form-control text-right" readonly="readonly">
+									</div>
+								</div>
+							</li>
+							<?php } ?>
+							<?php if(in_array(3, $pajak_komponen)){?>
+							<li class="list-group-item" id="totalPPH23">
+								<div class="row">
+									<div class="col-md-3">
+									PPH 23%
+									</div>
+									<div class="col-md-6 pull-right">
+									<input type="text" id="totalp3" name="total-pph23" value="<?= number_format($o->total_pph23, 2)?>" class="form-control text-right" readonly="readonly">
+									</div>
+								</div>
+							</li>
+							<?php } ?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-4">
@@ -244,32 +271,40 @@
 									</div>
 								</div>
 							</li>
-							<li class="list-group-item" style="display: none">
+							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-4">
 									Total + Pajak
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($totalpluspajak, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
 							<?php if($o->metode_pembayaran_id == 2):?>
 								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Uang Muka
+										<div class="row">
+											<div class="col-md-4">
+											Uang Muka
+											</div>
+											<div class="col-md-2">
+											</div>
+											<?php if($o->dibayar != 0){?>
+											<div class="col-md-4">
+											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->dibayar?>" readonly>
+											</div>
+											<div class="col-md-1">
+											%
+											</div>
+											<?php }else{?>
+											<div id="dp-nominal">
+												<div class="col-md-6">
+													<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="<?=number_format($o->dibayar_nominal, 2)?>" readonly>
+												</div>
+											</div>
+											<?php  } ?>
 										</div>
-										<div class="col-md-2">
-										</div>
-										<div class="col-md-4">
-										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=number_format($o->dibayar,2)?>" disabled>
-										</div>
-										<div class="col-md-1">
-										%
-										</div>
-									</div>
-								</li>
+									</li>
 								<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-4">

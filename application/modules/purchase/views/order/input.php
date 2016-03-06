@@ -21,7 +21,7 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal">
+<form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal" id="form-po">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">

@@ -208,11 +208,13 @@
 					$("#harga<?=$i?>").maskMoney({allowZero:true});
 					$("#biaya_pengiriman").maskMoney({allowZero:true});
 					$("#dibayar").maskMoney({allowZero:true}).attr('maxlength', 6);
-						$("#disc<?=$i?>").add("#jumlah<?=$i?>").add("#harga<?=$i?>").add("#dibayar").add("#biaya_pengiriman").keyup(function() {
+					$("#dibayar-nominal").maskMoney({allowZero:true});
+						$("#disc<?=$i?>").add("#jumlah<?=$i?>").add("#harga<?=$i?>").add("#dibayar").add("#dibayar-nominal").add("#biaya_pengiriman").keyup(function() {
 						var a = parseFloat($("#jumlah<?=$i?>").val()),
 				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
 				        	c = parseFloat($("#disc<?=$i?>").val()),
 				        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
+				        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
 				        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
 				        	d = (a*b)*(c/100),//jumlah diskon
 				       		val = (a*b)-d,
@@ -261,7 +263,7 @@
 				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
 				        
 				        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
-				        var saldo = totalpluspajak-diBayar;
+				        var saldo = totalpluspajak-diBayar-diBayarNominal;
 				        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
 				    });
 					</script>
@@ -354,16 +356,27 @@
 					<div id="total_angsuran" <?=$d?>>
 						<li class="list-group-item">
 							<div class="row">
-								<div class="col-md-4">
+								<div class="col-md-6">
 								Uang Muka
+									<div class="checkbox clip-check check-primary checkbox-inline">
+										<input type="checkbox" onchange="hitung()" id="dp-persen-cek" value="" name="row">
+										<label for="dp-persen-cek">
+											Persen
+										</label>
+									</div>
 								</div>
-								<div class="col-md-2">
+								<div id="dp-persen">
+									<div class="col-md-4">
+									<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="0">
+									</div>
+									<div class="col-md-1">
+									%
+									</div>
 								</div>
-								<div class="col-md-4">
-								<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="0">
-								</div>
-								<div class="col-md-1">
-								%
+								<div id="dp-nominal">
+									<div class="col-md-6">
+										<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="0">
+									</div>
 								</div>
 							</div>
 						</li>
@@ -393,7 +406,13 @@
 <script type="text/javascript">
 function hitung()
 {
+		if($('#dp-persen-cek').is(':checked')){
+			$('#dibayar-nominal').val(parseFloat(0));
+		}else{
+			$('#dibayar').val(parseFloat(0));
+		}
     	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
+    	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
     	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
     	jmlDisc = 0,
     	total = 0;
@@ -437,7 +456,7 @@ function hitung()
     $('#total').val(addCommas(parseFloat(total).toFixed(2)));
     
     $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
-    var saldo = totalpluspajak-diBayar;
+    var saldo = totalpluspajak-diBayar-diBayarNominal;
     $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
 }
 $(document).ready(function() {
@@ -463,6 +482,16 @@ $(document).ready(function() {
         $('table tr').has('input[name="row"]:checked').remove();
         hitung();
     })
+
+	 $("#dp-persen-cek:not(:checked)").each(function() {
+	     $("#dp-persen").hide("slow");
+	     $("#dp-nominal").show("slow");
+	});
+
+	$("#dp-persen-cek").click(function(){
+	     $("#dp-persen").toggle("slow");
+	     $("#dp-nominal").toggle("slow");
+	});
 });
 	$('.input-append.date')
         .datepicker({

@@ -46,8 +46,10 @@
 								<select class="select2" name="diajukan_ke" style="width:100%">
 								<option value="0">-- Pilih Approver --</option>
 								<?php 
-                                	foreach($users->result() as $u):?>
-                                	<option value="<?=$u->id?>"><?=$u->full_name?></option>
+                                	foreach($users->result() as $u):
+                                	$selected = ($user_app_lv1 == $u->id) ? 'selected="selected"' : '';
+                                ?>
+                                	<option value="<?=$u->id?>" <?=$selected?>><?=$u->full_name?></option>
                               	<?php endforeach;?>
                               	</select>
 							</div>
@@ -57,7 +59,7 @@
 								No. Purchase Request
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="No. Purchase Request" name="no" value="<?=$last_id.'/PR-I/GSM/I/'.date('Y')?>" class="form-control" required="required">
+								<input type="text" placeholder="No. Purchase Request" name="no" value="<?=$request->no?>" class="form-control" required="required">
 							</div>
 						</div>
 
@@ -66,7 +68,7 @@
 								Catatan
 							</label>
 							<div class="col-sm-8">
-								<textarea class="form-control" name="catatan"></textarea>
+								<textarea class="form-control" name="catatan"><?=$request->catatan?></textarea>
 							</div>
 						</div>
                     </div>
@@ -80,8 +82,10 @@
 								<select class="select2" name="gudang_id" style="width:100%">
 								<option value="0">-- Pilih Gudang Pengiriman --</option>
 								<?php 
-                                	foreach($gudang as $g):?>
-                                	<option value="<?=$g->id?>"><?=$g->title?></option>
+                                	foreach($gudang as $g):
+                                		$selected = ($request->gudang_id == $g->id) ? 'selected="selected' : '';
+                                ?>
+                                	<option value="<?=$g->id?>" <?=$selected?>><?=$g->title?></option>
                               	<?php endforeach;?>
                               	</select>
 							</div>
@@ -91,7 +95,7 @@
 								Keperluan
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="Keperluan" name="keperluan" class="form-control" required="required">
+								<input type="text" placeholder="Keperluan" name="keperluan" value="<?=$request->keperluan?>" class="form-control" required="required">
 							</div>
 						</div>
 
@@ -101,7 +105,7 @@
 							</label>
 							<div class="col-sm-8">
 								<div id="tanggal_transaksi" class="input-append date success no-padding">
-                                  <input type="text" class="form-control" name="tanggal_digunakan" required>
+                                  <input type="text" class="form-control" name="tanggal_digunakan" value="<?=date('d-m-Y', strtotime($request->tanggal_digunakan))?>" required>
                                   <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
                                 </div>
 							</div>
@@ -114,8 +118,10 @@
 							<div class="col-sm-8">
 								<select class="select2" name="jenis_barang_id">
 									<option value="0">-- Pilih Jenis Barang --</option>
-									<?php foreach($jenis->result() as $j):?>
-										<option value="<?=$j->id?>"><?=$j->title?></option>
+									<?php foreach($jenis->result() as $j):
+										$selected = ($request->jenis_barang_id == $j->id)?'selected="selected"':'';
+									?>
+										<option value="<?=$j->id?>" <?=$selected?>><?=$j->title?></option>
 									<?php endforeach;?>
 								</select>
 							</div>
@@ -155,8 +161,57 @@
 								</tr>
 							</thead>
 							<tbody>
-								<div id="tb">
-								</div>
+								<?php 
+								$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
+								$i=0;foreach($request_list->result() as $ol):
+								$subtotal = $ol->jumlah*$ol->harga;
+								$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+								$total = $total + $subtotal;
+								$ss_link = base_url("uploads/barang/$ol->barang_id/$ol->photo");
+             					$ss_headers = @get_headers($ss_link);
+								$src = ($ss_headers[0] != 'HTTP/1.1 404 Not Found')?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png');
+								$i++;
+								?>
+								<tr>
+									<td>
+										<div class="checkbox clip-check check-primary checkbox-inline">
+											<input type="checkbox" id="row<?=$i?>" value="" class="cek" name="row">
+											<label for="row<?=$i?>">
+											</label>
+										</div>
+									</td>
+									<td><?=$i?></td>
+									<td><img height="100px" width="100px" src="<?=$src?>"></td>
+									<td><?=$ol->kode_barang?></td><input type="hidden" value="<?=$ol->barang_id?>" name="kode_barang[]">
+									<td><textarea class="form-control" name="deskripsi[]"><?=$ol->deskripsi?></textarea></td>
+									<td class="text-right"><input type="text" id="jumlah<?=$i?>" class="form-control text-right jumlah" value="<?=$ol->jumlah?>" name="jumlah[]"></td>
+									<td><?=$ol->satuan?></td><input type="hidden" name="satuan[]" value="<?=$ol->satuan_id?>">
+									<td class="text-right"><input type="text" id="harga<?=$i?>" class="form-control text-right harga" value="<?= number_format($ol->harga, 2)?>" name="harga[]"></td>
+									<td class="text-right"><input type="text" id="subtotal<?=$i?>" class="form-control text-right subtotal" value="<?= number_format($subtotal, 2)?>" name="subtotal"></td>
+
+											<script>
+												$("#jumlah<?=$i?>").add("#harga<?=$i?>").keyup(function() {
+												var a = parseFloat($("#jumlah<?=$i?>").val()),
+										        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
+										       		val = (a*b),
+										        	total = 0;
+										        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
+
+										        $('.subtotal').each(function (index, element) {
+										            total = total + parseFloat($(element).val().replace(/,/g,""));
+										        });
+
+										        total = total;
+										        
+										        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+										    });
+											</script>
+								</tr>
+									<?php endforeach;
+										$totalpluspajak = $total+$totalpajak;
+										$grandtotal = $totalpluspajak;								?>
+									<div id="tb">
+									</div>
 							</tbody>
 						</table>
 					</div>
@@ -166,20 +221,8 @@
 					<input type="hidden" name="dp" value="0">
 					<div id="subTotalPajak"></div>
 					<div class="row">
-						<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
+						<div id="panel-total" class="panel-body col-md-5 pull-right">
 							<ul class="list-group">
-								<!--
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total Pajak
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="totalPajak" value="0" class="form-control text-right" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								-->
 								<li class="list-group-item"  style="display:none">
 									<div class="row">
 										<div class="col-md-4">
@@ -196,22 +239,10 @@
 										Total
 										</div>
 										<div class="col-md-6 pull-right">
-										<input type="text" class="form-control text-right" id="total" value="0" readonly="readonly">
+										<input type="text" class="form-control text-right" id="total" value="<?=number_format($total, 2)?>" readonly="readonly">
 										</div>
 									</div>
 								</li>
-								<!--
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total+Pajak
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" class="form-control text-right" id="totalpluspajak" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								-->
 								<div id="total_angsuran" style="display:none">
 									<li class="list-group-item">
 										<div class="row">
@@ -262,11 +293,11 @@
 							</ul>
 						</div>
 					</div>
-					<div class="row" id="btnSubmit" style="display:none">
+					<div class="row" id="btnSubmit">
 						<div class="col-md-7"></div>
 						<div class="col-md-2">
 						<button type="button" id="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
-							Save as Draft <i class="fa fa-save"></i>
+							Save Draft <i class="fa fa-save"></i>
 						</button>
 						</div>
 						<div class="col-md-1">
@@ -288,6 +319,20 @@
 <!-- end: INVOICE -->
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	$(".cek:not(:checked)").each(function() {
+	    $("#remove").hide();
+	});
+
+	$(".cek:checkbox").click(function(){
+	     $("#remove").show();
+	});
+
+	 $("#remove").on("click", function () {
+        $('table tr').has('input[name="row"]:checked').remove();
+        hitung();
+    })
+});
 	function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
@@ -300,157 +345,6 @@
         });
 	
 }
-	/*var cell1=row.insertCell(0);
-	var element1=document.createElement("input");
-	element1.type="checkbox";
-	element1.name="chkbox[]";
-	element1.className="checkbox1";
-	cell1.appendChild(element1);
-
-	var cell2=row.insertCell(1);
-	cell2.innerHTML=rowCount+1-1;
-
-	var cell3=row.insertCell(2);
-	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.$barang[$i]['title']?></option><?php endfor;?></select>";  
-
-	var cell4=row.insertCell(3);
-	cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">';
-
-	var cell5=row.insertCell(4);
-	cell5.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
-
-	var cell6=row.insertCell(5);
-	cell6.innerHTML = "<select id="+'satuanlist'+rowCount+" name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select><input type='text' value='0' id="+'satuanlist_num'+rowCount+"> ";
-
-	var cell7=row.insertCell(6);
-	cell7.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'"><input name="disc[]"  style="display:none" value="0" type="hidden" class="form-control text-right" required="required" id="disc'+rowCount+'">';  
-
-	var cell8=row.insertCell(7);
-	cell8.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
-
-	var cell9=row.insertCell(8);
-	cell9.innerHTML = '<input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
-	//var a = $('input[name="fraksi"]').val();alert(a);
-	$('#jumlah'+rowCount).on('click', function () {
-        if($('input[name="fraksi"]').is(":checked")){
-        	$('#form_fraksi')[0].reset();
-			$('[name="fraksi_id"]').val(rowCount);
-			$('.sf-1').attr('id', 'sf-1'+rowCount);
-			$('.tf-1').attr('id', 'tf-1'+rowCount);
-        	showFModal(rowCount);
-        }
-    });
-function showFModal(id){
-	
-	$('#modal_fraksi').modal('show');
-}
-
-$('#btnFraksi').on('click', function () {
-		$('#modal_fraksi').modal('hide');
-    });
-
-	$("#barang_id"+rowCount).change(function(){
-        var id = $(this).val();
-         $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: '../order/get_nama_barang/'+id,
-            success: function(data) {
-                $('#deskripsi'+rowCount).val(data);
-            }
-        });
-         $.ajax({
-            type: 'POST',
-            url: '/gsm/purchase/request/get_satuan/'+id,
-            data: {id : id},
-            success: function(data) {
-                $('#satuan'+rowCount).html(data);
-            }
-        });
-
-    })
-    .change();
-    
-	$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
-	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).add("#pajak"+rowCount).keyup(function() {
-		hitung();
-    });
-
-    $('.harga').maskMoney({allowZero:true});
-    $('#dibayar, #biaya_pengiriman, #tf-1, #tf-2, #tf-3').keyup(function(){
-    	hitung();
-    });
-    function hitung()
-    {
-    	var a = parseFloat($('#jumlah'+rowCount).val()),
-    		bunga = parseFloat($('#bunga').val()),
-        	b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
-        	c = parseFloat($('#disc'+rowCount).val()),
-        	p = parseFloat($('#pajak'+rowCount).val()).toFixed(2),
-        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
-        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
-        	lama_angsuran= parseInt($('#lama_angsuran_1').val()),
-        	d = (a*b)*(c/100),//jumlah diskon
-       		val = (a*b)-d,
-        	subPajak = val*(p/100),//jumlah pajak
-        	jmlPajak = 0,
-        	total = 0;
-        	if($('input[name="fraksi"]').is(":checked")){
-        		tf_1 = parseFloat($('#tf-1').val());
-				tf_2 = parseFloat($('#tf-2').val());
-				tf_3 = parseFloat($('#tf-3').val());
-				sf_1_num = parseFloat($("#sf1-num").val());
-				sf_2_num = parseFloat($("#sf2-num").val());
-				sf_3_num = parseFloat($("#sf3-num").val());
-				sf_3_num = parseFloat($("#sf3-num").val());
-				satuan_utama_num = parseFloat($('#satuanlist_num'+rowCount).val());
-				b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
-				//$('#satuan'+id).select2().select2('val',tf_1);
-				v1 = tf_1*(sf_1_num/satuan_utama_num)*b,
-				v2 = tf_2*(sf_2_num/satuan_utama_num)*b,
-				v3 = tf_3*(sf_3_num/satuan_utama_num)*b,
-				val = parseFloat(v1) + parseFloat(v2) + parseFloat(v3);//alert(v1+'='+tf_1+'*('+sf_1_num+'/'+satuan_utama_num+'*'+b);
-        		$('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
-        	}else{
-        		$('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
-        	}
-        
-        $('#subpajak'+rowCount).val(subPajak);
-        $('.subpajak').each(function (index, element) {
-            jmlPajak = jmlPajak + parseInt($(element).val());
-        });
-        $('.subtotal').each(function (index, element) {
-            total = total + parseInt($(element).val().replace(/,/g,""));
-        });
-        total = total+biayaPengiriman;
-        totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
-        totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
-        biayaAngsuran = totalPlusBunga/lama_angsuran;
-        totalpluspajak = total + jmlPajak;
-        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
-        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
-        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
-        var saldo = totalpluspajak-diBayar;
-        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
-       	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
-       	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))
-    }
-
-    function addCommas(nStr)
-    {
-      nStr += '';
-      x = nStr.split('.');
-      x1 = x[0];
-      x2 = x.length > 1 ? '.' + x[1] : '';
-      var rgx = /(\d+)(\d{3})/;
-      while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-      }
-      return x1 + x2;
-    }
-	}
-	function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
-	*/
 	function addCommas(nStr)
     {
       nStr += '';

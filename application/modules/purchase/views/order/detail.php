@@ -143,19 +143,6 @@
 								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" disabled="disabled">
 							</div>
 						</div>
-						<!--
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Bunga
-							</label>
-							<div class="col-sm-2">
-								<input type="text" value="<?=$o->bunga?>" name="bunga" id="bunga" class="form-control text-right" disabled="disabled">
-							</div>
-							<label class="col-sm-1 control-label" for="inputPassword3">
-								%
-							</label>
-						</div>
-						-->
 						<?php endif ?>
 					</div>
 				</div>
@@ -436,29 +423,29 @@
 								</div>
 							</li>
 							<?php if($o->metode_pembayaran_id == 2):?>
-								<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Uang Muka
-											</div>
-											<div class="col-md-2">
-											</div>
-											<?php if($o->dibayar != 0){?>
-											<div class="col-md-4">
-											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->dibayar?>" readonly>
-											</div>
-											<div class="col-md-1">
-											%
-											</div>
-											<?php }else{?>
-											<div id="dp-nominal">
-												<div class="col-md-6">
-													<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="<?=number_format($o->dibayar_nominal, 2)?>" readonly>
-												</div>
-											</div>
-											<?php  } ?>
+							<li class="list-group-item">
+									<div class="row">
+										<div class="col-md-4">
+										Uang Muka
 										</div>
-									</li>
+										<div class="col-md-2">
+										</div>
+										<?php if($o->dibayar != 0){?>
+										<div class="col-md-4">
+										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->dibayar?>" readonly>
+										</div>
+										<div class="col-md-1">
+										%
+										</div>
+										<?php }else{?>
+										<div id="dp-nominal">
+											<div class="col-md-6">
+												<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="<?=number_format($o->dibayar_nominal, 2)?>" readonly>
+											</div>
+										</div>
+										<?php  } ?>
+									</div>
+								</li>
 								<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">

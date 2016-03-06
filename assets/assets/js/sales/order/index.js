@@ -11,13 +11,13 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "order/ajax_list",
+            "url": "/gsm/sales/order/ajax_list",
             "type": "POST"
         },
         //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [-1], //last column
+            "targets": [-1, -2], //last column
             "orderable": false, //set not orderable
         },
         { "sClass": "text-center", "aTargets": [ -1 ] }

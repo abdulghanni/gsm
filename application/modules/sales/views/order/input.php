@@ -21,7 +21,7 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal">
+<form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-so">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -173,7 +173,6 @@
 								</div>
 							</div>
 						</div>
-						<!--
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Komponen Pajak
@@ -182,7 +181,7 @@
 								<div id="pajak">
 								<?php foreach($pajak_komponen as $p):?>
 								<div class="checkbox clip-check check-primary checkbox-inline">
-									<input type="checkbox" id="kpajak<?=$p->id?>" onchange="hitung()" value="<?=$p->id?>" class="<?=$p->title?>" name="pajak_komponen_id[]">
+									<input type="checkbox" id="kpajak<?=$p->id?>" value="<?=$p->id?>" class="<?=$p->title?>" name="pajak_komponen_id[]">
 									<label for="kpajak<?=$p->id?>">
 										<?=$p->title?>
 									</label>
@@ -191,7 +190,6 @@
 								</div>
 							</div>
 						</div>
-						-->
                     </div>
 				</div>
 				<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">
@@ -231,13 +229,33 @@
 						<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
 							<ul class="list-group">
 							
-								<li class="list-group-item" style="display: none;">
+								<li class="list-group-item" id="totalPPN">
 									<div class="row">
 										<div class="col-md-4">
-										Total Pajak
+										PPN 10%
 										</div>
 										<div class="col-md-6 pull-right">
-										<input type="text" id="totalPajak" value="0" class="form-control text-right" readonly="readonly">
+										<input type="text" id="totalPajak" name="total-ppn" value="0" class="form-control text-right">
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item" id="totalPPH22">
+									<div class="row">
+										<div class="col-md-4">
+										PPH 22
+										</div>
+										<div class="col-md-6 pull-right">
+										<input type="text" id="totalp2" name="total-pph22" value="0" class="form-control text-right">
+										</div>
+									</div>
+								</li>
+								<li class="list-group-item" id="totalPPH23">
+									<div class="row">
+										<div class="col-md-4">
+										PPH 23
+										</div>
+										<div class="col-md-6 pull-right">
+										<input type="text" id="totalp3" name="total-pph23" value="0" class="form-control text-right">
 										</div>
 									</div>
 								</li>
@@ -273,7 +291,7 @@
 									</div>
 								</li>
 								
-								<li class="list-group-item" style="display: none;">
+								<li class="list-group-item">
 									<div class="row">
 										<div class="col-md-4">
 										Total+Pajak
@@ -287,16 +305,27 @@
 								<div id="total_angsuran" style="display:none">
 									<li class="list-group-item">
 										<div class="row">
-											<div class="col-md-4">
+											<div class="col-md-6">
 											Uang Muka
+												<div class="checkbox clip-check check-primary checkbox-inline">
+													<input type="checkbox" id="dp-persen-cek" value="" name="row">
+													<label for="dp-persen-cek">
+														Persen
+													</label>
+												</div>
 											</div>
-											<div class="col-md-2">
+											<div id="dp-persen">
+												<div class="col-md-4">
+												<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="0">
+												</div>
+												<div class="col-md-1">
+												%
+												</div>
 											</div>
-											<div class="col-md-4">
-											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
-											</div>
-											<div class="col-md-1">
-											%
+											<div id="dp-nominal">
+												<div class="col-md-6">
+													<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="0">
+												</div>
 											</div>
 										</div>
 									</li>
@@ -314,10 +343,20 @@
 							</ul>
 						</div>
 					</div>
-					<div class="row">
-						<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="display:none;margin-right:15px;">
+					<div class="row" id="btnSubmit">
+						<div class="col-md-7"></div>
+						<div class="col-md-2">
+						<button type="button" id="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
+							Save as Draft <i class="fa fa-save"></i>
+						</button>
+						</div>
+						<div class="col-md-1">
+						</div>
+						<div class="col-md-2">
+						<button type="submit"  class="btn btn-lg btn-primary hidden-print pull-right">
 							Submit Order <i class="fa fa-check"></i>
 						</button>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -328,7 +367,7 @@
 <!-- end: INVOICE -->
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
-	function addRow(tableID){
+function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
 	var row=table.insertRow(rowCount);
@@ -371,23 +410,23 @@
 	cell10.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
 
 	$("#barang_id"+rowCount).change(function(){
-	        var id = $(this).val();
-	         $.ajax({
-	            type: "GET",
-	            dataType: "JSON",
-	            url: '/gsm/purchase/order/get_nama_barang/'+id,
-	            success: function(data) {
-	            	if(id != '0'){
-	            		$("#deskripsi"+rowCount).val(data.nama_barang);
-	            		if(data.photo != ''){
-				            $("#photo"+rowCount).attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+id+"/"+data.photo);
-				        }else{
-				            $("#photo"+rowCount).attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
-				        }
-	            	}
-	            }
-	        });
-	    })
+        var id = $(this).val();
+         $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: '/gsm/purchase/order/get_nama_barang/'+id,
+            success: function(data) {
+            	if(id != '0'){
+            		$("#deskripsi"+rowCount).val(data.nama_barang);
+            		if(data.photo != ''){
+			            $("#photo"+rowCount).attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+id+"/"+data.photo);
+			        }else{
+			            $("#photo"+rowCount).attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
+			        }
+            	}
+            }
+        });
+    })
 
 	$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
 	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).add("#pajak"+rowCount).keyup(function() {
@@ -397,17 +436,25 @@
     $('.harga').maskMoney({allowZero:true});
     $('.biaya_pengiriman').maskMoney({allowZero:true});
     $("#dibayar").maskMoney({allowZero:true}).attr('maxlength', 6);
+    $("#dibayar-nominal").maskMoney({allowZero:true});
     $('.harga').maskMoney({allowZero:true});
-    $('#dibayar, #biaya_pengiriman').keyup(function(){
+    $('#dibayar,#dibayar-nominal, #biaya_pengiriman').keyup(function(){
     	hitung();
     });
+
     function hitung()
     {
+    	if($('#dp-persen-cek').is(':checked')){
+			$('#dibayar-nominal').val(parseFloat(0));
+		}else{
+			$('#dibayar').val(parseFloat(0));
+		}
     	var a = parseInt($('#jumlah'+rowCount).val()),
         	b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
         	c = parseFloat($('#disc'+rowCount).val()),
         	p = parseFloat($('#pajak'+rowCount).val()).toFixed(2),
         	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
+        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
         	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
         	d = (a*b)*(c/100),//jumlah diskon
        		val = (a*b)-d,
@@ -418,27 +465,131 @@
         	total = 0;
 
         $('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
-        $('#subpajak'+rowCount).val(subPajak);
         $("#subdisc"+rowCount).val(addCommas(parseFloat(disc).toFixed(2)));
-        $('.subpajak').each(function (index, element) {
-            jmlPajak = jmlPajak + parseInt($(element).val());
-        });
         $('.subtotal').each(function (index, element) {
             total = total + parseInt($(element).val().replace(/,/g,""));
         });
         $('.subdisc').each(function (index, element) {
             jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
         });
+
+        if($('#kpajak1').is(':checked')){
+			parseFloat($('#totalPajak').val(total*(10/100)));
+		}else{
+			$('#totalPajak').val(parseFloat(0));
+		}
+		if($('#kpajak2').is(':checked')){
+			$('#totalp2').val(parseFloat(total*(2/100)));
+		}else{
+			$('#totalp2').val(parseFloat(0));
+		}
+		if($('#kpajak3').is(':checked')){
+			$('#totalp3').val(parseFloat(total*(2/100)));
+		}else{
+			$('#totalp3').val(parseFloat(0));
+		}
+
+		p1 = parseFloat($("#totalPajak").val()),
+		p2 = parseFloat($("#totalp2").val()),
+        p3 = parseFloat($("#totalp3").val()),
+
         total = total+biayaPengiriman;
-        totalpluspajak = total + jmlPajak;
-        diBayar = total * (diBayar/100);
-        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
+        ttotalpluspajak = total+p1+p2+p3;
+        diBayar = totalpluspajak * (diBayar/100);
+
+        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
         $('#total').val(addCommas(parseFloat(total).toFixed(2)));
-        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
-         $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-        var saldo = total-diBayar;
-        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
+        
+        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
+        var saldo = totalpluspajak-diBayar-diBayarNominal;
+        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
     }
+}
+
+function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
+
+$("input:checkbox:not(:checked)").each(function() {
+	    var total = "#total"+$(this).attr("class");
+	    $(total).hide();
+	});
+
+	$("input:checkbox").click(function(){
+	    var total = "#total"+$(this).attr("class");
+	    $(total).toggle();
+	    hitungTotal();
+	});
+
+
+$("#dp-persen-cek:not(:checked)").each(function() {
+	     $("#dp-persen").hide("slow");
+	     $("#dp-nominal").show("slow");
+	});
+
+	$("#dp-persen-cek").click(function(){
+	     $("#dp-persen").toggle("slow");
+	     $("#dp-nominal").toggle("slow");
+	     hitungTotal();
+	});
+
+function hitungTotal()
+{
+
+
+	if($('#dp-persen-cek').is(':checked')){
+		$('#dibayar-nominal').val(parseFloat(0));
+	}else{
+		$('#dibayar').val(parseFloat(0));
+	}
+
+    	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
+    	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
+    	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
+    	jmlDisc = 0,
+    	total = 0;
+    $('.subdisc').each(function (index, element) {
+        jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
+    });
+
+    $('.subtotal').each(function (index, element) {
+        total = total + parseFloat($(element).val().replace(/,/g,""));
+    });
+
+    
+    if($('#kpajak1').is(':checked')){
+		parseFloat($('#totalPajak').val(total*(10/100)));
+	}else{
+		$('#totalPajak').val(parseFloat(0));
+	}
+	if($('#kpajak2').is(':checked')){
+		$('#totalp2').val(parseFloat(total*(2/100)));
+	}else{
+		$('#totalp2').val(parseFloat(0));
+	}
+	if($('#kpajak3').is(':checked')){
+		$('#totalp3').val(parseFloat(total*(2/100)));
+	}else{
+		$('#totalp3').val(parseFloat(0));
+	}
+
+	p1 = parseFloat($("#totalPajak").val()),
+	p2 = parseFloat($("#totalp2").val()),
+    p3 = parseFloat($("#totalp3").val()),
+
+    total = total+biayaPengiriman;
+    totalpluspajak = total+p1+p2+p3;
+    diBayar = totalpluspajak * (diBayar/100);
+    
+    var saldo = totalpluspajak-diBayar-diBayarNominal;
+    $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
+    $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+    
+    //$('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
+    $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
+    $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+    
+    $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
+    $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
+}
 
     function addCommas(nStr)
     {
@@ -452,6 +603,4 @@
       }
       return x1 + x2;
     }
-	}
-	function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
 </script>

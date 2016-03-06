@@ -187,7 +187,7 @@
 									$total = $total+$o->biaya_pengiriman;
 									$totalpluspajak = $total+$total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
-									$saldo = $totalpluspajak - $dp;
+									$saldo = $totalpluspajak - $dp- $o->dibayar_nominal;
 								?>
 							</tbody>
 						</table>
@@ -195,7 +195,7 @@
 				</div>
 				<hr/>
 
-					<div id="panel-total" class="panel-body col-md-4 pull-right">
+					<div id="panel-total" class="panel-body col-md-6 pull-right">
 						<ul class="list-group">
 							<?php
 							 $pajak_komponen = explode(',', $o->pajak_komponen_id);
@@ -283,12 +283,20 @@
 											</div>
 											<div class="col-md-2">
 											</div>
+											<?php if($o->dibayar != 0){?>
 											<div class="col-md-4">
 											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->dibayar?>" readonly>
 											</div>
 											<div class="col-md-1">
 											%
 											</div>
+											<?php }else{?>
+											<div id="dp-nominal">
+												<div class="col-md-6">
+													<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="<?=number_format($o->dibayar_nominal, 2)?>" readonly>
+												</div>
+											</div>
+											<?php  } ?>
 										</div>
 									</li>
 								<li class="list-group-item">

@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/receive')?>"><?=$main_title?></a></span>
+				<span><a href="<?=base_url('purchase/request')?>"><?=$main_title?></a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url('purchase/receive/detail/'.$id)?>">Detail</a></span>
+				<span><a href="<?=base_url('purchase/request/detail/'.$id)?>">Detail</a></span>
 			</li>
 		</ol>
 	</div>

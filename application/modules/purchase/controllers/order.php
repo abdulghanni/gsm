@@ -21,6 +21,23 @@ class Order extends MX_Controller {
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
     }
 
+    function draft($id){
+        $this->data['title'] = $this->title.' - Input';
+        permissionUser();
+         $this->data['id'] = $id;
+        $this->data[$this->file_name] = $this->main->get_detail($id);
+        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
+        $this->data['barang'] = getAll('barang')->result_array();
+        $this->data['satuan'] = getAll('satuan')->result_array();
+        $this->data['kurensi'] = getAll('kurensi')->result();
+        $this->data['metode'] = getAll('metode_pembayaran')->result();
+        $this->data['gudang'] = getAll('gudang')->result();
+        $this->data['users'] = getAll('users');
+        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
+        $this->data['kontak'] = getAll('kontak', array('jenis_id'=>'where/1'));
+        $this->_render_page($this->module.'/'.$this->file_name.'/draft', $this->data);
+    }
+
     function input()
     {
         $this->data['title'] = $this->title.' - Input';
@@ -58,8 +75,82 @@ class Order extends MX_Controller {
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
+    function add_draft()
+    {
+        permissionUser();
+        $po = $this->input->post('po');
+        $list = array(
+                        'kode_barang'=>$this->input->post('kode_barang'),
+                        'deskripsi'=>$this->input->post('deskripsi'),
+                        'jumlah'=>$this->input->post('jumlah'),
+                        'satuan'=>$this->input->post('satuan'),
+                        'harga'=>$this->input->post('harga'),
+                        'disc'=>$this->input->post('disc'),
+                        'pajak'=>$this->input->post('pajak'),
+                        );//print_mz($list);
+        $data = array(
+                'no' => $this->input->post('no'),
+                'kontak_id'=>$this->input->post('kontak_id'),
+                'up'=>$this->input->post('up'),
+                'alamat'=>$this->input->post('alamat'),
+                'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
+                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
+                'po'=>$this->input->post('po'),
+                'gudang_id'=>$this->input->post('gudang_id'),
+                'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
+                'kurensi_id'=>$this->input->post('kurensi_id'),
+                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
+                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
+                'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
+                'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
+                'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
+                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
+                'gtotal' =>str_replace(',', '', $this->input->post('gtotal')),
+                'catatan' =>$this->input->post('catatan'),
+                'proyek' =>$this->input->post('proyek'),
+                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
+                'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
+                'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
+                'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
+                'diskon_tambahan_nominal' => str_replace(',', '', $this->input->post('diskon_tambahan_nominal')),
+                'diskon_tambahan_persen' => str_replace(',', '', $this->input->post('diskon_tambahan_persen')),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
+                'is_draft' => 1
+            );
+        $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$po))->num_rows();
+        if($num_rows>0){
+            $this->db->where('po', $po)->update($this->table_name, $data);
+            $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$po));
+        }else{
+            $this->db->insert($this->table_name, $data);
+            $insert_id = $this->db->insert_id();
+        }
+        $this->db->where($this->file_name.'_id', $insert_id)->delete($this->table_name.'_list');
+        for($i=0;$i<sizeof($list['kode_barang']);$i++):
+            $data2 = array(
+                $this->file_name.'_id' => $insert_id,
+                'kode_barang' => $list['kode_barang'][$i],
+                'deskripsi' => $list['deskripsi'][$i],
+                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
+                'satuan_id' => $list['satuan'][$i],
+                'harga' => str_replace(',', '', $list['harga'][$i]),
+                'disc' => str_replace(',', '', $list['disc'][$i]),
+                'pajak' => str_replace(',', '', $list['pajak'][$i]),
+                );
+        $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
+        if($num_rows_list>0){
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
+        }else{
+        $this->db->insert($this->table_name.'_list', $data2);
+        }
+        endfor;
+        echo json_encode(array('status'=>true));
+    }
+
     function add()
     {
+        $po = $this->input->post('po');
         permissionUser();
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
@@ -99,10 +190,18 @@ class Order extends MX_Controller {
                 'diskon_tambahan_persen' => str_replace(',', '', $this->input->post('diskon_tambahan_persen')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
+                'is_draft' => 0
             );
 
-        $this->db->insert($this->module.'_'.$this->file_name, $data);
-        $insert_id = $this->db->insert_id();
+        $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$po))->num_rows();
+        if($num_rows>0){
+            $this->db->where('po', $po)->update($this->table_name, $data);
+            $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$po));
+        }else{
+            $this->db->insert($this->table_name, $data);
+            $insert_id = $this->db->insert_id();
+        }
+        $this->db->where($this->file_name.'_id', $insert_id)->delete($this->table_name.'_list');
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
@@ -114,7 +213,12 @@ class Order extends MX_Controller {
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 );
-        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
+        $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
+        if($num_rows_list>0){
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
+        }else{
+        $this->db->insert($this->table_name.'_list', $data2);
+        }
         endfor;
         
         $this->send_notification($insert_id);
@@ -186,6 +290,7 @@ class Order extends MX_Controller {
         foreach ($list as $r) {
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
             $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
             $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
             $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
@@ -214,17 +319,27 @@ class Order extends MX_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = "<a href=$detail>#".$r->po.'</a>';
+            $row[] = ($r->is_draft == 1)?"<a href=$draft>#".$r->po.'</a>' : "<a href=$detail>#".$r->po.'</a>';
             $row[] = $r->kontak;
             $row[] = dateIndo($r->tanggal_transaksi);
             $row[] = $r->gudang;
-            $row[] = $status1;
-            $row[] = $status2;
-            $row[] = $status3;
-            $row[] = $status4;
-
+            if($r->is_draft == 1){
+            $row[] = 'Draft';
+            $row[] = 'Draft';
+            $row[] = 'Draft';
+            $row[] = 'Draft';
+            }else{
+                $row[] = $status1;
+                $row[] = $status2;
+                $row[] = $status3;
+                $row[] = $status4;
+            }
+            if($r->is_draft == 1){
+            $row[] = "<a class='btn btn-sm btn-primary' href=$draft title='Edit Draft'><i class='fa fa-pencil'></i></a>";
+            }else{
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
+            }
             $data[] = $row;
         }
 
@@ -379,7 +494,9 @@ class Order extends MX_Controller {
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
-                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
+                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input',
+                                              $this->module.'/'.$this->file_name.'/draft'
+                                              )))
                 {
                     $this->template->set_layout('default');
 

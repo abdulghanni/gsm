@@ -23,6 +23,7 @@ class request_model extends CI_Model {
         $this->db->select(
             $this->table.'.id as id,
             '.$this->table.'.no as no,
+            '.$this->table.'.no as no,is_draft,
             '.$this->table.'.diajukan_ke,
             '.$this->table.'.tanggal_digunakan,
             '.$this->table.'.keperluan,
@@ -98,6 +99,7 @@ class request_model extends CI_Model {
             $this->table.'.id as id,
             '.$this->table.'.no as no,
             '.$this->table.'.diajukan_ke,
+            '.$this->table.'.gudang_id,
             '.$this->table.'.tanggal_digunakan,
             '.$this->table.'.keperluan,
             '.$this->table.'.jenis_barang_id,
@@ -137,7 +139,7 @@ class request_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.id as barang_id,barang.photo as photo,barang.kode as kode_barang, purchase_request_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id,satuan_id, barang.photo as photo,barang.kode as kode_barang, purchase_request_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list)
                   ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id')

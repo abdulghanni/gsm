@@ -17,26 +17,7 @@ $(document).ready(function() {
         }
     })
     .change();
-/*
-    $("#kontak_id").change(function(){
-        var id = $(this).val();
-        $(document).find("select.select2").select2();
-        if(id != 0)getAlamat(id);
-    })
-    .change();
 
-    function getAlamat(id)
-    {
-        $.ajax({
-            type: 'POST',
-            url: '/gsm/purchase/order/alamat/'+id,
-            data: {id : empId},
-            success: function(data) {
-                $('#alamat').html(data);
-            }
-        });
-    }
-*/
     $('#btnAdd').on('click', function () {
         $(document).find("select.select2").select2();
         $('#btnRemove').show();
@@ -62,4 +43,36 @@ $(document).ready(function() {
     .change();
 
     $('#dibayar, #biaya_pengiriman').maskMoney({allowZero:true});
+    
+    $("#kontak_id").change(function(){
+        var id = $(this).val();
+        if(id != 0)getAlamat(id);
+        if(id != 0)getUp(id);
+    })
+    .change();
+
+    function getAlamat(id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/gsm/purchase/order/get_alamat/'+id,
+            data: {id : id},
+            success: function(data) {
+                $('#alamat').html(data);
+            }
+        });
+    }
+
+    function getUp(id)
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/gsm/purchase/order/get_up/'+id,
+            data: {id : id},
+            success: function(data) {
+                $('#up').html(data);
+            }
+        });
+    }
+
 });

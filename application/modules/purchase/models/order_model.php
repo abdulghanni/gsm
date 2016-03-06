@@ -28,6 +28,7 @@ class order_model extends CI_Model {
             $this->table.'.id as id,
             '.$this->table.'.no as no,
             '.$this->table.'.po as po,
+            '.$this->table.'.is_draft,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
              '.$this->table.'.app_status_id_lv1,
             '.$this->table.'.app_status_id_lv2,
@@ -115,6 +116,7 @@ class order_model extends CI_Model {
     function get_detail($id)
     {
         $q = $this->db->select('no, kontak.title as kontak,
+                                kontak_id,
                                 purchase_order.up, 
                                 purchase_order.alamat,
                                 metode_pembayaran_id, 
@@ -122,8 +124,10 @@ class order_model extends CI_Model {
                                 tanggal_transaksi, 
                                 po, 
                                 gudang.title as gudang, 
+                                gudang_id,
                                 jatuh_tempo_pembayaran, 
                                 kurensi.title as kurensi, 
+                                kurensi_id,
                                 biaya_pengiriman, 
                                 dibayar, 
                                 dibayar_nominal,
@@ -173,7 +177,7 @@ class order_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.id as barang_id, barang.photo,barang.kode as kode_barang,barang.title as nama_barang, purchase_order_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id,satuan_id, barang.photo,barang.kode as kode_barang,barang.title as nama_barang, purchase_order_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list)
                   ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id', 'left')

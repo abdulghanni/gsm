@@ -127,24 +127,13 @@ td{ height:30px;}
 		$total = $total+$o->biaya_pengiriman;
 		$totalpluspajak = $total+$total_pajak;
 		$dp = $totalpluspajak * ($o->dibayar/100);
-		$saldo = $totalpluspajak - $dp;
+		$saldo = $totalpluspajak - $dp -$o->dibayar_nominal;
 	?>
 	
 	</table>
 
 <?php endforeach;?>
 <br/>
-<!--
-
-<div class="catatan">
-<?php if(!empty($o->catatan)):?>
-Catatan :<br/>
-<textarea class="catatan"><?=$o->catatan?></textarea>
-<?php endif;?>
-</div>
-
--->
-
 
 <div class="myfixed1">
 	<table table width="1000" style="border:0">
@@ -236,13 +225,14 @@ Catatan :<br/>
 	</tr>
 
 	
+	<?php $dp = ($o->dibayar !=0) ? number_format($o->dibayar,2).' %':number_format($o->dibayar_nominal, 2);?>
 	<tr>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Dibayar<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
-		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($o->dibayar,2)?> %<?php endif; ?></td>
+		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=$dp?><?php endif; ?></td>
 	</tr>
 
 	<tr>

@@ -42,6 +42,27 @@ class Request extends MX_Controller {
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
+    function draft($id){
+        $this->data['title'] = $this->title.' - Input';
+        $this->data['main_title'] = $this->main_title;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['module'] = $this->module;
+        permissionUser();
+        $this->data[$this->file_name] = $this->main->get_detail($id)->row();
+        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
+        $this->data['user_app_lv1'] = getValue('diajukan_ke', 'purchase_request', array('id'=>'where/'.$id));
+        $num_rows = getAll($this->table_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'desc')->limit(1)->get($this->table_name)->last_row()->id : 0;
+        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        $this->data['barang'] = getAll('barang')->result_array();
+        $this->data['satuan'] = getAll('satuan')->result_array();
+        $this->data['options_satuan'] = options_row('main', 'get_satuan','id','title', '-- Pilih Satuan --');
+        $this->data['users'] = getAll('users')->result();
+        $this->data['gudang'] = getAll('gudang')->result();
+        $this->data['jenis'] = getAll('jenis_barang');
+        $this->_render_page($this->module.'/'.$this->file_name.'/draft', $this->data);
+    }
+
     function detail($id)
     {
         $this->data['main_title'] = $this->main_title;
@@ -63,17 +84,67 @@ class Request extends MX_Controller {
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
-    function add()
+    function add_draft()
     {
         permissionUser();
+        $no = $this->input->post('no');
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
                         'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
-                        'disc'=>$this->input->post('disc'),
-                        'pajak'=>$this->input->post('pajak'),
+                        );//print_mz($list);
+        $data = array(
+                'no' => $no,
+                'diajukan_ke'=>$this->input->post('diajukan_ke'),
+                'tanggal_digunakan'=>date('Y-m-d',strtotime($this->input->post('tanggal_digunakan'))),
+                'gudang_id'=>$this->input->post('gudang_id'),
+                'keperluan'=>$this->input->post('keperluan'),
+                'jenis_barang_id'=>$this->input->post('jenis_barang_id'),
+                'catatan' =>$this->input->post('catatan'),
+                'is_draft' => 1,
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
+            );
+        $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$no))->num_rows();
+        if($num_rows>0){
+            $this->db->where('no', $no)->update($this->table_name, $data);
+            $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$no));
+        }else{
+            $this->db->insert($this->table_name, $data);
+            $insert_id = $this->db->insert_id();
+        }
+        $this->db->where($this->file_name.'_id', $insert_id)->delete($this->table_name.'_list');
+        for($i=0;$i<sizeof($list['kode_barang']);$i++):
+            $data2 = array(
+                $this->file_name.'_id' => $insert_id,
+                'kode_barang' => $list['kode_barang'][$i],
+                'deskripsi' => $list['deskripsi'][$i],
+                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
+                'satuan_id' => $list['satuan'][$i],
+                'harga' => str_replace(',', '', $list['harga'][$i]),
+                );
+        $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
+        if($num_rows_list>0){
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
+        }else{
+        $this->db->insert($this->table_name.'_list', $data2);
+        }
+        endfor;
+        echo json_encode(array('status'=>true));
+    }
+    
+    function add()
+    {
+        permissionUser();
+        $no = $this->input->post('no');
+        $list = array(
+                        'kode_barang'=>$this->input->post('kode_barang'),
+                        'deskripsi'=>$this->input->post('deskripsi'),
+                        'jumlah'=>$this->input->post('jumlah'),
+                        'satuan'=>$this->input->post('satuan'),
+                        'harga'=>$this->input->post('harga'),
                         );
         $data = array(
                 'no' => $this->input->post('no'),
@@ -83,12 +154,19 @@ class Request extends MX_Controller {
                 'keperluan'=>$this->input->post('keperluan'),
                 'jenis_barang_id'=>$this->input->post('jenis_barang_id'),
                 'catatan' =>$this->input->post('catatan'),
+                'is_draft' => 0,
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
-
-        $this->db->insert($this->table_name, $data);
-        $insert_id = $this->db->insert_id();
+        $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$no))->num_rows();
+        if($num_rows>0){
+            $this->db->where('no', $no)->update($this->table_name, $data);
+            $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$no));
+        }else{
+            $this->db->insert($this->table_name, $data);
+            $insert_id = $this->db->insert_id();
+        }
+        $this->db->where($this->file_name.'_id', $insert_id)->delete($this->table_name.'_list');
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
@@ -97,10 +175,13 @@ class Request extends MX_Controller {
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
-                'disc' => str_replace(',', '', $list['disc'][$i]),
-                'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 );
+        $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
+        if($num_rows_list>0){
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
+        }else{
         $this->db->insert($this->table_name.'_list', $data2);
+        }
         endfor;
         $this->send_notification($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
@@ -161,8 +242,7 @@ class Request extends MX_Controller {
         foreach ($list as $r) {
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
-            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
-            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
             if(!empty($r->diajukan_ke)){
                 $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
             }else{
@@ -178,16 +258,26 @@ class Request extends MX_Controller {
             $no++;
             $row = array();
             $row[] = $no;
-            $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = ($r->is_draft == 1)?"<a href=$draft>#".$r->no.'</a>' : "<a href=$detail>#".$r->no.'</a>';
             $row[] = $r->tanggal_digunakan;
             $row[] = $r->gudang;
-            $row[] = $status1;
-            $row[] = $status2;
-            $row[] = $status3;
-            $row[] = $status4;
-
+            if($r->is_draft == 1){
+            $row[] = 'Draft';
+            $row[] = 'Draft';
+            $row[] = 'Draft';
+            $row[] = 'Draft';
+            }else{
+                $row[] = $status1;
+                $row[] = $status2;
+                $row[] = $status3;
+                $row[] = $status4;
+            }
+            if($r->is_draft == 1){
+            $row[] = "<a class='btn btn-sm btn-primary' href=$draft title='Edit Draft'><i class='fa fa-pencil'></i></a>";
+            }else{
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
+            }
             $data[] = $row;
         }
 
@@ -293,7 +383,9 @@ class Request extends MX_Controller {
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
-                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
+                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input',
+                                              $this->module.'/'.$this->file_name.'/draft'  
+                    )))
                 {
                     $this->template->set_layout('default');
 
