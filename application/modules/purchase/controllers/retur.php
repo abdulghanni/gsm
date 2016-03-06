@@ -5,7 +5,7 @@ class Retur extends MX_Controller {
     var $module = 'purchase';
     var $title = 'Retur';
     var $file_name = 'retur';
-    var $main_title = 'Retur Pembelian';
+    var $main_title = 'Retur';
     var $table_name = 'purchase_return';
     function __construct()
     {
@@ -38,8 +38,8 @@ class Retur extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
-        $this->data['no'] = GetAllSelect('pembelian', array('id','no'), array('id'=>'order/desc'))->result();
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
+        $this->data['po'] = GetAllSelect('purchase_order', array('id','po'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -49,19 +49,27 @@ class Retur extends MX_Controller {
         $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);print_mz($this->data[$this->file_name]);
+        $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
-    function get_dari_pembelian($id)
+    function get_dari_po($id)
     {
         permissionUser();
 
+        $num_rows = getAll($this->table_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
+        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        $approver1 = '1';
+        $this->data['jabatan_lv1'] = getUserGroup($approver1);
+        $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
+        $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
         $this->data['order'] = $this->main->get_detail_po($id);
         $this->data['order_list'] = $this->main->get_list_detail_po($id);
-        $this->load->view($this->module.'/'.$this->file_name.'/dari_pembelian', $this->data);
+        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
+        $this->load->view($this->module.'/'.$this->file_name.'/dari_po', $this->data);
     }
 
     function add()
@@ -70,8 +78,8 @@ class Retur extends MX_Controller {
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
-                        'diterima'=>$this->input->post('diterima'),
                         'diretur'=>$this->input->post('diretur'),
+                        'diterima'=>$this->input->post('diterima'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
@@ -94,10 +102,13 @@ class Retur extends MX_Controller {
                 'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
+                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
+                'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
+                'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
+                'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
             );
 
         $this->db->insert($this->table_name, $data);
@@ -107,8 +118,8 @@ class Retur extends MX_Controller {
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
-                'diterima' => str_replace(',', '', $list['diterima'][$i]),
                 'diretur' => str_replace(',', '', $list['diretur'][$i]),
+                'diterima' => str_replace(',', '', $list['diterima'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
@@ -136,7 +147,6 @@ class Retur extends MX_Controller {
             $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->tanggal_pengiriman;
-            $row[] = $r->metode_pembayaran;
             $row[] = $r->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
@@ -164,10 +174,28 @@ class Retur extends MX_Controller {
         
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+        $this->mpdf = new mPDF();
+        $this->mpdf->AddPage('p', // L - landscape, P - portrait
+            '', '', '', '',
+            5, // margin_left
+            5, // margin right
+            5, // margin top
+            0, // margin bottom
+            0, // margin header
+            5); // margin footer
+        $this->mpdf->WriteHTML($html);
+        $this->mpdf->Output($id.'-'.'.pdf', 'I');
+    }
+
+    //FOR JS
+
+    function get_kontak_detail($id)
+    {
+        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
+        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
+
+        echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
+
     }
     
     function _render_page($view, $data=null, $render=false)

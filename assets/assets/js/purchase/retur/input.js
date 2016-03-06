@@ -13,7 +13,7 @@ $(document).ready(function() {
         var id = $(this).val();
         if(id != 0){
             id = id.substring(0,1);
-            $('#dari-pembelian').load('get_dari_pembelian/'+id);
+            $('#dari-pembelian').load('get_dari_po/'+id);
         }
     })
     .change();
