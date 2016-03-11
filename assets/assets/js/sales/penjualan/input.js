@@ -14,7 +14,10 @@ $(document).ready(function() {
 
     $("#list_so").change(function(){
         var id = $(this).val();
-        if(id != 0)$('#dari-so').load('get_dari_so/'+id);
+        if(id != 0){
+            $('#dari-so').load('get_dari_so/'+id);
+            $("#add_so").show();
+        }
     })
     .change();
     
@@ -33,6 +36,22 @@ $(document).ready(function() {
             success: function(data) {
                 $('#up').val(data.up);
                 $('#alamat').val(data.alamat);
+            }
+        });
+    }
+
+    $('#add_so').on('click', function () {
+        $(document).find("select.select2").select2();
+       addSo();
+    });
+
+    function addSo()
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/gsm/sales/penjualan/add_so/',
+            success: function(data) {
+                $('#select_so').append(data);
             }
         });
     }

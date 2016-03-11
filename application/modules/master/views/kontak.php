@@ -19,11 +19,43 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12 space20">
-                <a href="<?=base_url().$module.'/'.$file_name.'/add'?>">
-                    <button class="btn btn-green add-row">
-                        <?= lang('add') ?> <i class="fa fa-plus"></i>
-                    </button>
-                </a>
+                    <a href="<?=base_url().$module.'/'.$file_name.'/add'?>">
+                        <button class="btn btn-green add-row">
+                            <?= lang('add') ?> <i class="fa fa-plus"></i>
+                        </button>
+                    </a>
+                    <div class="btn-group">
+                        <a href="#" data-toggle="dropdown" class="btn btn-azure dropdown-toggle">
+                            Export <i class="fa fa-upload"></i> <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="<?=base_url('master/kontak/pdf')?>" target="_blank">
+                                    PDF
+                                </a>
+                            </li>
+                            <li>
+                                <a href="<?=base_url('master/kontak/excel')?>" target="_blank">
+                                    XLS
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#">
+                                    DOC
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <span class="btn btn-light-azure fileinput-button"><span>Import <i class="fa fa-download"></i></span>
+                        <input name="files[]" multiple="" type="file">
+                    </span>
+                    <!--
+                    <a href="<?=assets_url('template/barang.xlsx')?>">
+                        <span class="btn btn-light-azure fileinput-button"><span>Template Upload <i class="fa fa-file"></i></span>
+                            <input name="files[]" multiple="" type="file">
+                        </span>
+                    </a>
+                    -->
                 </div>
             </div>
             <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
@@ -36,7 +68,7 @@
                             <th width="20%">Nama</th>
                             <th width="10%">Jenis</th>
                             <th width="10%">Tipe</th>
-                            <th width="10%">Email</th>
+                            <th width="10%">Telp.</th>
                             <th width="10%"><?php echo "action";?></th>
                         </tr>
                     </thead>

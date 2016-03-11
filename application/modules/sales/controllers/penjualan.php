@@ -203,6 +203,23 @@ class Penjualan extends MX_Controller {
         $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
         $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
     }
+
+    function get_dari_so_lain($id)
+    {
+        permissionUser();
+        $row_count = $this->input->post('row_count');
+        $this->data['row_count'] = $row_count + 1;
+        $this->data['order_list'] = $this->main->get_list_detail_so($id);
+        $this->load->view($this->module.'/'.$this->file_name.'/dari_so_lain', $this->data);
+    }
+
+    function add_so(){
+        permissionUser();
+
+         $this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
+        $this->load->view($this->module.'/'.$this->file_name.'/no_so', $this->data);
+    }
+
 	function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

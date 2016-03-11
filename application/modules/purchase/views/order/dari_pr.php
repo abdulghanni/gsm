@@ -158,7 +158,7 @@
 				<thead>
 					<tr>
 						<th width="1%">#</th>
-						<th width="1%"> No. </th>
+						<!--<th width="1%"> No. </th>-->
 						<th width="5%"> Kode Barang </th>
 						<th width="8%"> SS Barang </th>
 						<th width="15%"> Nama Barang </th>
@@ -187,7 +187,7 @@
 						</div>
 						</td>
 						<?php $src = (!empty($ol->photo))?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
-						<td><?=$i++?></td>
+						<!--<td><?=$i++?></td>-->
 						<td><?=$ol->kode_barang?></td>
 						<td><img height="75px" width="75px" src="<?=$src?>"></td>
 						<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->barang_id?>">
@@ -204,8 +204,9 @@
 						<input type="text" name="disc[]" class="form-control text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>">
 						<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$i?>">
 						</td>
-						<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
-						</tr>
+						<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly>
+						</td>
+					</tr>
 					<script>
 					$("#harga<?=$i?>").maskMoney({allowZero:true});
 					$("#disc<?=$i?>").add('#diskon-tambahan').add("#harga<?=$i?>").add("#jumlah<?=$i?>").add("#dibayar").add("#dibayar-nominal").add("#biaya_pengiriman").keyup(function() {
@@ -460,8 +461,6 @@
     
 					function hitung()
 					{
-
-
 						if($('#dp-persen-cek').is(':checked')){
 							$('#dibayar-nominal').val(parseFloat(0));
 						}else{

@@ -14,6 +14,7 @@ $(document).ready(function() {
         var id = $(this).val();
         if(id != 0){
             $('#dari-pr').load('get_dari_pr/'+id);
+            $("#add_pr").show();
         }
     })
     .change();
@@ -23,6 +24,11 @@ $(document).ready(function() {
         $('#btnRemove').show();
         $('#btnSubmit').show("slow");
         $('#panel-total').show("slow");
+    });
+
+    $('#add_pr').on('click', function () {
+        $(document).find("select.select2").select2();
+       addPr();
     });
 
     $('input:radio[name=metode_pembayaran_id]').click(function() {
@@ -59,6 +65,17 @@ $(document).ready(function() {
             data: {id : id},
             success: function(data) {
                 $('#alamat').html(data);
+            }
+        });
+    }
+
+    function addPr()
+    {
+        $.ajax({
+            type: 'POST',
+            url: '/gsm/purchase/order/add_pr/',
+            success: function(data) {
+                $('#select_pr').append(data);
             }
         });
     }

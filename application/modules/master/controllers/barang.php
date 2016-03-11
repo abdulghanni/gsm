@@ -291,6 +291,25 @@ class Barang extends MX_Controller {
         $this->barang->delete_by_id($id);
         echo json_encode(array("status" => TRUE));
     }
+
+    function pdf(){
+        permissionUser();
+        $this->data['data'] = $this->barang->get_barang();
+        $this->load->library('mpdf60/mpdf');
+        $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
+        $this->mpdf = new mPDF();
+        $this->mpdf->AddPage('p', // L - landscape, P - portrait
+            '', '', '', '',
+            5, // margin_left
+            5, // margin right
+            5, // margin top
+            0, // margin bottom
+            0, // margin header
+            5); // margin footer
+    $this->mpdf->WriteHTML($html);
+    $this->mpdf->Output('Master Barang'.'.pdf', 'I');
+    }
+
     function excel()
     {
     //load our new PHPExcel library
@@ -301,39 +320,49 @@ class Barang extends MX_Controller {
         $this->excel->getActiveSheet()->setTitle('Master Barang');
 
 
-        $this->excel->getActiveSheet()->mergeCells('C1:E1');
-        $this->excel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->excel->getActiveSheet()->mergeCells('A1:G6');
+        //$this->excel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
 
         $objDrawing = new PHPExcel_Worksheet_Drawing();
         $objDrawing->setName('Logo');
         $objDrawing->setDescription('Logo');
-        $objDrawing->setPath(base_url('assets/images/logo-po.jpg'));
-        $objDrawing->setHeight(36);
+        $objDrawing->setPath('D:/logo-po.jpg');
+        $objDrawing->setCoordinates('C1');
+        $objDrawing->setOffsetX(150);
+        $objDrawing->setHeight(108);
+        $objDrawing->setWidth(637);
 
         $objDrawing->setWorksheet($this->excel->getActiveSheet());
 
-        $this->excel->getActiveSheet()->setCellValue('C1', 'PT Gramaselindo');
+        //$this->excel->getActiveSheet()->setCellValue('C1', 'PT Gramaselindo');
 
          $this->excel->getActiveSheet()->setCellValue('A7', 'No');
          $this->excel->getActiveSheet()->setCellValue('B7', 'Kode');
          $this->excel->getActiveSheet()->setCellValue('C7', 'Deskripsi');
          $this->excel->getActiveSheet()->setCellValue('D7', 'Alias');
          $this->excel->getActiveSheet()->setCellValue('E7', 'Jenis Barang');
-         $this->excel->getActiveSheet()->setCellValue('F7', 'Satuan');
+         $this->excel->getActiveSheet()->setCellValue('F7', 'Satuan Dasar');
+         $this->excel->getActiveSheet()->setCellValue('G7', 'Satuan Laporan');
 
 
         for($col = ord('A'); $col <= ord('F'); $col++){
             //set column dimension
-            $this->excel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(true);
+            $this->excel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(false);
              //change the font size
             $this->excel->getActiveSheet()->getStyle(chr($col))->getFont()->setSize(12);
         }
 
         $this->excel->getActiveSheet()->getStyle(chr(ord('A')))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $this->excel->getActiveSheet()->getStyle(chr(ord('B')))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $this->excel->getActiveSheet()->getColumnDimension('C')->setSize(40);
+        $this->excel->getActiveSheet()->getStyle(chr(ord('C')))->getAlignment()->setWrapText(true);;
+        $this->excel->getActiveSheet()->getStyle(chr(ord('D')))->getAlignment()->setWrapText(true);;
+        $this->excel->getActiveSheet()->getColumnDimension('C')->setWidth(75);
+        $this->excel->getActiveSheet()->getColumnDimension('D')->setWidth(25);
+        $this->excel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+        $this->excel->getActiveSheet()->getColumnDimension('F')->setWidth(20);
+        $this->excel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
 
-        $rs = $this->barang->get_barang();
+        $rs = $this->barang->get_barang();//print_//mz($rs);
                 $exceldata="";
         foreach ($rs as $row){
                 $exceldata[] = $row;
@@ -345,7 +374,7 @@ class Barang extends MX_Controller {
                 $this->excel->getActiveSheet()->getStyle('B7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
                 $this->excel->getActiveSheet()->getStyle('C7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
         $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
-        $filename='just_some_random_name.xls'; //save our workbook as this file name
+        $filename='Master Barang.xls'; //save our workbook as this file name
         header('Content-Type: application/vnd.ms-excel'); //mime type
         header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
         header('Cache-Control: max-age=0'); //no cache

@@ -197,7 +197,7 @@ class Order extends MX_Controller {
         $this->db->insert($this->table_name.'_list', $data2);
         }
         endfor;
-        $this->send_notif($order_id);
+        $this->send_notif($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 

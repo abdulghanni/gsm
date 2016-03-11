@@ -51,6 +51,19 @@
 						</div>
 					</div>
 				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="col-md-4">
+						</div>
+						<div class="col-md-8">
+							<button id="add_so" type="button" class="btn btn-xs btn-green" style="display: none">
+	                        	<?= lang('add') ?> S.O <i class="fa fa-plus"></i>
+	                    	</button>
+						</div>
+					</div>
+				</div><p></p>
+				<div id="select_so">
+				</div>
 				<hr>
 				<div id="dari-so">
 				<!--

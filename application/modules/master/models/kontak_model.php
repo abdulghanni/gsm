@@ -67,6 +67,36 @@ class kontak_model extends CI_Model {
 		}
 	}
 
+	function get_kontak()
+	{
+		
+		$this->db->select(
+			$this->table.'.id,
+			'.$this->table.'.kode,
+			'.$this->table.'.title,
+			'.$this->table_join1.'.title as jenis,
+			'.$this->table_join2.'.title as tipe,
+			'.$this->table.'.up,
+			'.$this->table.'.catatan,
+			'.$this->table.'.email,
+			'.$this->table.'.fax,
+			'.$this->table.'.telepon,
+			'.$this->table.'.alamat,
+			'.$this->table.'.npwp,
+			'.$this->table.'.no_rekening,
+			'.$this->table.'.bank,
+			'.$this->table.'.a_n,
+			'.$this->table.'.alamat_pajak,
+			'.$this->table.'.acc,
+			');
+		$this->db->from($this->table);
+		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.jenis_id', 'left');
+		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.tipe_id', 'left');
+
+		$q = $this->db->get();
+		return $q->result_array();
+	}
+
 	function get_detail($id){
 		$this->db->select(
 			$this->table.'.*

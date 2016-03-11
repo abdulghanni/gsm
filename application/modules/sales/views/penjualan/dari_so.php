@@ -150,7 +150,7 @@
 				<thead>
 					<tr>
 						<th width="1%">#</th>
-						<th width="1%"> No </th>
+						<!--<th width="1%"> No </th>-->
 						<th width="10%"> Kode Barang </th>
 						<th width="9%"> SS Barang </th>
 						<th width="10%"> Nama Barang </th>
@@ -181,7 +181,7 @@
 							</label>
 						</div>
 						</td>
-						<td><?=$i++?></td>
+						<!--<td><?=$i++?></td>-->
 						<td><?=$ol->kode_barang?></td>
 						<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->barang_id?>">
 						<td><img height="75px" width="75px" src="<?=$src?>"></td>

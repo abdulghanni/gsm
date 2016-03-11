@@ -152,6 +152,103 @@ class kontak extends MX_Controller {
         echo json_encode(array("status" => TRUE));
     }
 
+    function pdf(){
+        permissionUser();
+        $this->data['data'] = $this->main->get_kontak();//print_mz($this->data['data']);
+        $this->load->library('mpdf60/mpdf');
+        $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
+        $this->mpdf = new mPDF();
+        $this->mpdf->AddPage('l', // L - landscape, P - portrait
+            '', '', '', '',
+            5, // margin_left
+            5, // margin right
+            5, // margin top
+            0, // margin bottom
+            0, // margin header
+            5); // margin footer
+    $this->mpdf->WriteHTML($html);
+    $this->mpdf->Output('Master Barang'.'.pdf', 'I');
+    }
+
+    function excel()
+    {
+    //load our new PHPExcel library
+        $this->load->library('excel');
+        //activate worksheet number 1
+        $this->excel->setActiveSheetIndex(0);
+        //name the worksheet
+        $this->excel->getActiveSheet()->setTitle('Master Kontak');
+
+
+        $this->excel->getActiveSheet()->mergeCells('A1:Q6');
+        //$this->excel->getActiveSheet()->getStyle('C1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $objDrawing = new PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('Logo');
+        $objDrawing->setDescription('Logo');
+        $objDrawing->setPath('D:/logo-po.jpg');
+        $objDrawing->setCoordinates('D1');
+        $objDrawing->setOffsetX(150);
+        $objDrawing->setHeight(108);
+        $objDrawing->setWidth(637);
+
+        $objDrawing->setWorksheet($this->excel->getActiveSheet());
+
+        //$this->excel->getActiveSheet()->setCellValue('C1', 'PT Gramaselindo');
+
+         $this->excel->getActiveSheet()->setCellValue('A7', 'No');
+         $this->excel->getActiveSheet()->setCellValue('B7', 'Kode');
+         $this->excel->getActiveSheet()->setCellValue('C7', 'Nama');
+         $this->excel->getActiveSheet()->setCellValue('D7', 'Tipe');
+         $this->excel->getActiveSheet()->setCellValue('E7', 'Jenis');
+         $this->excel->getActiveSheet()->setCellValue('F7', 'Up');
+         $this->excel->getActiveSheet()->setCellValue('G7', 'Catatan');
+         $this->excel->getActiveSheet()->setCellValue('H7', 'Email');
+         $this->excel->getActiveSheet()->setCellValue('I7', 'Fax');
+         $this->excel->getActiveSheet()->setCellValue('J7', 'Telepon');
+         $this->excel->getActiveSheet()->setCellValue('K7', 'Alamat');
+         $this->excel->getActiveSheet()->setCellValue('L7', 'NPWP');
+         $this->excel->getActiveSheet()->setCellValue('M7', 'No. Rek');
+         $this->excel->getActiveSheet()->setCellValue('N7', 'Nama Bank');
+         $this->excel->getActiveSheet()->setCellValue('O7', 'Atas Nama');
+         $this->excel->getActiveSheet()->setCellValue('P7', 'Alamat Pajak');
+         $this->excel->getActiveSheet()->setCellValue('Q7', 'ACC');
+
+
+        for($col = ord('A'); $col <= ord('Q'); $col++){
+            //set column dimension
+            $this->excel->getActiveSheet()->getColumnDimension(chr($col))->setAutoSize(TRUE);
+             //change the font size
+            $this->excel->getActiveSheet()->getStyle(chr($col))->getFont()->setSize(12);
+        }
+
+        $this->excel->getActiveSheet()->getStyle(chr(ord('A')))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->excel->getActiveSheet()->getStyle(chr(ord('B')))->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+
+        $rs = $this->main->get_kontak();//print_//mz($rs);
+                $exceldata="";
+        foreach ($rs as $row){
+                $exceldata[] = $row;
+        }
+                //Fill data 
+                $this->excel->getActiveSheet()->fromArray($exceldata, null, 'A8');
+                 
+                $this->excel->getActiveSheet()->getStyle('A7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('B7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+                $this->excel->getActiveSheet()->getStyle('C7')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $this->excel->getActiveSheet()->getStyle('A1')->getAlignment()->setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+        $filename='Master Kontak.xls'; //save our workbook as this file name
+        header('Content-Type: application/vnd.ms-excel'); //mime type
+        header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+        header('Cache-Control: max-age=0'); //no cache
+                    
+        //save it to Excel5 format (excel 2003 .XLS file), change this to 'Excel2007' (and adjust the filename extension, also the header mime type)
+        //if you want to save it as .XLSX Excel 2007 format
+        $objWriter = PHPExcel_IOFactory::createWriter($this->excel, 'Excel5');  
+        //force user to download the Excel file without writing it to server's HD
+        $objWriter->save('php://output');
+    }
+
 	function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

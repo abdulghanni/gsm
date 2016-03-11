@@ -355,7 +355,7 @@ class Order extends MX_Controller {
 
     function print_pdf($id)
     { 
-        //permissionUser();
+        permissionUser();
         $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
@@ -460,6 +460,22 @@ class Order extends MX_Controller {
         $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
         $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
         $this->load->view($this->module.'/'.$this->file_name.'/dari_pr', $this->data);
+    }
+
+    function get_dari_pr_lain($id)
+    {
+        permissionUser();
+        $row_count = $this->input->post('row_count');
+        $this->data['row_count'] = $row_count + 1;
+        $this->data['order_list'] = $this->main->get_list_detail_pr($id);
+        $this->load->view($this->module.'/'.$this->file_name.'/dari_pr_lain', $this->data);
+    }
+
+    function add_pr(){
+        permissionUser();
+
+        $this->data['pr'] = GetAllSelect('purchase_request', array('id','no'), array('id'=>'order/desc','app_status_id_lv4'=>'where/1', 'limit'=>'limit/100'))->result();
+        $this->load->view('purchase/order/no_pr', $this->data);
     }
 
     function get_alamat($id){

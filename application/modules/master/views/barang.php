@@ -29,16 +29,16 @@
                     -->
                     <div class="btn-group">
                         <a href="#" data-toggle="dropdown" class="btn btn-azure dropdown-toggle">
-                            Export <i class="fa fa-download"></i> <span class="caret"></span>
+                            Export <i class="fa fa-upload"></i> <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
                             <li>
-                                <a href="#">
+                                <a href="<?=base_url('master/barang/pdf')?>" target="_blank">
                                     PDF
                                 </a>
                             </li>
                             <li>
-                                <a href="#">
+                                <a href="<?=base_url('master/barang/excel')?>" target="_blank">
                                     XLS
                                 </a>
                             </li>
@@ -49,9 +49,16 @@
                             </li>
                         </ul>
                     </div>
-                    <span class="btn btn-light-azure fileinput-button"><span>Import <i class="fa fa-upload"></i></span>
+                    <span class="btn btn-light-azure fileinput-button"><span>Import <i class="fa fa-download"></i></span>
                         <input name="files[]" multiple="" type="file">
                     </span>
+                    <!--
+                    <a href="<?=assets_url('template/barang.xlsx')?>">
+                        <span class="btn btn-light-azure fileinput-button"><span>Template Upload <i class="fa fa-file"></i></span>
+                            <input name="files[]" multiple="" type="file">
+                        </span>
+                    </a>
+                    -->
                 </div>
             </div>
             <div class="row">

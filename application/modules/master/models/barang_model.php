@@ -138,11 +138,13 @@ class barang_model extends CI_Model {
 			'.$this->table.'.alias,
 			'.$this->table_join1.'.title as jenis_barang,
 			'.$this->table_join2.'.title as satuan,
+			'.'b.title as satuan_laporan,
 			');
 		$this->db->from($this->table);
 		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.jenis_barang_id', 'left');
 		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.satuan', 'left');
-
+		$this->db->join("$this->table_join2 as b", 'b.id = '.$this->table.'.satuan_laporan', 'left');
+		//$this->db->limit(10);
 		$q = $this->db->get();
 		return $q->result_array();
 	}
