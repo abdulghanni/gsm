@@ -4,13 +4,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class retur_model extends CI_Model {
 
     var $table = 'sales_return';
-    var $table_po = 'penjualan';
-    var $table_list_po = 'penjualan_list';
+    var $table_so = 'sales_order';
+    var $table_list_so = 'sales_order_list';
     var $table_join1 = 'kontak';
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('id', 'no','so', 'kontak', 'tanggal_pengantaran', 'tanggal_transaksi', 'metode_pembayaran', 'gudang'); //set column field database for order and search
+    var $column = array('id', 'no','so', 'kontak', 'tanggal_pengiriman', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -27,7 +27,7 @@ class retur_model extends CI_Model {
             '.$this->table.'.no as no,
             '.$this->table.'.so as so,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
-            '.$this->table.'.tanggal_pengantaran as tanggal_pengantaran,
+            '.$this->table.'.tanggal_pengiriman as tanggal_pengiriman,
             '.$this->table_join1.'.title as kontak,
             '.$this->table_join2.'.title as metode_pembayaran,
             '.$this->table_join4.'.title as gudang,
@@ -116,9 +116,11 @@ class retur_model extends CI_Model {
                                 metode_pembayaran_id,
                                 metode_pembayaran.title as metode_pembayaran,
                                 tanggal_transaksi, 
-                                tanggal_pengantaran, 
+                                tanggal_pengiriman, 
                                 so,
                                 gudang.title as gudang,
+                                gudang_id,
+                                kurensi_id,
                                 jatuh_tempo_pembayaran,
                                 kurensi.title as kurensi,
                                 biaya_pengiriman,
@@ -126,6 +128,11 @@ class retur_model extends CI_Model {
                                 lama_angsuran_2,
                                 lama_angsuran_1,
                                 bunga,
+                                pajak_komponen_id,
+                                total_ppn,
+                                total_pph22,
+                                total_pph23,
+                                sales_return.catatan,
                                 sales_return.created_on,
                                 sales_return.created_by'
                                 )
@@ -142,22 +149,24 @@ class retur_model extends CI_Model {
     function get_list_detail($id)
     {
         $q = $this->db->select('barang.kode as kode_barang,
+                                barang.id as barang_id,
+                                barang.photo,
                                 order_list.deskripsi,
-                                dikirim,
-                                diretur, 
+                                diretur,
+                                diterima, 
                                 satuan.title as satuan, 
                                 harga, 
                                 disc, 
                                 pajak')
                   ->from($this->table."_list as order_list")
                   ->join('barang', 'barang.id = order_list.kode_barang', 'left')
-                  ->join('satuan', 'satuan.id = order_list.satuan_id')
+                  ->join('satuan', 'satuan.id = order_list.satuan_id', 'left')
                   ->where('retur_id', $id)
                   ->get();
         return $q;
     }   
 
-    function get_detail_po($id)
+    function get_detail_so($id)
     {
         $q = $this->db->select('no, 
                                 kontak.title as kontak,
@@ -167,7 +176,6 @@ class retur_model extends CI_Model {
                                 metode_pembayaran_id, 
                                 metode_pembayaran.title as metode_pembayaran, 
                                 tanggal_transaksi, 
-                                tanggal_pengantaran,
                                 so, 
                                 gudang_id,
                                 gudang.title as gudang, 
@@ -179,27 +187,28 @@ class retur_model extends CI_Model {
                                 lama_angsuran_2, 
                                 lama_angsuran_1, 
                                 bunga,
-                                penjualan.catatan, 
-                                penjualan.created_on,
-                                penjualan.created_by'
+                                sales_order.catatan, 
+                                sales_order.created_on,
+                                
+                                sales_order.created_by'
                                 )
-                 ->from($this->table_po)
-                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table_po.'.kontak_id', 'left')
-                 ->join($this->table_join2, $this->table_join2.'.id ='.$this->table_po.'.metode_pembayaran_id', 'left')
-                 ->join($this->table_join3, $this->table_join3.'.id ='.$this->table_po.'.kurensi_id', 'left')
-                 ->join($this->table_join4, $this->table_join4.'.id ='.$this->table_po.'.gudang_id', 'left')
-                 ->where($this->table_po.'.id', $id)
+                 ->from($this->table_so)
+                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table_so.'.kontak_id', 'left')
+                 ->join($this->table_join2, $this->table_join2.'.id ='.$this->table_so.'.metode_pembayaran_id', 'left')
+                 ->join($this->table_join3, $this->table_join3.'.id ='.$this->table_so.'.kurensi_id', 'left')
+                 ->join($this->table_join4, $this->table_join4.'.id ='.$this->table_so.'.gudang_id', 'left')
+                 ->where($this->table_so.'.id', $id)
                  ->get();
         return $q;
     }
 
-    function get_list_detail_po($id)
+    function get_list_detail_so($id)
     {
-        $q = $this->db->select('barang.kode as kode_barang, penjualan_list.deskripsi, diterima,diorder, penjualan_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
-                  ->from($this->table_list_po)
-                  ->join('barang', 'barang.id ='.$this->table_list_po.'.kode_barang', 'left')
-                  ->join('satuan', 'satuan.id ='.$this->table_list_po.'.satuan_id', 'left')
-                  ->where($this->table_po."_id", $id)
+        $q = $this->db->select('barang.id as barang_id, barang.kode as kode_barang, sales_order_list.deskripsi, jumlah, sales_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
+                  ->from($this->table_list_so)
+                  ->join('barang', 'barang.id ='.$this->table_list_so.'.kode_barang', 'left')
+                  ->join('satuan', 'satuan.id ='.$this->table_list_so.'.satuan_id', 'left')
+                  ->where('order_id', $id)
                   ->get();
         return $q;
     }   
@@ -224,7 +233,8 @@ class retur_model extends CI_Model {
 
     public function get_kontak()
     {   
-        $this->db->where($this->table_join1.'.is_deleted',0);
+        $this->db->where($this->table_join1.'.is_deleted',0)
+                 ->where($this->table_join1.'.jenis_id',1);
         $this->db->order_by($this->table_join1.'.title','asc');
         return $this->db->get($this->table_join1);
     }

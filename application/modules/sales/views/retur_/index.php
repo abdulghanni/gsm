@@ -6,7 +6,7 @@
         </div>
         <ol class="breadcrumb">
             <li>
-                <span><?= $title;?></span>
+                <span><?= $main_title?></span>
             </li>
             <li class="active">
                 <span>Index</span>
@@ -30,12 +30,12 @@
                     <thead>
                         <tr>
                             <th width="5%" align="center">No.</th>
-                            <th width="10%"><?php echo 'No. Retur';?></th>
-                            <th width="15%"><?php echo 'No. SO';?></th>
+                            <th width="10%"><?php echo 'No. Transasksi';?></th>
+                            <th width="10%"><?php echo 'No. Penjualan';?></th>
                             <th width="15%"><?php echo 'Customer';?></th>
-                            <th width="5%" class="text-center"><?php echo 'Tanggal SO';?></th>
-                            <th width="5%" class="text-center"><?php echo 'Tanggal Retur';?></th>
-                            <th width="15%"><?php echo 'Diretur Dari';?></th>
+                            <th width="5%" class="text-center"><?php echo 'Tanggal Faktur';?></th>
+                            <th width="5%" class="text-center"><?php echo 'Tanggal Pengantaran';?></th>
+                            <th width="15%"><?php echo 'Diretur Ke';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>
