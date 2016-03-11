@@ -2,6 +2,7 @@
 
 class Message extends MX_Controller {
     public $data;
+    var $table_name = 'chat';
 	function __construct()
 	{
 		parent::__construct();
@@ -12,6 +13,17 @@ class Message extends MX_Controller {
 	{
 		$this->_render_page('message/index',$this->data);
 	}
+
+
+
+    public function message_clicked()
+    {
+        permissionUser();
+        $id = $this->input->post('id');
+        $f_name = getValue('sender_id', 'chat', array('id'=>'where/'.$id));
+        $this->db->where('sender_id', $f_name)->update($this->table_name, array('is_read'=>1));
+        echo base_url('message');
+    }
 
     function _render_page($view, $data=null, $render=false)
     {

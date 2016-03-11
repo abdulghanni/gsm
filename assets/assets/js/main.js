@@ -436,4 +436,27 @@ $(document).ready(function(){
             }
         });
      });
+
+	$(".message-list").click(function(){
+      var ID=$(this).attr('id');
+      $.ajax({
+            type: 'POST',
+            url: '/gsm/message/message_clicked/',
+            data: {id : ID},
+            success: function(data) {
+                window.location.replace(data);
+            }
+        });
+     });
 });
+
+function showChatDetail(id){
+	$.ajax({
+        type: 'POST',
+        url: '/gsm/chat/detail/'+id,
+        success: function(data) {
+            $('#users').html(data);
+        }
+    });
+	
+}
