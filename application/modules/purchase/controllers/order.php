@@ -89,7 +89,7 @@ class Order extends MX_Controller {
                         'pajak'=>$this->input->post('pajak'),
                         );//print_mz($list);
         $data = array(
-                'no' => $this->input->post('no'),
+                'no' => implode(',',$this->input->post('no')),
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>$this->input->post('up'),
                 'alamat'=>$this->input->post('alamat'),
@@ -163,7 +163,7 @@ class Order extends MX_Controller {
                         );
         //$approver = $this->input->post('approver');
         $data = array(
-                'no' => $this->input->post('no'),
+                'no' => implode(',',$this->input->post('no')),
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>$this->input->post('up'),
                 'alamat'=>$this->input->post('alamat'),
@@ -335,7 +335,8 @@ class Order extends MX_Controller {
                 $row[] = $status4;
             }
             if($r->is_draft == 1){
-            $row[] = "<a class='btn btn-sm btn-primary' href=$draft title='Edit Draft'><i class='fa fa-pencil'></i></a>";
+            $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
+                      <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
             }else{
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
@@ -351,6 +352,12 @@ class Order extends MX_Controller {
                 );
         //output to json format
         echo json_encode($output);
+    }
+
+    public function ajax_delete($id)
+    {
+        $this->main->delete_by_id($id);
+        echo json_encode(array("status" => TRUE));
     }
 
     function print_pdf($id)
@@ -494,6 +501,14 @@ class Order extends MX_Controller {
         $this->data['up'] = explode(',', $up);
 
         $this->_render_page('purchase/order/up', $this->data);
+    }
+
+    function get_table_pr()
+    {
+        $id = $this->input->post('pr_id');
+        $id = substr_replace($id, '', -1);
+        $this->data['order_list'] = $this->main->get_list_detail_pr($id);//lastq();
+        $this->load->view($this->module.'/'.$this->file_name.'/table', $this->data);
     }
     
     function _render_page($view, $data=null, $render=false)

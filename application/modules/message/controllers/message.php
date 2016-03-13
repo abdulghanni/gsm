@@ -25,6 +25,12 @@ class Message extends MX_Controller {
         echo base_url('message');
     }
 
+    public function load_badge()
+    {
+        $data['notification_num'] = GetAll('chat', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()))->num_rows();
+        $this->load->view('message/badges', $data);
+    }
+
     function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

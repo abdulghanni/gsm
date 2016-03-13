@@ -13,11 +13,33 @@ $(document).ready(function() {
         $(document).find("select.select2").select2();
         var id = $(this).val();
         if(id != 0){
+            $('#dari-pr').html('<img src="/gsm/assets/images/ajax-loader.gif"> loading...');
             $('#dari-pr').load('get_dari_pr/'+id);
             $("#add_pr").show();
         }
+        
+            getTablePr();
     })
     .change();
+
+    function getTablePr()
+    {
+        var prId = '';
+        $('.select_pr').each(function (index, element) {
+                if($(element).val() != ''){
+                    prId += $(element).val()+',';
+                }
+            });
+        $.ajax({
+            type: 'POST',
+            url: '/gsm/purchase/order/get_table_pr/',
+            data: {pr_id : prId},
+            success: function(data) {
+                //alert(data)
+                $('#table-pr').html(data);
+            }
+        });
+    }
 
     $('#btnAdd').on('click', function () {
         $(document).find("select.select2").select2();
@@ -76,6 +98,7 @@ $(document).ready(function() {
             url: '/gsm/purchase/order/add_pr/',
             success: function(data) {
                 $('#select_pr').append(data);
+                getTablePr();
             }
         });
     }

@@ -456,6 +456,7 @@ function showChatDetail(id){
         url: '/gsm/chat/detail/'+id,
         success: function(data) {
             $('#users').html(data);
+            $("#msg-badge").load('/gsm/message/load_badge');
         }
     });
 	

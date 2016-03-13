@@ -23,7 +23,7 @@
       <!-- start: MESSAGES DROPDOWN -->
       <li class="dropdown">
         <a href class="dropdown-toggle" data-toggle="dropdown">
-          <span class="dot-badge partition-red"></span> <i class="ti-comment"></i> <span>Pesan</span><span class="badge" id="msgs-badge"><?php echo $unread_all ?></span>
+          <span class="dot-badge partition-red"></span> <i class="ti-comment"></i> <span>Pesan</span><span class="badge" id="msg-badge"><?php echo $unread_all ?></span>
         </a>
         <ul class="dropdown-menu dropdown-light dropdown-messages dropdown-large">
           <li>

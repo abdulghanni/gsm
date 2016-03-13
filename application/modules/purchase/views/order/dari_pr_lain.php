@@ -8,8 +8,8 @@
 <tr>
 	<td>
 	<div class="checkbox clip-check check-primary checkbox-inline">
-		<input type="checkbox" id="row<?=$ol->barang_id?>" value="" class="cek" name="row">
-		<label for="row<?=$ol->barang_id?>">
+		<input type="checkbox" id="row<?=$ol->id?>" value="" class="cek" name="row">
+		<label for="row<?=$ol->id?>">
 		</label>
 	</div>
 	</td>

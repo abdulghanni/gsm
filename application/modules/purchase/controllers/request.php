@@ -273,7 +273,8 @@ class Request extends MX_Controller {
                 $row[] = $status4;
             }
             if($r->is_draft == 1){
-            $row[] = "<a class='btn btn-sm btn-primary' href=$draft title='Edit Draft'><i class='fa fa-pencil'></i></a>";
+            $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
+                      <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
             }else{
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
@@ -289,6 +290,12 @@ class Request extends MX_Controller {
                 );
         //output to json format
         echo json_encode($output);
+    }
+
+    public function ajax_delete($id)
+    {
+        $this->main->delete_by_id($id);
+        echo json_encode(array("status" => TRUE));
     }
 
     function approve()

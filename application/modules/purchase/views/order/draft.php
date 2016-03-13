@@ -29,7 +29,12 @@
 	</div>
 	<?php foreach ($order->result() as $o) :?>
 	<form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal" id="form-po">
-	<input type="hidden" name="no" value="<?=$o->no?>">
+	<?php $no = explode( ',', $o->no);
+		foreach ($no as $key => $value) {
+			echo '<input type="hidden" name="no[]" value="'.$value.'">';
+		}
+	?>
+	
 		<div class="row">
 			<div class="col-md-12">
 				<div class="invoice">

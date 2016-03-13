@@ -24,3 +24,32 @@ $(document).ready(function() {
         ],
     });
 });
+
+
+
+    function delete_user(id)
+    {
+        if(confirm('Are you sure delete this data?'))
+        {
+            // ajax delete data to database
+            $.ajax({
+                url : "/gsm/purchase/request/ajax_delete/"+id,
+                type: "POST",
+                dataType: "JSON",
+                success: function(data)
+                {
+                    //if success reload ajax table
+                    reload_table();
+                },
+                error: function (jqXHR, textStatus, errorThrown)
+                {
+                    alert('Error deleting data');
+                }
+            });
+
+        }
+    }
+    function reload_table()
+    {
+        table.ajax.reload(null,false); //reload datatable ajax 
+    }

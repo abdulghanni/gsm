@@ -211,12 +211,16 @@ class order_model extends CI_Model {
 
     function get_list_detail_pr($id)
     {
-        $q = $this->db->select('barang.id as barang_id,barang.kode as kode_barang, barang.title as nama_barang, barang.photo, purchase_request_list.deskripsi, jumlah, purchase_request_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
+        $id = explode(',', $id);
+        $this->db->select('purchase_request_list.id as id, barang.id as barang_id,barang.kode as kode_barang, barang.title as nama_barang, barang.photo, purchase_request_list.deskripsi, jumlah, purchase_request_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list_pr)
                   ->join('barang', 'barang.id ='.$this->table_list_pr.'.kode_barang', 'left')
-                  ->join('satuan', 'satuan.id ='.$this->table_list_pr.'.satuan_id')
-                  ->where('request_id', $id)
-                  ->get();
+                  ->join('satuan', 'satuan.id ='.$this->table_list_pr.'.satuan_id');
+                  foreach ($id as $key => $value) {
+                      $this->db->or_where('request_id', $value);
+                  }
+                  
+        $q = $this->db->get();
         return $q;
     }   
 

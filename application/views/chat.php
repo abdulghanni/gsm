@@ -13,7 +13,7 @@
         <div id="users" toggleable active-class="chat-open">
           <div class="users-list">
             <div class="sidebar-content perfect-scrollbar">
-              <h5 class="sidebar-title">On-line</h5>
+              <!--<h5 class="sidebar-title">On-line</h5>-->
               <ul class="media-list">
               <?php foreach($users->result() as $u):?>
                 <li class="media">
