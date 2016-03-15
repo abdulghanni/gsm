@@ -220,6 +220,14 @@ class Penjualan extends MX_Controller {
         $this->load->view($this->module.'/'.$this->file_name.'/no_so', $this->data);
     }
 
+    function get_table()
+    {
+        $id = $this->input->post('id');
+        $id = substr_replace($id, '', -1);
+        $this->data['order_list'] = $this->main->get_list_detail_so($id);//lastq();
+        $this->load->view($this->module.'/'.$this->file_name.'/table', $this->data);
+    }
+
 	function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

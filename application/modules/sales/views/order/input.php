@@ -384,7 +384,7 @@ function addRow(tableID){
 
 	var cell3=row.insertCell(2);
 	<?php $s = array('"', "'");$r=array('&quot;','&#39;');?>
-	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>";  
+	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><option value='0'>- Pilih Barang --</option><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>";  
 
 	<?php $src = assets_url('assets/images/no-image-mid.png')?>
 	var cell4=row.insertCell(3);

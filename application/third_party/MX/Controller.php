@@ -58,4 +58,45 @@ class MX_Controller
 	{
 		return CI::$APP->$class;
 	}
+
+	public function send_email($email, $subject, $isi_email)
+  {
+  	$email = 'sena@gramaselindo.com';
+    $connected = @fsockopen("gramaselindo.com", 80);
+    $testing = '[TESTING EMAIL WEB] ';
+    if($connected):
+      $config = Array(
+                    'protocol' => 'smtp',
+                    'smtp_host' => 'mail.gramaselindo.com',
+                    'smtp_port' => 26,
+                    'smtp_user' => 'system-gsm@gramaselindo.com', 
+                    'smtp_pass' => 'tehgelas69', 
+                    'mailtype' => 'html',
+                    'charset' => 'iso-8859-1',
+                    'wordwrap' => TRUE
+                    );
+
+       $this->load->library('email', $config);
+       $this->email->set_newline("\r\n");  
+       $this->email->from('system-gsm@gramaselindo.com', 'Web Aplikasi GSM');
+       $this->email->to($email);
+       $this->email->subject($testing.' GSM - '.$subject);
+       $this->email->message($isi_email);
+     
+         if($this->email->send())
+         {
+           return true;
+            //print_mz($this->email->print_debugger());
+         }
+         else
+         {
+         	//print_mz('ddd');
+          return false;
+          //print_mz($this->email->print_debugger());
+         }
+    else:
+    	return false;
+      //print_mz($this->email->print_debugger());
+    endif;
+   }
 }

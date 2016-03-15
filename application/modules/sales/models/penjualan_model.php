@@ -175,12 +175,16 @@ class penjualan_model extends CI_Model {
 
     function get_list_detail_so($id)
     {
-        $q = $this->db->select('barang.id as barang_id,barang.title as nama_barang, barang.kode as kode_barang, sales_order_list.deskripsi, jumlah,sales_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
+        $id = explode(',', $id);
+        $q = $this->db->select('sales_order_list.id as id,barang.id as barang_id,barang.title as nama_barang, barang.kode as kode_barang, sales_order_list.deskripsi, jumlah,sales_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
                   ->from($this->table_list_so)
                   ->join('barang', 'barang.id ='.$this->table_list_so.'.kode_barang', 'left')
-                  ->join('satuan', 'satuan.id ='.$this->table_list_so.'.satuan_id')
-                  ->where('order_id', $id)
-                  ->get();
+                  ->join('satuan', 'satuan.id ='.$this->table_list_so.'.satuan_id');
+                  foreach ($id as $key => $value) {
+                      $this->db->or_where('order_id', $value);
+                  }
+                  
+        $q = $this->db->get();
         return $q;
     }   
 

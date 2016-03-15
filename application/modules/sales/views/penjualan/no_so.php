@@ -17,21 +17,25 @@
         $(document).find("select.select2").select2();
         var id = $(this).val();
         if(id != 0){
-            getSoLain(id);
-            hitung();
+            getTable(id);
+            //hitung();
         }
     })
 
-    function getSoLain(id)
+    function getTable()
     {
-        var rowCount = $('#table tr').length;
+        var id = '';
+        $('.select_so').each(function (index, element) {
+                if($(element).val() != ''){
+                    id += $(element).val()+',';
+                }
+            });
         $.ajax({
             type: 'POST',
-            url: '/gsm/sales/penjualan/get_dari_so_lain/'+id,
-            data: {id : id, row_count : rowCount},
+            url: '/gsm/sales/penjualan/get_table/',
+            data: {id : id},
             success: function(data) {
-                $('#table').append(data);
-                hitung();
+                $('#table').html(data);
             }
         });
     }

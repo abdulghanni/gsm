@@ -229,6 +229,7 @@ class Order extends MX_Controller {
     { 
         permissionUser();
         $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
+        $subject = 'Pengajuan Purchase Order';
         $isi = getName(sessId())." Mengajuan Purchase Order, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a>.";
         $approver = getAll('approver');
         $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$id));
@@ -239,12 +240,13 @@ class Order extends MX_Controller {
         $data = array('sender_id' => sessId(),
                           'receiver_id' => $creator_pr,
                           'sent_on' => dateNow(),
-                          'judul' => 'Pengajuan Purchase Order',
+                          'judul' => $subject,
                           'no' => $no,
                           'isi' => $isi,
                           'url' => $url,
              );
-        $this->db->insert('notifikasi', $data);//print_r($this->db->last_query());
+        $this->db->insert('notifikasi', $data);
+        $this->send_email(getEmail($creator_pr), $subject, $isi);
         if($jenis == 3):
             if($gtotal > 1000000){
             $level = array('level' => 'where/3',
@@ -267,17 +269,17 @@ class Order extends MX_Controller {
          $list = array(2,3);
             $approver = $this->db->where_in('level', $list)->get('approver');
         endif;
-        //$approver = GetAllSelect('approver','id', array('level' => 'where/3','level' => 'where/2','level' => 'where/1'));lastq();print_mz($approver->result());
         foreach($approver->result() as $r):
             $data = array('sender_id' => sessId(),
                           'receiver_id' => $r->user_id,
                           'sent_on' => dateNow(),
-                          'judul' => 'Pengajuan Purchase Order',
+                          'judul' => $subject,
                           'no' => $no,
                           'isi' => $isi,
                           'url' => $url,
              );
-        $this->db->insert('notifikasi', $data);//echo $this->db->last_query();
+        $this->db->insert('notifikasi', $data);
+        $this->send_email(getEmail($r->user_id), $subject, $isi);
         endforeach;
         return TRUE;
     }
@@ -563,4 +565,7 @@ class Order extends MX_Controller {
             return $this->load->view($view, $data, TRUE);
         }
     }
+
+
+
 }

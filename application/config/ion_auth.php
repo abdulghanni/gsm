@@ -118,9 +118,16 @@ $config['identity_cookie_name'] = 'identity';
  | 	  'file' = Use the default CI config or use from a config file
  | 	  array  = Manually set your email config settings
  */
-$config['use_ci_email'] = FALSE; // Send Email using the builtin CI email class, if false it will return the code and the identity
+$config['use_ci_email'] = TRUE; // Send Email using the builtin CI email class, if false it will return the code and the identity
 $config['email_config'] = array(
-	'mailtype' => 'html',
+    'protocol' => 'smtp',
+                    'smtp_host' => 'mail.erlangga.co.id',
+                    'smtp_port' => 587,
+                    'smtp_user' => 'ax.hrd@erlangga.co.id', 
+                    'smtp_pass' => 'erlangga', 
+                    'mailtype' => 'html',
+                    'charset' => 'iso-8859-1',
+                    'wordwrap' => TRUE
 );
 
 /*

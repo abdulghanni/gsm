@@ -190,6 +190,7 @@ class Request extends MX_Controller {
     {
         permissionUser();
         $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
+        $subject = 'Pengajuan Purchase Request';
         $isi = getName(sessId())." Mengajuan Purchase Request, Untuk melakukan approval silakan <a href=$url> KLIK DISINI </a>.";
         $approver = getValue('diajukan_ke', $this->table_name, array('id'=>'where/'.$id));
         $no = getValue('no', $this->table_name, array('id'=>'where/'.$id));
@@ -198,12 +199,13 @@ class Request extends MX_Controller {
             $data = array('sender_id' => sessId(),
                           'receiver_id' => $approver,
                           'sent_on' => dateNow(),
-                          'judul' => 'Pengajuan Purchase Request',
+                          'judul' => $subject,
                           'no' => $no,
                           'isi' => $isi,
                           'url' => $url,
              );
             $this->db->insert('notifikasi', $data);
+            $this->send_email(getEmail($approver), $subject, $isi);
         endif;
 
         if($jenis == 3):
@@ -224,12 +226,13 @@ class Request extends MX_Controller {
             $data = array('sender_id' => sessId(),
                           'receiver_id' => $r->user_id,
                           'sent_on' => dateNow(),
-                          'judul' => 'Pengajuan Purchase Request',
+                          'judul' => $subject,
                           'no' => $no,
                           'isi' => $isi,
                           'url' => $url,
              );
         $this->db->insert('notifikasi', $data);
+        $this->send_email(getEmail($r->user_id), $subject, $isi);
         endforeach;
         return TRUE;
     }

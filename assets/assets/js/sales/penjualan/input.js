@@ -15,11 +15,31 @@ $(document).ready(function() {
     $("#list_so").change(function(){
         var id = $(this).val();
         if(id != 0){
+            $('#dari-so').html('<img src="/gsm/assets/images/ajax-loader.gif"> loading...');
             $('#dari-so').load('get_dari_so/'+id);
             $("#add_so").show();
         }
+        getTable();
     })
     .change();
+
+    function getTable()
+    {
+        var id = '';
+        $('.select_so').each(function (index, element) {
+                if($(element).val() != ''){
+                    id += $(element).val()+',';
+                }
+            });
+        $.ajax({
+            type: 'POST',
+            url: '/gsm/sales/penjualan/get_table/',
+            data: {id : id},
+            success: function(data) {
+                $('#table').html(data);
+            }
+        });
+    }
     
     $("#customer_id").change(function(){
         var id = $(this).val();

@@ -288,18 +288,20 @@ class Order extends MX_Controller {
     function send_notif($id)
     {
         $group_id = array('3','4','8','9','10');
-        $user_id = $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result();//lastq();
+        $user_id = $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result();
+        $subject = 'Pembuatan Sales Order'; 
         $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
         $isi = $isi = getName(sessId())." membuat sales Order, Untuk melihat detail silakan <a href=$url> KLIK DISINI </a>.";
         foreach($user_id as $u):
             $data = array('sender_id' => sessId(),
                           'receiver_id' => $u->user_id,
                           'sent_on' => dateNow(),
-                          'judul' => 'Pembuatan Sales Order',
+                          'judul' => $subject,
                           'isi' => $isi,
                           'url' => $url,
              );
             $this->db->insert('notifikasi', $data);
+            $this->send_email(getEmail($u->user_id), $subject, $isi);
         endforeach;
     }
 

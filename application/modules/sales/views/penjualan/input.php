@@ -42,7 +42,7 @@
 							<label class="control-label">Salin Dari S.O</label>
 						</div>
 						<div class="col-md-8">
-							<select class="select2" id="list_so" style="width:100%">
+							<select class="select2 select_so" id="list_so" style="width:100%">
 								<option value="0">-- Pilih NO. S.O --</option>
 								<?php foreach($so as $p):?>
 								<option value="<?=$p->id?>"><?=$p->so?></option>

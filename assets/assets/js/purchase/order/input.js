@@ -17,7 +17,6 @@ $(document).ready(function() {
             $('#dari-pr').load('get_dari_pr/'+id);
             $("#add_pr").show();
         }
-        
             getTablePr();
     })
     .change();

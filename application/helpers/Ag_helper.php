@@ -70,6 +70,14 @@ if(!function_exists('getFullName')){
 	}
 }
 
+if(!function_exists('getEmail')){
+	function getEmail($user_id){
+		$CI =& get_instance();
+		$name = getValue('email', 'users', array('id'=>'where/'.$user_id));
+		if(!empty($name))return $name;else '';
+	}
+}
+
 if(!function_exists('getUserGroup')){
 	function getUserGroup($id)
     {
