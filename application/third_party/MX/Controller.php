@@ -61,7 +61,7 @@ class MX_Controller
 
 	public function send_email($email, $subject, $isi_email)
   {
-  	$email = 'sena@gramaselindo.com';
+  	//$email = 'sena@gramaselindo.com';
     $connected = @fsockopen("gramaselindo.com", 80);
     $testing = '[TESTING EMAIL WEB] ';
     if($connected):
