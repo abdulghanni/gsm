@@ -2,11 +2,10 @@
   <?php if(!isset($katakuncirahasia)){error_reporting(E_ALL^E_NOTICE);}?>
 <!--
 <script type="text/javascript" src="<?php echo base_url()?>assets/js/print_f.js"></script>-->
-<script src="<?php echo base_url();?>assets/js/jquery.js"></script>
 <script type="text/javascript">
 function carimenu(id)
 {
-	$("#documents").load('<?php echo base_url()?>report/response_cat/'+id);
+	$("#documents").load('<?php echo base_url()?>report/Index/response_cat/'+id);
 }
 function carikar(id)
 {

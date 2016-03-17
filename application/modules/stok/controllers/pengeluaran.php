@@ -107,7 +107,7 @@ class Pengeluaran extends MX_Controller {
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>",
 			$row->gudang_to,
 			$row->tgl,
-			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/bast' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
+			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
 			"",
 			);
 		}
@@ -115,6 +115,20 @@ class Pengeluaran extends MX_Controller {
 		return $this->output->set_output($this->flexigrid->json_build($records['record_count'],$record_items));;
 	}  
 	
+   function surat_jalan($id)
+    {
+        permissionUser();
+        $this->data['id'] = $id;
+        $this->data[$this->file_name] = GetAll('stok_pengeluaran',array('id'=>'where/'.$id));
+        $this->data[$this->file_name.'_list'] =  GetAll('stok_pengeluaran_list',array('id'=>'where/'.$id));
+        
+        $this->load->library('mpdf60/mpdf');
+        $html = $this->load->view($this->module.'/'.$this->file_name.'/surat_jalan', $this->data, true); 
+        $mpdf = new mPDF();
+        $mpdf = new mPDF('A4');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+    }
 	function deletec()
 	{		
 		//return true;

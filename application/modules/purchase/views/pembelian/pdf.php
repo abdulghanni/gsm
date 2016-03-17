@@ -30,36 +30,36 @@ td{ height:30px;}
 <table width="1000" border="0">
   <tbody>
     <tr>
-      <td width="180">No. Invoice</td>
+      <td width="180">Invoice Number</td>
       <td width="20">:</td>
       <td width="300"><?=$o->no?></td>
-      <td width="180">Kepada</td>
+      <td width="180">To</td>
       <td width="20">:</td>
       <td width="300"><?=$o->kontak?></td>
     </tr>
     <tr>
-      <td>No. PO</td>
+      <td>PO Number</td>
       <td>:</td>
       <td><?=$o->po?></td>
       
-      <td>Kontak Personal</td>
+      <td>Up</td>
       <td>:</td>
       <td><?=$o->up?></td>
       
     </tr>
 
     <tr>
-      <td width="180">Tanggal</td>
+      <td width="180">Date</td>
       <td width="20">:</td>
       <td width="300"><?=dateIndo($o->tanggal_transaksi)?></td>
       
-      <td>Telepon</td>
+      <td>Phone</td>
       <td>:</td>
       <td><?=$phone?></td>
     </tr>
     <tr>
 
-      <td width="180">Batas Pengiriman</td>
+      <td width="180">Delivery</td>
       <td width="20">:</td>
       <td width="300"><?=dateIndo($o->tanggal_pengiriman)?></td>
 
@@ -67,19 +67,19 @@ td{ height:30px;}
     <tr>
 
 
-      <td>Mata Uang</td>
+      <td>Currency</td>
       <td>:</td>
       <td><?=$o->kurensi?></td>
 
-      <td>Alamat</td>
+      <td>Address</td>
       <td>:</td>
       <td><?=$o->alamat?></td>
     </tr>
     <tr>
-      <td>Metode Pembayaran</td>
+      <td>Payment Method</td>
       <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
       <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
-      <td>Proyek</td>
+      <td>Project</td>
       <td>:</td>
       <td><?=$o->proyek?></td>
     </tr>
@@ -105,7 +105,7 @@ td{ height:30px;}
 			<hr style="width:100%">
 			<th>Sub Total</th>
 			<hr style="width:100%">
-			<th>Pajak(%)</th>
+			<th>Tax(%)</th>
 			<hr style="width:100%">
     	</tr>
     </tr>
@@ -180,7 +180,7 @@ Catatan :<br/>
 		<td align="center"><!--Approved,--></td>
 		<td align="center"><!--Order By,--></td>
 		<td align="center"><!--ACC Vendor--></td>
-		<td colspan="3">Total Pajak</td>
+		<td colspan="3">Total Tax</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($totalpajak, 2)?></td>
 	</tr>
@@ -189,7 +189,7 @@ Catatan :<br/>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Biaya Pengiriman</td>
+		<td colspan="3">Delivery Cost</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($o->biaya_pengiriman, 2)?></td>
 	</tr>
@@ -198,7 +198,7 @@ Catatan :<br/>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Diskon</td>
+		<td colspan="3">Discount</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($total_diskon, 2)?></td>
 	</tr>
@@ -215,7 +215,7 @@ Catatan :<br/>
 		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
-		<td colspan="3">Total + Pajak</td>
+		<td colspan="3">Total + Tax</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($total+$o->biaya_pengiriman+$totalpajak, 2)?></td>
 	</tr>

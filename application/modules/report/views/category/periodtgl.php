@@ -1,3 +1,4 @@
+
 <tr id="periodmonth">
 	<td>Period</td>
 	<td>:</td>
@@ -11,10 +12,11 @@
 <script>
 $(function() 
 {
-	$('.tanggal').datepicker({
-		dateFormat: 'yy-mm-dd', 
-		changeMonth: true,
-		changeYear: true
+	$('.tanggal')
+	.datepicker({
+		todayHighlight: true,
+		autoclose: true,
+		format: "yyyy-mm-dd"
 	});
 });
 </script>

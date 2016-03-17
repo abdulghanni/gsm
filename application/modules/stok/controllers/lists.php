@@ -86,14 +86,16 @@ class Lists extends MX_Controller {
 		//lastq();
 		 /* */ 
 		//Build count query
-		/* $this->db->select("count(id) as record_count")->from('stok');
+		$this->db->select("count(id) as record_count")->from('stok');
+		if($gdg!=0) $this->db->where('a.gudang_id',$gdg);
+		if($brg!=0) $this->db->where('a.barang_id',$brg);
 		$this->flexigrid->build_query(FALSE);
 		$record_count = $this->db->get();
 		$row = $record_count->row();
 		
 		//Get Record Count
-		$return['record_count'] = $row->record_count; */
-		$return['record_count'] =$return['records']->num_rows();
+		$return['record_count'] = $row->record_count; 
+		//$return['record_count'] =$return['records']->num_rows();
 		
 		//Return all
 		return $return;

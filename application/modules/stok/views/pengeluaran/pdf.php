@@ -12,29 +12,29 @@ td{ height:30px;}
 
 <body>
 <hr/>
-<strong>PURCHASE ORDER </strong>
+<strong>SALES ORDER </strong>
 <hr/>
 <?php foreach ($order->result() as $o) :?>
 <table width="800" border="0">
   <tbody>
     <tr>
-      <td width="180">No. Transaksi</td>
+      <td width="180">Transaction Number</td>
       <td width="20">:</td>
       <td width="200"><?=$o->no?></td>
-      <td width="180">Pengiriman</td>
+      <td width="180">Delivery Date</td>
       <td width="20">:</td>
       <td width="200"><?=$o->tanggal_transaksi?></td>
     </tr>
     <tr>
-      <td>Tanggal</td>
+      <td>Date</td>
       <td>:</td>
       <td><?=$o->tanggal_transaksi?></td>
-      <td>No. PO</td>
+      <td>PO Number</td>
       <td>:</td>
       <td><?=$o->po?></td>
     </tr>
     <tr>
-      <td>Kepada</td>
+      <td>To</td>
       <td>:</td>
       <td><?=$o->supplier?></td>
       <td>Dikirim Ke</td>
@@ -45,15 +45,15 @@ td{ height:30px;}
       <td>Up</td>
       <td>:</td>
       <td><?=$o->up?></td>
-      <td>Metode Pembayaran</td>
+      <td>Payment Method</td>
       <td>:</td>
       <td><?=$o->metode_pembayaran?></td>
     </tr>
     <tr>
-      <td>Alamat</td>
+      <td>Address</td>
       <td>:</td>
       <td><?=$o->alamat?></td>
-      <td>Mata Uang</td>
+      <td>Currency</td>
       <td>:</td>
       <td><?=$o->kurensi?></td>
     </tr>
@@ -62,7 +62,7 @@ td{ height:30px;}
       <td></td>
       <td></td>
       <td></td>
-      <td>Lama Angsuran</td>
+      <td>Long Term</td>
       <td>:</td>
       <td><?=$o->lama_angsuran_1.' ' .$o->lama_angsuran_2?></td>
     </tr>
@@ -82,14 +82,14 @@ td{ height:30px;}
 <table width="800" class="list">
     <tr>
 	    <th width="5%"> No. </th>
-		<th width="15%"> Kode Barang </th>
-		<th width="20%"> Nama Barang </th>
+		<th width="15%"> Item Code </th>
+		<th width="20%"> Item Name </th>
 		<th width="5%">Quantity</th>
 		<th width="10%"> Satuan </th>
-		<th width="18%"> Harga </th>
+		<th width="18%"> Price </th>
 		<th width="5%">Disc(%)</th>
 		<th width="20%"> Sub Total </th>
-		<th width="5%">Pajak(%)</th>
+		<th width="5%">Tax(%)</th>
     </tr>
 	<?php 
 		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
@@ -133,14 +133,14 @@ td{ height:30px;}
 	</tr>
 	<tr>
 		<td colspan="6"></td>
-		<td>Total Pajak</td>
+		<td>Total Tax</td>
 		<td align="right">:</td>
 		<td align="right"><?=number_format($totalpajak, 2)?></td>
 	</tr>
 
 	<tr>
 		<td colspan="6"></td>
-		<td>Biaya Pengiriman</td>
+		<td>Delivery Cost</td>
 		<td align="right">:</td>
 		<td align="right"><?=number_format($o->biaya_pengiriman, 2)?></td>
 	</tr>
@@ -154,7 +154,7 @@ td{ height:30px;}
 
 	<tr>
 		<td colspan="6"></td>
-		<td>Dibayar</td>
+		<td>Down Payment</td>
 		<td align="right">:</td>
 		<td align="right"><?=number_format($o->dibayar,2)?></td>
 	</tr>

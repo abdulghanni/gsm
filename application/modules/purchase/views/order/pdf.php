@@ -41,36 +41,36 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 <table width="1000" border="0">
   <tbody>
     <tr>
-      <td width="180">No. P.O</td>
+      <td width="180">PO Number</td>
       <td width="20">:</td>
       <td width="300"><?=$o->po?></td>
-      <td width="180">Kepada</td>
+      <td width="180">To</td>
       <td width="20">:</td>
       <td width="300"><?=$o->kontak?></td>
     </tr>
     <tr>
-      <td>No. Referensi</td>
+      <td>Reference Number</td>
       <td>:</td>
       <td><?= getValue('no','purchase_request', array('id'=>'where/'.$o->no))?></td>
       
-      <td>Kontak Personal</td>
+      <td>Up</td>
       <td>:</td>
       <td><?=$o->up?></td>
       
     </tr>
 
     <tr>
-      <td width="180">Tanggal</td>
+      <td width="180">Date</td>
       <td width="20">:</td>
       <td width="300"><?=dateIndo($o->created_on)?></td>
       
-      <td>Telepon</td>
+      <td>Phone</td>
       <td>:</td>
       <td><?=$phone?></td>
     </tr>
     <tr>
 
-      <td width="180">Batas Pengiriman</td>
+      <td width="180">Delivery</td>
       <td width="20">:</td>
       <td width="300"><?=dateIndo($o->tanggal_transaksi)?></td>
 
@@ -82,16 +82,16 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
     <tr>
 
 
-      <td>Mata Uang</td>
+      <td>Currency</td>
       <td>:</td>
       <td><?=$o->kurensi?></td>
 
-      <td>Alamat</td>
+      <td>Address</td>
       <td>:</td>
       <td><?=$o->alamat?></td>
     </tr>
     <tr>
-      <td>Metode Pembayaran</td>
+      <td>Payment Method</td>
       <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
       <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
       <td>Proyek</td>
@@ -172,7 +172,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<th width="10%"></th>
 		<th width="10%"></th>
 	</tr>
-		<tr><td colspan="4">Keterangan :</td></tr>
+		<tr><td colspan="4">Note :</td></tr>
 		<?php if(!empty($o->catatan)){
 		$c = explode(PHP_EOL, $o->catatan);
 			  foreach ($c as $key => $value) {?>
@@ -221,7 +221,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Biaya Pengiriman</td>
+		<td colspan="3">Delivery Cost</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($o->biaya_pengiriman, 2)?></td>
 	</tr>
@@ -230,7 +230,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Diskon</td>
+		<td colspan="3">Discount</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($total_diskon, 2)?></td>
 	</tr>
@@ -239,7 +239,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Diskon Tambahan</td>
+		<td colspan="3">Discount ++</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($o->diskon_tambahan_nominal, 2)?></td>
 	</tr>
@@ -257,7 +257,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
-		<td colspan="3">Total + Pajak</td>
+		<td colspan="3">Total + Tax</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($totalpluspajak, 2)?></td>
 	</tr>

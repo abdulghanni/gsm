@@ -12,202 +12,160 @@ td{ height:30px;}
 
 <body>
 <hr/>
-<strong>PURCHASE ORDER </strong>
-<hr/>
-<?php foreach ($order->result() as $o) :?>
-<table width="800" border="0">
-  <tbody>
-    <tr>
-      <td width="180">No. Transaksi</td>
-      <td width="20">:</td>
-      <td width="200"><?=$o->no?></td>
-      <td width="180">Pengiriman</td>
-      <td width="20">:</td>
-      <td width="200"><?=$o->tanggal_transaksi?></td>
-    </tr>
-    <tr>
-      <td>Tanggal</td>
-      <td>:</td>
-      <td><?=$o->tanggal_transaksi?></td>
-      <td>No. PO</td>
-      <td>:</td>
-      <td><?=$o->po?></td>
-    </tr>
-    <tr>
-      <td>Kepada</td>
-      <td>:</td>
-      <td><?=$o->supplier?></td>
-      <td>Dikirim Ke</td>
-      <td>:</td>
-      <td><?=$o->gudang?></td>
-    </tr>
-    <tr>
-      <td>Up</td>
-      <td>:</td>
-      <td><?=$o->up?></td>
-      <td>Metode Pembayaran</td>
-      <td>:</td>
-      <td><?=$o->metode_pembayaran?></td>
-    </tr>
-    <tr>
-      <td>Alamat</td>
-      <td>:</td>
-      <td><?=$o->alamat?></td>
-      <td>Mata Uang</td>
-      <td>:</td>
-      <td><?=$o->kurensi?></td>
-    </tr>
-    <?php if ($o->metode_pembayaran_id == 2):?>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Lama Angsuran</td>
-      <td>:</td>
-      <td><?=$o->lama_angsuran_1.' ' .$o->lama_angsuran_2?></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Bunga</td>
-      <td>:</td>
-      <td><?=$o->bunga?>%</td>
-    </tr>
-<?php endif; ?>
-  </tbody>
-</table>
-
- <hr/>
-<table width="800" class="list">
-    <tr>
-	    <th width="5%"> No. </th>
-		<th width="15%"> Kode Barang </th>
-		<th width="20%"> Nama Barang </th>
-		<th width="5%">Quantity</th>
-		<th width="10%"> Satuan </th>
-		<th width="18%"> Harga </th>
-		<th width="5%">Disc(%)</th>
-		<th width="20%"> Sub Total </th>
-		<th width="5%">Pajak(%)</th>
-    </tr>
-	<?php 
-		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-		$i=1;foreach($order_list->result() as $ol): ?>
-	<tr>
-	<?php 
-		$subtotal = $ol->jumlah*$ol->harga;
-		$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
-		$total = $total + $subtotal;
-	?>
-		<td width="5%"><?=$i++?></td>
-		<td width="15%"><?=$ol->kode_barang?></td>
-		<td width="20%"><?=$ol->barang?></td>
-		<td width="5%"align="right"><?=$ol->jumlah?></td>
-		<td width="10%"><?=$ol->satuan?></td>
-		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
-		<td width="5%" align="right"><?=$ol->disc?></td>
-		<td width="20%" align="right"><?= number_format($ol->jumlah*$ol->harga, 2)?></td>
-		<td width="5%" align="right"><?=$ol->pajak?></td>
-	</tr>
-
-	<?php endforeach;		$grandtotal = $total + $o->biaya_pengiriman - $o->dibayar;
-		$bunga =  ($grandtotal) * ($o->bunga/100);
-	?>
-
-	<hr/>
-	
-	</table>
-
-	<table table width="900" style="border:0">
-	<tr>
-	<th width="5%"></th>
-	<th width="10%"></th>
-	<th width="20%"></th>
-	<th width="5%"></th>
-	<th width="5%"></th>
-	<th width="5%"></th>
-	<th width="15%"></th>
-	<th width="10%"></th>
-	<th width="20%"></th>
-	</tr>
-	<tr>
-		<td colspan="6"></td>
-		<td>Total Pajak</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($totalpajak, 2)?></td>
-	</tr>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Biaya Pengiriman</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($o->biaya_pengiriman, 2)?></td>
-	</tr>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Total</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($total+$o->biaya_pengiriman, 2)?></td>
-	</tr>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Dibayar</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($o->dibayar,2)?></td>
-	</tr>
-
-	<?php if($o->metode_pembayaran_id == 2):?>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Total+bunga Angsuran</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($grandtotal+$bunga,2)?></td>
-	</tr>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Biaya Angsuran</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format(($grandtotal+$bunga)/$o->lama_angsuran_1, 2)?>/<?=strtoupper($o->lama_angsuran_2)?></td>
-	</tr>
-
-	<?php endif; ?>
-	<tr>
-		<td colspan="6"></td>
-		<td>Saldo</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($grandtotal, 2)?></td>
-	</tr>
-
-	
-</table>
-
-<div class="gradient" style="float: left; width: 50%; margin-top: 50px; text-align:center">
-<?=$o->supplier?>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<?=$o->up?>
-</div>
-
-<div class="gradient" style="float: right; width: 50%; text-align:center">
-<?=Pemohon?>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<?=''?>
-</div>
-
-<?php endforeach;?>
+	<!doctype html>
+	<html>
+		<head>
+			<meta charset="utf-8">
+			<title>Untitled Document</title>
+		</head>
+		
+		<body>
+			<table width="100%" border="0`" cellspacing="0" cellpadding="0">
+				<tbody>
+					<tr>
+						<td colspan="3"><p> <strong><img src="<?php echo base_url()?>assets/images/your-logo-here.png" width="20px"> PT  GRAMASELINDO UTAMA</strong></p></td>
+					</tr>
+					<tr>
+						<td colspan="3"><p align="center"><strong><u>BERITA ACARA SERAH TERIMA BARANG</u></strong></p></td>
+					</tr>
+					<tr>
+						<td colspan="3"><p>Pada hari ini<u>                             </u>tanggal<u>                        </u>bulan<u>                            </u>tahun<u>                            </u>, yang bertanda  tangan di bawah ini,telah melakukan serah terima barang berdasarkan:</p></td>
+					</tr>
+					<tr>
+						<td width="34%">&nbsp;</td>
+						<td width="39%">&nbsp;</td>
+						<td width="27%">&nbsp;</td>
+					</tr>
+					<tr>
+						<td>No PO              : <u>                                  </u></td>
+						<td>&nbsp;</td>
+						<td><p>No Surat Jalan    : <u>                                 </u></p></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td height="30"><p>Project              : <u>                                  </u>            </p></td>
+						<td>&nbsp;</td>
+						<td>Tipe Kendaraan  : <u>                                  </u>      </td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Total Box         : <u>                                  </u></td>
+						<td>Total Volume: <u>    </u><u>                     </u></td>
+						<td>Total Roll: <u>    </u><u>                     </u></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="3"><p>Dan perincian  barang yang diterima dalam kondisi sebagai berikut:</p></td>
+					</tr>
+					<tr>
+						<td><p><strong>Original packing dalam kondisi                       </strong><strong>           
+							
+						</strong><strong>           </strong></p></td>
+						<td><strong>
+							<input type="checkbox" name="checkbox2" id="checkbox2">
+							</strong><strong>baik</strong><strong>
+							<input type="checkbox" name="checkbox" id="checkbox">
+						rusak   </strong></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><strong>Barang dalam kondisi </strong></td>
+						<td><strong>
+							<input type="checkbox" name="checkbox3" id="checkbox3">
+							</strong><strong>baik</strong><strong>
+							<input type="checkbox" name="checkbox3" id="checkbox4">
+						rusak   </strong></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><strong>Jumlah material sesuai  dengan Surat Jalan </strong></td>
+						<td><strong>
+							<input type="checkbox" name="checkbox4" id="checkbox5">
+							</strong><strong>baik</strong><strong>
+							<input type="checkbox" name="checkbox4" id="checkbox6">
+						rusak   </strong></td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="3"><p><strong>Keterangan:<u>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         </u></strong><strong><u>  </u></strong><strong><u>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  </u></strong><br>
+						<strong><u>                                                                                                                                                                                                                                                                                                                                                </u></strong><strong><u> </u></strong></p></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td colspan="3"><p>Demikianlah Berita Acara Serah  Terima Barang ini dibuat dengan sebenarnya untuk digunakan sebagaimana mestinya</p></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td><p>Yang menyerahkan                           </p></td>
+						<td>QC      </td>
+						<td>  Inbound</td>
+					</tr>
+					<tr>
+						<td><p>&nbsp;</p>
+							<p>&nbsp;</p>
+							<p>&nbsp;</p>
+						<p>&nbsp;</p></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Nama:   </td>
+						<td>Nama: </td>
+						<td>Nama:</td>
+					</tr>
+					<tr>
+						<td>Tanggal:</td>
+						<td>Tanggal:</td>
+						<td>Tanggal: </td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+					<tr>
+						<td>Lembar 1 : Inbound</td>
+						<td>Lembar 2 : Supplier </td>
+						<td>Lembar 3 : Purchasing</td>
+					</tr>
+				</tbody>
+			</table>
+		</body>
+	</html>
 </body>
 </html>

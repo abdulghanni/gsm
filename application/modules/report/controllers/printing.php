@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Index extends MX_Controller {
+class Printing extends MX_Controller {
     public $data;
     var $module = 'report';
     var $title = 'Custom Report';
@@ -32,6 +32,14 @@ class Index extends MX_Controller {
         $this->data['options_gudang'] = options_row($this->model_name,'get_gudang','id','title','-- Pilih Gudang --');
         $this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
 		$this->_render_page('report/menu/menu', $this->data);
+	}
+	function sales_order(){
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+			$data['period']=$sd.' / '.$ed;
+			$data['kolom']=$this->input->post('kolom');
+			$data['q']=$this->db->query("SELECT * FROM sales_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ")->result();
+			$this->load->view('layout/sales_order',$data);
 	}
 	function response_cat($id=null){
 		//error_reporting(0);

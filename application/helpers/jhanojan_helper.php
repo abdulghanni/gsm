@@ -1033,36 +1033,7 @@ if (!function_exists('GetOptBlood')){
 	}
 }
 
-if (!function_exists('GetOptPIC')){	
-	function GetOptPIC($dep=NULL)
-	{
-		$filter = array("is_active"=> "where/Active");
-		if($dep) $filter['id_department'] = "where/".$dep;
-		$q = GetAll("employee", $filter);
-		$opt[''] = "- Karyawan -";
-		foreach($q->result_array() as $r)
-		{
-			$opt[$r['id']] = $r['name'];
-		}
-		
-		return $opt;
-	}
-}
 
-if (!function_exists('GetOptPICExit')){	
-	function GetOptPICExit()
-	{
-		$filter = array("name"=> "order/asc", "id_admin_grup !="=> "where/1", "is_active"=> "where/InActive");
-		$q = GetAll("admin", $filter);
-		$opt[''] = "- Karyawan -";
-		foreach($q->result_array() as $r)
-		{
-			$opt[$r['id']] = $r['name'];
-		}
-		
-		return $opt;
-	}
-}
 
 if (!function_exists('GetOptPosition')){	
 	function GetOptPosition()
@@ -1948,6 +1919,11 @@ function getkurs($id){
 }
 function keluarstok($gudang,$barang,$qty,$satuan=NULL){
 	$CI=&get_instance();
+	$satuanbarang=GetValue('satuan','barang',array('id'=>'where/'.$barang));
+	if($satuan!=$satuanbarang){
+		$multiply=GetValue('value','barang_satuan',array('barang_id'=>'where/'.$barang,'satuan'=>'where/'.$satuan));
+		$qty=$qty*$multiply;
+	}
 		$dalam=GetValue('dalam_stok','stok',array('barang_id'=>'where/'.$barang,'gudang_id'=>'where/'.$gudang));
 		if($dalam>=$qty){
 		$q="UPDATE stok SET dalam_stok=dalam_stok-$qty WHERE gudang_id='$gudang' AND barang_id='$barang'";
@@ -1958,12 +1934,18 @@ function keluarstok($gudang,$barang,$qty,$satuan=NULL){
 }
 function masukstok($gudang,$barang,$qty,$satuan=NULL){
 	$CI=&get_instance();
+	$satuanbarang=GetValue('satuan','barang',array('id'=>'where/'.$barang));
+	if($satuan!=$satuanbarang){
+		$multiply=GetValue('value','barang_satuan',array('barang_id'=>'where/'.$barang,'satuan'=>'where/'.$satuan));
+		$qty=$qty*$multiply;
+	}
+	
 		$dalam=$CI->db->query("SELECT * FROM stok WHERE gudang_id='$gudang' AND barang_id='$barang'");
 		if($dalam->num_rows()>0){
-		$q="UPDATE stok SET dalam_stok=dalam_stok+$qty WHERE gudang_id='$gudang' AND barang_id='$barang'";
-		$ex=$CI->db->query($q);
-		if($ex) return TRUE;
-		else return FALSE;
+			$q="UPDATE stok SET dalam_stok=dalam_stok+$qty WHERE gudang_id='$gudang' AND barang_id='$barang'";
+			$ex=$CI->db->query($q);
+			if($ex) return TRUE;
+			else return FALSE;
 		}
 		else{
 			$q="INSERT INTO stok SET dalam_stok=$qty,gudang_id='$gudang',barang_id='$barang'";
@@ -1972,7 +1954,21 @@ function masukstok($gudang,$barang,$qty,$satuan=NULL){
 			else return FALSE;	
 		}
 }
-
+function getoptsatuan($barang){
+	$q = GetAll('barang_satuan', array('barang_id'=>'where/'.$barang));
+	//if($judul) $opt[''] = $judul;
+	$small=GetValue('satuan','barang',array('id'=>'where/'.$barang));
+	$opt['']='-Satuan-';
+	$opt[$small] = GetValue('title','satuan',array('id'=>'where/'.$small));
+	//$opt[$small]=GetValue('title','satuan',array('id'=>'where/'.$small));
+	foreach($q->result_array() as $r)
+	{
+			if(!in_array($r['id'],$opt)){
+			$opt[$r['id']] = $r['title'];}
+	}
+	
+	return $opt;
+}
 /* function generateinvoice($mod,$div,$data,$ids=NULL,$tbl=NULL){
 		$client=isset($data['shipper']) ? $data['shipper'] : $data['messers'];
 		
