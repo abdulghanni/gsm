@@ -111,6 +111,7 @@ class pembelian_model extends CI_Model {
     {
         $q = $this->db->select('no,
                                 kontak.title as kontak,
+                                kontak.email as email,
                                 kontak.up,
                                 kontak.alamat,
                                 metode_pembayaran_id,

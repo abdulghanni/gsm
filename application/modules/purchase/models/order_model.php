@@ -117,6 +117,7 @@ class order_model extends CI_Model {
     function get_detail($id)
     {
         $q = $this->db->select('no, kontak.title as kontak,
+                                kontak.email as email,
                                 kontak_id,
                                 purchase_order.up, 
                                 purchase_order.alamat,

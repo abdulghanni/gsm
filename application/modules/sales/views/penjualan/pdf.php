@@ -64,19 +64,25 @@ td{ height:30px;}
       <td>PO No.</td>
       <td>:</td>
       <td><?=$o->so?></td>
-      <td>Project</td>
+
+      <td>Email</td>
       <td>:</td>
-      <td><?=$o->proyek?></td>
+      <td><?=$o->email?></td>
+      
     </tr>
     <tr>
       <td>Currency</td>
       <td>:</td>
       <td><?=$o->kurensi?></td>
+      <td>Project</td>
+      <td>:</td>
+      <td><?=$o->proyek?></td>
+    </tr>
+    <tr>
+    		
       <td>Payment Term</td>
       <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
       <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
-    </tr>
-    <tr>
     </tr>
   </tbody>
 </table>

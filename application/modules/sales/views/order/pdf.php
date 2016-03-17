@@ -78,15 +78,18 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
       <td>Payment Method</td>
       <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
       <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
-
-      <td>Address</td>
+      <td>Email</td>
       <td>:</td>
-      <td><?=$o->alamat?></td>
+      <td><?=$o->email?></td>
     </tr>
     <tr>
       <td>Project</td>
       <td>:</td>
       <td><?=$o->project?></td>
+      
+      <td>Address</td>
+      <td>:</td>
+      <td><?=$o->alamat?></td>
     </tr>
   </tbody>
 </table>

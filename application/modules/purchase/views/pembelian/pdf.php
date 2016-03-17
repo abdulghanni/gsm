@@ -62,7 +62,9 @@ td{ height:30px;}
       <td width="180">Delivery</td>
       <td width="20">:</td>
       <td width="300"><?=dateIndo($o->tanggal_pengiriman)?></td>
-
+      <td>Email</td>
+      <td>:</td>
+      <td><?=$o->email?></td>
     </tr>
     <tr>
 
@@ -70,7 +72,7 @@ td{ height:30px;}
       <td>Currency</td>
       <td>:</td>
       <td><?=$o->kurensi?></td>
-
+      
       <td>Address</td>
       <td>:</td>
       <td><?=$o->alamat?></td>
