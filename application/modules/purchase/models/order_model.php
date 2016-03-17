@@ -30,6 +30,7 @@ class order_model extends CI_Model {
             '.$this->table.'.po as po,
             '.$this->table.'.is_draft,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
+            '.$this->table.'.created_by,
              '.$this->table.'.app_status_id_lv1,
             '.$this->table.'.app_status_id_lv2,
             '.$this->table.'.app_status_id_lv3,

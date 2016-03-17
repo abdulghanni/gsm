@@ -27,6 +27,7 @@ class request_model extends CI_Model {
             '.$this->table.'.diajukan_ke,
             '.$this->table.'.tanggal_digunakan,
             '.$this->table.'.keperluan,
+            '.$this->table.'.created_by,
             '.$this->table.'.app_status_id_lv1,
             '.$this->table.'.app_status_id_lv2,
             '.$this->table.'.app_status_id_lv3,

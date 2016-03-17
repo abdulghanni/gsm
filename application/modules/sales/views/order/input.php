@@ -398,7 +398,7 @@ function addRow(tableID){
 	cell6.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 
 	var cell7=row.insertCell(6);
-	cell7.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
+	cell7.innerHTML = "<select name='satuan[]' class='select2' style='width:100%' id="+'satuanlist'+rowCount+"><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 
 	var cell8=row.insertCell(7);
 	cell8.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
@@ -423,6 +423,8 @@ function addRow(tableID){
 			        }else{
 			            $("#photo"+rowCount).attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
 			        }
+			        $("#satuanlist"+rowCount).select2().select2('val',data.satuan);
+		                $("#harga"+rowCount).val(data.harga);
             	}
             }
         });

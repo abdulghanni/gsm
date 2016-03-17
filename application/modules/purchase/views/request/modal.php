@@ -65,23 +65,23 @@
 <script type="text/javascript">
 
 $("#sf-1<?=$id?>").change(function(){
-        var id = $(this).val(),
-        fraksi_id = $('[name="fraksi_id"]').val();
-        if(id != 0){
-	        $("#satuanlist<?=$id?>").select2().select2('val',id);
-	         $.ajax({
-	            type: "GET",
-	            dataType: "JSON",
-	            url: '/gsm/purchase/request/get_satuan_num/'+id,
-	            success: function(data) {
-	                $("#sf1-num<?=$id?>").val(data);
+    var id = $(this).val(),
+    fraksi_id = $('[name="fraksi_id"]').val();
+    if(id != 0){
+        $("#satuanlist<?=$id?>").select2().select2('val',id);
+         $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: '/gsm/purchase/request/get_satuan_num/'+id,
+            success: function(data) {
+                $("#sf1-num<?=$id?>").val(data);
 
-	        		$("#satuanlist_num<?=$id?>").val(data);
-	            }
-	        });
-	    }
-    })
-    .change();
+        		$("#satuanlist_num<?=$id?>").val(data);
+            }
+        });
+    }
+})
+.change();
 
     $("#sf-3<?=$id?>").change(function(){
         var id = $(this).val();

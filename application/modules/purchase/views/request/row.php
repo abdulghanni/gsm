@@ -43,7 +43,9 @@
 				            $("#photo<?=$id?>").attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+id+"/"+data.photo);
 				        }else{
 				            $("#photo<?=$id?>").attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
-				        }
+				        }      
+		                $("#satuanlist<?=$id?>").select2().select2('val',data.satuan);
+		                $("#harga<?=$id?>").val(data.harga);
 	            	}
 	            }
 	        });

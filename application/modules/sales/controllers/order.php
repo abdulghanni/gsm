@@ -223,23 +223,27 @@ class Order extends MX_Controller {
         $list = $this->order->get_datatables();
         $data = array();
         $no = $_POST['start'];
-        foreach ($list as $order) {
-            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$order->id;
-            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$order->id;
-            $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$order->id;
+        foreach ($list as $r) {
+            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
             $no++;
             $row = array();
             $row[] = $no;
-           $row[] = ($order->is_draft == 1)?"<a href=$draft>#".$order->so.'</a>' : "<a href=$detail>#".$order->so.'</a>';
-            $row[] = $order->kontak;
-            $row[] = $order->tanggal_transaksi;
-            //$row[] = $order->metode_pembayaran;
-            $row[] = $order->gudang;
-            $row[] = ($order->is_draft == 1) ? "Draft" : "Submitted";
+           $row[] = ($r->is_draft == 1)?"<a href=$draft>#".$r->so.'</a>' : "<a href=$detail>#".$r->so.'</a>';
+            $row[] = $r->kontak;
+            $row[] = $r->tanggal_transaksi;
+            //$row[] = $r->metode_pembayaran;
+            $row[] = $r->gudang;
+            $row[] = ($r->is_draft == 1) ? "Draft" : "Submitted";
 
-            if($order->is_draft == 1){
-            $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
-                      <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$order->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+            if($r->is_draft == 1){
+                if($r->created_by == sessId()):
+                    $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
+                      <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+                else:
+                    $row[] = '';
+                endif;
             }else{
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";

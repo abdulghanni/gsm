@@ -337,8 +337,12 @@ class Order extends MX_Controller {
                 $row[] = $status4;
             }
             if($r->is_draft == 1){
-            $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
+                if($r->created_by == sessId()):
+                    $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
                       <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+                else:
+                    $row[] = '';
+                endif;
             }else{
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
@@ -411,8 +415,15 @@ class Order extends MX_Controller {
     {
         $q = getValue('title', 'barang', array('id'=>'where/'.$id));
         $p = getValue('photo', 'barang', array('id'=>'where/'.$id));
-
-        echo json_encode(array('nama_barang'=>$q, 'photo'=>$p));
+        $sl = getValue('satuan_laporan', 'barang', array('id'=>'where/'.$id));
+        $s = getValue('satuan', 'barang', array('id'=>'where/'.$id));
+        $satuan = (!empty($sl)) ? $sl : $s;
+        $filter = array('kode_barang'=>'where/'.$id);
+        $harga_terakhir_num = getAll('purchase_order_list', $filter)->num_rows();
+        $harga_terakhir = ($harga_terakhir_num>0)?GetAllSelect('purchase_order_list', 'id,harga', $filter)->last_row()->harga:'';
+        $harga_jual = getValue('harga_jual', 'stok', array('barang_id'=>'where/'.$id));
+        $harga = (!empty($harga_terakhir)) ? $harga_terakhir : $harga_jual;
+        echo json_encode(array('nama_barang'=>$q, 'photo'=>$p, 'harga'=>$harga, 'satuan' => $satuan));
     }
 
     function approve()

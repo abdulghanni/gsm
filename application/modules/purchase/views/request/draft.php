@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle"><?=$main_title?></h1>
+			<h1 class="mainTitle"><?=$main_title?> - Draft</h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -13,7 +13,7 @@
 				<span><a href="<?= base_url($module.'/'.$file_name)?>"><?=$main_title?></a></span>
 			</li>
 			<li>
-				<span><a href="<?= base_url($module.'/'.$file_name.'/input')?>">input</a></span>
+				<span><a href="<?= base_url($module.'/'.$file_name.'/input')?>">Draft</a></span>
 			</li>
 		</ol>
 	</div>
@@ -36,6 +36,7 @@
 					</div>
 				</div>
 				<hr>
+				<?php if($request->created_by == sessId()): ?>
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -309,6 +310,10 @@
 						</div>
 					</div>
 				</div>
+				<?php else:
+				echo 'Draft dibuat oleh '.getFullName($request->created_by);
+				endif;
+				?>
 			</div>
 		</div>
 	</div>

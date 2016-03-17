@@ -49,6 +49,7 @@
 						</div>
 					</div>
 					<hr>
+					<?php if($o->created_by == sessId()): ?>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
@@ -479,6 +480,10 @@
 			</button>
 			</div>
 		</div>
+		<?php else:
+				echo 'Draft dibuat oleh '.getFullName($o->created_by);
+				endif;
+				?>
 			</div>
 		</div>
 	</form>
