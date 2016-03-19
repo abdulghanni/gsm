@@ -47,7 +47,7 @@
 								<?php $nm_f="ref";
 								?>
 								<!--Bagian Kanan-->
-								<?php echo form_input($nm_f,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="form-control" id="'.$nm_f.'" onchange="cariref(this.value)"')?>
+								<?php echo form_dropdown($nm_f,$opt_po,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="select2" id="'.$nm_f.'" onchange="cariref(this.value)" style="width:100%;" ')?>
 								
 								<!--//Bagian Kanan-->
 							</div>
@@ -161,7 +161,9 @@
 <!-- end: INVOICE -->
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
-	
+	$(document).ready(function(e){
+            $('.select2').select2({});
+        });
 	function cariref(val){
 		$('.loadingimg').show();
 		$('#detailtrans').load('<?php echo base_url() ?>stok/pengeluaran/cariref',{v:val});

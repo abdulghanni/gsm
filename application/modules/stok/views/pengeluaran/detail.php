@@ -257,7 +257,7 @@
 													<th width="5%"><?php echo $daftar['disc'] ?></th>
 													<th width="15%"> Sub Total </th>
 												<th width="5%"><?php echo $daftar['pajak'] ?></th-->
-												<th width="5%"><?php echo form_input("jumlah[$c]",isset($part)?$carisisa['sisa'] : $daftar['jumlah'],'readonly') ?></th>
+												<th width="5%"><?php echo form_input("jumlah[$c]",isset($part)?$carisisa['sisa'] : $daftar['jumlah'],'') ?></th>
 												<th width="5%"><?php echo form_dropdown("satuan[$c]",GetOptAll('satuan'),$daftar['satuan_id'],'disabled') ?></th>
 											</tr><?php $c++;}  ?>
 									</thead>

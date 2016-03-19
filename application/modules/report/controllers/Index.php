@@ -18,6 +18,7 @@ class Index extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
+        permissionUser();
         $this->data['title'] = $this->title;
         $this->data['main_title'] = $this->module.'';
 		$q=$this->stok->get_judul();

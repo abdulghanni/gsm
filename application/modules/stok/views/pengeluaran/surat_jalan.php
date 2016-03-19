@@ -1,3 +1,8 @@
+<style>
+    body{
+        font-size:10px;
+    }
+</style>
 <table cellspacing="0" cellpadding="0" width="100%">
   <col width="64" span="10">
   <tr>
@@ -155,7 +160,19 @@
     <td colspan="2"></td>
   </tr>
   <tr>
+    <td colspan="7">&nbsp;</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
     <td colspan="7">Kami    kirimkan barang-barang tersebut dibawah ini dengan kendaraan   </td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="7">&nbsp;</td>
     <td></td>
     <td></td>
     <td></td>
@@ -166,13 +183,17 @@
     <td colspan="2">Jumlah</td>
     <td colspan="2">No. P/O</td>
   </tr>
+  <?php
+  $no=1;
+   foreach($pengeluaran_list as $ls){ ?>
   <tr>
+    <td><?php echo $no;?></td>
+    <td colspan="5" width="320"><?php echo GetValue('title','barang',array('id'=>'where/'.$ls['barang_id']))?></td>
+    <td><?php echo $ls['jumlah']?></td>
     <td>&nbsp;</td>
-    <td colspan="5" rowspan="2" width="320">&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td colspan="2">&nbsp;</td>
+    <td colspan="2"><?php echo $pengeluaran['ref'] ?></td>
   </tr>
+  <?php $no++; } ?>
   <tr>
     <td>&nbsp;</td>
     <td>&nbsp;</td>

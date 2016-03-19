@@ -37,8 +37,10 @@
 									<th width="5%"><?php echo $daftar['disc'] ?></th>
 									<th width="15%"> Sub Total </th>
 									<th width="5%"><?php echo $daftar['pajak'] ?></th-->
-									<th width="5%"><?php echo form_input("jumlah[$c]",isset($part)?$carisisa['sisa'] : $daftar['jumlah']) ?></th>
-									<th width="5%"><?php echo form_dropdown("satuan[$c]",getoptsatuan($daftar['kode_barang']),$daftar['satuan_id']) ?></th>
+                                                                        <?php $suggest=isset($part)?$carisisa['sisa'] : $daftar['jumlah'];  ?>
+									<th width="5%"><?php echo form_input("jumlah[$c]",$suggest,'max="'.$suggest.'" type="number"') ?></th>
+									
+                                                                        <th width="5%"><?php echo form_dropdown("satuan[$c]",getoptsatuan($daftar['kode_barang']),$daftar['satuan_id']) ?></th>
 								</tr><?php $c++;}  ?>
 							</thead>
 							<tbody>

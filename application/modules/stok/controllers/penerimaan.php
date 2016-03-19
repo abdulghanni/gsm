@@ -25,7 +25,7 @@ class Penerimaan extends MX_Controller {
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
 		}
 	function get_column(){
-		
+		$usergroup=GetValue('group_id','users_groups',array('user_id'=>'where/'.$this->session->userdata('user_id')));
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
 		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
 		$colModel['ref'] = array('Ref',150,TRUE,'left',2);
@@ -33,8 +33,8 @@ class Penerimaan extends MX_Controller {
 		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
 		$colModel['tgl'] = array('Tanggal',110,TRUE,'left',2);
 		$colModel['bast'] = array('BAST',110,TRUE,'left',2);
-		if(GetValue('group_id','users_groups',array('user_id'=>'where/'.$this->session->userdata('user_id')))==('1'||'4'||'6'))
-		$colModel['invoice'] = array('Invoice',110,TRUE,'left',2);
+		//if($usergroup=='1'||$usergroup=='4'||$usergroup=='6'){
+                //$colModel['invoice'] = array('Invoice',110,TRUE,'left',2);}
         
 		$gridParams = array(
 		'rp' => 25,
@@ -144,6 +144,7 @@ class Penerimaan extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         //$this->data['gudang'] = getAll('gudang')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
+        $this->data['opt_po'] = GetOptAll('purchase_order','-Purchase Order-',array('app_status_id_lv4'=>'where/1','is_closed'=>'where/0','id'=>'order/desc'),'po');
        // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
@@ -178,7 +179,7 @@ class Penerimaan extends MX_Controller {
                         );
 
         $data = array(
-                'ref'=>$this->input->post('ref'),
+                'ref'=>  GetValue('po', 'purchase_order',array('id'=>'where/'.$this->input->post('ref'))),
                 'ref_type'=>$this->input->post('ref_type'),
                 'ref_id'=>$this->input->post('ref_id'),
                 
@@ -207,7 +208,7 @@ class Penerimaan extends MX_Controller {
                 );
         $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         $sisaan=+$sisa;
-		masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
+	masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
         $this->send_notification($insert_id);
 		endfor;
 		//echo $sisaan;
@@ -234,7 +235,8 @@ class Penerimaan extends MX_Controller {
     }
 	function cariref(){
 			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') AND is_draft=0");
+			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (id='$v' OR po='$v') AND is_draft=0");
+                        //echo $this->db->last_query();
 			if($cariref->num_rows()>0){
 					
 					$data['refid']=$cariref->row_array();
@@ -266,7 +268,7 @@ class Penerimaan extends MX_Controller {
 	}
 	function carilist(){
 			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') AND is_draft=0");
+			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (id='$v' OR po='$v') AND is_draft=0");
 			if($cariref->num_rows()>0){
 				$data['refid']=$cariref->row_array();
 				if($data['refid']['app_status_id_lv4']==1){
@@ -318,16 +320,19 @@ class Penerimaan extends MX_Controller {
     function bast($id=NULL)
     {
         permissionUser();
-        $this->data['id'] = $id;/* 
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id); */
+        $this->data['id'] = $id;
+        $this->data[$this->file_name] = GetAll($this->module.'_'.$this->file_name,array('id'=>'where/'.$id))->row_array();
+        $this->data[$this->file_name.'_list'] = GetAll($this->module.'_'.$this->file_name.'_list',array('id'=>'where/'.$id)); 
         
         $this->load->library('mpdf60/mpdf');
-        $html = $this->load->view($this->module.'/'.$this->file_name.'/bast', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'_BAST-'.$title.'.pdf', 'I');
+        
+          $html = $this->load->view($this->module.'/'.$this->file_name.'/bast', $this->data, true); 
+          to_doc($html,'BAST');
+//        $mpdf = new mPDF();
+//        $mpdf = new mPDF('A4');
+//        $mpdf->WriteHTML($html);
+//        $mpdf->Output($id.'_BAST-'.$title.'.pdf', 'I');
+          
     }
 
     //FOR JS

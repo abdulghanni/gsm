@@ -1,4 +1,5 @@
 <!-- start: PAGE TITLE -->
+<?php error_reporting(0); ?>
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
@@ -37,122 +38,139 @@
 					</div>
 				</div>
 				<hr>
-				<div class="row">
-					<div class="col-md-5">
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputEmail3">
-								No. P.O
-							</label>
-							<div class="col-sm-9">
-								<?php $nm_f="ref";
-								?>
-								<!--Bagian Kanan-->
-								<?php echo form_dropdown($nm_f,$opt_po,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="select2" id="'.$nm_f.'" onchange="cariref(this.value)"')?>
-								
-								<!--//Bagian Kanan-->
-							</div>
+				<div class="form-group">
+			   
+			   <?php $nm_f="number";?>
+			   <div class="col-sm-3">
+				   <label for="<?php echo $nm_f?>"><?php echo ucfirst($nm_f)?></label>
+				   </div><div class="col-sm-9">
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-2 text-input" readonly>
+			   </div>
+		   </div>
+		   <div class="form-group">
+			   
+			   <?php $nm_f="ref";?>
+			   <div class="col-sm-3">
+				   <label for="<?php echo $nm_f?>">Referal Code / No Voucher</label>
+				   </div><div class="col-sm-9">
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required<?php echo $cekdup?>]">
+			   </div>
+			   </div>
+		   <div class="form-group">
+			   
+			   <?php $nm_f="dates";?>
+			   <div class="col-sm-3">
+				   <label for="<?php echo $nm_f?>">Post Tgl</label>
+				   </div><div class="col-sm-4">
+						<div class="input-group">
+							<?php echo form_input($nm_f,$a= (isset($val[$nm_f]) ? $val[$nm_f] : ''),"id='$nm_f' class='form-control date-picker-this' data-date-format='yyyy-mm-dd'");?>
+							<span class="input-group-addon">
+								<i class="fa fa-calendar bigger-110"></i>
+							</span>
 						</div>
-						</div>
-						</div>
-				<div class="row" id="detailtrans">
+			   </div>
+			   </div>
+		   <div class="form-group">
+			   
+			   <?php $nm_f="remark";?>
+			   <div class="col-sm-3">
+				   <label for="<?php echo $nm_f?>">Remark</label>
+				   </div><div class="col-sm-9">
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required<?php echo $cekdup?>]">
+			   </div>
+			   </div>
+		   <div class="form-group">
+			   
+			   <?php $nm_f="person";?>
+			   <div class="col-sm-3">
+				   <label for="<?php echo $nm_f?>">Person</label>
+				   </div><div class="col-sm-9">
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required]">
+			   </div>
+			   </div>
+		   <div class="form-group">
+			   
+			   <?php $nm_f="job_number";?>
+			   <div class="col-sm-3">
+				   <label for="<?php echo $nm_f?>">Job Number</label>
+				   </div><div class="col-sm-9">
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required]">
+			   </div>
+			   </div>
+		   <div class="form-group">
+			   
+			   <?php $nm_f="amount";?>
+			   <div class="col-sm-3">
+				   <label for="<?php echo $nm_f?>"><?php echo ucfirst($nm_f)?></label>
+				   </div><div class="col-sm-9">
+				   <?php echo form_dropdown('rc',$opt_curr,(isset($val['rc']) ? $val['rc'] : '1'))?>
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required] currency">
+			   </div>
+			   </div>
+				<div class="form-group">
+				<?php $nm_f="from";?>
+				<div class="col-sm-3">
+					<label for="<?php echo $nm_f?>">From</label>
+					</div><div class="col-sm-4">
+					<?php echo form_dropdown($nm_f,$opt_from, (isset($val[$nm_f]) ? $val[$nm_f] : ''),"class='chosen-select form-control'")?>
 				</div>
-				<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')" style="display:none">
-                    <?= lang('add').' '.lang('item') ?> <i class="fa fa-plus"></i>
-                </button>
-                <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" style="display:none">
-                    <?= 'Remove' ?> <i class="fa fa-remove"></i>
-                </button>
-				<div class="row" id="list">
-					
-							<img src="<?php echo base_url().'assets/images/loading.gif' ?>" class="loadingimg" style="display:none">
 				</div>
-				<div class="row">
-					<input type="hidden" name="dp" value="0">
-					<div id="subTotalPajak"></div>
-					<div class="row">
-						<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
-							<ul class="list-group">
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total Pajak
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="totalPajak" value="0" class="form-control text-right" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Biaya Pengiriman
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="0">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" class="form-control text-right" id="total" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Dibayar
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
-										</div>
-									</div>
-								</li>
-								<div id="total_angsuran" style="display:none">
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Biaya Angsuran
-											</div>
-											<div class="col-md-2">
-											</div>
-											<div class="col-md-4">
-											<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="0">
-											</div>
-											<div class="col-md-2" id="angsuran" style="margin-left:-10px">
-											</div>
-										</div>
-									</li>
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Total+Bunga Angsuran
-											</div>
-											<div class="col-md-6 pull-right">
-											<input type="text" id="totalplusbunga" class="form-control text-right" value="0">
-											</div>
-										</div>
-									</li>
-								</div>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Saldo
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="saldo" class="form-control text-right" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-							</ul>
-						</div>
+				<div class="form-group">
+				<?php $nm_f="coa";?>
+				<div class="col-sm-3">
+					<label for="<?php echo $nm_f?>">COA</label>
+					</div><div class="col-sm-4">
+					<?php echo form_dropdown($nm_f,$opt_coa, (isset($val[$nm_f]) ? $val[$nm_f] : ''),"class='chosen-select form-control'")?>
+				</div>
+				</div>
+				<div class="form-group">
+			   
+					<div class="col-sm-3">
+						<?php $nm_f="save_type";?>
+						<label for="<?php echo $nm_f?>" class="">Type</label>
 					</div>
-				</div>
+				<div class="col-sm-3">
+					   <?php $a="in";
+						   $mark=($val[$nm_f]==$a ? TRUE : FALSE);
+						   //echo $mark;
+						   $data = array(
+						   'name'        => $nm_f,
+						   'id'          => $nm_f,
+				'value'       => $a,
+						   'checked'     => $mark,
+						   'style'       => 'margin:10px',
+						   
+						   
+						   );
+						   
+						   echo form_radio($data);
+						   
+					   ?>
+					 <label for="<?php echo $nm_f?>"><?php echo $a?></label>&nbsp;&nbsp;&nbsp;&nbsp;
+					 
+					 
+					 <?php $a="out";
+						 $mark=($val[$nm_f]==$a ? TRUE : FALSE);
+						 //echo $mark;
+						 $data = array(
+						 'name'        => $nm_f,
+						 'id'          => $nm_f,
+						 'value'       => $a,
+						 'checked'     => $mark,
+						 'style'       => 'margin:10px',
+						 );
+						 
+						 echo form_radio($data);
+						 
+					 ?>
+					 <label for="<?php echo $nm_f?>"><?php echo $a?></label>&nbsp;&nbsp;&nbsp;&nbsp;
+				 </div>
 			</div>
+    		<div class="form-group">
+            <button type="submit" class="btn pull-right">Submit</button>
+            
+             </div>
+				
 		</div>
 	</div>
 </div>
@@ -160,8 +178,7 @@
 <!-- end: INVOICE -->
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
-    $(document).ready(function(e){
-	$('.select2').select2();});
+	
 	function cariref(val){
 		$('#detailtrans').append('<img src="<?php echo base_url().'assets/images/loading.gif' ?>" class="loadingimg">');
 		$('#detailtrans').load('<?php echo base_url() ?>stok/penerimaan/cariref',{v:val});

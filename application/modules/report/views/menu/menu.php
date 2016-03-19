@@ -20,7 +20,7 @@ function carikar(id)
 <section id="page-title">
     <div class="row">
         <div class="col-sm-8">
-            <h1 class="mainTitle"><?php echo $title?></h1>
+            <h1 class="mainTitle">Laporan</h1>
         </div>
         <ol class="breadcrumb">
             <li>
@@ -42,7 +42,7 @@ function carikar(id)
 	  </tr>
 		<tr>
 			<td>
-					<?php echo form_dropdown($nm_f,$opt_dok, (isset($val[$nm_f]) ? $val[$nm_f] : ''),"class='chosen-select select2 form-control' onChange='carimenu(this.value)'")?>
+					<?php echo form_dropdown($nm_f,$opt_dok, (isset($val[$nm_f]) ? $val[$nm_f] : ''),"class='chosen-select select2' onChange='carimenu(this.value)' style='width:100%;'")?>
 			</td>
 		</tr>
 		<tr>

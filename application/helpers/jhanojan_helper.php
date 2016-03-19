@@ -1289,7 +1289,7 @@ if (!function_exists('to_excel')){
 if (!function_exists('to_doc')){
 	function to_doc($query, $filename='docoutput')
 	{
-		header("Content-type: application/msword");
+                        header("Content-type: application/vnd.ms-word");
 	  header("Content-Disposition: attachment; filename=$filename.doc");
 	  echo "$query";
 	}
@@ -1917,7 +1917,7 @@ function getkurs($id){
 	return $q['kurs'];
 	
 }
-function keluarstok($gudang,$barang,$qty,$satuan=NULL){
+function keluarstok($gudang,$barang,$qty,$satuan=NULL,$source=NULL,$ref=NULL,$tgl=NULL,$no=NULL){
 	$CI=&get_instance();
 	$satuanbarang=GetValue('satuan','barang',array('id'=>'where/'.$barang));
 	if($satuan!=$satuanbarang){
@@ -1928,11 +1928,14 @@ function keluarstok($gudang,$barang,$qty,$satuan=NULL){
 		if($dalam>=$qty){
 		$q="UPDATE stok SET dalam_stok=dalam_stok-$qty WHERE gudang_id='$gudang' AND barang_id='$barang'";
 		$ex=$CI->db->query($q);
-		if($ex) return TRUE;
-		else return FALSE;
+                
+                        if($ex) {
+                            historystok('out', $source, $ref, $gudang, $barang, $satuan, $qty, $tgl,$no);
+                            return TRUE;}
+                        else {return FALSE;}
 		}
 }
-function masukstok($gudang,$barang,$qty,$satuan=NULL){
+function masukstok($gudang,$barang,$qty,$satuan=NULL,$source=NULL,$ref=NULL,$tgl=NULL,$no=NULL){
 	$CI=&get_instance();
 	$satuanbarang=GetValue('satuan','barang',array('id'=>'where/'.$barang));
 	if($satuan!=$satuanbarang){
@@ -1944,15 +1947,16 @@ function masukstok($gudang,$barang,$qty,$satuan=NULL){
 		if($dalam->num_rows()>0){
 			$q="UPDATE stok SET dalam_stok=dalam_stok+$qty WHERE gudang_id='$gudang' AND barang_id='$barang'";
 			$ex=$CI->db->query($q);
-			if($ex) return TRUE;
-			else return FALSE;
 		}
 		else{
 			$q="INSERT INTO stok SET dalam_stok=$qty,gudang_id='$gudang',barang_id='$barang'";
 			$ex=$CI->db->query($q);
-			if($ex) return TRUE;
-			else return FALSE;	
 		}
+                
+                        if($ex) {
+                            historystok('in', $source, $ref, $gudang, $barang, $satuan, $qty, $tgl,$no);
+                            return TRUE;}
+                        else {return FALSE;}
 }
 function getoptsatuan($barang){
 	$q = GetAll('barang_satuan', array('barang_id'=>'where/'.$barang));
@@ -1976,5 +1980,24 @@ function getoptsatuan($barang){
 		generatenumbering($mod,NULL,NULL,NULL,$div,cln);
 		
 } */
-
+function dayindo($v){
+    $v=(int)$v;
+    $day=array(1=>'Senin','Selasa','Rabu','Kamis','Jumat','Sabtu','Minggu');
+    return $day[$v];
+}
+function historystok($type,$source,$ref,$gudang,$barang,$satuan,$qty,$tgl,$no=NULL){
+	$CI=&get_instance();
+        $data['type']=$type;
+        $data['source']=$source;
+        $data['ref']=$ref;
+        if($no!=NULL)$data['no']=$no;
+        $data['gudang']=$gudang;
+        $data['barang']=$barang;
+        $data['satuan']=$satuan;
+        $data['qty']=$qty;
+        $data['tgl']=$tgl;
+        $data['created_on']=date("Y-m-d H:i:s");
+        $data['created_by']=$CI->session->userdata('user_id');
+        $CI->db->insert('stok_log',$data);
+}
 ?>

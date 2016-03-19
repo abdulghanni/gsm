@@ -1,10 +1,10 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Pengeluaran extends MX_Controller {
+class cash_ledger extends MX_Controller {
     public $data;
-    var $module = 'stok';
-    var $title = 'pengeluaran';
-    var $file_name = 'pengeluaran';
+    var $module = 'finance';
+    var $title = 'cash_ledger';
+    var $file_name = 'cash_ledger';
     
     function __construct()
     {
@@ -16,7 +16,7 @@ class Pengeluaran extends MX_Controller {
 
     function index()
     {
-        $this->data['title'] = $this->title;
+        $this->data['title'] = 'Cash Ledger';
         $this->data['modul'] = $this->module;
         $this->data['filename'] = $this->file_name;
         $this->data['main_title'] = $this->module.'';
@@ -24,111 +24,98 @@ class Pengeluaran extends MX_Controller {
         permissionUser();
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
 		}
+	
 	function get_column(){
-		
-		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
-		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
-		$colModel['ref'] = array('Ref',140,TRUE,'left',2);
-		
-		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
-		$colModel['tgl'] = array('Tanggal',110,TRUE,'left',2);
-		$colModel['surat_jalan'] = array('Surat Jalan',110,TRUE,'left',2);
-		$colModel['delivered'] = array('Is Delivered',110,TRUE,'left',2);
+	
+            $colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
+            $colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
+            $colModel['code'] = array('code',110,TRUE,'left',2);
+            $colModel['ref'] = array('Refferal',110,TRUE,'left',2);
+            $colModel['post_tgl'] = array('Post Date',110,TRUE,'left',2);
+            $colModel['doc_tgl'] = array('Doc Date',110,TRUE,'left',2);
+            $colModel['voucher'] = array('Job Number',110,TRUE,'left',2);
+            $colModel['rincian'] = array('Rincian',110,TRUE,'left',2);
         
-		$gridParams = array(
-		'rp' => 25,
-		'rpOptions' => '[10,20,30,40]',
-		'pagestat' => 'Displaying: {from} to {to} of {total} items.',
-		'blockOpacity' => 0.5,
-		'title' => '',
-		'showTableToggleBtn' => TRUE
+            $gridParams = array(
+                'rp' => 25,
+                'rpOptions' => '[10,20,30,40]',
+                'pagestat' => 'Displaying: {from} to {to} of {total} items.',
+                'blockOpacity' => 0.5,
+                'title' => '',
+                'showTableToggleBtn' => TRUE
 		);
         
-		$buttons[] = array('separator');
-		/* $buttons[] = array('select','check','btn');
-		$buttons[] = array('deselect','uncheck','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('add','add','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('edit','edit','btn');
-		$buttons[] = array('delete','delete','btn');
-		$buttons[] = array('separator');
-		 */
-		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','asc',$gridParams,$buttons);
+           $buttons[] = array('select','check','btn');
+            $buttons[] = array('deselect','uncheck','btn');
+            $buttons[] = array('separator');
+            $buttons[] = array('add','add','btn');
+            $buttons[] = array('separator');
+            $buttons[] = array('edit','edit','btn');
+            $buttons[] = array('delete','delete','btn');
+            $buttons[] = array('separator');
+		
+            return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record/"),$colModel,'id','asc',$gridParams,$buttons);
 	}
 	
 	function get_flexigrid()
-	{
-		
-		//Build contents query
-		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered")->from('stok_pengeluaran a');
-		//$this->db->join('gudang b','b.id=a.gudang_from','left');
-		$this->db->join('gudang c','c.id=a.gudang_to','left');
-		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
-		$this->flexigrid->build_query();
-		
-		//Get contents
-		$return['records'] = $this->db->get();
-		/* 
-		//Build count query
-		$this->db->select("count(id) as record_count")->from($this->file_name);
-		$this->flexigrid->build_query(FALSE);
-		$record_count = $this->db->get();
-		$row = $record_count->row();
-		
-		//Get Record Count
-		$return['record_count'] = $row->record_count; */
-		$return['record_count'] = $return['records']->num_rows();
-		//Return all
-		return $return;
-	}
+        {
+
+            //Build contents query
+            $this->db->select("*")->from($this->file_name);
+			
+			//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
+            $this->flexigrid->build_query();
+
+            //Get contents
+            $return['records'] = $this->db->get();
+
+            //Build count query
+            $this->db->select("count(id) as record_count")->from($this->file_name);
+			
+            $this->flexigrid->build_query(FALSE);
+            $record_count = $this->db->get();
+            $row = $record_count->row();
+
+            //Get Record Count
+            $return['record_count'] = $row->record_count;
+
+            //Return all
+            return $return;
+        }
 	
 	function get_record(){
 		
-		$valid_fields = array('id','name','code','origin');
-		
-		$this->flexigrid->validate_post('id','DESC',$valid_fields);
-		$records = $this->get_flexigrid();
-		
-		$this->output->set_header($this->config->item('json_header'));
-		
-		$record_items = array();
-		
-		foreach ($records['records']->result() as $row)
-		{/*
+		$valid_fields = array('id','code','ref','voucher');
+
+            $this->flexigrid->validate_post('id','DESC',$valid_fields);
+            $records = $this->get_flexigrid();
+
+            $this->output->set_header($this->config->item('json_header'));
+
+            $record_items = array();
+
+            foreach ($records['records']->result() as $row)
+            {/*
 			if($row->status=='y'){$status='Aktif';}
 			elseif($row->status=='n'){$status='Tidak Aktif';}
 			elseif($row->status=='s'){$status='Suspended';}*/
-                        if($row->is_delivered=='No'){$ref="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>";}
-			$record_items[] = array(
-			$row->id,
-			$row->id,
-			$row->id,
-                        $ref,
-			$row->gudang_to,
-			$row->tgl,
-			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan/".$row->id."' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
-			"<a href='".base_url()."'>".$row->is_delivered."</a>",
-			);
-		}
-		
-		return $this->output->set_output($this->flexigrid->json_build($records['record_count'],$record_items));;
+				
+                $record_items[] = array(
+                $row->id,
+                $row->id,
+				$row->id,
+                $row->number,
+                $row->ref,
+                $row->post_tgl,
+                $row->doc_tgl,
+                $row->voucher,
+                $row->rincian,
+                        );
+            }
+
+            return $this->output->set_output($this->flexigrid->json_build($records['record_count'],$record_items));;
 	}  
-	
-   function surat_jalan($id)
-    {
-        permissionUser();
-        $this->data['id'] = $id;
-        $this->data[$this->file_name] = GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row_array();
-        $this->data[$this->file_name.'_list'] =  GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id))->result_array();
-        
-        $this->load->library('mpdf60/mpdf');
-        $html = $this->load->view($this->module.'/'.$this->file_name.'/surat_jalan', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
-    }
+
 	function deletec()
 	{		
 		//return true;
@@ -147,8 +134,8 @@ class Pengeluaran extends MX_Controller {
     {
         $this->data['title'] = $this->title.' - Input';
         permissionUser();
-        $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
+        $num_rows = getAll($this->file_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->file_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
 		
         $this->data['barang'] = getAll('barang')->result_array();
@@ -157,25 +144,26 @@ class Pengeluaran extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         //$this->data['gudang'] = getAll('gudang')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-        $this->data['opt_po'] = GetOptAll('sales_order','-Sales Order-',array('is_closed'=>'where/0','id'=>'order/desc'),'so');
        // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
+   
     function detail($id)
     {
         $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
-		$this->data['pengeluaran']=GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row();
-		$this->data['list']=GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id));
-		$this->data['refid']=GetAll($this->data['pengeluaran']->ref_type,array('id'=>'where/'.$this->data['pengeluaran']->ref_id))->row_array();
-       // $this->data[$this->file_name] = $this->main->get_detail($id);
-       // $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-
+		$this->data['cash_ledger']=GetAll('cash_ledger',array('id'=>'where/'.$id))->row();
+		$this->data['list']=GetAll('cash_ledger_list',array('cash_ledger_id'=>'where/'.$id));
+		$this->data['refid']=GetAll($this->data['cash_ledger']->ref_type,array('id'=>'where/'.$this->data['cash_ledger']->ref_id))->row_array();
+	// $this->data[$this->file_name] = $this->main->get_detail($id);
+		// $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
+		
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
+	
 
     function add()
     {
@@ -219,24 +207,24 @@ class Pengeluaran extends MX_Controller {
                 );
         $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         $sisaan=+$sisa;
-		keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i],$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']));
+		masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
         $this->send_notification($insert_id);
 		endfor;
 		//echo $sisaan;
-		if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
+		if($sisaan==0){$this->db->query("UPDATE purchase_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
 	function send_notification($id)
     {
         permissionUser();
-        $url = base_url().'sales/order/INV/'.$id;
-        $isi = getName(sessId())." Melakukan Transaksi pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
+        $url = base_url().'purchase/order/INV/'.$id;
+        $isi = getName(sessId())." Melakukan Transaksi cash_ledger Barang <a href=$url> KLIK DISINI </a> ";
         $approver = getAll('approver');
         foreach($approver->result() as $r):
 		$data = array('sender_id' => sessId(),
 		'receiver_id' => $r->user_id,
 		'sent_on' => dateNow(),
-		'judul' => 'pengeluaran Order',
+		'judul' => 'cash_ledger Order',
 		'isi' => $isi,
 		'url' => $url,
 		);
@@ -246,46 +234,46 @@ class Pengeluaran extends MX_Controller {
     }
 	function cariref(){
 			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (id='$v' OR so='$v') ");
+			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') AND is_draft=0");
 			if($cariref->num_rows()>0){
 					
 					$data['refid']=$cariref->row_array();
-				//if($data['refid']['is_app_lv1']==1){
+				if($data['refid']['app_status_id_lv4']==1){
 					if($data['refid']['is_closed']==0){
-						$data['reftype']='sales_order';
-						$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
+						$data['reftype']='purchase_order';
+						$cekparsial=$this->db->query("SELECT * FROM cash_ledger WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
 						if($cekparsial->num_rows()>0){
 							$data['part']=TRUE;	
 							$data['partno']=$cekparsial->num_rows()+1;	
 						}
 						
-						$this->load->view('stok/pengeluaran/input_id',$data);
+						$this->load->view('stok/cash_ledger/input_id',$data);
 						
 						}
 					else{
 							$data['message']="Transaksi sudah CLOSED";
-							$this->load->view('stok/pengeluaran/error',$data);
+							$this->load->view('stok/cash_ledger/error',$data);
 						}
-				/* }
+				}
 				else{
-					$data['message']="S.O BELUM di APPROVE";
-				$this->load->view('stok/pengeluaran/error',$data);} */
+					$data['message']="P.O BELUM di APPROVE";
+				$this->load->view('stok/cash_ledger/error',$data);}
 			}
 			else{
 				$data['message']="Transaksi TIDAK DITEMUKAN";
-				$this->load->view('stok/pengeluaran/error',$data);
+				$this->load->view('stok/cash_ledger/error',$data);
 			}
 	}
 	function carilist(){
 			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (id='$v' OR so='$v') ");
+			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') AND is_draft=0");
 			if($cariref->num_rows()>0){
 				$data['refid']=$cariref->row_array();
-				//if($data['refid']['is_app_lv1']==1){
+				if($data['refid']['app_status_id_lv4']==1){
 					if($data['refid']['is_closed']==0){
 					
-					$data['reftype']='sales_order';
-					$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."' ORDER BY id DESC LIMIT 1");
+					$data['reftype']='purchase_order';
+					$cekparsial=$this->db->query("SELECT * FROM cash_ledger WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."' ORDER BY id DESC LIMIT 1");
 					if($cekparsial->num_rows()>0){
 						$data['part']=TRUE;	
 						$data['partno']=$cekparsial->num_rows()+1;
@@ -293,13 +281,26 @@ class Pengeluaran extends MX_Controller {
 						
 					}
 						
-						$data['list']=GetAll('sales_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
-						$this->load->view('stok/pengeluaran/input_list',$data);
+						$data['list']=GetAll('purchase_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
+						$this->load->view('stok/cash_ledger/input_list',$data);
 					}
-				//}
+				}
 			}
 	}
-   
+   function INV($id)
+    {
+        permissionUser();
+        $this->data['id'] = $id;
+        $this->data[$this->file_name] = GetAll('cash_ledger',array('id'=>'where/'.$id));
+        $this->data[$this->file_name.'_list'] =  GetAll('cash_ledger_list',array('id'=>'where/'.$id));
+        
+        $this->load->library('mpdf60/mpdf');
+        $html = $this->load->view($this->module.'/'.$this->file_name.'/invoice', $this->data, true); 
+        $mpdf = new mPDF();
+        $mpdf = new mPDF('A4');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+    }
     function print_pdf($id)
     {
         permissionUser();
@@ -313,6 +314,20 @@ class Pengeluaran extends MX_Controller {
         $mpdf = new mPDF('A4');
         $mpdf->WriteHTML($html);
         $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+    }
+    function bast($id=NULL)
+    {
+        permissionUser();
+        $this->data['id'] = $id;/* 
+        $this->data[$this->file_name] = $this->main->get_detail($id);
+        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id); */
+        
+        $this->load->library('mpdf60/mpdf');
+        $html = $this->load->view($this->module.'/'.$this->file_name.'/bast', $this->data, true); 
+        $mpdf = new mPDF();
+        $mpdf = new mPDF('A4');
+        $mpdf->WriteHTML($html);
+        $mpdf->Output($id.'_BAST-'.$title.'.pdf', 'I');
     }
 
     //FOR JS
@@ -330,7 +345,7 @@ class Pengeluaran extends MX_Controller {
     {
         $q = getValue('title', 'barang', array('id'=>'where/'.$id));
 
-        echo json_encode($q);
+        echo json_encode();
 
     }
     
@@ -385,7 +400,4 @@ class Pengeluaran extends MX_Controller {
             return $this->load->view($view, $data, TRUE);
         }
     }
-	function bast($id=NULL){
-			$this->load->view('stok/pengeluaran/bast');
-	}
 }

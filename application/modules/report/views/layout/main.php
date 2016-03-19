@@ -31,17 +31,18 @@ function printDiv() {
    }
 </script>
 <div id="printbutton"><button  onclick="printDiv()">Print!</button></div>
-<?php if($lembarkedua){ ?>
+<?php if(isset($lembarkedua)){ ?>
 <div id="lembarkedua"><a href="<?php echo base_url().'printing/lembarkeduatrucking/'.$lembarkeduaid?>" style="font-size:13px;" target="_blank">Lembar Kedua</a></button></div>
 <?php } ?>
 <div id="printarea">
 
-<!--div id="Header"> 
-	<span style="font-family:arial; float:left; font-weight:bold; text-decoration:underline; width:100%; font-size:16pt;"><?php echo GetValue('name','sv_setup_company	',array('id'=>1))?></span><br/>
-	<span style=""><?php echo GetValue('address','sv_setup_company',array('id'=>1))?></span><br/>
-	<span style="">Tlp <?php echo GetValue('phone1','sv_setup_company',array('id'=>1))?></span>
-</div-->
+<div id="Header"> 
+	<span style="font-family:arial; float:left; font-weight:bold; text-decoration:underline; width:100%; font-size:16pt;">
+            <img src="<?php echo base_url()?>assets/images/logo-po.jpg" width="250px">
+       
+        </span>
+</div>
 <div id="isi">
-	<?php $this->load->view('report/'.$content);?>
+	<?php $this->load->view('content/'.$content);?>
 </div>
 </div>

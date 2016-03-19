@@ -133,7 +133,7 @@ td{ height:30px;}
 		$total = $total+$o->biaya_pengiriman;
 		$totalpluspajak = $total+$total_pajak;
 		$dp = $totalpluspajak * ($o->dibayar/100);
-		$saldo = $totalpluspajak - $dp -$o->dibayar_nominal;
+		$saldo = $totalpluspajak - $dp;
 	?>
 	
 	</table>

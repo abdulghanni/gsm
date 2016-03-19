@@ -1,9 +1,13 @@
 <!doctype html>
+<?php
+$tgl=strtotime($penerimaan['tgl']);
+$day=date("N",$tgl);
+?>
 <html>
 <head>
 <meta charset="utf-8">
 <style type="text/css">
-table{font-size:10px;}
+table{font-size:10px; width:100%;border:0; cellspacing:0; cellpadding:0;}
 td{ height:30px;}
 .list td{ height:40px;font-family:Arial, sans-serif;font-size:8px;padding:12px 16px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
 .list th{height:40px; font-family:Arial, sans-serif;font-size:8px;font-weight:normal;padding:12px 16px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
@@ -11,7 +15,7 @@ td{ height:30px;}
 </head>
 
 		<body>
-			<table width="100%" border="0`" cellspacing="0" cellpadding="0">
+			<table>
 				<tbody>
 					<tr>
 						<td colspan="3"><p> <strong><img src="<?php echo base_url()?>assets/images/your-logo-here.png" width="50px"> PT  GRAMASELINDO UTAMA</strong></p></td>
@@ -20,7 +24,7 @@ td{ height:30px;}
 						<td colspan="3"><center><strong><u>BERITA ACARA SERAH TERIMA BARANG</u></strong></center></td>
 					</tr>
 					<tr>
-						<td colspan="3"><p>Pada hari ini<u>                             </u>tanggal<u>                        </u>bulan<u>                            </u>tahun<u>                            </u>, yang bertanda  tangan di bawah ini,telah melakukan serah terima barang berdasarkan:</p></td>
+				<td colspan="3"><p>Pada hari ini <strong> <?php echo dayindo($day)?></strong> tanggal<strong> <?php echo  substr($penerimaan['tgl'],8,2)?> </strong> bulan <strong><?php echo GetMonthFull(substr($penerimaan['tgl'],5,2))?></strong> tahun <strong><?php echo substr($penerimaan['tgl'],0,4)?></strong>, yang bertanda  tangan di bawah ini,telah melakukan serah terima barang berdasarkan:</p></td>
 					</tr>
 					<tr>
 						<td width="44%">&nbsp;</td>
@@ -28,34 +32,14 @@ td{ height:30px;}
 						<td width="28%">&nbsp;</td>
 					</tr>
 					<tr>
-						<td>No PO              : <u>                        </u></td>
+						<td>No PO              : <?php echo $penerimaan['ref'] ?><u></u></td>
 						<td>&nbsp;</td>
 						<td><p>No Surat Jalan    : <u>                        </u></p></td>
 					</tr>
 					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td height="30"><p>Project              : <u>                          </u></p></td>
+                                            <td height="30"><p>Project              : <?php echo GetValue('proyek', $penerimaan['ref_type'],array('no'=>'where/'.$penerimaan['ref'])) ?></p></td>
 						<td>&nbsp;</td>
 						<td>Tipe Kendaraan  : <u>                          </u>      </td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
 					</tr>
 					<tr>
 						<td>Total Box         : <u>                            </u></td>
@@ -102,7 +86,7 @@ td{ height:30px;}
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
-						<td colspan="3"><p><strong>Keterangan:<u>..................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................................</u></strong><strong><u></u></strong></p></td>
+						<td colspan="3"><p><strong>Keterangan: - </strong></p></td>
 					</tr>
 					<tr>
 						<td>&nbsp;</td>

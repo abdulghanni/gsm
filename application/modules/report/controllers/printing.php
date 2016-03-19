@@ -5,6 +5,9 @@ class Printing extends MX_Controller {
     var $module = 'report';
     var $title = 'Custom Report';
     var $file_name = 'report';
+    var $fonts='Comic Sans Ms';
+    var $header='#8F9258';
+
 	function __construct()
 	{
 		parent::__construct();
@@ -33,14 +36,6 @@ class Printing extends MX_Controller {
         $this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
 		$this->_render_page('report/menu/menu', $this->data);
 	}
-	function sales_order(){
-			$sd=$this->input->post('start_date');
-			$ed=$this->input->post('end_date');
-			$data['period']=$sd.' / '.$ed;
-			$data['kolom']=$this->input->post('kolom');
-			$data['q']=$this->db->query("SELECT * FROM sales_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ")->result();
-			$this->load->view('layout/sales_order',$data);
-	}
 	function response_cat($id=null){
 		//error_reporting(0);
 		if($id!=''){
@@ -59,114 +54,53 @@ class Printing extends MX_Controller {
 			}
 		}
 	}
-    public function ajax_list()
-    {
-        $list = $this->stok->get_datatables();
-        $data = array();
-        $no = $_POST['start'];
-        foreach ($list as $stok) {
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = $stok->kode;
-            $row[] = $stok->barang;
-            $row[] = $stok->jumlah;
-            $row[] = $stok->satuan;
-            $row[] = $stok->kurensi.'.'.$stok->harga;
-            $row[] = $stok->gudang;
-            $row[] = $stok->lokasi_gudang;
-
-
-            //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$stok->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$stok->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
         
-            $data[] = $row;
-        }
+	function sales_order(){
+            error_reporting(E_ALL);
+                        $data['autoprint']=FALSE;
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+			$data['period']=$sd.' / '.$ed;
+			$data['kolom']=$this->input->post('kolom');
+			$data['q']=$this->db->query("SELECT * FROM sales_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ")->result();
+                        $data['content']='sales/sales_order';
+			$this->load->view('layout/main',$data);
+                 // $this->load->view('layout/sales_order',$data);
 
-        $output = array(
-                        "draw" => $_POST['draw'],
-                        "recordsTotal" => $this->stok->count_all(),
-                        "recordsFiltered" => $this->stok->count_filtered(),
-                        "data" => $data,
-                );
-        //output to json format
-        echo json_encode($output);
-    }
+	}
+        
+	function stok_history(){
+                        $data['autoprint']=FALSE;
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+                        
+                        
+                        $q="SELECT * FROM stok_log WHERE tgl >= '$sd' AND tgl <= '$ed' ";
+                        
+                        if($this->input->post('barang')){$q.=" AND barang='".$this->input->post('barang')."' ";}
+                        if($this->input->post('gudang')){$q.=" AND gudang='".$this->input->post('gudang')."' ";}
+                        //echo $this->db->last_query();
+			$data['period']=$sd.' / '.$ed;
+			$data['kolom']=$this->input->post('kolom');
+			$data['q']=$this->db->query($q)->result_array();
+                        $data['content']='stok/history';
+			$this->load->view('layout/main',$data);
+                 // $this->load->view('layout/sales_order',$data);
 
-    public function ajax_edit($id)
-    {
-        $data = $this->stok->get_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
-        echo json_encode($data);
-    }
+	}
+	function purchase_order(){
+                        $data['autoprint']=FALSE;
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+                        
+                        
+                        $q="SELECT * FROM purchase_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ";
+			$data['period']=date('d-m-Y',strtotime($sd)).' s/d '.date('d-m-Y',strtotime($ed));
+			$data['kolom']=$this->input->post('kolom');
+			$data['q']=$this->db->query($q)->result_array();
+                        $data['content']='purchase/order';
+			$this->load->view('layout/main',$data);
+                 // $this->load->view('layout/sales_order',$data);
 
-    public function ajax_add()
-    {
-        //$this->_validate();
-        $data = array(
-                'kode' => $this->input->post('kode'),
-                'jumlah' => $this->input->post('jumlah'),
-                'unit_id' => $this->input->post('satuan'),
-                'kurensi_id' => $this->input->post('kurensi_id'),
-                'harga' => $this->input->post('harga'),
-                'gudang_id' => $this->input->post('gudang_id'),
-            );
-        $insert = $this->stok->save($data);
-        echo json_encode(array("status" => TRUE));
-    }
-
-    public function ajax_update()
-    {
-        //$this->_validate();
-        $data = array(
-                'kode' => $this->input->post('kode'),
-                'jumlah' => $this->input->post('jumlah'),
-                'unit_id' => $this->input->post('satuan'),
-                'kurensi_id' => $this->input->post('kurensi_id'),
-                'harga' => $this->input->post('harga'),
-                'gudang_id' => $this->input->post('gudang_id'),
-            );
-        $this->stok->update(array('id' => $this->input->post('id')), $data);
-        echo json_encode(array("status" => TRUE));
-    }
-
-    public function ajax_delete($id)
-    {
-        $this->stok->delete_by_id($id);
-        echo json_encode(array("status" => TRUE));
-    }
-    
-	function _render_page($view, $data=null, $render=false)
-    {
-        $data = (empty($data)) ? $this->data : $data;
-        if ( ! $render)
-        {
-            $this->load->library('template');
-
-                if(in_array($view, array('report/menu/menu')))
-                {
-                    $this->template->set_layout('default');
-
-                    $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
-                    $this->template->add_css('vendor/select2/select2.css');
-
-                    $this->template->add_js('vendor/jquery-validation/jquery.validate.min.js');
-                    $this->template->add_js('assets/js/form-validation.js');
-                    $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
-                    $this->template->add_js('vendor/select2/select2.min.js');
-                    //$this->template->add_js('assets/js/master/stok/index.js');
-                }
-
-            if ( ! empty($data['title']))
-            {
-                $this->template->set_title($data['title']);
-            }
-
-            $this->template->load_view($view, $data);
-        }
-        else
-        {
-            return $this->load->view($view, $data, TRUE);
-        }
-    }
+	}
 }
