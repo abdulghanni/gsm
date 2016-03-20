@@ -465,6 +465,9 @@ class Order extends MX_Controller {
     function get_dari_pr($id)
     {
         permissionUser();
+        $filter = array('is_deleted'=>0);
+        $this->data['jenis'] = getAll('kontak_jenis', $filter);
+        $this->data['tipe'] = getAll('kontak_tipe', $filter);
 
         $this->data['order'] = $this->main->get_detail_pr($id);
         $this->data['order_list'] = $this->main->get_list_detail_pr($id);
@@ -523,7 +526,15 @@ class Order extends MX_Controller {
         $this->data['order_list'] = $this->main->get_list_detail_pr($id);//lastq();
         $this->load->view($this->module.'/'.$this->file_name.'/table', $this->data);
     }
+
+    function load_kontak()
+    {
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
+
+        $this->load->view('master/kontak/load_kontak', $this->data);
+    }
     
+
     function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

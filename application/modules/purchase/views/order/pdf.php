@@ -153,8 +153,9 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 
 	<?php endforeach;		
 		$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
-		$diskon_tambahan = $o->diskon_tambahan_persen + $o->diskon_tambahan_nominal;
-		$total = $total+$o->biaya_pengiriman-$diskon_tambahan;
+		$diskon_tambahan = $o->diskon_tambahan_nominal;
+		$diskon_tambahan_persen = $total * ($o->diskon_tambahan_persen / 100); 
+		$total = $total+$o->biaya_pengiriman-$diskon_tambahan-$diskon_tambahan_persen;
 		$totalpluspajak = $total+$total_pajak;
 		$dp = $totalpluspajak * ($o->dibayar/100);
 		$saldo = $totalpluspajak - $dp - $o->dibayar_nominal;
@@ -248,6 +249,15 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($o->diskon_tambahan_nominal, 2)?></td>
 	</tr>
+	<?php }elseif($o->diskon_tambahan_persen!=0){?>
+	<tr>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td align="center">&nbsp;</td>
+		<td colspan="3">Discount ++</td>
+		<td align="right">:</td>
+		<td align="right" colspan="2"><?=number_format($o->diskon_tambahan_persen, 2)?>%</td>
+	</tr>
 	<?php } ?>
 	<tr>
 		<td align="center">&nbsp;</td>
@@ -272,7 +282,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Dibayar<?php endif; ?></td>
+		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Down Payment<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
 		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=$dp?><?php endif; ?></td>
 	</tr>

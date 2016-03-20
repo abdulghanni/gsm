@@ -249,6 +249,36 @@ class kontak extends MX_Controller {
         $objWriter->save('php://output');
     }
 
+    //FOR JS
+
+    public function add_json()
+    {
+        permissionUser();
+        $data = array(
+                'kode' => $this->input->post('kode'),
+                'title' => $this->input->post('title'),
+                'jenis_id' => $this->input->post('jenis_id'),
+                'tipe_id' => $this->input->post('tipe_id'),
+                'up' => implode(',', $this->input->post('up')),
+                'telepon' => implode(',', $this->input->post('telepon')),
+                'alamat' => implode(',', $this->input->post('alamat')),
+                'email' => $this->input->post('email'),
+                'fax' => $this->input->post('fax'),
+                'catatan' => $this->input->post('catatan'),
+                'npwp'=>$this->input->post('npwp'),
+                'no_rekening'=>$this->input->post('no_rekening'),
+                'bank'=>$this->input->post('bank'),
+                'a_n'=>$this->input->post('a_n'),
+                'alamat_pajak'=>$this->input->post('alamat_pajak'),
+                'acc'=>$this->input->post('acc'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
+            );
+        $insert = $this->main->save($data);
+        echo json_encode(array('status'=>true));
+        //echo json_encode(array("status" => TRUE));
+    }
+
 	function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

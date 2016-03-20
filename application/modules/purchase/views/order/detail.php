@@ -190,8 +190,9 @@
 								</tr>
 								<?php endforeach;
 									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
-									$diskon_tambahan = $o->diskon_tambahan_persen + $o->diskon_tambahan_nominal;
-									$total = $total+$o->biaya_pengiriman-$diskon_tambahan;
+									$diskon_tambahan = $o->diskon_tambahan_nominal;
+									$diskon_tambahan_persen = $total * ($o->diskon_tambahan_persen / 100); 
+									$total = $total+$o->biaya_pengiriman-$diskon_tambahan-$diskon_tambahan_persen;
 									$totalpluspajak = $total+$total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
 									$saldo = $totalpluspajak - $dp - $o->dibayar_nominal;
@@ -373,35 +374,34 @@
 									</div>
 								</div>
 							</li>
-							<?php if(!empty($o->diskon_tambahan_nominal)){?>
-							<li class="list-group-item">
-								<div class="row">
-									<div class="col-md-4">
-									Diskon Tambahan
+								<?php if($o->diskon_tambahan_nominal!=0){?>
+								<li class="list-group-item">
+									<div class="row">
+										<div class="col-md-4">
+										Diskon Tambahan
+										</div>
+										<div class="col-md-7 pull-right">
+										<input type="text" class="form-control text-right" id="diskon" value="<?=number_format($o->diskon_tambahan_nominal, 2)?>" readonly="readonly">
+										</div>
 									</div>
-									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="diskon" value="<?=number_format($o->diskon_tambahan_nominal, 2)?>" readonly="readonly">
+								</li>
+							<?php }elseif($o->diskon_tambahan_persen!=0){?>
+								<li class="list-group-item">
+									<div class="row">
+										<div class="col-md-4">
+										Diskon Tambahan
+										</div>
+										<div class="col-md-2">
+										</div>
+										<div class="col-md-4">
+										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->diskon_tambahan_persen?>" readonly>
+										</div>
+										<div class="col-md-1">
+										%
+										</div>
 									</div>
-								</div>
-							</li>
-							<?php }
-							if(!empty($ol->diskon_tambahan_persen)){?>
-							<li class="list-group-item">
-								<div class="row">
-									<div class="col-md-4">
-									Diskon Tambahan
-									</div>
-									<div class="col-md-2">
-									</div>
-									<div class="col-md-4">
-									<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->diskon_tambahan_persen?>" readonly>
-									</div>
-									<div class="col-md-1">
-									%
-									</div>
-								</div>
-							</li>
-							<?php } ?>
+								</li>
+							<?php }?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">

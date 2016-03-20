@@ -5,11 +5,14 @@
 				<label class="col-sm-4 control-label" for="inputEmail3">
 					Kepada
 				</label>
-				<div class="col-sm-8">
+				<div class="col-sm-7">
 					<?php 
                     	$js = 'class="select2" style="width:100%" id="kontak_id"';
                     	echo form_dropdown('kontak_id', $options_kontak,'',$js); 
                   	?>
+				</div>
+				<div class="col-md-1">
+                  	<button type="button" class="btn btn-primary btn-xs" style="margin-left: -15px" title="Tambah Supplier Baru" data-toggle="modal" data-target="#modalKontak"><i class="fa fa-plus"></i></button>
 				</div>
 			</div>
 			<div class="form-group">
@@ -153,6 +156,169 @@
     <div id="table-pr"></div>
 
 <?php endforeach;?>
+
+<div class="modal fade" id="modalKontak" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+			</div>
+			<div class="modal-body">
+			<form id="form_kontak">
+				<input type="hidden" name="jenis_id" value="1">
+				<div class="row form-row">
+                    <div class="col-sm-12">
+                    <fieldset>
+                    <legend>Info Identitas</legend>
+                        <div class="form-body">
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3"><?= lang('code')?></label>
+                                <div class="col-sm-7">
+                                    <input name="kode" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Nama</label>
+                                <div class="col-sm-7">
+                                    <input name="title" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Tipe</label>
+                                <div class="col-sm-7">
+                                    <select name="tipe_id" class="select2" style="width:100%">
+                                        <option value="">-- Pilih Tipe Kontak --</option>
+                                        <?php foreach($tipe->result() as $t):?>
+                                            <option value="<?=$t->id?>"><?=$t->title?></option>
+                                        <?php endforeach;?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">UP</label>
+                                <div class="col-sm-7">
+                                    <input name="up[]" placeholder="" class="form-control" type="text"><br/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Catatan</label>
+                                <div class="col-sm-9">
+                                    <textarea class="form-control" name="catatan"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                    <fieldset>
+                    <legend>Info Kontak</legend>
+                        <div class="form-body">
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Email</label>
+                                <div class="col-sm-7">
+                                    <input name="email" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Fax</label>
+                                <div class="col-sm-7">
+                                    <input name="fax" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Telepon</label>
+                                <div class="col-sm-7">
+                                    <input name="telepon[]" placeholder="" class="form-control" type="text"><br/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Alamat</label>
+                                <div class="col-sm-7">
+                                    <textarea class="form-control" name="alamat[]"></textarea><br/>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    </div>
+                    <div class="col-sm-6">
+                        <fieldset>
+                            <legend>Info Finansial</legend>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">NPWP</label>
+                                <div class="col-sm-7">
+                                    <input name="npwp" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">No. Rekening</label>
+                                <div class="col-sm-7">
+                                    <input name="no_rekening" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Nama Bank</label>
+                                <div class="col-sm-7">
+                                    <input name="bank" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Atas Nama</label>
+                                <div class="col-sm-7">
+                                    <input name="a_n" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Alamat Pajak</label>
+                                <div class="col-sm-7">
+                                    <input name="alamat_pajak" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-3">Acc</label>
+                                <div class="col-sm-7">
+                                    <input name="acc" placeholder="" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div> 
+                </div>
+            </form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary btn-o" data-dismiss="modal">
+					Close
+				</button>
+				<button type="button" class="btn btn-primary" onclick="saveKontak()">
+					Save changes
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript" src="<?=assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js')?>"></script>
 <script type="text/javascript" src="<?=assets_url('vendor/jquery-mask-money/jquery.MaskMoney.js')?>"></script>
 <script type="text/javascript">
@@ -167,6 +333,49 @@ $("input:checkbox:not(:checked)").each(function() {
 	    var total = "#total"+$(this).attr("class");
 	    $(total).toggle();
 	});
+
+function saveKontak()
+{
+    $('#btnSaveKontak').text('saving...'); //change button text
+    $('#btnSaveKontak').attr('disabled',true); //set button disable 
+
+    // ajax adding data to database
+    $.ajax({
+        url : "/gsm/master/kontak/add_json",
+        type: "POST",
+        data: $('#form_kontak').serialize(),
+        dataType: "JSON",
+        success: function(data)
+        {
+
+            if(data.status) //if success close modal and reload ajax table
+            {
+                $('#modalKontak').modal('hide');
+                $("#kontak_id").load("/gsm/purchase/order/load_kontak");
+                //reload_table();
+            }
+            else
+            {
+                for (var i = 0; i < data.inputerror.length; i++) 
+                {
+                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                }
+            }
+            $('#btnSave').text('save'); //change button text
+            $('#btnSave').attr('disabled',false); //set button enable 
+
+
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Error adding / update data');
+            $('#btnSaveKontak').text('save'); //change button text
+            $('#btnSaveKontak').attr('disabled',false); //set button enable 
+
+        }
+    });
+}
 
 function getAlamat(id)
 {

@@ -31,6 +31,9 @@ class Order extends MX_Controller {
         $this->data['module'] = $this->module;
         $this->data['file_name'] = $this->file_name;
         permissionUser();
+        $filter = array('is_deleted'=>0);
+        $this->data['jenis'] = getAll('kontak_jenis', $filter);
+        $this->data['tipe'] = getAll('kontak_tipe', $filter);
         $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
@@ -334,6 +337,13 @@ class Order extends MX_Controller {
 
         echo json_encode($q);
 
+    }
+
+    function load_kontak()
+    {
+        $this->data['options_kontak'] = options_row('order','get_kontak','id','title','-- Pilih Customer --');
+
+        $this->load->view('master/kontak/load_kontak', $this->data);
     }
     
 	function _render_page($view, $data=null, $render=false)

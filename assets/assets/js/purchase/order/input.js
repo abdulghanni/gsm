@@ -18,6 +18,7 @@ $(document).ready(function() {
             $("#add_pr").show();
         }
             getTablePr();
+            getTablePr();
     })
     .change();
 

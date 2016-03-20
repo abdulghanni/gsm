@@ -57,7 +57,7 @@
 					</tr>
 					<script>
 					$("#harga<?=$i?>").maskMoney({allowZero:true});
-					$("#disc<?=$i?>").add('#diskon-tambahan').add("#harga<?=$i?>").add("#jumlah<?=$i?>").add("#dibayar").add("#dibayar-nominal").add("#biaya_pengiriman").keyup(function() {
+					$("#disc<?=$i?>").add('#diskon-tambahan').add("#diskon_tambahan_persen_val").add("#harga<?=$i?>").add("#jumlah<?=$i?>").add("#dibayar").add("#dibayar-nominal").add("#biaya_pengiriman").keyup(function() {
 						
 						
 						var a = parseFloat($("#jumlah<?=$i?>").val()),
@@ -67,6 +67,7 @@
 				        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
 				        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
 				        	diskonTambahan = parseFloat($('#diskon-tambahan').val().replace(/,/g,"")),
+				        	diskonTambahanPersen = parseFloat($('#diskon_tambahan_persen_val').val().replace(/,/g,"")),
 				        	d = (a*b)*(c/100),//jumlah diskon
 				       		val = (a*b)-d,
 				       		disc = (a*b)*(c/100),
@@ -101,8 +102,8 @@
 						p1 = parseFloat($("#totalPajak").val()),
 						p2 = parseFloat($("#totalp2").val()),
 				        p3 = parseFloat($("#totalp3").val()),
-
-				        total = total+biayaPengiriman-diskonTambahan;
+				        diskonTambahanPersen = total * (diskonTambahanPersen / 100),
+				        total = total+biayaPengiriman-diskonTambahan-diskonTambahanPersen;
 				        totalpluspajak = total+p1+p2+p3;
 				        diBayar = totalpluspajak * (diBayar/100);
 				        
@@ -185,11 +186,22 @@
 					</li>
 					<li class="list-group-item">
 						<div class="row">
-							<div class="col-md-4">
-							Diskon Tambahan
+							<div class="col-md-6">
+							Disc Tambahan
+									<input type="checkbox" onchange="hitung()" id="disc-tambahan-cek" value="" name="row"> Persen
 							</div>
-							<div class="col-md-6 pull-right">
-							<input type="text" name="diskon_tambahan_nominal" id="diskon-tambahan" class="form-control text-right" value="0">
+							<div id="disc-tambahan-persen">
+								<div class="col-md-4">
+								<input type="text" name="diskon_tambahan_persen" id="diskon_tambahan_persen_val" class="form-control text-right" value="0">
+								</div>
+								<div class="col-md-1">
+								%
+								</div>
+							</div>
+							<div id="disc-tambahan-nominal">
+								<div class="col-md-6 pull-right">
+									<input type="text" name="diskon_tambahan_nominal" id="diskon-tambahan" class="form-control text-right" value="0">
+								</div>
 							</div>
 						</div>
 					</li>
@@ -311,10 +323,17 @@ function hitung()
 		$('#dibayar').val(parseFloat(0));
 	}
 
+	if($('#disc-tambahan-cek').is(':checked')){
+		$('#diskon-tambahan').val(parseFloat(0));
+	}else{
+		$('#diskon_tambahan_persen_val').val(parseFloat(0));
+	}
+
     	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
     	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
     	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
     	diskonTambahan = parseFloat($('#diskon-tambahan').val().replace(/,/g,"")),
+    	diskonTambahanPersen = parseFloat($('#diskon_tambahan_persen_val').val().replace(/,/g,"")),
     	jmlDisc = 0,
     	total = 0;
     $('.subdisc').each(function (index, element) {
@@ -344,8 +363,8 @@ function hitung()
 	p1 = parseFloat($("#totalPajak").val()),
 	p2 = parseFloat($("#totalp2").val()),
     p3 = parseFloat($("#totalp3").val()),
-
-    total = total+biayaPengiriman-diskonTambahan;
+    diskonTambahanPersen = total * (diskonTambahanPersen / 100),
+	total = total+biayaPengiriman-diskonTambahan-diskonTambahanPersen;
     totalpluspajak = total+p1+p2+p3;
     diBayar = totalpluspajak * (diBayar/100);
     
@@ -387,6 +406,16 @@ $(document).ready(function() {
 	$("#dp-persen-cek").click(function(){
 	     $("#dp-persen").toggle("slow");
 	     $("#dp-nominal").toggle("slow");
+	});
+
+	$("#disc-tambahan-cek:not(:checked)").each(function() {
+	     $("#disc-tambahan-persen").hide("slow");
+	     $("#disc-tambahan-nominal").show("slow");
+	});
+
+	$("#disc-tambahan-cek").click(function(){
+	     $("#disc-tambahan-persen").toggle("slow");
+	     $("#disc-tambahan-nominal").toggle("slow");
 	});
 
 	$('.input-append.date')
