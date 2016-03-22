@@ -34,6 +34,7 @@ class Pengeluaran extends MX_Controller {
 		$colModel['tgl'] = array('Tanggal',110,TRUE,'left',2);
 		$colModel['surat_jalan'] = array('Surat Jalan',110,TRUE,'left',2);
 		$colModel['delivered'] = array('Is Delivered',110,TRUE,'left',2);
+		$colModel['created_by'] = array('Input Oleh',110,TRUE,'left',2);
         
 		$gridParams = array(
 		'rp' => 25,
@@ -61,7 +62,7 @@ class Pengeluaran extends MX_Controller {
 	{
 		
 		//Build contents query
-		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered")->from('stok_pengeluaran a');
+		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered, a.created_by")->from('stok_pengeluaran a');
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
 		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
@@ -109,6 +110,7 @@ class Pengeluaran extends MX_Controller {
 			$row->tgl,
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan/".$row->id."' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
 			"<a href='".base_url()."'>".$row->is_delivered."</a>",
+			GetValue('username','users',array('id'=>'where/'.$row->created_by)),
 			);
 		}
 		

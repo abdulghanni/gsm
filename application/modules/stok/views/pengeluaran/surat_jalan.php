@@ -1,21 +1,21 @@
 <style>
-    body{
-        font-size:10px;
-    }
+table td{
+        font-size:14px;
+}
 </style>
 <table cellspacing="0" cellpadding="0" width="100%">
   <col width="64" span="10">
   <tr>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64"></td>
+    <td width="104"></td>
+    <td width="278"></td>
+    <td width="75"></td>
+    <td width="99"></td>
+    <td width="99"></td>
+    <td width="99"></td>
+    <td width="101"></td>
+    <td width="108"></td>
+    <td width="84"></td>
+    <td width="103"></td>
   </tr>
   <tr>
     <td align="left" valign="top"><img width="80" height="80" src="<?php echo base_url() ?>assets/images/your-logo-here.png">
@@ -24,8 +24,8 @@
           <td width="64"></td>
         </tr>
       </table></td>
-    <td></td>
-    <td></td>
+    <td colspan="2"><strong>PT. Gramaselindo Utama</strong>
+    <p>Material Supply &amp;    Implementation Teleclommunication</p></td>
     <td></td>
     <td></td>
     <td></td>
@@ -36,18 +36,10 @@
   </tr>
   <tr>
     <td></td>
-    <td></td>
-    <td colspan="5">PT. Gramaselindo Utama</td>
+    <td>&nbsp;</td>
+    <td colspan="5">&nbsp;</td>
     <td>Jakarta,</td>
     <td colspan="2"></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td></td>
-    <td colspan="5">Material Supply &amp;    Implementation Teleclommunication</td>
-    <td></td>
-    <td></td>
-    <td></td>
   </tr>
   <tr>
     <td></td>
@@ -70,8 +62,7 @@
     <td></td>
     <td></td>
     <td>Kepada :</td>
-    <td></td>
-    <td></td>
+    <td colspan="2" rowspan="3" valign="top"></td>
   </tr>
   <tr>
     <td></td>
@@ -82,13 +73,9 @@
     <td></td>
     <td></td>
     <td></td>
-    <td></td>
-    <td></td>
   </tr>
   <tr>
-    <td>Address:</td>
-    <td></td>
-    <td></td>
+    <td>&nbsp;</td>
     <td></td>
     <td></td>
     <td></td>
@@ -104,9 +91,8 @@
     <td></td>
     <td></td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td>Address:</td>
+    <td colspan="2" rowspan="2" valign="top"><?php echo $pengeluaran['address'] ?></td>
   </tr>
   <tr>
     <td colspan="2">Jakarta    Timur 13120</td>
@@ -116,11 +102,22 @@
     <td></td>
     <td></td>
     <td></td>
+  </tr>
+  <tr>
+    <td>Phone	</td>
+    <td> (021) 3671 4115</td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td>No Surat Jalan :</td>
     <td></td>
     <td></td>
   </tr>
   <tr>
-    <td colspan="2">Phone    : (021) 3671 4115</td>
+    <td>Fax</td>
+    <td>(021) 8591 4372</td>
     <td></td>
     <td></td>
     <td></td>
@@ -131,27 +128,20 @@
     <td></td>
   </tr>
   <tr>
-    <td colspan="2">Fax    : (021) 8591 4372</td>
+    <td>Email    </td>
+    <td>marketing@gramaselindo.com</td>
+    <td>&nbsp;</td>
     <td></td>
     <td></td>
     <td></td>
     <td></td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
+    <td colspan="2">&nbsp;</td>
   </tr>
   <tr>
-    <td colspan="3">Email    : marketing@gramaselindo.com</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td colspan="2">No Surat Jalan :</td>
-  </tr>
-  <tr>
-    <td colspan="3">Website    : www.gramaselindo.com</td>
+    <td>Website    </td>
+    <td>www.gramaselindo.com</td>
+    <td>&nbsp;</td>
     <td></td>
     <td></td>
     <td></td>
@@ -177,354 +167,30 @@
     <td></td>
     <td></td>
   </tr>
+</table>
+<table style="border:1px solid black; width:100%;" cellspacing="0" cellpadding="0">
+    <thead>
   <tr>
-    <td>No</td>
-    <td colspan="5">URAIAN</td>
-    <td colspan="2">Jumlah</td>
-    <td colspan="2">No. P/O</td>
+    <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">No</td>
+    <td colspan="5" style="border-bottom:1px solid black;border-right:1px solid black;">URAIAN</td>
+    <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Jumlah</td>
+    <td colspan="2" style="border-bottom:1px solid black;" align="center">No. P/O</td>
   </tr>
+    </thead>
   <?php
   $no=1;
    foreach($pengeluaran_list as $ls){ ?>
   <tr>
-    <td><?php echo $no;?></td>
-    <td colspan="5" width="320"><?php echo GetValue('title','barang',array('id'=>'where/'.$ls['barang_id']))?></td>
-    <td><?php echo $ls['jumlah']?></td>
-    <td>&nbsp;</td>
-    <td colspan="2"><?php echo $pengeluaran['ref'] ?></td>
+    <td align="center" style="border-right:1px solid black;"><?php echo $no;?></td>
+    <td colspan="5" width="320" style="border-right:1px solid black;"><?php echo GetValue('title','barang',array('id'=>'where/'.$ls['barang_id']))?></td>
+    <td style="border-right:1px solid black;" align="center"><?php echo $ls['jumlah']?></td>
+    <td colspan="2" style="border-right:1px solid black;" align="center"><?php echo $pengeluaran['ref'] ?></td>
   </tr>
   <?php $no++; } ?>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td width="64">&nbsp;</td>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64"></td>
-    <td width="64">&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
-  <tr>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-    <td>&nbsp;</td>
-  </tr>
+  </table><br>
+<br>
+
+  <table width="100%">
   <tr>
     <td colspan="3">Penerima,</td>
     <td></td>

@@ -184,17 +184,17 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 			  foreach ($c as $key => $value) {?>
 			  <tr><td colspan="4">- <?=$value?></td></tr>
 		<?php }} ?>
-		<tr><td colspan="4">- Semua Pengiriman Barang Disertakan Nota/Faktur</td></tr>
-		<tr><td colspan="4">- Dokumen & Faktur ditujukan kepada finance PT. Gramaselindo Utama Diserahkan Melalui</td></tr>
-		<tr><td colspan="4">  &nbsp;&nbsp;Receptionist Kami</td></tr>
-		<tr><td colspan="4">- Barang akan dikembalikan bila tidak sesuai pesanan</td></tr>
-		<tr><td colspan="9">- No PO Harus di Cantumkan dalam Nota/Faktur dan Surat jalan</td>
+		<tr><td colspan="4">- All shipments must included an invoice</td></tr>
+		<tr><td colspan="4">- Invoices is intended shown to finance PT. Gramaselindo Utama and Submitted through the us </td></tr>
+		<tr><td colspan="4">  &nbsp;&nbsp;receptionist</td></tr>
+		<tr><td colspan="4">- The items will be returned if not suitable from order</td></tr>
+		<tr><td colspan="9">- PO number should be included in invoices and delivery orders</td>
 	</tr>
 	<hr style="width:100%">
 	<tr><td>&nbsp;</td></tr>
 	<tr>
-		<td align="center">Approved,</td>
 		<td align="center">Order By,</td>
+		<td align="center"><!--Order By,--></td>
 		<td align="center">ACC Vendor</td>
 		<?php if(in_array(1, $pajak_komponen)){?>
 		<td colspan="3">PPN</td>
@@ -288,8 +288,8 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 	</tr>
 
 	<tr>
-		<td align="center">(<?=(!empty($o->user_app_id_lv4))?getFullName($o->user_app_id_lv4):'';?>)</td>
 		<td align="center">(<?=getFullName($o->created_by)?>)</td>
+		<td align="center"></td>
 		<td align="center">(Sign & Return by Fax)</td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Saldo<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>

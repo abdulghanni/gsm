@@ -71,8 +71,8 @@
                                     <div class="form-group">
                                         <label class="control-label col-md-3">UP</label>
                                         <div class="col-md-7">
-                                        <?php foreach($up as $u=>$v):?>
-                                            <input name="up[]" placeholder="" class="form-control" type="text" value=<?=$v?>><br/>
+                                        <?php foreach($up as $u):?>
+                                            <input name="up[]" placeholder="" class="form-control" type="text" value="<?=$u?>"><br/>
                                         <?php endforeach?>
                                             <div id="up-lain">
                                             </div>

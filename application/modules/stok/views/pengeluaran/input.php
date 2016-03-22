@@ -1,12 +1,12 @@
 <!-- start: PAGE TITLE -->
 <section id="page-title">
-	<div class="row">
-		<div class="col-sm-8">
-			<h1 class="mainTitle">Pengeluaran Stok</h1>
-			<span class="mainDescription"></span>
-		</div>
-		<ol class="breadcrumb">
-			<li>
+    <div class="row">
+	<div class="col-sm-8">
+            <h1 class="mainTitle">Pengeluaran Stok</h1>
+            <span class="mainDescription"></span>
+	</div>
+	<ol class="breadcrumb">
+            <li>
 				<span>Pages</span>
 			</li>
 			<li class="active">
@@ -38,12 +38,12 @@
 				</div>
 				<hr>
 				<div class="row">
-					<div class="col-md-5">
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputEmail3">
+                                    <div class="col-md-7">
+					<div class="form-group">
+                                            <label class="col-sm-3 control-label" for="inputEmail3">
 								No. S.O
-							</label>
-							<div class="col-sm-9">
+                                            </label>
+                                                <div class="col-sm-6">
 								<?php $nm_f="ref";
 								?>
 								<!--Bagian Kanan-->
@@ -51,9 +51,32 @@
 								
 								<!--//Bagian Kanan-->
 							</div>
-						</div>
-						</div>
-						</div>
+                                                    <div class="col-md-3" id="addso">
+                                                        
+                                                    </div>
+					</div>
+                                    </div>
+				</div>
+				<!--div class="row">
+                                    <div class="col-md-7">
+					<div class="form-group">
+                                            <label class="col-sm-3 control-label" for="inputEmail3">
+								&nbsp;
+                                            </label>
+                                                <div class="col-sm-6">
+								<?php $nm_f="ref";
+								?>
+								<!--Bagian Kanan->
+								<?php echo form_dropdown($nm_f,$opt_po,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="select2" id="'.$nm_f.'" onchange="cariref(this.value)" style="width:100%;" ')?>
+								
+								<!--//Bagian Kanan->
+							</div>
+                                                    <div class="col-md-3" id="addso">
+                                                        
+                                                    </div>
+					</div>
+                                    </div>
+				</div-->
 				<div class="row" id="detailtrans">
 							<img src="<?php echo base_url().'assets/images/loading.gif' ?>" class="loadingimg" style="display:none">
 				</div>
@@ -67,92 +90,7 @@
 					
 							<img src="<?php echo base_url().'assets/images/loading.gif' ?>" class="loadingimg" style="display:none">
 				</div>
-				<div class="row">
-					<input type="hidden" name="dp" value="0">
-					<div id="subTotalPajak"></div>
-					<div class="row">
-						<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
-							<ul class="list-group">
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total Pajak
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="totalPajak" value="0" class="form-control text-right" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Biaya Pengiriman
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="0">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" class="form-control text-right" id="total" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Dibayar
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
-										</div>
-									</div>
-								</li>
-								<div id="total_angsuran" style="display:none">
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Biaya Angsuran
-											</div>
-											<div class="col-md-2">
-											</div>
-											<div class="col-md-4">
-											<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="0">
-											</div>
-											<div class="col-md-2" id="angsuran" style="margin-left:-10px">
-											</div>
-										</div>
-									</li>
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Total+Bunga Angsuran
-											</div>
-											<div class="col-md-6 pull-right">
-											<input type="text" id="totalplusbunga" class="form-control text-right" value="0">
-											</div>
-										</div>
-									</li>
-								</div>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Saldo
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="saldo" class="form-control text-right" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -168,6 +106,7 @@
 		$('.loadingimg').show();
 		$('#detailtrans').load('<?php echo base_url() ?>stok/pengeluaran/cariref',{v:val});
 		$('#list').load('<?php echo base_url() ?>stok/pengeluaran/carilist',{v:val});
+                //$('#addso').append('<a class="btn btn-green add-row" href="http://localhost/gsm/sales/order/input">Tambah <i class="fa fa-plus"></i></a>');
 	}
 	/* function addRow(tableID){
 	var table=document.getElementById(tableID);

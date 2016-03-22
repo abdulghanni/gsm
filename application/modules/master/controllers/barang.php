@@ -437,7 +437,7 @@ class Barang extends MX_Controller {
     }
 
     function upload_barang(){
-        $file = fopen('D:\barang.csv', "r");
+               $file = fopen('D:\barang.csv', "r");
 
         $count = 0;
         /*satuan :
@@ -452,25 +452,25 @@ class Barang extends MX_Controller {
         while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
         {
             $count++; 
-            if($count>10){
+            if($count>7){
 
                 switch ($emapData[5]) {
-                    case 'Pcs':
+                    case 'PCS':
                         $satuan = 1;
                         break;
-                    case 'roll':
+                    case 'ROLL':
                         $satuan = 2;
                         break;
                     case 'roll=300m':
                         $satuan = 3;
                         break;
-                    case 'm':
+                    case 'METER':
                         $satuan = 4;
                         break;
-                    case 'pack':
+                    case 'PACK':
                         $satuan = 5;
                         break;
-                    case 'set':
+                    case 'SET':
                         $satuan = 6;
                         break;
                     
@@ -478,17 +478,25 @@ class Barang extends MX_Controller {
                         $satuan = 1;
                         break;
                 }
+
+                if($emapData[4] == 'BARANG INVENTARIS'){
+                    $jenis = 3;
+                }elseif($emapData[4] == 'BARANG MENTAH'){
+                    $jenis = 2;
+                }else{
+                    $jenis = 1;
+                }
                 $data = array(
-                    'kode'=>$emapData[4],
+                    'kode'=>$emapData[1],
                     'title' => $emapData[2],
                     'satuan' => $satuan,
-                    'jenis_barang_id'=>1,
+                    'jenis_barang_id'=>$jenis,
                     'created_by'=>1,
                     'created_on'=>dateNow(),
                 );
-                $cek = getAll('barang', array('kode'=>'where/'.$emapData[4]))->num_rows();
+                $cek = getAll('barang', array('kode'=>'where/'.$emapData[1]))->num_rows();
 
-                if($cek<1)$this->db->insert('barang', $data);else $this->db->where('kode', $emapData[4])->update('barang', $data);
+                if($cek<1)$this->db->insert('barang', $data);else $this->db->where('kode', $emapData[1])->update('barang', $data);
                 echo '<pre>';
                 echo $count.'-'.$this->db->last_query();
                 echo '</pre>';

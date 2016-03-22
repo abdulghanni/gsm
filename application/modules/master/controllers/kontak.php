@@ -79,7 +79,7 @@ class kontak extends MX_Controller {
         $this->data['jenis'] = getAll('kontak_jenis', $filter);
         $this->data['tipe'] = getAll('kontak_tipe', $filter);
         $this->data['r'] = $r = $this->main->get_detail($id);
-        $this->data['up'] = explode(',', $r->up);
+        $this->data['up'] = explode(',', $r->up);//print_mz($this->data['up']);
         $this->data['telepon'] = explode(',', $r->telepon);
         $this->data['alamat'] = explode(',', $r->alamat);
         $this->_render_page($this->module.'/'.$this->file_name.'/edit', $this->data);

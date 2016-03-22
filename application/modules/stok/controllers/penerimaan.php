@@ -33,6 +33,7 @@ class Penerimaan extends MX_Controller {
 		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
 		$colModel['tgl'] = array('Tanggal',110,TRUE,'left',2);
 		$colModel['bast'] = array('BAST',110,TRUE,'left',2);
+		$colModel['created_by'] = array('Input Oleh',110,TRUE,'left',2);
 		//if($usergroup=='1'||$usergroup=='4'||$usergroup=='6'){
                 //$colModel['invoice'] = array('Invoice',110,TRUE,'left',2);}
         
@@ -62,7 +63,7 @@ class Penerimaan extends MX_Controller {
 	{
 		
 		//Build contents query
-		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on")->from('stok_Penerimaan a');
+		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on, a.created_by")->from('stok_Penerimaan a');
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
 		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
@@ -107,10 +108,11 @@ class Penerimaan extends MX_Controller {
 			$row->id,
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>",
 			$row->gudang_to,
-			$row->tgl,
+			date('d-m-Y',strtotime($row->tgl)),
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/bast/".$row->id."' target='_blank' title='bast'><i class='fa fa-file'></i></a>",
-			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/INV/".$row->id."' target='_blank' title='invoice'><i class='fa fa-file'></i></a>"
+			GetValue('username','users',array('id'=>'where/'.$row->created_by))
 			);
+                        //"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/INV/".$row->id."' target='_blank' title='invoice'><i class='fa fa-file'></i></a>",
 		}
 		
 		return $this->output->set_output($this->flexigrid->json_build($records['record_count'],$record_items));;

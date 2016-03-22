@@ -104,7 +104,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputPassword3">
-								Dikirim Ke
+								Dikirim Dari
 							</label>
 							<div class="col-sm-9">
 								<?php 
@@ -172,6 +172,19 @@
 										$nm_f='catatan';
 										$js = 'style="width:100%; height:60px;" class="form-control"  id="'.$nm_f.'"';
 										echo form_textarea($nm_f,$refid[$nm_f],$js); 
+										//echo GetValue('title','gudang',array('id'=>'where/'.$refid[$nm_f])); 
+									?>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="inputPassword3">
+									Alamat Pengiriman
+								</label>
+								<div class="col-sm-9">
+									<?php 
+										$nm_f='alamat';
+										$js = 'style="width:100%; height:60px;" class="form-control"  id="'.$nm_f.'"';
+										echo form_textarea($nm_f,isset($refid[$nm_f]) ? $refid[$nm_f] :'',$js); 
 										//echo GetValue('title','gudang',array('id'=>'where/'.$refid[$nm_f])); 
 									?>
 								</div>

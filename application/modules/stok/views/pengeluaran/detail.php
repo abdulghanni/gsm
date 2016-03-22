@@ -27,7 +27,7 @@
 		 <i class="fa fa-print"></i> <?= lang('print')?>
 	</a>
 </div>
-<form role="form" action="<?= base_url('transaksi/order/add')?>" method="post" class="form-horizontal">
+<form role="form" action="<?= base_url('stok/pengeluaran/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -243,6 +243,7 @@
 												
 												
 											?>
+                                                                          
 											<?php echo form_hidden("idtrx[$c]",$daftar['order_id']) ?>
 											<?php echo form_hidden("list[$c]",$daftar['id']) ?>
 											<?php echo form_hidden("brg[$c]",$daftar['barang_id']) ?>
