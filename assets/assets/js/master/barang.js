@@ -90,6 +90,7 @@ function edit_user(id)
             $('[name="kode"]').val(data.kode);
             $('[name="title"]').val(data.title);
             $('[name="alias"]').val(data.alias);
+            $('[name="merk"]').val(data.merk);
             $('[name="catatan"]').text(data.catatan);
             $('[name="jenis_barang_id"]').select2().select2('val',data.jenis_barang_id);
             //$('[name="satuan_id"]').select2().select2('val',data.satuan_id);

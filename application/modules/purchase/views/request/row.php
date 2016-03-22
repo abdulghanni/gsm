@@ -105,7 +105,7 @@ function hitung<?=$id?>()
             jmlPajak = jmlPajak + parseInt($(element).val());
         });
         $('.subtotal').each(function (index, element) {
-            total = total + parseInt($(element).val().replace(/,/g,""));
+            total = total + parseFloat($(element).val().replace(/,/g,""));
         });
         totalpluspajak = total + jmlPajak;
         $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));

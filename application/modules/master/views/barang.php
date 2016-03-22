@@ -128,6 +128,14 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="control-label col-md-3">Brand/Merk</label>
+                            <div class="col-md-9">
+                                <input name="merk" placeholder="Brand/Merk" class="form-control" type="text">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                           <label class="control-label col-md-3">Foto Barang</label>
                           <div class="col-md-9">
                               <div class="fileinput fileinput-new" data-provides="fileinput">

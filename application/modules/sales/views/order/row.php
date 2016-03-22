@@ -77,7 +77,7 @@ function hitung<?=$id?>()
 		}else{
 			$('#dibayar').val(parseFloat(0));
 		}
-    	var a = parseInt($('#jumlah'+<?=$id?>).val()),
+    	var a = parseFloat($('#jumlah'+<?=$id?>).val()),
         	b = parseFloat($('#harga'+<?=$id?>).val().replace(/,/g,"")).toFixed(2),
         	c = parseFloat($('#disc'+<?=$id?>).val()),
         	p = parseFloat($('#pajak'+<?=$id?>).val()).toFixed(2),
@@ -95,7 +95,7 @@ function hitung<?=$id?>()
         $('#subtotal'+<?=$id?>).val(addCommas(parseFloat(val).toFixed(2)));
         $("#subdisc"+<?=$id?>).val(addCommas(parseFloat(disc).toFixed(2)));
         $('.subtotal').each(function (index, element) {
-            total = total + parseInt($(element).val().replace(/,/g,""));
+            total = total + parseFloat($(element).val().replace(/,/g,""));
         });
         $('.subdisc').each(function (index, element) {
             jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));

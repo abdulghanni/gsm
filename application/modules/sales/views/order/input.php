@@ -618,7 +618,7 @@ function addRow(tableID){
 		}else{
 			$('#dibayar').val(parseFloat(0));
 		}
-    	var a = parseInt($('#jumlah'+rowCount).val()),
+    	var a = parseFloat($('#jumlah'+rowCount).val()),
         	b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
         	c = parseFloat($('#disc'+rowCount).val()),
         	p = parseFloat($('#pajak'+rowCount).val()).toFixed(2),
@@ -636,7 +636,7 @@ function addRow(tableID){
         $('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
         $("#subdisc"+rowCount).val(addCommas(parseFloat(disc).toFixed(2)));
         $('.subtotal').each(function (index, element) {
-            total = total + parseInt($(element).val().replace(/,/g,""));
+            total = total + parseFloat($(element).val().replace(/,/g,""));
         });
         $('.subdisc').each(function (index, element) {
             jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));

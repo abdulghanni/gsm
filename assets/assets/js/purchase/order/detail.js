@@ -164,3 +164,7 @@ $(document).ready(function() {
 	        }
 	    });
 	}
+
+	function cantPrint(){
+    alert("PO Belum Di Approve");
+}

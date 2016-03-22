@@ -84,6 +84,7 @@ class Barang extends MX_Controller {
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
                 'alias' => $this->input->post('alias'),
+                'merk' => $this->input->post('merk'),
                 'jenis_barang_id' => $this->input->post('jenis_barang_id'),
                 'satuan' => $this->input->post('satuan'),
                 'satuan_laporan' => $this->input->post('satuan_laporan'),

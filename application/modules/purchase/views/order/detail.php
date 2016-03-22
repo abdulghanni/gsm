@@ -22,12 +22,35 @@
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
 
-<div class="row pull-right">
-	<a href="<?=base_url().'purchase/order/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
-		 <i class="fa fa-print"></i> <?= lang('print')?>
-	</a>
-</div>
-<?php foreach ($order->result() as $o) :?>
+<?php foreach ($order->result() as $o) :
+
+$jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$o->no));
+        $gtotal = getValue('gtotal', 'purchase_order', array('id'=>'where/'.$id));
+        if($jenis == 3):
+            if($gtotal > 1000000){
+                $has_approve = 'direktur';
+            }else{
+                $has_approve = 'ga';
+            }
+        else:
+            $has_approve = 'direktur';
+        endif;
+
+if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve == 'ga' && $o->app_status_id_lv2 != 1)):?>
+                        <div class="row pull-right">
+							<a onclick="cantPrint()" class="btn btn-lg btn-primary hidden-print">
+								 <i class="fa fa-print"></i> <?= lang("print")?>
+							</a>
+						</div>
+                    <?php else:?>
+                        <div class="row pull-right">
+							<a href="<?=base_url().'purchase/order/print_pdf/'.$id;?>" target="_blank" class="btn btn-lg btn-primary hidden-print">
+								 <i class="fa fa-print"></i> <?= lang("print")?>
+							</a>
+						</div>
+                    <?php endif; ?>
+
+
 <form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">

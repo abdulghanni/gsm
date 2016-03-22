@@ -20,6 +20,7 @@ $(document).ready(function() {
             $("#add_so").show();
         }
         getTable();
+        getTable();
     })
     .change();
 

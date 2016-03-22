@@ -151,7 +151,8 @@ class order_model extends CI_Model {
     public function get_kontak()
     {   
         $this->db->where($this->table_join1.'.is_deleted',0)
-                 ->where($this->table_join1.'.jenis_id',2);
+                 ->where($this->table_join1.'.jenis_id',2)
+                 ->or_where($this->table_join1.'.jenis_id',3);
         $this->db->order_by($this->table_join1.'.title','asc');
         return $this->db->get($this->table_join1);
     }
