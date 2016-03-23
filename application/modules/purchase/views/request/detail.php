@@ -346,15 +346,15 @@
 							?>
 						</label>
 						<div class="clip-radio radio-primary">
-							<input type="radio" id="1<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="1" <?= ($o->$status == 1)?'checked':'';?>>
+							<input type="radio" id="1<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="1" <?= ($o->$status == 1)?'checked="checked"':'';?>>
 							<label for="1<?= $i ?>">
 								Approve
 							</label>
-							<input type="radio" id="2<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="2" <?= ($o->$status == 2)?'checked':'';?>>
+							<input type="radio" id="2<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="2" <?= ($o->$status == 2)?'checked="checked"':'';?>>
 							<label for="2<?= $i ?>">
 								Reject
 							</label>
-							<input type="radio" id="3<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="3" <?= ($o->$status == 3)?'checked':'';?>>
+							<input type="radio" id="3<?= $i ?>" name="app_status_id_lv<?= $i ?>" value="3" <?= ($o->$status == 3)?'checked="checked"':'';?>>
 							<label for="3<?= $i ?>">
 								Pending
 							</label>

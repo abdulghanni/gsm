@@ -84,7 +84,7 @@
 								<option value="0">-- Pilih Gudang Pengiriman --</option>
 								<?php 
                                 	foreach($gudang as $g):
-                                		$selected = ($request->gudang_id == $g->id) ? 'selected="selected' : '';
+                                		$selected = ($request->gudang_id == $g->id) ? 'selected="selected"' : '';
                                 ?>
                                 	<option value="<?=$g->id?>" <?=$selected?>><?=$g->title?></option>
                               	<?php endforeach;?>
