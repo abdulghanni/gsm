@@ -39,6 +39,7 @@ class Request extends MX_Controller {
         $this->data['users'] = getAll('users')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['jenis'] = getAll('jenis_barang');
+        $this->data['kurensi'] = getAll('kurensi')->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -102,6 +103,7 @@ class Request extends MX_Controller {
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'keperluan'=>$this->input->post('keperluan'),
                 'jenis_barang_id'=>$this->input->post('jenis_barang_id'),
+                'kurensi_id'=>$this->input->post('kurensi_id'),
                 'catatan' =>$this->input->post('catatan'),
                 'is_draft' => 1,
                 'created_by' => sessId(),
@@ -153,6 +155,7 @@ class Request extends MX_Controller {
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'keperluan'=>$this->input->post('keperluan'),
                 'jenis_barang_id'=>$this->input->post('jenis_barang_id'),
+                'kurensi_id'=>$this->input->post('kurensi_id'),
                 'catatan' =>$this->input->post('catatan'),
                 'is_draft' => 0,
                 'created_by' => sessId(),

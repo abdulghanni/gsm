@@ -64,6 +64,15 @@
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
+								Mata Uang
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="up" value="<?=$o->kurensi?>" class="form-control" disabled="disabled">
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Catatan
 							</label>
 							<div class="col-sm-8">

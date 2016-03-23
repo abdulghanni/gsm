@@ -46,6 +46,12 @@ td{ height:30px;}
       <td>:</td>
       <td><?=$o->gudang?></td>
     </tr>
+
+    <tr>
+    	<td>Mata Uang</td>
+      <td>:</td>
+      <td><?=$o->kurensi?></td>
+    </tr>
    
   </tbody>
 </table>

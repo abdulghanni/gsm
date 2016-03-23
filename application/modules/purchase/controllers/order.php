@@ -15,6 +15,7 @@ class Order extends MX_Controller {
 
     function index()
     {
+        //print_mz(number_format(90.21, 2));
         $this->data['title'] = $this->title;
         $this->data['main_title'] = $this->module.' Order';
         permissionUser();

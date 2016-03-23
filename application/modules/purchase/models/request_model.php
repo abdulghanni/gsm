@@ -8,6 +8,7 @@ class request_model extends CI_Model {
     var $table_join1 = 'gudang';
     var $table_join2 = 'satuan';
     var $table_join3 = 'jenis_barang';
+    var $table_join4 = 'kurensi';
     var $column = array('purchase_request.id', 'no', 'tanggal_digunakan', 'gudang', 'app_status_id_lv1', 'app_status_id_lv2','app_status_id_lv3', 'app_status_id_lv4', 'user_app_lv1', 'user_app_lv2', 'jenis_barang_id'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
@@ -105,6 +106,7 @@ class request_model extends CI_Model {
             '.$this->table.'.keperluan,
             '.$this->table.'.jenis_barang_id,
             '.$this->table_join3.'.title as jenis_barang,
+            '.$this->table_join4.'.title as kurensi,
             '.$this->table.'.catatan,
             '.$this->table.'.created_by,
             '.$this->table.'.created_on,
@@ -133,6 +135,7 @@ class request_model extends CI_Model {
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.gudang_id', 'left')
                  ->join($this->table_join3, $this->table_join3.'.id ='.$this->table.'.jenis_barang_id', 'left')
+                 ->join($this->table_join4, $this->table_join4.'.id ='.$this->table.'.kurensi_id', 'left')
                  ->where($this->table.'.id', $id)
                  ->get();
         return $q;

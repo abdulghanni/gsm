@@ -63,6 +63,22 @@
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
+								Mata Uang
+							</label>
+							<div class="col-sm-8">
+								<div class="clip-radio radio-primary">
+									<?php foreach($kurensi as $k):?>
+									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" <?= ($k->id == 1)?'checked':'';?>>
+									<label for="kurensi<?=$k->id?>">
+										<?=$k->title.'('.$k->simbol.')'?>
+									</label>
+									<?php endforeach;?>
+								</div>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Catatan
 							</label>
 							<div class="col-sm-8">
