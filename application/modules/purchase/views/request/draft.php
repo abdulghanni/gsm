@@ -22,6 +22,7 @@
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
 <form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-pr">
+	<input type="hidden" name="id" value=<?=$id?>>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -61,6 +62,22 @@
 							</label>
 							<div class="col-sm-8">
 								<input type="text" placeholder="No. Purchase Request" name="no" value="<?=$request->no?>" class="form-control" required="required">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Mata Uang
+							</label>
+							<div class="col-sm-8">
+								<div class="clip-radio radio-primary">
+									<?php foreach($kurensi as $k):?>
+									<input type="radio" id="kurensi<?=$k->id?>" name="kurensi_id" value="<?=$k->id?>" <?= ($k->id == 1)?'checked':'';?>>
+									<label for="kurensi<?=$k->id?>">
+										<?=$k->title.'('.$k->simbol.')'?>
+									</label>
+									<?php endforeach;?>
+								</div>
 							</div>
 						</div>
 

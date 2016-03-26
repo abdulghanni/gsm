@@ -217,6 +217,7 @@
 									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="15%"> Sub Total </th>
+									<th width="10%"> PPN(%) </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -575,6 +576,9 @@ function addRow(tableID){
 
 	var cell10=row.insertCell(9);
 	cell10.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
+
+	var cell11=row.insertCell(10);
+	cell11.innerHTML = '<input name="pajak[]" value="10" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'"><input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">';
 
 	$("#barang_id"+rowCount).change(function(){
         var id = $(this).val();

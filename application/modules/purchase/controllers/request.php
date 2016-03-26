@@ -48,6 +48,7 @@ class Request extends MX_Controller {
         $this->data['main_title'] = $this->main_title;
         $this->data['file_name'] = $this->file_name;
         $this->data['module'] = $this->module;
+        $this->data['id'] = $id;
         permissionUser();
         $this->data[$this->file_name] = $this->main->get_detail($id)->row();
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
@@ -61,6 +62,7 @@ class Request extends MX_Controller {
         $this->data['users'] = getAll('users')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['jenis'] = getAll('jenis_barang');
+        $this->data['kurensi'] = getAll('kurensi')->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/draft', $this->data);
     }
 
@@ -89,6 +91,7 @@ class Request extends MX_Controller {
     {
         permissionUser();
         $no = $this->input->post('no');
+        $id = $this->input->post('id');
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
@@ -105,11 +108,12 @@ class Request extends MX_Controller {
                 'jenis_barang_id'=>$this->input->post('jenis_barang_id'),
                 'kurensi_id'=>$this->input->post('kurensi_id'),
                 'catatan' =>$this->input->post('catatan'),
+                'kurensi_id'=>$this->input->post('kurensi_id'),
                 'is_draft' => 1,
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
-        $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$no))->num_rows();
+        $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$id))->num_rows();
         if($num_rows>0){
             $this->db->where('no', $no)->update($this->table_name, $data);
             $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$no));
@@ -141,6 +145,7 @@ class Request extends MX_Controller {
     {
         permissionUser();
         $no = $this->input->post('no');
+        $id = $this->input->post('id');
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
@@ -161,7 +166,7 @@ class Request extends MX_Controller {
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
-        $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$no))->num_rows();
+        $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$id))->num_rows();
         if($num_rows>0){
             $this->db->where('no', $no)->update($this->table_name, $data);
             $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$no));
@@ -247,7 +252,8 @@ class Request extends MX_Controller {
         $no = $_POST['start'];
         foreach ($list as $r) {
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
-            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            //$print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            $print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=pr.mrt&param1=".$r->id;
             $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
             if(!empty($r->diajukan_ke)){
                 $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));

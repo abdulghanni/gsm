@@ -28,9 +28,10 @@
                     </button>
                     -->
                     <div class="btn-group">
-                        <a href="#" data-toggle="dropdown" class="btn btn-azure dropdown-toggle">
-                            Export <i class="fa fa-upload"></i> <span class="caret"></span>
+                        <a target="_blank" href="<?= base_url('print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=barang.mrt')?>" class="btn btn-azure">
+                            Export <i class="fa fa-upload"></i>
                         </a>
+                        <!--
                         <ul class="dropdown-menu" role="menu">
                             <li>
                                 <a href="<?=base_url('master/barang/pdf')?>" target="_blank">
@@ -48,6 +49,7 @@
                                 </a>
                             </li>
                         </ul>
+                        -->
                     </div>
                     <span class="btn btn-light-azure fileinput-button"><span>Import <i class="fa fa-download"></i></span>
                         <input name="files[]" multiple="" type="file">

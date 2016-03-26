@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Localization language="French" description="Français" cultureName="fr">
+  <CheckActions>
+    <ApplyEngineV2Long>Définir la propriété d'une page Version du moteur à engineV2 pour avoir accès à toutes les fonctionnalités.</ApplyEngineV2Long>
+    <Change>Modifier</Change>
+    <Code>Code</Code>
+    <Convert>Convertir</Convert>
+    <Delete>Supprimer</Delete>
+    <Edit>Modifier</Edit>
+    <Fix>Corriger</Fix>
+    <GotoCodeLong>Aller dans le code.</GotoCodeLong>
+    <Hide>Cacher ces messages.</Hide>
+    <NewName>Renommer</NewName>
+    <Off>Off</Off>
+    <On>On</On>
+    <SetGrowToHeightToFalse>Définir la propriété Agrandir à la hauteur à non</SetGrowToHeightToFalse>
+    <SetGrowToHeightToTrue>Définir la propriété Agrandir à la hauteur à oui</SetGrowToHeightToTrue>
+    <StiAllowHtmlTagsInTextActionLong>Définir la valeur de la propriété Autoriser les balises Html du composant à oui, pour afficher correctement les balises Html.</StiAllowHtmlTagsInTextActionLong>
+    <StiAllowOnDoublePassActionLong>Définir la propriété Nombre de passes à Double Passe  Set the NumberOfPass property to DoublePass pour le calcul correct de variables.</StiAllowOnDoublePassActionLong>
+    <StiCanBreakComponentInContainerActionLong>Définir la propriété Cassable du composant à oui.</StiCanBreakComponentInContainerActionLong>
+    <StiCanGrowComponentInContainerActionLong>Définir la propriété Auto-extensible du conteneur à oui.</StiCanGrowComponentInContainerActionLong>
+    <StiCanGrowGrowToHeightComponentInContainerLong>La propriété Agrandir à la hauteur va être définié à oui pour tous les composants dans le conteneur. Cette opération ne gatranti pas une correction à 100%!</StiCanGrowGrowToHeightComponentInContainerLong>
+    <StiCanGrowWordWrapTextAndWysiwygActionLong>Définier la valeur de la propriété Qualité du texte du composant à WYSIWYG.</StiCanGrowWordWrapTextAndWysiwygActionLong>
+    <StiColumnsWidthGreaterContainerWidthActionLong>Modifier automatiquement la largeur de la colonne en fonction de la largeur des composants.</StiColumnsWidthGreaterContainerWidthActionLong>
+    <StiComponentStyleIsNotFoundOnComponentActionLong>La valeur de la propriété Style de composant va être effacée.</StiComponentStyleIsNotFoundOnComponentActionLong>
+    <StiDeleteComponentActionLong>Supprimer le comosant du modèle.</StiDeleteComponentActionLong>
+    <StiDeleteConnectionActionLong>Supprimer la connexion du modèle.</StiDeleteConnectionActionLong>
+    <StiDeleteDataRelationActionLong>Supprimer la relation du modèle.</StiDeleteDataRelationActionLong>
+    <StiDeleteDataSourceActionLong>Supprimer la source de données du modèle.</StiDeleteDataSourceActionLong>
+    <StiDeleteLostPointsActionLong>Supprimer tous les points perdus sur une page</StiDeleteLostPointsActionLong>
+    <StiDeletePageActionLong>Supprimer la page du modèle.</StiDeletePageActionLong>
+    <StiFixCrossLinePrimitiveActionLong>Créer de nouveaux point à la place de ceux perdus. Cette opération ne gatranti pas une correction à 100%!</StiFixCrossLinePrimitiveActionLong>
+    <StiGenerateNewNameComponentActionLong>Générer un nouveau nom pour le composant.</StiGenerateNewNameComponentActionLong>
+    <StiGenerateNewNameDataSourceActionLong>Générer un nouveau nom pour la source de données.</StiGenerateNewNameDataSourceActionLong>
+    <StiGenerateNewNamePageActionLong>Générer un nouveau nom pour la page.</StiGenerateNewNamePageActionLong>
+    <StiGenerateNewNameRelationActionLong>Générer un nouveau nom pour la relation.</StiGenerateNewNameRelationActionLong>
+    <StiGrowToHeightOverlappingLong>Définir la propriété Agrandir à la hauteur du composant à non.</StiGrowToHeightOverlappingLong>
+    <StiLargeHeightAtPageActionLong>Pour une visualisation et une édition plus pratique des composant, la propriété Grande Hauteur va être définie à oui.</StiLargeHeightAtPageActionLong>
+    <StiMinRowsInColumnsActionLong>Définir la propriété Nombre minimum de lignes dans la colonne à zero.</StiMinRowsInColumnsActionLong>
+    <StiMoveComponentToPageAreaActionLong>Le composant va être placé pour qu'il soit entièrement sur la page. Les champs de la page ne sont pas pris en concidération.</StiMoveComponentToPageAreaActionLong>
+    <StiMoveComponentToPageAreaActionShort>Déplacer sur la page</StiMoveComponentToPageAreaActionShort>
+    <StiMoveComponentToPrintablePageAreaActionLong>Déplace le composant dans la zone d'impression de la page. Les marges de la page seront prises en concidération.</StiMoveComponentToPrintablePageAreaActionLong>
+    <StiMoveComponentToPrintablePageAreaActionShort>Déplacer dans la zone d'impression</StiMoveComponentToPrintablePageAreaActionShort>
+    <StiNegativeSizesOfComponentsActionLong>Corriger la taille du composant pour éliminer les problèmes pendant le rendu du modèle. Cette opération ne gatranti pas une correction à 100%!</StiNegativeSizesOfComponentsActionLong>
+    <StiOrientationPageToLandscapeActionLong>Change l'orientation de la page en paysage. La taille de la page ne sera pas modifiée.</StiOrientationPageToLandscapeActionLong>
+    <StiOrientationPageToLandscapeActionShort>Orientation en paysage</StiOrientationPageToLandscapeActionShort>
+    <StiOrientationPageToPortraitActionLong>Change l'orientation de la page en portrait. La taille de la page ne sera pas modifiée.</StiOrientationPageToPortraitActionLong>
+    <StiOrientationPageToPortraitActionShort>Orientation en portrait</StiOrientationPageToPortraitActionShort>
+    <StiPrintHeadersFootersFromPreviousPageLong>Définir la propriété Imprimer les entêtes et pieds de page des pages précédentes à non.</StiPrintHeadersFootersFromPreviousPageLong>
+    <StiPrintOnPreviousPageLong>Définir la propriété Imprimer sur la page précédente à non.</StiPrintOnPreviousPageLong>
+    <StiPropertiesOnlyEngineV1ActionLong>Désactiver les propriétés du composant '{0}' qui ne sont pas supportées par l'EngineV2.</StiPropertiesOnlyEngineV1ActionLong>
+    <StiPropertiesOnlyEngineV2ActionLong>Désactiver les propriétés du composant qui ne sont pas supportées par l'EngineV1.</StiPropertiesOnlyEngineV2ActionLong>
+    <StiResetPageNumberActionLong>Définir la propriété Réinitialiser le nombre de pages à non.</StiResetPageNumberActionLong>
+    <StiSwitchWidthAndHeightOfPageActionLong>Réarrangez la hauteur et la largeur de la page.</StiSwitchWidthAndHeightOfPageActionLong>
+    <StiVerySmallSizesOfComponentsLong>La taille du composant sera augmentée à la valeur Taille de la grille du modèle. Cette opération ne gatranti pas une correction à 100%!</StiVerySmallSizesOfComponentsLong>
+    <StiVerySmallSizesOfComponentsShort>Augmenter la taille</StiVerySmallSizesOfComponentsShort>
+    <StiWordWrapCanGrowTextDoesNotFitActionLong>Définir la propriété Auto-extensible du composant à oui.</StiWordWrapCanGrowTextDoesNotFitActionLong>
+    <Zero>Zero</Zero>
+  </CheckActions>
+  <CheckComponent>
+    <StiAllowHtmlTagsInTextCheckLong>Des balises Html sont utilisées dans le texte alors que la propriété Autoriser les balises html est définie à non. Le contenu du composant {0} sera mal imprimé.</StiAllowHtmlTagsInTextCheckLong>
+    <StiAllowHtmlTagsInTextCheckShort>La propriété Autoriser les balises html n'est pas définie</StiAllowHtmlTagsInTextCheckShort>
+    <StiBigSizeOfTheImageAtWatermarkCheckLong>La taille du filigrane pour la page '{0}' est trop grande. Il est conseillé d'enregistrer l'image dans une resources ou d'utiliser une image vectorielle.</StiBigSizeOfTheImageAtWatermarkCheckLong>
+    <StiBigSizeOfTheImageCheckLong>La taille de l'image '{0}' est trop grande. Il peut y avoir des problèmes à l'enregistrement. Définissez la propriété Stocker les images dans les ressources à oui pour supprimmer le problème.</StiBigSizeOfTheImageCheckLong>
+    <StiBigSizeOfTheImageCheckShort>Image trop grande</StiBigSizeOfTheImageCheckShort>
+    <StiCanBreakComponentInContainerCheckLong>La propriété Cassable du conteneur '{0}' est définie à non. Certains composants imbriqués peuvent avoir la propriété cassable définie à oui.</StiCanBreakComponentInContainerCheckLong>
+    <StiCanBreakComponentInContainerCheckShort>La propriété Cassable du conteneur est définie à non</StiCanBreakComponentInContainerCheckShort>
+    <StiCanGrowComponentInContainerCheckLong>La proprriété Auto-extensible du composant '{0}' est définie à non.  Certains composants imbriqués ont proprriété Auto-extensible définie à oui. Cela peut causer un rendu incorrect du modèle.</StiCanGrowComponentInContainerCheckLong>
+    <StiCanGrowComponentInContainerCheckShort>La proprriété Auto-extensible du conteneur est définie à non</StiCanGrowComponentInContainerCheckShort>
+    <StiCanGrowGrowToHeightComponentInContainerLong>Les propriétés Auto-exetensible de certains composants du conteneur '{0}' sont définies à oui alors que la propriété Agrandir à la hauteur nest pas définie à oui pour tous les composants. Pendant le rendu d'un modèle, ces composants pourraient être alignés avec la marge du bas du conteneur.</StiCanGrowGrowToHeightComponentInContainerLong>
+    <StiCanGrowGrowToHeightComponentInContainerShort>Il est possible que certains composants soient mal affichés</StiCanGrowGrowToHeightComponentInContainerShort>
+    <StiCanGrowWordWrapTextAndWysiwygCheckLong>Quand la qualité du texte est définie à Satndard ou Typographique, l'aperçu du texte dans différents modes de zoom et l'impression  peuvent différer a cause des erreurs d'arrondi dans GDI+.</StiCanGrowWordWrapTextAndWysiwygCheckLong>
+    <StiCanGrowWordWrapTextAndWysiwygCheckShort>Possibilité de retour à la ligne automatique du texte incorrect</StiCanGrowWordWrapTextAndWysiwygCheckShort>
+    <StiColumnsWidthGreaterContainerWidthCheckLong>La largeur total de colonne est plus grande que la largeur du composant '{0}' . Cela peut causer un rendu incorrect du modèle. Cela peut aussi causer des problèmes lors de l'export du modèle vers d'autres formats.</StiColumnsWidthGreaterContainerWidthCheckLong>
+    <StiColumnsWidthGreaterContainerWidthCheckShort>La largeur total de colonne est plus grande que la largeur du composant</StiColumnsWidthGreaterContainerWidthCheckShort>
+    <StiColumnsWidthGreaterPageWidthCheckLong>La largeur total de colonne est plus grande que la largeur de la page '{0}'. Cela peut causer un rendu incorrect du modèle. Cela peut aussi causer des problèmes lors de l'export du modèle vers d'autres formats.</StiColumnsWidthGreaterPageWidthCheckLong>
+    <StiColumnsWidthGreaterPageWidthCheckShort>La largeur total de colonne est plus grande que la largeur de la page</StiColumnsWidthGreaterPageWidthCheckShort>
+    <StiComponentBoundsAreOutOfBandLong>Le composant '{0}' est complètement ou partiellement en dehors de la bande. Le composant ne sera pas imprimé correctement. Mais dans certains cas, une telle position du composant est acceptable. Mais cela peut aussi causer des problèmes en exportant le modèle vers d'autres formats.</StiComponentBoundsAreOutOfBandLong>
+    <StiComponentBoundsAreOutOfBandShort>Le composant est partiellement en dehors de la bande.</StiComponentBoundsAreOutOfBandShort>
+    <StiComponentExpressionCheckLong>L'expression dans la propriété {0} de '{1}' ne peut pas être évaluée!</StiComponentExpressionCheckLong>
+    <StiComponentExpressionCheckShort>L'expression ne peut pas être évaluée!</StiComponentExpressionCheckShort>
+    <StiComponentStyleIsNotFoundCheckAtPageLong>Le style spécifié pour la page '{0}' n'existe pas.</StiComponentStyleIsNotFoundCheckAtPageLong>
+    <StiComponentStyleIsNotFoundCheckLong>Le style spécifié pour le composant '{0}' n'existe pas.</StiComponentStyleIsNotFoundCheckLong>
+    <StiComponentStyleIsNotFoundCheckShort>Le style spécifié n'existe pas</StiComponentStyleIsNotFoundCheckShort>
+    <StiContainerInEngineV2CheckLong>Le conteneur '{0}' a été trouvé dans le modèle alors que l'EngineV2 est utilisé. Dans l'EngineV2, le panneau est ultilisé à la place du conteneur. Le panneau a plus de fonctionnalités que le conteneur.</StiContainerInEngineV2CheckLong>
+    <StiContainerInEngineV2CheckShort>Conteneur dans l'EngineV2</StiContainerInEngineV2CheckShort>
+    <StiContourTextObsoleteCheckLong>Le composant '{0}' est de type StiContourText. Le composant StiContourText est obsolète et n'est plus supporté, il est recommandé de ne plus l'utiliser.</StiContourTextObsoleteCheckLong>
+    <StiContourTextObsoleteCheckShort>Le composant est obsolète</StiContourTextObsoleteCheckShort>
+    <StiCorruptedCrossLinePrimitiveCheckLong>Les points de début et de fin de la primitive '{0}' sont absents. Cette primitive ne sera pas ou mal affichée.</StiCorruptedCrossLinePrimitiveCheckLong>
+    <StiCorruptedCrossLinePrimitiveCheckShort>Primitive corrompue</StiCorruptedCrossLinePrimitiveCheckShort>
+    <StiCountDataDataSourceAtDataBandLong>Les propriétés Count Data, Source de données et BusinessObject ne sont pas définies pour les composants '{0}'. Dans certains cas cela n'est pas acceptable.</StiCountDataDataSourceAtDataBandLong>
+    <StiCountDataDataSourceAtDataBandShort>Il se peut que vous ayez oublié de définir certaines propriétés</StiCountDataDataSourceAtDataBandShort>
+    <StiCrossGroupHeaderNotEqualToCrossGroupFooterOnPageLong>Le nombre de pied de groupe de tableau croisé ne correspond pas au  nombre d'entête de groupe de tableau croisé sur la page '{0}'. Les composants impairs ne seront pas rendus.</StiCrossGroupHeaderNotEqualToCrossGroupFooterOnPageLong>
+    <StiCrossGroupHeaderNotEqualToGroupCrossFooterOnContainerLong>Le nombre de pied de groupe de tableau croisé ne correspond pas au  nombre d'entête de groupe de tableau croisé sur le conteneur '{0}'. Les composants impairs ne seront pas rendus.</StiCrossGroupHeaderNotEqualToGroupCrossFooterOnContainerLong>
+    <StiDataSourcesForImageCheckLong>Plusieur sources de données ont été définies pour le composant '{0}'.</StiDataSourcesForImageCheckLong>
+    <StiDataSourcesForImageCheckShort>Plusieur sources de données ont été définies</StiDataSourcesForImageCheckShort>
+    <StiFontMissingCheckLong>La police '{0}' spécifiée pour le composant '{1}' n'a pas été trouvée.</StiFontMissingCheckLong>
+    <StiFontMissingCheckShort>La police n'a pas été trouvée</StiFontMissingCheckShort>
+    <StiFunctionsOnlyForEngineV2CheckLong>Des variables système qui ne sont pas disponibles dans l'EngineV1 sont utilisées dans le modèle. Voulez-vous utiliser l'EngineV2.</StiFunctionsOnlyForEngineV2CheckLong>
+    <StiFunctionsOnlyForEngineV2CheckShort>Des variables non disponibles dans l'EngineV1 sont utilisées.</StiFunctionsOnlyForEngineV2CheckShort>
+    <StiGroupHeaderNotEqualToGroupFooterOnContainerLong>Le nombre de pied de groupe ne correspond pas au  nombre d'entête de groupe sur le conteneur '{0}'. Les composants impairs ne seront pas rendus.</StiGroupHeaderNotEqualToGroupFooterOnContainerLong>
+    <StiGroupHeaderNotEqualToGroupFooterOnPageLong>Le nombre de pied de groupe ne correspond pas au  nombre d'entête de groupe sur la page '{0}'. Les composants impairs ne seront pas rendus.</StiGroupHeaderNotEqualToGroupFooterOnPageLong>
+    <StiGroupHeaderNotEqualToGroupFooterShort>Certains composants ne seront pas rendus</StiGroupHeaderNotEqualToGroupFooterShort>
+    <StiGrowToHeightOverlappingLong>La propriété Agrandir à la taille du composant '{0}' est définie à oui. Pendant le rendu du modèle, ce composant peut chevaucher un ou plusieurs composants sous-jacents.</StiGrowToHeightOverlappingLong>
+    <StiGrowToHeightOverlappingShort>Il est possible que certains composants se chevauchent.</StiGrowToHeightOverlappingShort>
+    <StiIsFirstPageIsLastPageDoublePassCheckLong>Les variables système IsFirstPage, IsFirstPageThrough, IsLastPage, IsLastPageThrough fournissent des résultats incorrects en mode simple passe. Il est requis de définir la propriété Nombre de passes du modèle à double passe.</StiIsFirstPageIsLastPageDoublePassCheckLong>
+    <StiIsFirstPageIsLastPageDoublePassCheckShort>Des variables système qui requièrent la double passe sont utilisées dans le modèle.</StiIsFirstPageIsLastPageDoublePassCheckShort>
+    <StiIsFirstPassIsSecondPassCheckLong>Pour un fonctionnement correct des fonctions IsFirstPass, IsSecondPass la double passe pour le rendu du modèle est requise. Il se peut que vous ayez oublié de définir la propriété Nombre de passes du modèle à double passe.</StiIsFirstPassIsSecondPassCheckLong>
+    <StiIsFirstPassIsSecondPassCheckShort>Les fonctions IsFirstPass, IsSecondPass requièrent la double passe pour le rendu des modèles</StiIsFirstPassIsSecondPassCheckShort>
+    <StiLargeHeightAtPageCheckLong>Manque d'espace libre sur la page '{0}' page. Cela peut nuire à l'édition des composant et à l'aperçu. Il est recommande de définir la propriété Grande hauteur à oui.</StiLargeHeightAtPageCheckLong>
+    <StiLargeHeightAtPageCheckShort>Manque d'espace libre sur la page</StiLargeHeightAtPageCheckShort>
+    <StiLocationOutsidePageCheckLong>Le composant '{0}' est partiellement en dehors de la page. Le composant ne sera pas imprimé correctement. Cela peut aussi causer des problèmes en exportant le modèle vers d'autres formats.</StiLocationOutsidePageCheckLong>
+    <StiLocationOutsidePageCheckShort>Le composant est partiellement en dehors de la page</StiLocationOutsidePageCheckShort>
+    <StiLocationOutsidePrintableAreaCheckLong>Le composant '{0}' est complètement ou partiellement en dehors de la zone d'impression. Le composant ne sera pas imprimé correctement. Mais dans certains cas, une telle position du composant est acceptable. Mais cela peut aussi causer des problèmes en exportant le modèle vers d'autres formats.</StiLocationOutsidePrintableAreaCheckLong>
+    <StiLocationOutsidePrintableAreaCheckShort>Le composant est partiellement en dehors de la zone d'impression</StiLocationOutsidePrintableAreaCheckShort>
+    <StiMinRowsInColumnsCheckLong>La propriété Nombre de lignes minimum dans la colonne n'est pas définie à 0 alors que la valeur de la propriété colonnes est définie à 0. Cela n'a pas de sens.</StiMinRowsInColumnsCheckLong>
+    <StiMinRowsInColumnsCheckShort>La propriété Nombre de lignes minimum dans la colonne pourrait être mal définie</StiMinRowsInColumnsCheckShort>
+    <StiNegativeSizesOfComponentsCheckLong>La Largeur et la Hauteur du composant '{0}'  ont des valeurs négative. Cela peut causer un rendu incorrect du modèle.</StiNegativeSizesOfComponentsCheckLong>
+    <StiNegativeSizesOfComponentsCheckShort>La Largeur et la Hauteur du composant ont des valeurs négatives</StiNegativeSizesOfComponentsCheckShort>
+    <StiNoConditionAtGroupCheckLong>Aucune condition de définie pour le composant '{0}'. Le regroupement ne sera pas fait sans condition</StiNoConditionAtGroupCheckLong>
+    <StiNoConditionAtGroupCheckShort>Aucune condition de définie pour le groupe</StiNoConditionAtGroupCheckShort>
+    <StiNoNameComponentCheckLong>Le composant n'a pas de nom. Si vous ne spécifiez pas de nom, le moteur d'impression ne pourra pas compiler le modèle.</StiNoNameComponentCheckLong>
+    <StiNoNameComponentCheckShort>Le composant n'a pas de nom</StiNoNameComponentCheckShort>
+    <StiNoNamePageCheckLong>La page à l'index '{0}' n'a pas de nom. Si vous ne spécifiez pas de nom pour la page, le moteur d'impression ne pourra pas compiler le modèle.</StiNoNamePageCheckLong>
+    <StiNoNamePageCheckShort>La page n'a pas de nom</StiNoNamePageCheckShort>
+    <StiPanelInEngineV1CheckLong>Le panneau '{0}' a été trouvé dans le modèle alors que l'EngineV1 est utilisé. Ce composant n'est pas disponible dans l'EngineV1. Le moteur d'impression essaiera de le rendre comme un conteneur. Cependant, le panneau a plus de fonctionnalités que le conteneur et cela peut causer un rendu incorrect du modèle.</StiPanelInEngineV1CheckLong>
+    <StiPanelInEngineV1CheckShort>Panneau dans l'EngineV1</StiPanelInEngineV1CheckShort>
+    <StiPrintHeadersAndFootersFromPreviousPageLong>La propriété Imprimer le entêtes et pieds de page des pages précédentes de la page '{0}' est définie à oui alors que pour la première et unique page cela n'a pas de sens.</StiPrintHeadersAndFootersFromPreviousPageLong>
+    <StiPrintHeadersAndFootersFromPreviousPageShort>La propriété Imprimer le entêtes et pieds de page des pages précédentes pourrait être mal définie</StiPrintHeadersAndFootersFromPreviousPageShort>
+    <StiPrintOnDoublePassCheckLong>La propriété Imprimer sur du composant '{0}' n'est pas définie à Toutes les pages. Pour un rendu correct du modèle, la double passe doit êter activée.</StiPrintOnDoublePassCheckLong>
+    <StiPrintOnDoublePassCheckShort>La propriété Imprimer sur n'est pas définie à Toutes les pages</StiPrintOnDoublePassCheckShort>
+    <StiPrintOnPreviousPageCheck2Long>La propriété Imprimer sur la page précédente de la page '{0}' est définie à oui. Tous les composants (sauf les bandes) qui se trouvent sur cette page seront imprimés uniquement à partir de la prochaine nouvelle page, ou ne seront pas imprimés si il n'y a pas de nouvelle page.</StiPrintOnPreviousPageCheck2Long>
+    <StiPrintOnPreviousPageCheck2Short>Certains composants pourraient ne pas être imprimés.</StiPrintOnPreviousPageCheck2Short>
+    <StiPrintOnPreviousPageCheckLong>La propriété Imprimer sur la page précédente de la page '{0}' est définie à oui alors que pour la première et unique page cela n'a pas de sens.</StiPrintOnPreviousPageCheckLong>
+    <StiPrintOnPreviousPageCheckShort>La propriété Imprimer sur la page précédente pourrait être mal définie</StiPrintOnPreviousPageCheckShort>
+    <StiPropertiesOnlyEngineV1CheckLong>La propriété Nouvelle page du composant '{0}' est supportée seulement par l'EngineV1.</StiPropertiesOnlyEngineV1CheckLong>
+    <StiPropertiesOnlyEngineV1CheckShort>Certaine propriétés ont été definies alors qu'elles ne sont pas supportées par l'EngineV2.</StiPropertiesOnlyEngineV1CheckShort>
+    <StiPropertiesOnlyEngineV2CheckLong>Une de ces propriétés a été utilisée par le composant'{0}': Nouvelle page avant, Nouvelle pa ge après, Nouvelle colonne avant, Nouvelle colonne après, Ignorer le premier. Elles ne sont pas supportées par l'EngineV2.</StiPropertiesOnlyEngineV2CheckLong>
+    <StiPropertiesOnlyEngineV2CheckShort>Certaine propriétés ont été definies alors qu'elles ne sont pas supportées par l'EngineV1</StiPropertiesOnlyEngineV2CheckShort>
+    <StiResetPageNumberCheckLong>La propriété Réinitialiser le nombre de pages de la page '{0}' est définie à oui alors que pour la première et unique page cela n'a pas de sens.</StiResetPageNumberCheckLong>
+    <StiResetPageNumberCheckShort>La propriété Réinitialiser le nombre de pages pourrait être mal définie</StiResetPageNumberCheckShort>
+    <StiShowInsteadNullValuesCheckLong>La propriété Remplacer les valeurs null est définie pour le composant '{0}'. Mais la propriété Colonne de données n'est pas définie. Cela n'a pas de sens.</StiShowInsteadNullValuesCheckLong>
+    <StiShowInsteadNullValuesCheckShort>La propriété Remplacer les valeurs null est définie</StiShowInsteadNullValuesCheckShort>
+    <StiSubReportPageZeroCheckLong>Si la propriété Page de sous-rapport n'est pas définie du composant Sous-Rapport alors le modèle ne pourra pas être rendu.</StiSubReportPageZeroCheckLong>
+    <StiSubReportPageZeroCheckShort>La propriété Page de sous-rapport n'est pas définie</StiSubReportPageZeroCheckShort>
+    <StiSystemTextObsoleteCheckLong>Le composant '{0}' est de type StiSystemText. Le composant StiSystemText est obsolète et n'est plus supporté, il est recommandé de ne plus l'utiliser.</StiSystemTextObsoleteCheckLong>
+    <StiSystemTextObsoleteCheckShort>Le composant est obsolète</StiSystemTextObsoleteCheckShort>
+    <StiTextColorEqualToBackColorCheckLong>La raison possible est que les valeurs des propriétés Remplissage du Texte et Remplissage du composant '{0}' ont été mal définies. Le texte ne sera pas visible.</StiTextColorEqualToBackColorCheckLong>
+    <StiTextColorEqualToBackColorCheckShort>La propriété Remplissage du texte est égale à la propriété Remplissage</StiTextColorEqualToBackColorCheckShort>
+    <StiTotalPageCountDoublePassCheckLong>Les variables système TotalPageCount, TotalPageCountThrough dans les scripts et conditions fournissent des résultats incorrects en mode simple passe. Il est requis de définir la propriété Nombre de passes du modèle à double passe.</StiTotalPageCountDoublePassCheckLong>
+    <StiUndefinedComponentCheckLong>Le composant '{0}' est inconnu. Le moteur d'impression est incapable d'identifier ce composant. Il s'agit peut-être d'un composant personnalisé. Ce modèle ne peut pas être rendu!</StiUndefinedComponentCheckLong>
+    <StiUndefinedComponentCheckShort>Composant inconnu</StiUndefinedComponentCheckShort>
+    <StiVerySmallSizesOfComponentsCheckLong>Les valeurs de la largeur et de la hauteur du composant '{0}' sont plus petites que les valeurs de la taille de la grille du modèle. Vous avez peut-être mal définit sa taille. Cel peut causer des problèmes lors de l'export vers d'autres formats.</StiVerySmallSizesOfComponentsCheckLong>
+    <StiVerySmallSizesOfComponentsCheckShort>La taille du composant est très petite</StiVerySmallSizesOfComponentsCheckShort>
+    <StiWidthHeightZeroComponentCheckLongHeight>La hauteur du composant '{0}' est égale à 0. Il peut y  avoir des problèmes à l'affichage de ce composant sur une page. Cela peut aussi causer des problèmes en exportant le modèle vers d'autres formats.</StiWidthHeightZeroComponentCheckLongHeight>
+    <StiWidthHeightZeroComponentCheckLongWidth>La largeur du composant '{0}' est égale à 0. Il peut y  avoir des problèmes à l'affichage de ce composant sur une page. Cela peut aussi causer des problèmes en exportant le modèle vers d'autres formats.</StiWidthHeightZeroComponentCheckLongWidth>
+    <StiWidthHeightZeroComponentCheckLongWidthHeight>La hauteur et la largeur du composant '{0}' sont égales à 0. Il peut y  avoir des problèmes à l'affichage de ce composant sur une page. Cela peut aussi causer des problèmes en exportant le modèle vers d'autres formats.</StiWidthHeightZeroComponentCheckLongWidthHeight>
+    <StiWidthHeightZeroComponentCheckShortHeight>La hauteur du composant '{0}' est égale à 0</StiWidthHeightZeroComponentCheckShortHeight>
+    <StiWidthHeightZeroComponentCheckShortWidth>La largeur du composant '{0}' est égale à 0</StiWidthHeightZeroComponentCheckShortWidth>
+    <StiWidthHeightZeroComponentCheckShortWidthHeight>La hauteur et la largeur du composant '{0}' sont égales à 0</StiWidthHeightZeroComponentCheckShortWidthHeight>
+    <StiWordWrapCanGrowTextDoesNotFitLong>La propriété Retour automatique à la ligne est définie à oui, et la propriété Auto-extensible est définie à non, le texte du composant {0} ne peut pas être affiché complètement. Il est recommandé de définir la propriété Auto-extensible à oui.</StiWordWrapCanGrowTextDoesNotFitLong>
+    <StiWordWrapCanGrowTextDoesNotFitShort>Le texte pourrais ne pas rentrer</StiWordWrapCanGrowTextDoesNotFitShort>
+  </CheckComponent>
+  <CheckConnection>
+    <StiUndefinedConnectionCheckLong>La connexion inconnue '{0}' a été trouvée. Le moteur d'impression ne peut pas traiter correctement ce type de connexion avec la base de données!  Il s'agit peut-être d'une connexion personnalisée. Ce modèle ne peut pas être rendu!</StiUndefinedConnectionCheckLong>
+    <StiUndefinedConnectionCheckShort>Type de connexion inconnu</StiUndefinedConnectionCheckShort>
+  </CheckConnection>
+  <CheckDataRelation>
+    <StiDifferentAmountOfKeysInDataRelationCheckLong>Le nombre de clés parentes pour la relation '{0}' ne correspond pas au nombre de clés enfantes.  La relation ne peut pas être créée pendant le rendu du modèle!</StiDifferentAmountOfKeysInDataRelationCheckLong>
+    <StiDifferentAmountOfKeysInDataRelationCheckShort>Nombre de clés incorrect</StiDifferentAmountOfKeysInDataRelationCheckShort>
+    <StiKeysInAbsentDataRelationCheckLong>Les clés de la relation '{0}' ne sont pas spécifiées. Une telle relation ne peut pas être créée pendant le rendu du rapport!</StiKeysInAbsentDataRelationCheckLong>
+    <StiKeysInAbsentDataRelationCheckShort>Pas de clés</StiKeysInAbsentDataRelationCheckShort>
+    <StiKeysNotFoundRelationCheckLong>Les colonnes suivantes: '{1}' qui ont été spécifiées comme clés de '{0}', n'ont pas été trouvées dans le Parent ou l'Enfant des sources de données de la relation. Cette relation ne peut pas être crée pendant le rendu du modèle!</StiKeysNotFoundRelationCheckLong>
+    <StiKeysNotFoundRelationCheckShort>La clé de la relation n'a pas été trouvée</StiKeysNotFoundRelationCheckShort>
+    <StiKeysTypesMismatchDataRelationCheckLong>Les types de colonne '{1}' qui ont été spécifiés comme clé de la relation '{0}' ne correspondent pas! Une telle relation ne peut pas être créée pendant le rendu du rapport!</StiKeysTypesMismatchDataRelationCheckLong>
+    <StiKeysTypesMismatchDataRelationCheckShort>Les types de clé de la relation ne correspondent pas</StiKeysTypesMismatchDataRelationCheckShort>
+    <StiNoNameDataRelationCheckLong>Le nom de la relation (créée entre les sources de données '{0}') n'est pas spécifié. Ce nom est utilisé pour créer une classe pour la relation dans le code du modèle. Sans indiquer de nom, le moteur d'impression ne peut pas créer le code du modèle et le modèle ne sera pas compilé!</StiNoNameDataRelationCheckLong>
+    <StiNoNameDataRelationCheckShort>Il n'y a pas de nom pour la relation</StiNoNameDataRelationCheckShort>
+    <StiNoNameInSourceDataRelationCheckLong>NLe Nom dans la source n'est pas rempli pour la relation '{0}'. Sans ce champ, le moteur d'impression ne sera pas capable de trouver la relation dans la base de données et le modèle ne sera pas rendu!</StiNoNameInSourceDataRelationCheckLong>
+    <StiNoNameInSourceDataRelationCheckShort>Le Nom dans la source n'est pas rempli pour la relation</StiNoNameInSourceDataRelationCheckShort>
+    <StiSourcesInAbsentDataRelationCheckLong>La source de données parent et/ou enfant n'est pas spécifiée pour la relation '{0}'. Il est nécessaire de spécifier les deux sources de données!</StiSourcesInAbsentDataRelationCheckLong>
+    <StiSourcesInAbsentDataRelationCheckShort>Il n'y a pas de sources de données</StiSourcesInAbsentDataRelationCheckShort>
+  </CheckDataRelation>
+  <CheckDataSource>
+    <StiNoNameDataSourceCheckLong>Le nom de la source de donnée n'est pas spécifié. Ce nom est utilisé pour créer une classe pour la source de données dans le code du modèle. Sans indiquer de nom, le moteur d'impression ne peut pas créer le code du modèle et le modèle ne sera pas compilé!</StiNoNameDataSourceCheckLong>
+    <StiNoNameDataSourceCheckShort>Il n'y a pas de nom pour la source de données</StiNoNameDataSourceCheckShort>
+    <StiNoNameInSourceDataSourceCheckLong>Le champ Nom dans la source de la source de données '{0}' n'est pas rempli. Sans remplir ce champs, le moteur d'impression ne sera pas capable de trouver les données pour la source de données dans la base de données et le modèle ne sera pas rendu!</StiNoNameInSourceDataSourceCheckLong>
+    <StiNoNameInSourceDataSourceCheckShort>Le champ Nom dans la source de la source de données n'est pas rempli</StiNoNameInSourceDataSourceCheckShort>
+    <StiUndefinedDataSourceCheckLong>une source de données non définie '{0}' a été trouvée dans le modèle. Le moteur d'impression ne peut pas correctement traiter ce type de source de données! Il s'agit peut-être d'une source de données personnalisée. Ce modèle ne peut pas être rendu!</StiUndefinedDataSourceCheckLong>
+    <StiUndefinedDataSourceCheckShort>Source de données non définie</StiUndefinedDataSourceCheckShort>
+  </CheckDataSource>
+  <CheckGlobal>
+    <Error>Erreur! </Error>
+    <Information>Information. </Information>
+    <RenderingMessage>Message du Rendu du Modèle. </RenderingMessage>
+    <Warning>Avertissement! </Warning>
+  </CheckGlobal>
+  <CheckPage>
+    <StiLostPointsOnPageCheckLong>Des points perdus ont été trouvés sur la page '{0}' : {1}. Les point sont invisible et sont utilisés par les primitives suivantes: ligne verticale, rectangle et rectangle aux coins arrondis. Si le point ne correspond à aucun composant, il peut être supprimé.</StiLostPointsOnPageCheckLong>
+    <StiLostPointsOnPageCheckShort>Points perdus</StiLostPointsOnPageCheckShort>
+    <StiOrientationPageCheckLongLandscape>L'Orientation '{0}' de la page ne correspond pas à la taille spécifiée de la page. Habituellement, pour l'orentation Paysage, la largeur de la page doit être plus grande que la hauteur de la page. La largeur de la page est plus petite que la hauteur de la page. Cela peut causer des problèmes à l'impression.</StiOrientationPageCheckLongLandscape>
+    <StiOrientationPageCheckLongPortrait>L'Orientation '{0}' de la page ne correspond pas à la taille spécifiée de la page. Habituellement, pour l'orentation Portrait, la largeur de la page doit être plus petite que la hauteur de la page. La largeur de la page est plus grande que la hauteur de la page. Cela peut causer des problèmes à l'impression.</StiOrientationPageCheckLongPortrait>
+    <StiOrientationPageCheckShort>Orientation '{0}'  de la page incorrecte.</StiOrientationPageCheckShort>
+  </CheckPage>
+  <CheckReport>
+    <StiCompilationErrorAssemblyCheckLong>Impossible de charger le fichier ou l'assemblage '{0}' ou une de ses dépendances.</StiCompilationErrorAssemblyCheckLong>
+    <StiCompilationErrorCheck2Long>Une erreur de comilation a été trouvée dans la propriété '{1}' du composant '{2}' :</StiCompilationErrorCheck2Long>
+    <StiCompilationErrorCheck3Long>Une erreur de comilation a été trouvée dans l'événnement '{1}' du composant '{2}' :</StiCompilationErrorCheck3Long>
+    <StiCompilationErrorCheckLong>Une erreur de comilation a été trouvée dans le modèle '{0}' :</StiCompilationErrorCheckLong>
+    <StiCompilationErrorCheckShort>Erreur de compilation</StiCompilationErrorCheckShort>
+    <StiDuplicatedName2CheckLong>Il y a plusieurs composants nommés '{0}'.</StiDuplicatedName2CheckLong>
+    <StiDuplicatedNameCheckLong>Il y a plusiers composants nommés '{0}'.</StiDuplicatedNameCheckLong>
+    <StiDuplicatedNameCheckShort>Des composants ont le même nom</StiDuplicatedNameCheckShort>
+    <StiDuplicatedNameInSourceInDataRelationReportCheckLong>Les  relations'{0}' ont été trouvées dans le modèle. Elles ont des valeurs égales ('{1}') dans le nom dans la source. Toutes les valeurs dans Nom dans la source devraient être uniques dans une relations d'une base de données! Il est nécessaire de corriger ces champs de ces relatrions.</StiDuplicatedNameInSourceInDataRelationReportCheckLong>
+    <StiDuplicatedNameInSourceInDataRelationReportCheckShort>Doublons dans les relations</StiDuplicatedNameInSourceInDataRelationReportCheckShort>
+  </CheckReport>
+  <Font>
+    <Bold>Une valeur qui indique si cette police est en gras.</Bold>
+    <Italic>Une valeur qui indique si cette police est en italique.</Italic>
+    <Name>Nom de la police.</Name>
+    <Size>Taille de la police.</Size>
+    <Strikeout>Une valeur qui indique si cette police est barrée.</Strikeout>
+    <Underline>Une valeur qui indique si cette police est soulignée.</Underline>
+  </Font>
+  <ReportComparer>
+    <Change>Modifier</Change>
+    <Copy>Copier</Copy>
+    <CopyAll>Tout Copier</CopyAll>
+    <Delete>Supprimer</Delete>
+    <SaveChangesInReports>Voulez-vous enregistrer les modifications dans les modèles?</SaveChangesInReports>
+    <StiBusinessObjectDifferentColumnCompareComment>Affiche les colonnes de Business Objects indentiques presentes dans un seul modèle.</StiBusinessObjectDifferentColumnCompareComment>
+    <StiBusinessObjectDifferentColumnCompareLong>La colonne '{0}' du Business Object '{1}' du modèle '{2}' n'est pas présente dans le Business Object '{3}' du modèle '{4}'.</StiBusinessObjectDifferentColumnCompareLong>
+    <StiBusinessObjectDifferentColumnCompareShort>Pas de colonnes dans le business object.</StiBusinessObjectDifferentColumnCompareShort>
+    <StiBusinessObjectPropertiesCompareComment>Affiche les propriétés ayant des valeurs différentes dans des Business Objects identiques.</StiBusinessObjectPropertiesCompareComment>
+    <StiBusinessObjectPropertiesCompareLong>Dans le modèle '{0}' la propriété '{2}' du Business Object '{1}' est différente de la valeur de la propriété '{5}' du Business Object '{4}' du modèle '{3}'.</StiBusinessObjectPropertiesCompareLong>
+    <StiBusinessObjectPropertiesCompareShort>Differentes valeurs de propriétés du Business Objects.</StiBusinessObjectPropertiesCompareShort>
+    <StiChangeInReportPropertyActionDescription>Egualer les deux valeurs des propriétés à '{0}'</StiChangeInReportPropertyActionDescription>
+    <StiComponentPropertiesCompareComment>Affiche les propriétés ayant des valeurs différentes dans des composants identiques.</StiComponentPropertiesCompareComment>
+    <StiComponentPropertiesCompareLong>La propriété '{2}' du composant '{1}' dans le modèle '{0}' est différente de la valeur de la propriété '{5}' du composant '{4}' dans le modèle '{3}'.</StiComponentPropertiesCompareLong>
+    <StiComponentPropertiesCompareShort>Differentes valeurs de propriétés du composant.</StiComponentPropertiesCompareShort>
+    <StiCopyAllActionDescription>Copier tout le modèle '{0}'</StiCopyAllActionDescription>
+    <StiCopyBusinessDataColumnActionsDescription>Copier la colonne dans le Business Object</StiCopyBusinessDataColumnActionsDescription>
+    <StiCopyBusinessObjectActionDescription>Copier le Business Object</StiCopyBusinessObjectActionDescription>
+    <StiCopyComponentActionDescription>Copier le composant</StiCopyComponentActionDescription>
+    <StiCopyDataColumnActionDescription>Copier la colonne de la source de données</StiCopyDataColumnActionDescription>
+    <StiCopyDataRelationActionDescription>Copier la relation de données</StiCopyDataRelationActionDescription>
+    <StiCopyDataSourceActionDescription>Copier la source de données</StiCopyDataSourceActionDescription>
+    <StiCopyStyleActionDescription>Copier le Style</StiCopyStyleActionDescription>
+    <StiCopyVariableActionDescription>Copier la variable</StiCopyVariableActionDescription>
+    <StiDataRelationPropertiesCompareComment>Affiche les propriétés ayant des valeurs différentes dans des relations identiques.</StiDataRelationPropertiesCompareComment>
+    <StiDataRelationPropertiesCompareLong>La propriété '{2}' de la relation '{1}' du modèle '{0}' est différente de la valeur de la propriété '{5}' de la relation '{4}' du modèle '{3}'.</StiDataRelationPropertiesCompareLong>
+    <StiDataRelationPropertiesCompareShort>Différentes valeurs de propriétés de relations.</StiDataRelationPropertiesCompareShort>
+    <StiDataSourceDifferentColumnCompareComment>Affiche les colonnes de sources de données identiques présentes dans un seul modèle.</StiDataSourceDifferentColumnCompareComment>
+    <StiDataSourceDifferentColumnCompareLong>La colonne '{0}' de la source de données '{1}' du modèle '{2}' n'est pas présente dans la source de données '{3}' du modèle '{4}'.</StiDataSourceDifferentColumnCompareLong>
+    <StiDataSourceDifferentColumnCompareShort>Pas de colonnes dans la source de onnées</StiDataSourceDifferentColumnCompareShort>
+    <StiDataSourcePropertiesCompareComment>Affiche les propriétés ayant des valeurs différentes dans des sources de données identiques.</StiDataSourcePropertiesCompareComment>
+    <StiDataSourcePropertiesCompareLong>La propriété '{2}' de la source de données '{1}' du modèle '{0}' est différente de la valeur de la propriété '{5}' de la source de données '{4}' du modèle '{3}'.</StiDataSourcePropertiesCompareLong>
+    <StiDataSourcePropertiesCompareShort>Differentes valeurs de propriétés des sources de données.</StiDataSourcePropertiesCompareShort>
+    <StiDeleteBusinessDataColumnActionsDescription>Supprimer la colonne du Business Objects</StiDeleteBusinessDataColumnActionsDescription>
+    <StiDeleteBusinessObjectActionDescription>Supprimer le Business Object</StiDeleteBusinessObjectActionDescription>
+    <StiDeleteComponentActionDescription>Supprimer le composant du modèle</StiDeleteComponentActionDescription>
+    <StiDeleteDataColumnActionDescription>Supprimer la colonne de la source de données</StiDeleteDataColumnActionDescription>
+    <StiDeleteDataRelationActionDescription>Supprimer la relation entre les sources de données</StiDeleteDataRelationActionDescription>
+    <StiDeleteDataSourceActionDescription>Supprimer la source de données</StiDeleteDataSourceActionDescription>
+    <StiDeleteStyleActionDescription>Supprimer le Style</StiDeleteStyleActionDescription>
+    <StiDeleteVariableActionDescription>Supprimer la variable du modèle </StiDeleteVariableActionDescription>
+    <StiReportDifferentBusinessObjectCompareComment>Affiche les Business Object présents dans un seul modèle.</StiReportDifferentBusinessObjectCompareComment>
+    <StiReportDifferentBusinessObjectCompareLong>Le Business Object '{0}' n'est pas présent dans le modèle '{1}'.</StiReportDifferentBusinessObjectCompareLong>
+    <StiReportDifferentBusinessObjectCompareShort>Pas de Business Object.</StiReportDifferentBusinessObjectCompareShort>
+    <StiReportDifferentComponentsCompareComment>Affiche les composants présents dans un seul modèle.</StiReportDifferentComponentsCompareComment>
+    <StiReportDifferentComponentsCompareLong>Le composant '{0}' n'est pas présent dans le modèle '{1}'.</StiReportDifferentComponentsCompareLong>
+    <StiReportDifferentComponentsCompareMessag1>Il n'y a pas de composant '{1}' pour la propriété Conteneur du Clone  '{0}'.</StiReportDifferentComponentsCompareMessag1>
+    <StiReportDifferentComponentsCompareMessag2>Il n'y a pas de composant '{1}' pour la propriété Composant Maitre de la Bande de Données '{0}'.</StiReportDifferentComponentsCompareMessag2>
+    <StiReportDifferentComponentsCompareShort>Pas de composants.</StiReportDifferentComponentsCompareShort>
+    <StiReportDifferentDataRelationCompareComment>Affiche les relations entre les sources de données présentes dans un seul modèle.</StiReportDifferentDataRelationCompareComment>
+    <StiReportDifferentDataRelationCompareLong>La relation '{0}' entre '{1}' et '{2}' n'est pas présente dans le modèle '{3}'.</StiReportDifferentDataRelationCompareLong>
+    <StiReportDifferentDataRelationCompareShort>Pas de relations.</StiReportDifferentDataRelationCompareShort>
+    <StiReportDifferentDataSourceCompareComment>Affiche les sources de données présentes dans un seul modèle.</StiReportDifferentDataSourceCompareComment>
+    <StiReportDifferentDataSourceCompareLong>La source de données '{0}' n'est pas présente dans le modèle '{1}'.</StiReportDifferentDataSourceCompareLong>
+    <StiReportDifferentDataSourceCompareShort>Pas de sources de données</StiReportDifferentDataSourceCompareShort>
+    <StiReportDifferentStyleCompareComment>Affiche les styles présents dans un seul modèle.</StiReportDifferentStyleCompareComment>
+    <StiReportDifferentStyleCompareLong>Le style '{0}' n'est pas présent dans le modèle '{1}'.</StiReportDifferentStyleCompareLong>
+    <StiReportDifferentStyleCompareShort>Pas de styles.</StiReportDifferentStyleCompareShort>
+    <StiReportDifferentVariableCompareComment>Affiche les variables présentes dans un seul modèle.</StiReportDifferentVariableCompareComment>
+    <StiReportDifferentVariableCompareLong>La variable '{0}' n'est pas présente dans le modèle '{1}'.</StiReportDifferentVariableCompareLong>
+    <StiReportDifferentVariableCompareShort>Pas de variables.</StiReportDifferentVariableCompareShort>
+    <StiReportPropertiesCompareComment>Affiche les différentes valeurs des propriétés du modèle.</StiReportPropertiesCompareComment>
+    <StiReportPropertiesCompareLong>Dans le modèle '{0}' la propriété '{1}' ne correspond pas à la valeur de la propriété '{3}' du modèle '{2}'.</StiReportPropertiesCompareLong>
+    <StiReportPropertiesCompareShort>Differentes valeurs de propriétés du modèle.</StiReportPropertiesCompareShort>
+    <StiStylePropertiesCompareComment>Affiche les propriétés ayant des valeurs différentes dans des styles identiques.</StiStylePropertiesCompareComment>
+    <StiStylePropertiesCompareLong>La propriété '{2}' du style '{1}' du modèle '{0}' est différente de la valeur de la propriété '{5}' du style '{4}' du modèle '{3 }'.</StiStylePropertiesCompareLong>
+    <StiStylePropertiesCompareShort>Différentes valeurs de propriétés de styles.</StiStylePropertiesCompareShort>
+    <StiVariablePropertiesCompareComment>Affiche les propriétés ayant des valeurs différentes dans des variables identiques.</StiVariablePropertiesCompareComment>
+    <StiVariablePropertiesCompareLong>La propriété '{2}' de la variable '{1}' du modèle '{0}' est différente de la valeur de la propriété '{5}' de la variable '{4}' du modèle '{3}'.</StiVariablePropertiesCompareLong>
+    <StiVariablePropertiesCompareShort>Différentes valeurs de propriétés de variables.</StiVariablePropertiesCompareShort>
+  </ReportComparer>
+  <StiAdvancedBorder>
+    <BottomSide>Côté bas.</BottomSide>
+    <LeftSide>Côté gauche.</LeftSide>
+    <RightSide>Côté droit.</RightSide>
+    <TopSide>Côté haut.</TopSide>
+  </StiAdvancedBorder>
+  <StiBorder>
+    <Color>Couleur de la bordure.</Color>
+    <DropShadow>Une valeur indiquant si l'ombre portée est affichée.</DropShadow>
+    <ShadowBrush>Style de l'ombre.</ShadowBrush>
+    <ShadowSize>Taille de l'ombre.</ShadowSize>
+    <Side>Côtés.</Side>
+    <Size>Taille de la bordure.</Size>
+    <Style>Style de la bordure.</Style>
+    <Topmost>Une valeur indiquant si le brodures seront dessinées au dessous de tous les composants.</Topmost>
+  </StiBorder>
+  <StiBorderSide>
+    <Color>Couleur de la bordure.</Color>
+    <Size>Taille de la bordure.</Size>
+    <Style>Style de la bordure.</Style>
+  </StiBorderSide>
+  <StiCap>
+    <Color>Couleur de l'extrémité.</Color>
+    <Fill>Remplir l'extrémité.</Fill>
+    <Height>Hauteur de l'extrémité.</Height>
+    <Style>Style de l'extrémité.</Style>
+    <Width>Largeur de l'extrémité.</Width>
+  </StiCap>
+  <StiClone>
+    <Container>Conteneur clone.</Container>
+    <ScaleHor>Une valeur indiquant que le contenu du conteneur sera agrandit ou reduit.</ScaleHor>
+  </StiClone>
+  <StiComponent>
+    <AfterPrintEvent>Se produit après l'impression du composant.</AfterPrintEvent>
+    <Alias>Un texte qui sera affiché à la place du nom du composant. Si le texte n'est paa défini, alors le nom sera affiché.</Alias>
+    <BeforePrintEvent>Se produit avant l'impression du composant.</BeforePrintEvent>
+    <Bookmark>Une expression pour définir le marque page du composant.</Bookmark>
+    <Border>Bordure du composant.</Border>
+    <Brush>Style de remplissage du composant.</Brush>
+    <BusinessObject>Business Object utilisé pour obtenir les données.</BusinessObject>
+    <CanBreak>Une valeur indiquant que le composant peut casser son contenu sur plusieurs pages.</CanBreak>
+    <CanGrow>Une valeur indiquant que cet objet peut s'agrandir.</CanGrow>
+    <CanShrink>Une valeur indiquant que cet objet peut se réduire.</CanShrink>
+    <CellDockStyle>Type d'ancrage dans une cellule</CellDockStyle>
+    <CellType>Type du contenu de cellule.</CellType>
+    <ClickEvent>Se produit quand l'utilisateur clique sur le composant dans la fenêtre d'aperçu.</ClickEvent>
+    <ComponentStyle>Style de composant.</ComponentStyle>
+    <Conditions>Collection de conditions.</Conditions>
+    <CountData>Nombre de lignes pour les données virtuelles.</CountData>
+    <DataRelation>Relation utilisée pour le rendu des modèles maître-détail Link.</DataRelation>
+    <DataSource>Source de données utilisée pour obtenir les données.</DataSource>
+    <DockStyle>Type d'ancrage.</DockStyle>
+    <DoubleClickEvent>Se produit quand l'utilisateur double clique sur le composant dans la fenêtre d'aperçu.</DoubleClickEvent>
+    <Editable>Une valeur indiquant que le composant peut être modifié dans la fenêtre d'aperçu.</Editable>
+    <Enabled>Une valeur indiquant que ce composant est actif ou non.</Enabled>
+    <FilterMode>Mode de filtre.</FilterMode>
+    <FilterOn>Une valeur indiquant que le filtre est activé.</FilterOn>
+    <Filters>collection de filtres de données.</Filters>
+    <FixedWidth>Une valeur indiquant que la cellule aura une largeur fixe.</FixedWidth>
+    <GetBookmarkEvent>Se produit pour obtenir le marque page du composant.</GetBookmarkEvent>
+    <GetDrillDownReportEvent>Se produit quand il est nécessaire d'obtenir un raport pour l'opération d'analyse.</GetDrillDownReportEvent>
+    <GetHyperlinkEvent>Se produit pour obtenir le lien hypertexte du composant.</GetHyperlinkEvent>
+    <GetTagEvent>Se produit pour obtenir l'étiquette du composant.</GetTagEvent>
+    <GetToolTipEvent>Se produit pour obtenir l'infobulle du composant.</GetToolTipEvent>
+    <GrowToHeight>Une valeur indiquant que le hauteur de ce composant augmente/réduit jusqu'au bas du conteneur.</GrowToHeight>
+    <Height>Hauteur du composant.</Height>
+    <HorAlignment>Alignement horizontal.</HorAlignment>
+    <Hyperlink>Une expression pour définir le lien hypertexte du comosant.</Hyperlink>
+    <Interaction>Options d'interaction du composant.</Interaction>
+    <Left>Position gauche du composant.</Left>
+    <Linked>Une valeur indiquant que le lien au conteneur est activé.</Linked>
+    <Locked>Une valeur indiquant que le déplacement est impossible.</Locked>
+    <MasterComponent>Composant maître.</MasterComponent>
+    <MaxSize>Taille maximale.</MaxSize>
+    <MinSize>Taille minimale.</MinSize>
+    <MouseEnterEvent>Se produit quand la souris de l'utilisateur entre dans la surface du composant dans la fenêtre d'aperçu.</MouseEnterEvent>
+    <MouseLeaveEvent>Se produit quand la souris de l'utilisateur sort de la surface du composant dans la fenêtre d'aperçu.</MouseLeaveEvent>
+    <Name>Nom du composant.</Name>
+    <Printable>Une valeur indiquant si le composant est imprimable ou non.</Printable>
+    <PrintOn>Une valeur indiquant sur quelles pages le compasant sera imprimé.</PrintOn>
+    <Restrictions>Une valeur indiquant les restrictions du composant.</Restrictions>
+    <ShiftMode>Une valeur indiquant le mode du décalage du composant.</ShiftMode>
+    <Sort>Tableau de chaînes décrivant les règles de tri.</Sort>
+    <Tag>Une expression pour définir l'étiquette du composant.</Tag>
+    <TextBrush>Style de remplissage du texte.</TextBrush>
+    <ToolTip>Une expression pour définir l'infobulle du composant.</ToolTip>
+    <Top>Posution haute du composant.</Top>
+    <UseParentStyles>Une valeur indiquant que ce compmosant doit utiliser les syles du composant parent.</UseParentStyles>
+    <VertAlignment>Alignement vertical.</VertAlignment>
+    <Width>Largeur du composant.</Width>
+  </StiComponent>
+  <StiPage>
+    <BeginRenderEvent>Se produit quand la page commence son rendu.</BeginRenderEvent>
+    <ColumnBeginRenderEvent>Se produit quand une colonne commence son rendu.</ColumnBeginRenderEvent>
+    <ColumnEndRenderEvent>Se produit quand une colonne termine son rendu.</ColumnEndRenderEvent>
+    <EndRenderEvent>Se produit quand la page termine son rendu.</EndRenderEvent>
+    <ExcelSheet>Expression utilisé pour générer le nom de la feuille Excel.</ExcelSheet>
+    <GetExcelSheetEvent>Se produit quand la Feuille Excel est calculée.</GetExcelSheetEvent>
+    <LargeHeight>Une valeur indiquant que cette page a une grande hauteur dans l'éditeur.</LargeHeight>
+    <LargeHeightFactor>Facteur de grande hauteur pour la propriété Grande Hauteur de cette page.</LargeHeightFactor>
+    <Margins>Marges de la page.</Margins>
+    <NumberOfCopies>Nombre d'exemplaires de la page courrante.</NumberOfCopies>
+    <Orientation>Orientation de la page.</Orientation>
+    <PageHeight>Hauteur totale de la page.</PageHeight>
+    <PageWidth>Largeur totale de, la page.</PageWidth>
+    <PaperSize>Taille du papier.</PaperSize>
+    <PaperSourceOfFirstPage>Source du papier pour la première page. Certaines imprimantes ne suportent pas cette fonctionnalité.</PaperSourceOfFirstPage>
+    <PaperSourceOfOtherPages>Source du papier pour le pages suivantes. Certaines imprimantes ne supportent pas cette fonctionnalité.</PaperSourceOfOtherPages>
+    <PrintHeadersFootersFromPreviousPage>Une valeur indiquant que, sur cette page, il est nécessaire d'imprimer l'en-tête et le pied de page de la page précédente.</PrintHeadersFootersFromPreviousPage>
+    <PrintOnPreviousPage>Une valeur indiquant que le rendu de la page démarrera sur la page précédente.</PrintOnPreviousPage>
+    <RenderingEvent>Se produit pendant le rendu la page.</RenderingEvent>
+    <ResetPageNumber>Permet de réinitialiser le numéro de page sur cette page.</ResetPageNumber>
+    <SegmentPerHeight>Nombre de segments par hauteur.</SegmentPerHeight>
+    <SegmentPerWidth>Nombre de segments par largeur.</SegmentPerWidth>
+    <StopBeforePrint>Numéro de page. Quand il est atteint, l'impression s'arrête.</StopBeforePrint>
+    <StretchToPrintArea>Une valeur indiquant que la page sera agrandié à la zone d'impression.</StretchToPrintArea>
+    <TitleBeforeHeader>Une valeur indiquant que le titre du modèle doit êter placé avant l'ent^te de page.</TitleBeforeHeader>
+    <UnlimitedBreakable>Une valeur indiquant qu'en imprimant des rapports croisés multipage, les colonnes et le chaînes peuvent être découpées.</UnlimitedBreakable>
+    <UnlimitedHeight>Une valeur indiquant que la page a une hauteur illimitée.</UnlimitedHeight>
+    <UnlimitedWidth>Une valeur indiquant que la page a une largeur illimitée.</UnlimitedWidth>
+    <Watermark>Watermark of a page.</Watermark>
+  </StiPage>
+  <StiPanel>
+    <ColumnGaps>distance entre deux colonnes.</ColumnGaps>
+    <Columns>Nombre de colonnes.</Columns>
+    <ColumnWidth>Largeur d'une colonne.</ColumnWidth>
+    <RightToLeft>direction horizontale des colonnes.</RightToLeft>
+  </StiPanel>
+  <StiSimpleText>
+    <GetValueEvent>Se produit pour obtenir la valeur du texte.</GetValueEvent>
+    <GlobalizedName>Une valeur utilisée comme clé pour le gestionnaire de traductions.</GlobalizedName>
+    <HideZeros>Une valeur indiquant qu'il n'est pas nécessaire d'afficher les zeros.</HideZeros>
+    <LinesOfUnderline>Une valeur indiquant le style de soulignement.</LinesOfUnderline>
+    <MaxNumberOfLines>Nombre maximum de lignes auquel le composant peut être agrandi.</MaxNumberOfLines>
+    <OnlyText>Une valeur indiquant que l'expression contient seulement du texte.</OnlyText>
+    <ProcessAt>Une valeur indiquant que l'expression est traitée à la fin du rendu de la page ou à la fin du rendu du modèle.</ProcessAt>
+    <ProcessAtEnd>Une valeur indiquant que le texte est traité seulement à la fin de l'exécution du modèle.</ProcessAtEnd>
+    <ProcessingDuplicates>Une valeur indiquant comment le moteur d'impression traite les valeurs dupliquées.</ProcessingDuplicates>
+    <Text>Expression texte.</Text>
+  </StiSimpleText>
+  <StiSubReport>
+    <KeepSubReportTogether>Une valeur indiquant que le sous-rapport doit être conservé à coté de la bande de données sur laquelle il est placé.</KeepSubReportTogether>
+    <SubReportPage>Page contenant le sous-rapport.</SubReportPage>
+    <UseExternalReport>Une valeur indiquant que ce sous-rapport requiert un rapport externe.</UseExternalReport>
+  </StiSubReport>
+  <StiText>
+    <AllowHtmlTags>Une valeur indiquant si ce composant autorise les balises HTML dans le texte.</AllowHtmlTags>
+    <Angle>Angle de rotation du texte.</Angle>
+    <AutoWidth>Une valeur indiquant que cet objet peut changer de taille automatiquement.</AutoWidth>
+    <ExcelValue>Expression utilisée pour exporter les données vers Excel. uniquement pour les valeurs numériques.</ExcelValue>
+    <ExportAsImage>Une valeur indiquant si le contenu sera exporté en tant qu'image ou texte.</ExportAsImage>
+    <Font>Police du composant.</Font>
+    <GetExcelValueEvent>Se produit quand la valeur Excel est calculée.</GetExcelValueEvent>
+    <HorAlignment>allignement horizontal du texte.</HorAlignment>
+    <Margins>Marges du texte.</Margins>
+    <RenderTo>Specifie un composant texte qui aura pour valeur le texte du composant courant qui ne rentre pas dans le cadre.</RenderTo>
+    <ShrinkFontToFit>Une valeur indiquant si ce composant diminue la taille de la police pour adapter le contenu au composant.</ShrinkFontToFit>
+    <ShrinkFontToFitMinimumSize>Une valeur indiquant la taille lminimale de la police pour l'opération adaptation automatique de la police.</ShrinkFontToFitMinimumSize>
+    <TextFormat>format du texte.</TextFormat>
+    <TextOptions>options pour contrôler l'affichage du texte.</TextOptions>
+    <TextQuality>Une valeur indiquant la qualité du texte.</TextQuality>
+    <WordWrap>Retour à la ligne.</WordWrap>
+  </StiText>
+  <StiTextOptions>
+    <Angle>Angle de rotation du texte.</Angle>
+    <DistanceBetweenTabs>Distance entre les tabulations.</DistanceBetweenTabs>
+    <FirstTabOffset>Décalage de la première tabulation.</FirstTabOffset>
+    <HotkeyPrefix>Type de dessin de la ttouche d'accès rapide.</HotkeyPrefix>
+    <LineLimit>Une valeur qui ne montre que les lignes achevées.</LineLimit>
+    <RightToLeft>Sens de lecture horizontal.</RightToLeft>
+    <Trimming>Type de découpage de la fin de la ligne.</Trimming>
+    <WordWrap>Retour à la ligne.</WordWrap>
+  </StiTextOptions>
+  <Universal>
+    <AllowApplyStyle>Une valeur qui indique que le style graphique sera utilisé.</AllowApplyStyle>
+    <Key>Une clé qui sera utilisée dans les varaibles quand l'utilisateur sélectionne sa valeur associée dans l'interface graphique.</Key>
+    <Value>Une valeur qui sera affichée à la place de la clé dans l'interface graphique.</Value>
+  </Universal>
+</Localization>

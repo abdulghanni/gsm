@@ -22,7 +22,7 @@
 		<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$id?>">
 	</td>
 	<td><input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal<?=$id?>" value="0" readonly></td>
-	<input name="pajak[]" value="0" type="hiddent" class="form-control text-right" required="required" id="pajak<?=$id?>">
+	<input name="pajak[]" value="0" type="text" class="form-control text-right " required="required" id="pajak<?=$id?>">
 	<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$id?>">
 </tr>
 <script type="text/javascript"> $(document).find("select.select2").select2();</script>
@@ -66,7 +66,7 @@
 	    }
 	});
 
-	$("#harga<?=$id?>").add("#jumlah<?=$id?>").add("#disc<?=$id?>").keyup(function() {
+	$("#harga<?=$id?>").add("#jumlah<?=$id?>").add("#disc<?=$id?>").add("#pajak<?=$id?>")keyup(function() {
 			hitung<?=$id?>();
 	    });
 
@@ -99,6 +99,10 @@ function hitung<?=$id?>()
         });
         $('.subdisc').each(function (index, element) {
             jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
+        });
+
+        $('.subpajak').each(function (index, element) {
+            jmlPajak = jmlPajak + parseInt($(element).val());
         });
 
         if($('#kpajak1').is(':checked')){
