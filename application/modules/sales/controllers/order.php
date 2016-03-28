@@ -7,6 +7,7 @@ class Order extends MX_Controller {
     var $file_name = 'order';
     var $main_title = 'Sales Order';
     var $table_name = 'sales_order';
+    var $table_list = 'sales_order_list';
 	function __construct()
 	{
 		parent::__construct();
@@ -43,7 +44,10 @@ class Order extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['options_kontak'] = options_row('order','get_kontak','id','title','-- Pilih Customer --');
-        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
+        $this->data['pajak_komponen'] = getAll('pajak_komponen',array(), array('!=id'=>'1'))->result();
+        $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
+        $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
+        $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -57,6 +61,11 @@ class Order extends MX_Controller {
         $this->data['id'] = $id;
         $this->data['order'] = $this->order->get_detail($id);
         $this->data['order_list'] = $this->order->get_list_detail($id);
+        $this->data['is_ex_tax'] = $this->db->select('pajak')
+                                              ->where('order_id', $id)
+                                              ->where('pajak !=', "0")
+                                              ->get($this->table_list)->num_rows();
+        //$q = $this->db->select('pajak')->where('order_id', $id)->get($this->table_list);print_mz($q->result());
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
@@ -276,7 +285,10 @@ class Order extends MX_Controller {
         $this->data['id'] = $id;
         $this->data['order'] = $this->order->get_detail($id);
         $this->data['order_list'] = $this->order->get_list_detail($id);
-        
+        $this->data['is_ex_tax'] = $this->db->select('pajak')
+                                              ->where('order_id', $id)
+                                              ->where('pajak !=', "0")
+                                              ->get($this->table_list)->num_rows();
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
         $this->mpdf = new mPDF();

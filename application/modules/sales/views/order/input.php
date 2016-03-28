@@ -22,6 +22,9 @@
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
 <form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-so">
+	<input type="hidden" id="ppn_val" value="<?=$ppn_val?>">
+	<input type="hidden" id="pph22_val" value="<?=$pph22_val?>">
+	<input type="hidden" id="pph23_val" value="<?=$pph23_val?>">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -217,7 +220,7 @@
 									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="15%"> Sub Total </th>
-									<th width="10%"> PPN(%) </th>
+									<th width="5%" class="text-center"> Exclude PPN(%) </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -230,13 +233,12 @@
 					<input type="hidden" name="dp" value="0">
 					<div id="subTotalPajak"></div>
 					<div class="row">
-						<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
+						<div id="panel-total" class="panel-body col-md-5 pull-right">
 							<ul class="list-group">
-							
 								<li class="list-group-item" id="totalPPN">
 									<div class="row">
 										<div class="col-md-4">
-										PPN 10%
+										PPN
 										</div>
 										<div class="col-md-6 pull-right">
 										<input type="text" id="totalPajak" name="total-ppn" value="0" class="form-control text-right">
@@ -575,11 +577,21 @@ function addRow(tableID){
 	cell9.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'"><input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc'+rowCount+'">';
 
 	var cell10=row.insertCell(9);
-	cell10.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
-
+	cell10.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly><input name="pajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">';
+	/*
 	var cell11=row.insertCell(10);
 	cell11.innerHTML = '<input name="pajak[]" value="10" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'"><input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">';
+	*/
 
+	var cell11=row.insertCell(10);
+	var element11=document.createElement("input");
+	element11.type="checkbox";
+	//element11.name="pajak[]";
+	element11.className="checkbox_pajak text-center";
+	element11.setAttribute("id", "pajak"+rowCount);
+	cell11.appendChild(element11);
+
+	
 	$("#barang_id"+rowCount).change(function(){
         var id = $(this).val();
          $.ajax({
@@ -615,17 +627,15 @@ function addRow(tableID){
     	hitung();
     });
 
+	$("#pajak"+rowCount).click(function(){
+	    hitung();
+	});
+
     function hitung()
-    {
-    	if($('#dp-persen-cek').is(':checked')){
-			$('#dibayar-nominal').val(parseFloat(0));
-		}else{
-			$('#dibayar').val(parseFloat(0));
-		}
-    	var a = parseFloat($('#jumlah'+rowCount).val()),
+    {var a = parseFloat($('#jumlah'+rowCount).val()),
         	b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
         	c = parseFloat($('#disc'+rowCount).val()),
-        	p = parseFloat($('#pajak'+rowCount).val()).toFixed(2),
+        	p = parseFloat($('#subpajak'+rowCount).val()).toFixed(2),
         	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
         	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
         	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
@@ -633,24 +643,48 @@ function addRow(tableID){
        		val = (a*b)-d,
        		disc = (a*b)*(c/100),
         	subPajak = val*(p/100),//jumlah pajak
-        	jmlPajak = 0,
+        	totalPajak = 0,
         	jmlDisc = 0,
         	total = 0;
+			ppn = $("#ppn_val").val(),
+			pph22 = $("#pp22_val").val(),
+			pph23 = $("#pp23_val").val();
+			ppnx =  val*(ppn/100)
 
+		if($('#pajak'+rowCount).is(':checked')){
+			$('#subpajak'+rowCount).val(parseFloat(ppnx));
+		}else{
+			$('#subpajak'+rowCount).val(parseFloat(0));
+		}
+
+
+    	if($('#dp-persen-cek').is(':checked')){
+			$('#dibayar-nominal').val(parseFloat(0));
+		}else{
+			$('#dibayar').val(parseFloat(0));
+		}
+    	
         $('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
         $("#subdisc"+rowCount).val(addCommas(parseFloat(disc).toFixed(2)));
+        $('#pajak'+rowCount).val(subPajak);
+        $('.subpajak').each(function (index, element) {
+            totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
+        });
         $('.subtotal').each(function (index, element) {
             total = total + parseFloat($(element).val().replace(/,/g,""));
         });
         $('.subdisc').each(function (index, element) {
             jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
         });
-
+        /*
         if($('#kpajak1').is(':checked')){
 			parseFloat($('#totalPajak').val(total*(10/100)));
 		}else{
 			$('#totalPajak').val(parseFloat(0));
 		}
+		*/
+		parseFloat($('#totalPajak').val(totalPajak));
+
 		if($('#kpajak2').is(':checked')){
 			$('#totalp2').val(parseFloat(total*(2/100)));
 		}else{
@@ -667,7 +701,7 @@ function addRow(tableID){
         p3 = parseFloat($("#totalp3").val()),
 
         total = total+biayaPengiriman;
-        ttotalpluspajak = total+p1+p2+p3;
+        totalpluspajak = total+p1+p2+p3;
         diBayar = totalpluspajak * (diBayar/100);
 
         $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
@@ -723,16 +757,18 @@ function hitungTotal()
         jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
     });
 
+
     $('.subtotal').each(function (index, element) {
         total = total + parseFloat($(element).val().replace(/,/g,""));
     });
 
-    
+    /*
     if($('#kpajak1').is(':checked')){
 		parseFloat($('#totalPajak').val(total*(10/100)));
 	}else{
 		$('#totalPajak').val(parseFloat(0));
 	}
+	*/
 	if($('#kpajak2').is(':checked')){
 		$('#totalp2').val(parseFloat(total*(2/100)));
 	}else{

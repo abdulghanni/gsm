@@ -125,9 +125,10 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 		$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 		$total = $total + $subtotal;
+		$ex_tax = ($ol->pajak != 0)? '*' : '';
 	?>
 		<td width="5%"><?=$i++?></td>
-		<td width="15%"><?=$ol->kode_barang?></td>
+		<td width="15%"><?=$ol->kode_barang.' '.$ex_tax?></td>
 		<td width="20%"><?=$ol->deskripsi?></td>
 		<td width="5%" align="right"><?=$ol->jumlah?> <?=$ol->satuan?></td>
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
@@ -162,6 +163,8 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<th width="10%"></th>
 	</tr>
 		<tr><td colspan="4">Note :</td></tr>
+		
+		<tr><td colspan="4"><?= ($is_ex_tax > 0) ? "- The Price for Barcode with asterix(*) sign is Exclude Value Added Tax(VAT)" : '';?></td></tr>
 		<?php if(!empty($o->catatan)){
 		$c = explode(PHP_EOL, $o->catatan);
 			  foreach ($c as $key => $value) {?>
@@ -175,7 +178,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
-		<?php if(in_array(1, $pajak_komponen)){?>
+		<?php if($is_ex_tax > 0){?>
 		<td colspan="3">PPN</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?= number_format($o->total_ppn, 2)?></td>
