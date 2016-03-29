@@ -36,7 +36,8 @@
                             <th width="5%" class="text-center"><?php echo 'Tanggal Invoice';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal pengiriman';?></th>
                             <th width="15%"><?php echo 'Dikirim Ke';?></th>
-                            <th width="10%" class="text-center"><?php echo lang('action');?></th>
+                            <th width="5">Created by</th>
+                            <th width="12%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>
                     <tbody>

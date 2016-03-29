@@ -255,6 +255,7 @@ class Request extends MX_Controller {
             //$print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
             $print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=pr.mrt&param1=".$r->id;
             $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
+            $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
             if(!empty($r->diajukan_ke)){
                 $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
             }else{
@@ -273,6 +274,7 @@ class Request extends MX_Controller {
             $row[] = ($r->is_draft == 1)?"<a href=$draft>#".$r->no.'</a>' : "<a href=$detail>#".$r->no.'</a>';
             $row[] = $r->tanggal_digunakan;
             $row[] = $r->gudang;
+            $row[] = getName($r->created_by);
             if($r->is_draft == 1){
             $row[] = 'Draft';
             $row[] = 'Draft';
@@ -293,7 +295,9 @@ class Request extends MX_Controller {
                 endif;
             }else{
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
+                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>
+                    $delete"
+                    ;
             }
             $data[] = $row;
         }

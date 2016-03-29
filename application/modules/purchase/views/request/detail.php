@@ -23,7 +23,7 @@
 <div class="container-fluid container-fullw bg-white">
 
 <div class="row pull-right">
-	<a href="<?=base_url().'purchase/request/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
+	<a href="<?=base_url().'print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=pr.mrt&param1='.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 		 <i class="fa fa-print"></i> <?= lang('print')?>
 	</a>
 </div>

@@ -239,6 +239,7 @@ class Order extends MX_Controller {
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
             $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
+            $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
             $no++;
             $row = array();
             $row[] = $no;
@@ -247,6 +248,7 @@ class Order extends MX_Controller {
             $row[] = $r->tanggal_transaksi;
             //$row[] = $r->metode_pembayaran;
             $row[] = $r->gudang;
+            $row[] = getName($r->created_by);
             $row[] = ($r->is_draft == 1) ? "Draft" : "Submitted";
 
             if($r->is_draft == 1){
@@ -258,7 +260,9 @@ class Order extends MX_Controller {
                 endif;
             }else{
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
+                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>
+                    $delete
+                    ";
             }
             $data[] = $row;
         }

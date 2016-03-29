@@ -29,14 +29,14 @@
                 <table class="table table-striped table-bordered table-hover table-full-width" id="table">
                     <thead>
                         <tr>
-                            <th width="5%" align="center">No.</th>
-                            <th width="15%"><?php echo 'No. SO';?></th>
-                            <th width="15%"><?php echo 'Customer';?></th>
-                            <th width="5%" class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
-                            <!--<th width="5%" class="text-center"><?php echo 'Metode Pembayaran';?></th>-->
-                            <th width="15%"><?php echo 'Dikirim Dari';?></th>
-                            <th width="5%"><?php echo 'Status';?></th>
-                            <th width="10%" class="text-center"><?php echo lang('action');?></th>
+                            <th align="center">No.</th>
+                            <th><?php echo 'No. SO';?></th>
+                            <th><?php echo 'Customer';?></th>
+                            <th class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
+                            <th><?php echo 'Dikirim Dari';?></th>
+                            <th>Created by</th>
+                            <th><?php echo 'Status';?></th>
+                            <th class="text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody>

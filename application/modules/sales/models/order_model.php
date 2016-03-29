@@ -35,6 +35,7 @@ class order_model extends CI_Model {
         $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.metode_pembayaran_id', 'left');
         $this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table.'.gudang_id', 'left');
         //$this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.kurensi_id', 'left');
+        $this->db->where($this->table.'.is_deleted', 0);
 
         $i = 0;
     
@@ -92,6 +93,7 @@ class order_model extends CI_Model {
 
     public function count_all()
     {
+        $this->db->where($this->table.'.is_deleted', 0);
         $this->db->from($this->table);
         return $this->db->count_all_results();
     }
@@ -143,8 +145,13 @@ class order_model extends CI_Model {
 
     public function delete_by_id($id)
     {
+         $data = array('is_deleted'=>1,
+                      'deleted_by' => sessId(),
+                      'deleted_on' => dateNow()
+            );
         $this->db->where('id', $id);
-        $this->db->delete($this->table);
+        $this->db->update($this->table, $data);
+        //$this->db->delete($this->table);
     }
 
     

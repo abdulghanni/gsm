@@ -294,6 +294,7 @@ class Order extends MX_Controller {
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
             $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
+            $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
             $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
             $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
             $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
@@ -329,6 +330,7 @@ class Order extends MX_Controller {
             $row[] = $r->kontak;
             $row[] = dateIndo($r->tanggal_transaksi);
             $row[] = $r->gudang;
+            $row[] = getName($r->created_by);
             if($r->is_draft == 1){
             $row[] = 'Draft';
             $row[] = 'Draft';
@@ -350,10 +352,14 @@ class Order extends MX_Controller {
             }else{
                     if(($has_approve == 'direktur' && $r->app_status_id_lv4 != 1) || ($has_approve == 'ga' && $r->app_status_id_lv2 != 1)):
                         $row[] = "<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                                  <a class='btn btn-sm btn-light-azure' onclick='cantPrint()' title='Cetak'><i class='fa fa-print'></i></a>";
+                                  <a class='btn btn-sm btn-light-azure' onclick='cantPrint()' title='Cetak'><i class='fa fa-print'></i></a>
+                                  $delete
+                                  ";
                     else:
                         $row[] = "<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                                  <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='cetak'><i class='fa fa-print'></i></a>";
+                                  <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='cetak'><i class='fa fa-print'></i></a>
+                                  $delete
+                                  ";
                     endif;
             }
             $data[] = $row;
