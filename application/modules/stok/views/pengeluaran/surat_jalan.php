@@ -3,6 +3,7 @@ table td{
         font-size:14px;
 }
 </style>
+<title>Surat Jalan</title>
 <table cellspacing="0" cellpadding="0" width="100%">
   <col width="64" span="10">
   <tr>
@@ -184,7 +185,7 @@ table td{
     <td align="center" style="border-right:1px solid black;"><?php echo $no;?></td>
     <td colspan="5" width="320" style="border-right:1px solid black;"><?php echo GetValue('title','barang',array('id'=>'where/'.$ls['barang_id']))?></td>
     <td style="border-right:1px solid black;" align="center"><?php echo $ls['jumlah']?></td>
-    <td colspan="2" style="border-right:1px solid black;" align="center"><?php echo $pengeluaran['ref'] ?></td>
+    <td colspan="2" style="border-right:1px solid black;" align="center"><?php echo $ls['ref'] ?></td>
   </tr>
   <?php $no++; } ?>
   </table><br>

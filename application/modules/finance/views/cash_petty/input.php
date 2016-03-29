@@ -3,7 +3,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Penerimaan Stok</h1>
+			<h1 class="mainTitle">Petty Cash</h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -47,15 +47,15 @@
 				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-2 text-input" readonly>
 			   </div>
 		   </div>
-		   <div class="form-group">
+		   <!--div class="form-group">
 			   
 			   <?php $nm_f="ref";?>
 			   <div class="col-sm-3">
-				   <label for="<?php echo $nm_f?>">Referal Code / No Voucher</label>
+				   <label for="<?php echo $nm_f?>">Referal Code</label>
 				   </div><div class="col-sm-9">
 				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required<?php echo $cekdup?>]">
 			   </div>
-			   </div>
+			   </div-->
 		   <div class="form-group">
 			   
 			   <?php $nm_f="dates";?>
@@ -88,39 +88,14 @@
 				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required]">
 			   </div>
 			   </div>
-		   <div class="form-group">
-			   
-			   <?php $nm_f="job_number";?>
-			   <div class="col-sm-3">
-				   <label for="<?php echo $nm_f?>">Job Number</label>
-				   </div><div class="col-sm-9">
-				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required]">
-			   </div>
-			   </div>
-		   <div class="form-group">
-			   
-			   <?php $nm_f="amount";?>
-			   <div class="col-sm-3">
-				   <label for="<?php echo $nm_f?>"><?php echo ucfirst($nm_f)?></label>
-				   </div><div class="col-sm-9">
-				   <?php echo form_dropdown('rc',$opt_curr,(isset($val['rc']) ? $val['rc'] : '1'))?>
-				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required] currency">
-			   </div>
-			   </div>
-				<div class="form-group">
-				<?php $nm_f="from";?>
-				<div class="col-sm-3">
-					<label for="<?php echo $nm_f?>">From</label>
-					</div><div class="col-sm-4">
-					<?php echo form_dropdown($nm_f,$opt_from, (isset($val[$nm_f]) ? $val[$nm_f] : ''),"class='chosen-select form-control'")?>
-				</div>
-				</div>
+		  
+                   
 				<div class="form-group">
 				<?php $nm_f="coa";?>
 				<div class="col-sm-3">
 					<label for="<?php echo $nm_f?>">COA</label>
 					</div><div class="col-sm-4">
-					<?php echo form_dropdown($nm_f,$opt_coa, (isset($val[$nm_f]) ? $val[$nm_f] : ''),"class='chosen-select form-control'")?>
+					<?php echo form_dropdown($nm_f,GetOptAll('sv_setup_coa','-COA-',array(),'code','id','name'), (isset($val[$nm_f]) ? $val[$nm_f] : ''),"class='chosen-select form-control'")?>
 				</div>
 				</div>
 				<div class="form-group">

@@ -27,7 +27,7 @@ class Index extends MX_Controller {
 		if($this->session->userdata('webmaster_grup')==10){
 			$filter['id']='where/2';
 		}
-		$this->data['opt_dok']=GetOptAll('report','-Document-',$filter,'title_document');
+		$this->data['opt_dok']=GetOptDoc();
         $this->data['options_barang'] = options_row($this->model_name,'get_barang','kode','title','-- Pilih Barang --');
         $this->data['options_satuan'] = options_row($this->model_name,'get_satuan','id','title','-- Pilih Satuan --');
         $this->data['options_gudang'] = options_row($this->model_name,'get_gudang','id','title','-- Pilih Gudang --');

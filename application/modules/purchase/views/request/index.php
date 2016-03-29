@@ -25,8 +25,8 @@
             </div>
             <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
             <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover table-full-width" id="table">
-                    <thead>
+                <table class="table table-striped table-bordered table-hover table-full-width " id="table" style="width: 100%;">
+                    <thead >
                          <tr>
                           <th rowspan="2" scope="col" width="5%" class="text-center">No</th>
                           <th rowspan="2" scope="col" width="20">NO P.R</th>
@@ -34,7 +34,7 @@
                           <th rowspan="2" scope="col" width="10">Gudang</th>
                           <th rowspan="2" scope="col" width="10">Created by</th>
                           <th colspan="4" scope="col" width="20" class="text-center">Status</th>
-                          <th rowspan="2" scope="col" width="10" class="text-center">Action</th>
+                          <th rowspan="2" scope="col" width="15" class="text-center">Action</th>
                         </tr>
                         <tr>
                           <th scope="col" class="text-center" width="5%">KA.Div</th>
@@ -51,7 +51,7 @@
                             <th width="15%" class="text-center"><?php echo 'Gudang';?></th>
                             <th width="15%"><?php echo 'Keperluan';?></th>
                             <th width="5%"><?php echo 'Status';?></th>
-                            <th width="10%" class="text-center"><?php echo lang('action');?></th>
+                            <th width="15%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                         -->
                     </thead>

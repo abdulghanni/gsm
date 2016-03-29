@@ -970,6 +970,27 @@ if (!function_exists('GetOptAll')){
 	}
 }
 
+if (!function_exists('GetOptDoc')){
+	function GetOptDoc($tabel='report',$judul='-Laporan-',$filter=NULL,$field=NULL,$id=NULL,$field2=NULL,$filter_where_in=NULL)
+	{
+            
+		$CI =& get_instance();
+                $user_id =$CI->session->userdata('user_id');
+
+		if($filter==NULL)$filter = array();
+		if($filter_where_in==NULL)$filter_where_in = array();
+		if($field==NULL)$field='title';
+		if($id==NULL)$id='id';
+		$q = $CI->db->query("SELECT a.id id, a.title_document title_document FROM report a LEFT JOIN report_permission b ON b.menu_id=a.id AND b.user_id = '$user_id' WHERE b.view='1' ");
+		if($judul) $opt[''] = $judul;
+		foreach($q->result_array() as $r)
+		{
+			$opt[$r[$id]] = $r['title_document'];
+		}
+		
+		return $opt;
+	}
+}
 if (!function_exists('GetOptAllMenu')){
 	function GetOptAllMenu($tabel,$judul=NULL)
 	{
@@ -1862,19 +1883,19 @@ function generateai($data){
 }
 function generateaitrucking($data){
 	$CI=&get_instance();
-		$hrg=0;
-		$vals=GetAll('sv_marketing_form_prospect',array('id'=>'where/'.$data['prospek']))->result_array();
-		foreach($vals as $item){
-			$type=GetValue('code','sv_master_trucking',array('id'=>'where/'.$data['service']));
-			$hrg=GetValue($type,'sv_quotation_trucking_custom',array('prospek'=>'where/'.$data['prospek']),'id desc');
-				$ai['job_order']=$data['number'];
-				$ai['b_subtotal']=$hrg;
+	$hrg=0;
+	$vals=GetAll('sv_marketing_form_prospect',array('id'=>'where/'.$data['prospek']))->result_array();
+            foreach($vals as $item){
+		$type=GetValue('code','sv_master_trucking',array('id'=>'where/'.$data['service']));
+		$hrg=GetValue($type,'sv_quotation_trucking_custom',array('prospek'=>'where/'.$data['prospek']),'id desc');
+		$ai['job_order']=$data['number'];
+		$ai['b_subtotal']=$hrg;
 		$ai['b_currency']='IDR';
 		$ai['b_item']=1;
 		$ai['b_amount']=$hrg;
-				$ai['acc']='Trucking Charge';
-				$ai['b_desc']='Trucking Charge';
-				$CI->db->insert('ai',$ai);
+		$ai['acc']='Trucking Charge';
+		$ai['b_desc']='Trucking Charge';
+		$CI->db->insert('ai',$ai);
 		}
 	
 	
@@ -1965,12 +1986,13 @@ function getoptsatuan($barang){
 	$opt['']='-Satuan-';
 	$opt[$small] = GetValue('title','satuan',array('id'=>'where/'.$small));
 	//$opt[$small]=GetValue('title','satuan',array('id'=>'where/'.$small));
+        if($q->num_rows>0){
 	foreach($q->result_array() as $r)
 	{
 			if(!in_array($r['id'],$opt)){
 			$opt[$r['id']] = $r['title'];}
 	}
-	
+        }
 	return $opt;
 }
 /* function generateinvoice($mod,$div,$data,$ids=NULL,$tbl=NULL){
@@ -1994,6 +2016,7 @@ function historystok($type,$source,$ref,$gudang,$barang,$satuan,$qty,$tgl,$no=NU
         $data['gudang']=$gudang;
         $data['barang']=$barang;
         $data['satuan']=$satuan;
+        $data['saldo']=  GetValue('dalam_stok', 'stok',array('barang_id'=>'where/'.$barang,'gudang_id'=>'where/'.$gudang));
         $data['qty']=$qty;
         $data['tgl']=$tgl;
         $data['created_on']=date("Y-m-d H:i:s");

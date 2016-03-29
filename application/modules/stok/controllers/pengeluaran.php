@@ -3,7 +3,7 @@
 class Pengeluaran extends MX_Controller {
     public $data;
     var $module = 'stok';
-    var $title = 'pengeluaran';
+    var $title = 'Pengeluaran';
     var $file_name = 'pengeluaran';
     
     function __construct()
@@ -65,6 +65,7 @@ class Pengeluaran extends MX_Controller {
 		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered, a.created_by")->from('stok_pengeluaran a');
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
+                $this->db->order_by('id','desc');
 		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
 		$this->flexigrid->build_query();
 		
@@ -100,7 +101,15 @@ class Pengeluaran extends MX_Controller {
 			if($row->status=='y'){$status='Aktif';}
 			elseif($row->status=='n'){$status='Tidak Aktif';}
 			elseif($row->status=='s'){$status='Suspended';}*/
-                        if($row->is_delivered=='No'){$ref="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>";}
+                        if($row->is_delivered=='No'){
+                            
+                            $ref="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>";
+                            $dev="<a href='".base_url()."stok/pengeluaran/deliver/".$row->id."'>".$row->is_delivered."</a>";
+                        }else{
+                            
+                            $ref=$row->ref;
+                            $dev=$row->is_delivered;
+                        }
 			$record_items[] = array(
 			$row->id,
 			$row->id,
@@ -109,13 +118,18 @@ class Pengeluaran extends MX_Controller {
 			$row->gudang_to,
 			$row->tgl,
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan/".$row->id."' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
-			"<a href='".base_url()."'>".$row->is_delivered."</a>",
+			$dev,
 			GetValue('username','users',array('id'=>'where/'.$row->created_by)),
 			);
 		}
 		
 		return $this->output->set_output($this->flexigrid->json_build($records['record_count'],$record_items));;
-	}  
+	} 
+        function deliver($id){
+            $this->db->where('id',$id);
+            $this->db->update("stok_pengeluaran",array('is_delivered'=>'Yes'));
+            redirect('stok/pengeluaran');
+        }
 	
    function surat_jalan($id)
     {
@@ -188,12 +202,15 @@ class Pengeluaran extends MX_Controller {
                         'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
                         'jumlah_po'=>$this->input->post('jumlah_po'),
-						'kode_barang'=>$this->input->post('brg')
+			'ref_id'=>$this->input->post('idtrx'),
+                	'kode_barang'=>$this->input->post('brg')
+
                         );
 
         $data = array(
-                'ref'=>$this->input->post('ref'),
-                'ref_type'=>$this->input->post('ref_type'),
+                'ref'=>GetValue('so','sales_order',array('id'=>'where/'.$this->input->post('ref'))),              
+               'ref_type'=>'sales_order',
+                'alamat'=>$this->input->post('alamat'),
                 'ref_id'=>$this->input->post('ref_id'),
                 
                 'tgl'=>date('Y-m-d',strtotime($this->input->post('tgl'))),
@@ -208,11 +225,13 @@ class Pengeluaran extends MX_Controller {
         $this->db->insert($this->module.'_'.$this->file_name, $data);
         $insert_id = $this->db->insert_id();
 		$sisaan=0;
-        for($i=1;$i<=sizeof($list['kode_barang']);$i++):
+        for($i=0;$i<sizeof($list['kode_barang']);$i++):
 		$sisa=$list['jumlah_po'][$i]-$list['jumlah'][$i];
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
-                'order_id' => $this->input->post('ref_id'),
+                'ref_type' => $data['ref_type'],
+                'order_id' => $list['ref_id'][$i],
+                'ref' => GetValue('so','sales_order',array('id'=>'where/'.$list['ref_id'][$i])) ,
                 'list_id' => $list['list_id'][$i],
                 'barang_id' => $list['kode_barang'][$i],
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
@@ -221,7 +240,7 @@ class Pengeluaran extends MX_Controller {
                 );
         $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         $sisaan=+$sisa;
-		keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i],$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']));
+	keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',','',$list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
         $this->send_notification($insert_id);
 		endfor;
 		//echo $sisaan;
@@ -366,7 +385,7 @@ class Pengeluaran extends MX_Controller {
                     $this->template->add_js('vendor/select2/select2.min.js');
                     $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
                     $this->template->add_js('assets/js/form-elements.js');
-                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/input.js');
+                   // $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/input.js');
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/detail')))
                 {
                     $this->template->set_layout('default');
@@ -389,5 +408,10 @@ class Pengeluaran extends MX_Controller {
     }
 	function bast($id=NULL){
 			$this->load->view('stok/pengeluaran/bast');
+	}
+	function addso($id=NULL){
+        $data['idp']=$_POST['idp'];    
+        $data['opt_po'] = GetOptAll('sales_order','-Sales Order-',array('is_closed'=>'where/0','id'=>'order/desc'),'so');
+			$this->load->view('stok/pengeluaran/sobaru',$data);
 	}
 }

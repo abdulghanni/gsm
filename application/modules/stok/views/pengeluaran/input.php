@@ -37,7 +37,7 @@
 					</div>
 				</div>
 				<hr>
-				<div class="row">
+				<div class="row so" id="so">
                                     <div class="col-md-7">
 					<div class="form-group">
                                             <label class="col-sm-3 control-label" for="inputEmail3">
@@ -56,6 +56,9 @@
                                                     </div>
 					</div>
                                     </div>
+				</div>
+				<div class="row" id="addedso">
+                                   
 				</div>
 				<!--div class="row">
                                     <div class="col-md-7">
@@ -90,6 +93,11 @@
 					
 							<img src="<?php echo base_url().'assets/images/loading.gif' ?>" class="loadingimg" style="display:none">
 				</div>
+					<div class="row" id="submitdiv" style="display:none">
+						<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="margin-right:15px;">
+							Submit<i class="fa fa-check"></i>
+						</button>
+					</div>
 				
 			</div>
 		</div>
@@ -103,11 +111,27 @@
             $('.select2').select2({});
         });
 	function cariref(val){
-		$('.loadingimg').show();
+	$('#addso').empty();	
+	$('#addedso').empty();	
+        $('.loadingimg').show();
+                
 		$('#detailtrans').load('<?php echo base_url() ?>stok/pengeluaran/cariref',{v:val});
 		$('#list').load('<?php echo base_url() ?>stok/pengeluaran/carilist',{v:val});
-                //$('#addso').append('<a class="btn btn-green add-row" href="http://localhost/gsm/sales/order/input">Tambah <i class="fa fa-plus"></i></a>');
+                $('#submitdiv').toggle();
+    $('#addso').append('<a class="btn btn-green add-row" href="#" onclick="addrow()">Tambah <i class="fa fa-plus"></i></a>');
 	}
+        function addrow(){
+            var idlist=getRandomInt(11111,9999999);
+            var so=$('.so').length;
+            var soawal=$('#ref').val();
+            $('#addedso').append("<div class='row so' id='so"+so+"' ><div class='form-group'><label class='col-sm-3 control-label' for='inputEmail3'>No. S.O </label><div class='col-sm-6' id='so-"+so+"'></div><div class='col-md-3' ></div></div></div> ");
+            setTimeout(function(e){
+                $('#so-'+so).load('<?php echo base_url()?>stok/pengeluaran/addso/',{so:soawal,idp:idlist});
+            },100);
+        }
+        function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min)) + min;
+}
 	/* function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;

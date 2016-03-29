@@ -1,8 +1,12 @@
 
+<table>
+
+<tr id="department">
+    <td width="20%">Supplier</td><td width="1%">:</td><td width="79%"><?php echo form_dropdown('supplier',GetOptAll('kontak','-All-'),'','class="kontak form-control" style="border:0"') ?></td>
+</tr>
+</table>
 <script type="text/javascript">
-    $(function() {
-    	$("#supplier").dropdownchecklist({emptyText: " - All -", maxDropHeight: 240, width: 180});
+	$(document).ready(function(e){
+    	$(".kontak").select2();
     });
 </script>
-
-<tr id="department"><td>Supplier</td><td>:</td><td><select name="supplier[]" id="supplier" multiple='multiple'><!--<option value="_all">All Department</option>--><?php foreach($listsup as $list){?><option value="<?php echo $list->id;?>"><?php echo $list->nama;?></option><?php }?></select></td></tr>

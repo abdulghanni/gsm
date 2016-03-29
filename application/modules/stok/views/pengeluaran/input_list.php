@@ -1,5 +1,6 @@
 <fieldset>
-	<legend>List</legend><div class="col-sm-12">
+	<legend><?php echo ucfirst(str_replace('_',' ',$reftype)) ?> No. <?php echo $refid['so'] ;?> <?php if(isset($part)){echo "(Pengiriman Ke ".$partno.")"; }?></legend>
+        <div class="col-sm-12">
 					<div class="table-responsive">
 						<table id="table" class="table table-striped">
 							<thead>
@@ -23,10 +24,10 @@
 										
 										
 										?>
-								<?php echo form_hidden("idtrx[$c]",$daftar['order_id']) ?>
-								<?php echo form_hidden("list[$c]",$daftar['id']) ?>
-								<?php echo form_hidden("brg[$c]",$daftar['kode_barang']) ?>
-								<?php echo form_hidden("jumlah_po[$c]",isset($part)?$carisisa['sisa'] : $daftar['jumlah']) ?>
+								<?php echo form_hidden("idtrx[]",$daftar['order_id']) ?>
+								<?php echo form_hidden("list[]",$daftar['id']) ?>
+								<?php echo form_hidden("brg[]",$daftar['kode_barang']) ?>
+								<?php echo form_hidden("jumlah_po[]",isset($part)?$carisisa['sisa'] : $daftar['jumlah']) ?>
 								<tr>
 									<th width="5%"><?php echo $c ?> </th>
 									<th width="10%"> <?php echo GetValue('kode','barang',array('id'=>'where/'.$daftar['kode_barang'])) ?> </th>
@@ -37,8 +38,8 @@
 									<th width="5%"><?php echo $daftar['disc'] ?></th>
 									<th width="15%"> Sub Total </th>
 									<th width="5%"><?php echo $daftar['pajak'] ?></th-->
-									<th width="5%"><?php echo form_input("jumlah[$c]",isset($part)?$carisisa['sisa'] : $daftar['jumlah']) ?></th>
-									<th width="5%"><?php echo form_dropdown("satuan[$c]",GetOptAll('satuan'),$daftar['satuan_id']) ?></th>
+									<th width="5%"><?php echo form_input("jumlah[]",isset($part)?$carisisa['sisa'] : $daftar['jumlah']) ?></th>
+									<th width="5%"><?php echo form_dropdown("satuan[]",GetOptAll('satuan'),$daftar['satuan_id']) ?></th>
 								</tr><?php $c++;}  ?>
 							</thead>
 							<tbody>
@@ -47,8 +48,3 @@
 					</div>
 					</div>
 </fieldset>
-					<div class="row">
-						<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="margin-right:15px;">
-							Submit<i class="fa fa-check"></i>
-						</button>
-					</div>

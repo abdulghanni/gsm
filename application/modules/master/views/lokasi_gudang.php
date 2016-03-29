@@ -29,7 +29,7 @@
             </div>
             <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
             <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover table-full-width" id="table">
+                <table class="table table-striped table-bordered table-hover table-full-width" id="table" style="width: 100%;">
                     <thead>
                         <tr>
                             <th width="5%" align="center">No.</th>

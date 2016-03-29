@@ -11,6 +11,14 @@
 </div>  
     
    <?php foreach($q as $h){ 
+       //echo $barang;
+       if($barang){
+           $listz=GetAll('purchase_order_list',array('order_id'=>'where/'.$h['id'],'kode_barang'=>'where/'.$barang));
+           
+           if($listz->num_rows()==0) {$keluarin=FALSE;}
+           else {$keluarin=TRUE;}
+       }
+      if($keluarin){
         $list=GetAll('purchase_order_list',array('order_id'=>'where/'.$h['id']))->result_array();
        ?>
 <table width="100%" border="0" style="border:1px solid black;">
@@ -105,6 +113,6 @@
     </tr>
   </tbody>
 </table>
-   <?php }?>
+      <?php } }?>
 </body>
 </html>

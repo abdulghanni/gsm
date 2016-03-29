@@ -207,7 +207,7 @@
 				<div class="row">
 					<div class="col-sm-12">
 					<div class="table-responsive">
-						<table id="table" class="table table-striped">
+						<table id="table" style="width: 100%;" class="table table-striped">
 							<thead>
 								<tr>
 									<th width="5%"> # </th>
