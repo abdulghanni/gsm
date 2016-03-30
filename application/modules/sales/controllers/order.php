@@ -216,7 +216,7 @@ class Order extends MX_Controller {
     function draft($id){
         $this->data['title'] = $this->title.' - Input';
         permissionUser();
-         $this->data['id'] = $id;
+        $this->data['id'] = $id;
         $this->data[$this->file_name] = $this->order->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->order->get_list_detail($id);
         $this->data['barang'] = getAll('barang')->result_array();
@@ -225,8 +225,11 @@ class Order extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['users'] = getAll('users');
-        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
+        $this->data['pajak_komponen'] = getAll('pajak_komponen',array(), array('!=id'=>'1'))->result();
         $this->data['kontak'] = getAll('kontak', array('jenis_id'=>'where/2'));
+        $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
+        $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
+        $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
         $this->_render_page($this->module.'/'.$this->file_name.'/draft', $this->data);
     }
 

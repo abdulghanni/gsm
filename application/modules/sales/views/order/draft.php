@@ -29,6 +29,9 @@
 	</div>
 	<?php foreach ($order->result() as $o) :?>
 	<form role="form" action="<?= base_url('sales/order/add')?>" method="post" class="form-horizontal" id="form-so">
+	<input type="hidden" id="ppn_val" value="<?=$ppn_val?>">
+	<input type="hidden" id="pph22_val" value="<?=$pph22_val?>">
+	<input type="hidden" id="pph23_val" value="<?=$pph23_val?>">
 	<input type="hidden" name="no" value="<?=$o->no?>">
 		<div class="row">
 			<div class="col-md-12">
@@ -223,6 +226,7 @@
 										<th width="10%"> Harga </th>
 										<th width="5%">Disc(%)</th>
 										<th width="10%"> Sub Total </th>
+										<th class="text-center" width="5%"> Exclude PPN(%) </th>
 									</tr>
 								</thead>
 								<tbody>
@@ -265,39 +269,61 @@
 										<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$i?>">
 										</td>
 										<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
+										<td>
+											<?php $checked = ($ol->pajak != 0)?'checked="checked"' : '';?>
+											<div class="checkbox clip-check check-primary checkbox-inline">
+												<input type="checkbox" id="pajak<?=$i?>" value="" <?= $checked ?>>
+												<label for="pajak<?=$i?>">
+												</label>
+											</div>
+											<input type="text" name="pajak[]" value="<?= $ol->pajak ?>" id="subpajak<?=$i?>" class="subpajak">
+										</td>
 										</tr>
 									<script type="text/javascript" src="<?=assets_url('vendor/jquery-mask-money/jquery.MaskMoney.js')?>"></script>
 									<script>
+									$("#pajak<?=$i?>").click(function(){
+									    hitung<?=$i?>();
+									});
 										$("#harga<?=$i?>").maskMoney({allowZero:true});
 										$("#disc<?=$i?>").add("#harga<?=$i?>").add("#jumlah<?=$i?>").add("#dibayar").add("#dibayar-nominal").add("#biaya_pengiriman").keyup(function() {
-											hitung();
-											
-											var a = parseFloat($("#jumlah<?=$i?>").val()),
+											hitung<?=$i?>();
+									    });
+
+									    function hitung<?=$i?>(){
+									    	var a = parseFloat($("#jumlah<?=$i?>").val()),
 									        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
 									        	c = parseFloat($("#disc<?=$i?>").val()),
+									        	p = parseFloat($("#subpajak<?=$i?>").val()).toFixed(2),
 									        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
 									        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
 									        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
 									        	d = (a*b)*(c/100),//jumlah diskon
 									       		val = (a*b)-d,
 									       		disc = (a*b)*(c/100),
+									       		subPajak = val*(p/100),//jumlah pajak
+        										totalPajak = 0,
 									        	jmlDisc = 0,
 									        	total = 0;
+										        ppn = $("#ppn_val").val(),
+												pph22 = $("#pp22_val").val(),
+												pph23 = $("#pp23_val").val(),
+												ppnx =  val*(ppn/100);
 									        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
 									        $("#subdisc<?=$i?>").val(addCommas(parseFloat(disc).toFixed(2)));
 									        $('.subdisc').each(function (index, element) {
 									            jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
 									        });
-									        //alert(jmlDisc);
-									        $('.subtotal').each(function (index, element) {
-									            total = total + parseFloat($(element).val().replace(/,/g,""));
+
+											if($("#pajak<?=$i?>").is(':checked')){
+												$("#subpajak<?=$i?>").val(parseFloat(ppnx));
+											}else{
+												$("#subpajak<?=$i?>").val(parseFloat(0));
+											}
+											$('.subpajak').each(function (index, element) {
+									            totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
 									        });
 
-									        if($('#kpajak1').is(':checked')){
-												parseFloat($('#totalPajak').val(total*(10/100)));
-											}else{
-												$('#totalPajak').val(parseFloat(0));
-											}
+											parseFloat($('#totalPajak').val(totalPajak));
 											if($('#kpajak2').is(':checked')){
 												$('#totalp2').val(parseFloat(total*(2/100)));
 											}else{
@@ -312,6 +338,12 @@
 											p1 = parseFloat($("#totalPajak").val()),
 											p2 = parseFloat($("#totalp2").val()),
 									        p3 = parseFloat($("#totalp3").val()),
+									        $("#pajak<?=$i?>").val(subPajak);
+									        $('#totalPajak').val(addCommas(parseFloat(totalPajak).toFixed(2)));
+
+									        $('.subtotal').each(function (index, element) {
+									            total = total + parseFloat($(element).val().replace(/,/g,""));
+									        });
 
 									        total = total+biayaPengiriman;
 									        totalpluspajak = total+p1+p2+p3;
@@ -320,14 +352,13 @@
 									        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
 									        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
 									        
-									        //$('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
 									        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
 									        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
 									        //alert(diBayar);
-									        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
+									        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
 									        var saldo = totalpluspajak-diBayar-diBayarNominal;
-									        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
-									    });
+									        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
+									    }
 										</script>
 										<div id="tb">
 										</div>
@@ -506,12 +537,13 @@
 				        $('.subtotal').each(function (index, element) {
 				            total = total + parseFloat($(element).val().replace(/,/g,""));
 				        });
-
+				        /*
 				        if($('#kpajak1').is(':checked')){
 							parseFloat($('#totalPajak').val(total*(10/100)));
 						}else{
 							$('#totalPajak').val(parseFloat(0));
 						}
+						*/
 						if($('#kpajak2').is(':checked')){
 							$('#totalp2').val(parseFloat(total*(2/100)));
 						}else{

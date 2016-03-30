@@ -22,18 +22,20 @@
 		<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$id?>">
 	</td>
 	<td><input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal<?=$id?>" value="0" readonly></td>
-	<input name="pajak[]" value="0" type="text" class="form-control text-right " required="required" id="pajak<?=$id?>">
-	<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$id?>">
+	<td>
+		<div class="checkbox clip-check check-primary checkbox-inline">
+			<input type="checkbox" id="pajak<?=$id?>" value="">
+			<label for="pajak<?=$id?>">
+			</label>
+		</div>
+		<input name="pajak[]" value="0" type="text" class="subpajak" id="subpajak<?=$id?>">
+	</td>
 </tr>
 <script type="text/javascript"> $(document).find("select.select2").select2();</script>
 <script type="text/javascript">
-	var a = parseFloat($("#jumlah<?=$id?>").val()),
-		b = parseFloat($("#harga<?=$id?>").val().replace(/,/g,"")).toFixed(2),
-		c = parseFloat($("#disc<?=$id?>").val()),
-		p = parseFloat($("#pajak<?=$id?>").val()).toFixed(2),
-		d = (a*b)*(c/100),//jumlah diskon
-		val = (a*b)-d;
-
+	$("#pajak<?=$id?>").click(function(){
+	    hitung<?=$id?>();
+	});
 	$("#barang_id<?=$id?>").change(function(){
 	        var id = $(this).val();
 	         $.ajax({
@@ -66,7 +68,7 @@
 	    }
 	});
 
-	$("#harga<?=$id?>").add("#jumlah<?=$id?>").add("#disc<?=$id?>").add("#pajak<?=$id?>")keyup(function() {
+	$("#harga<?=$id?>").add("#jumlah<?=$id?>").add("#disc<?=$id?>").add("#pajak<?=$id?>").keyup(function() {
 			hitung<?=$id?>();
 	    });
 
@@ -80,7 +82,8 @@ function hitung<?=$id?>()
     	var a = parseFloat($('#jumlah'+<?=$id?>).val()),
         	b = parseFloat($('#harga'+<?=$id?>).val().replace(/,/g,"")).toFixed(2),
         	c = parseFloat($('#disc'+<?=$id?>).val()),
-        	p = parseFloat($('#pajak'+<?=$id?>).val()).toFixed(2),
+        	p = parseFloat($("#subpajak<?=$id?>").val()).toFixed(2),
+			
         	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
         	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
         	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
@@ -88,7 +91,11 @@ function hitung<?=$id?>()
        		val = (a*b)-d,
        		disc = (a*b)*(c/100),
         	subPajak = val*(p/100),//jumlah pajak
-        	jmlPajak = 0,
+        	ppn = $("#ppn_val").val(),
+			pph22 = $("#pp22_val").val(),
+			pph23 = $("#pp23_val").val(),
+			ppnx =  val*(ppn/100);
+        	totalPajak = 0,
         	jmlDisc = 0,
         	total = 0;
 
@@ -101,15 +108,22 @@ function hitung<?=$id?>()
             jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
         });
 
-        $('.subpajak').each(function (index, element) {
-            jmlPajak = jmlPajak + parseInt($(element).val());
+        if($("#pajak<?=$id?>").is(':checked')){
+			$("#subpajak<?=$id?>").val(parseFloat(ppnx));
+		}else{
+			$("#subpajak<?=$id?>").val(parseFloat(0));
+		}
+		$('.subpajak').each(function (index, element) {
+            totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
         });
-
+		parseFloat($('#totalPajak').val(totalPajak));
+		/*
         if($('#kpajak1').is(':checked')){
 			parseFloat($('#totalPajak').val(total*(10/100)));
 		}else{
 			$('#totalPajak').val(parseFloat(0));
 		}
+		*/
 		if($('#kpajak2').is(':checked')){
 			$('#totalp2').val(parseFloat(total*(2/100)));
 		}else{
@@ -126,13 +140,13 @@ function hitung<?=$id?>()
         p3 = parseFloat($("#totalp3").val()),
 
         total = total+biayaPengiriman;
-        ttotalpluspajak = total+p1+p2+p3;
+        totalpluspajak = total+p1+p2+p3;
         diBayar = totalpluspajak * (diBayar/100);
-
+        $('#totalPajak').val(addCommas(parseFloat(totalPajak).toFixed(2)));
         $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
         $('#total').val(addCommas(parseFloat(total).toFixed(2)));
         
-        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
+        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
         var saldo = totalpluspajak-diBayar-diBayarNominal;
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
    	}
