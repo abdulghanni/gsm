@@ -3,7 +3,7 @@
 class cash_petty extends MX_Controller {
     public $data;
     var $module = 'finance';
-    var $title = 'cash_petty';
+    var $title = 'Cash Petty';
     var $file_name = 'cash_petty';
     
     function __construct()
@@ -30,11 +30,9 @@ class cash_petty extends MX_Controller {
             $colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
             $colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
             $colModel['code'] = array('Code',110,TRUE,'left',2);
-            $colModel['ref'] = array('Refferal',110,TRUE,'left',2);
             $colModel['amount'] = array('Amount',110,TRUE,'left',2);
-            $colModel['person'] = array('Person',110,TRUE,'left',2);
+            $colModel['person'] = array('Dari / Ke',110,TRUE,'left',2);
             $colModel['remark'] = array('Remark',110,TRUE,'left',2);
-            $colModel['from'] = array('From',110,TRUE,'left',2);
             $colModel['save_type'] = array('Save Type',110,TRUE,'left',2);
         
             $gridParams = array(
@@ -46,13 +44,13 @@ class cash_petty extends MX_Controller {
                 'showTableToggleBtn' => TRUE
 		);
         
-           $buttons[] = array('select','check','btn');
-            $buttons[] = array('deselect','uncheck','btn');
-            $buttons[] = array('separator');
-            $buttons[] = array('add','add','btn');
-            $buttons[] = array('separator');
-             $buttons[] = array('edit','edit','btn');
-            $buttons[] = array('delete','delete','btn');
+//           $buttons[] = array('select','check','btn');
+//            $buttons[] = array('deselect','uncheck','btn');
+//            $buttons[] = array('separator');
+//            $buttons[] = array('add','add','btn');
+//            $buttons[] = array('separator');
+//             $buttons[] = array('edit','edit','btn');
+//            $buttons[] = array('delete','delete','btn');
             $buttons[] = array('separator');
 		
             return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record/"),$colModel,'id','asc',$gridParams,$buttons);
@@ -107,11 +105,9 @@ class cash_petty extends MX_Controller {
                 $row->id,
 				$row->id,
                 $row->number,
-				$row->ref,
 				uang($row->amount),
-				$row->person,
-				$row->remark,
 				$row->from,
+				$row->memo,
 				$row->save_type
                         );
             }
@@ -139,7 +135,7 @@ class cash_petty extends MX_Controller {
         $num_rows = getAll($this->file_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->file_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-		
+	$this->data['opt_coa']=GetOptAll('sv_setup_coa','-COA-',array(),'code','id','name');
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
@@ -147,6 +143,8 @@ class cash_petty extends MX_Controller {
         //$this->data['gudang'] = getAll('gudang')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
        // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
+        $numbering=GetAll('cash_petty');
+        $this->data['numbering']='CA'.sprintf('%05d',$numbering->num_rows()+1);
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -172,48 +170,45 @@ class cash_petty extends MX_Controller {
         permissionUser();
 		//print_mz($this->input->post());
         $list = array(
-                        'list_id'=>$this->input->post('list'),
-                        'jumlah'=>$this->input->post('jumlah'),
-                        'satuan'=>$this->input->post('satuan'),
-                        'jumlah_po'=>$this->input->post('jumlah_po'),
-						'kode_barang'=>$this->input->post('brg')
+                        'akun'=>$this->input->post('akun'),
+                        'debit'=>$this->input->post('debit'),
+                        'kredit'=>$this->input->post('kredit'),
+                        'remark'=>$this->input->post('remark'),
                         );
 
         $data = array(
+                'save_type'=>$this->input->post('save_type'),
+                'number'=>$this->input->post('number'),
+                'dates'=>$this->input->post('dates'),
+                'amount'=> str_replace(',', '', $this->input->post('amount')),
                 'ref'=>$this->input->post('ref'),
-                'ref_type'=>$this->input->post('ref_type'),
-                'ref_id'=>$this->input->post('ref_id'),
-                
-                'tgl'=>date('Y-m-d',strtotime($this->input->post('tgl'))),
-                
-                'gudang_to'=>$this->input->post('gudang_id'),
-               
-                'keterangan' =>$this->input->post('keterangan'),
-                'created_on' =>date("Y-m-d"),
-                'created_by' =>sessId(),
+                'coa'=>$this->input->post('coa'),
+                'from'=>$this->input->post('from'),
+                'memo'=>$this->input->post('memo'),
+
+                'create_date' =>date("Y-m-d"),
+                'create_user_id' =>sessId(),
             );
 
-        $this->db->insert($this->module.'_'.$this->file_name, $data);
+        $this->db->insert('cash_petty', $data);
         $insert_id = $this->db->insert_id();
 		$sisaan=0;
-        for($i=1;$i<=sizeof($list['kode_barang']);$i++):
-		$sisa=$list['jumlah_po'][$i]-$list['jumlah'][$i];
+        for($i=0;$i<sizeof($list['akun']);$i++):
             $data2 = array(
-                $this->file_name.'_id' => $insert_id,
-                'order_id' => $this->input->post('ref_id'),
-                'list_id' => $list['list_id'][$i],
-                'barang_id' => $list['kode_barang'][$i],
-                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
-                'satuan_id' => $list['satuan'][$i],
-                'sisa' => $sisa,
+                'id_petty' => $insert_id,                
+                'akun' => $list['akun'][$i],
+
+                'debit' => str_replace(',', '', $list['debit'][$i]),
+                'kredit' => str_replace(',', '', $list['kredit'][$i]),
+                'remark' => $list['remark'][$i],
                 );
-        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
-        $sisaan=+$sisa;
-		masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
-        $this->send_notification($insert_id);
+        $this->db->insert('cash_petty_detail', $data2);
+        //$sisaan=+$sisa;
+	//	masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
+        //$this->send_notification($insert_id);
 		endfor;
 		//echo $sisaan;
-		if($sisaan==0){$this->db->query("UPDATE purchase_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
+	//	if($sisaan==0){$this->db->query("UPDATE purchase_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
 	function send_notification($id)

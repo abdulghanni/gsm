@@ -7,7 +7,19 @@ $(document).ready(function() {
             format: "dd-mm-yyyy"
         });
 
-    $(".select2").select2();
+    $('.select2').select2({
+    dropdownAutoWidth : true
+});
+
+function resizeInput() {
+    $(this).attr('size', $(this).val().length);
+}
+
+$('input[type="text"]')
+    // event handler
+    .change(resizeInput)
+    // resize on page load
+    .each(resizeInput);
 
     $("#kontak_id").change(function(){
         var id = $(this).val();
@@ -41,7 +53,9 @@ $(document).ready(function() {
     }
 
     $('#btnAdd').on('click', function () {
-        $(document).find("select.select2").select2();
+        $(document).find("select.select2").select2({
+    dropdownAutoWidth : true
+});
         $('#btnRemove').show("slow");
         $('#btnSubmit').show("slow");
         $('#panel-total').show("slow");

@@ -317,7 +317,73 @@ function cekbal(){
 <!-- end: INVOICE -->
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
+		
+function tambah(){
+	//alert('go');
+$('.select2').select2('destroy'); 
+  //location.reload();
+	/* var $select = $('.select2').select2();
+//console.log($select);
+$select.each(function(i,item){
+  //console.log(item);
+  $(item).select2("destroy");
+}); */
+  setTimeout(addrow(), 2000);
+  setTimeout(addlines(), 3000);
+  setTimeout(selectadd(), 4000);
+};
+function addrow(){
+  $("table tr:last").clone().appendTo("table");
+}
+function addlines(){
+    $('.currency').maskMoney({thousands:",",decimal:".",precision:2});
+}
+function selectadd(){	//////////////////
+				//select2
+				//$('select.form-select').select2();
+				$('.select2').select2({allowClear:true});
+				$('#select2-multiple-style .btn').on('click', function(e){
+					var target = $(this).find('input[type=radio]');
+					var which = parseInt(target.val());
+					if(which == 2) $('.select2').addClass('tag-input-style');
+					 else $('.select2').removeClass('tag-input-style');
+				}); 
+				//////////////////
+				}
+
+function cekbal(){
+    var totaldeb = 0;
+    var totalkred = 0;
+	$( ".debit" ).each( function(e){
+		var a=$( this ).val();
+		var a= a.replace(',','');
+		var a= a.replace(',','');
+		var a= a.replace(',','');
+		var a= a.replace(',','');
+		var a= a.replace(',','');
+		totaldeb += parseFloat( a ) || 0;
+	});
+	$( ".kredit" ).each( function(e){
+		var b=$( this ).val();
+		var b= b.replace(',','');
+		var b= b.replace(',','');
+		var b= b.replace(',','');
+		var b= b.replace(',','');
+		var b= b.replace(',','');
+		totalkred += parseFloat( b ) || 0;
+	});
 	
+			
+	var balance=totaldeb-totalkred;
+	if(balance==0){
+		$('#form').submit();
+	}
+	else{
+    alert('Kredit '+totalkred);	
+    alert('Debit '+totaldeb);	
+    alert('Belum Balance!!');	
+	}
+}
 	function cariref(val){
 		$('#detailtrans').append('<img src="<?php echo base_url().'assets/images/loading.gif' ?>" class="loadingimg">');
 		$('#detailtrans').load('<?php echo base_url() ?>stok/penerimaan/cariref',{v:val});

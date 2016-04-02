@@ -98,7 +98,7 @@
 				<div class="row">
 					
 					<div class="row">
-						<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="display:none;margin-right:15px;">
+						<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="margin-right:15px;">
 							Submit Order <i class="fa fa-check"></i>
 						</button>
 					</div>

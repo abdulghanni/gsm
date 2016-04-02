@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<StiSerializer application="StiReport" type="Flex" version="1.02">
+<StiSerializer version="1.02" type="Flex" application="StiReport">
   <Dictionary type="Dictionary" Ref="1" isKey="true">
     <Databases isList="true" count="1">
       <pr type="Stimulsoft.Report.Dictionary.StiMySqlDatabase" Ref="2" isKey="true">
@@ -92,7 +92,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <PageFooterBand1 type="PageFooterBand" Ref="6" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,22.7,19,5</ClientRectangle>
-          <Components isList="true" count="6">
+          <Components isList="true" count="3">
             <Text29 type="Text" Ref="7" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.6,2.5,2.4,0.6</ClientRectangle>
@@ -120,60 +120,17 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text30>
-            <Text31 type="Text" Ref="9" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>0,1.7,8.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text31</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>Jakarta, {pr.created_on.ToString("dd MMMM yyyy")}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text31>
-            <Text32 type="Text" Ref="10" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>2.8,2.5,2.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text32</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>Created By,</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text32>
-            <Text34 type="Text" Ref="11" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>2.8,4.3,2.8,0.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>24c8b6d99b2310309832b1999362a244</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text34</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{pr.creator}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text34>
-            <HorizontalLinePrimitive5 type="HorizontalLinePrimitive" Ref="12" isKey="true">
+            <HorizontalLinePrimitive5 type="HorizontalLinePrimitive" Ref="9" isKey="true">
               <ClientRectangle>0,1.5,19,0.0254</ClientRectangle>
               <Color>Black</Color>
               <Conditions isList="true" count="0"/>
-              <EndCap type="Cap" Ref="13" isKey="true">
+              <EndCap type="Cap" Ref="10" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive5</Name>
               <Page isRef="5"/>
               <Parent isRef="6"/>
-              <StartCap type="Cap" Ref="14" isKey="true">
+              <StartCap type="Cap" Ref="11" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive5>
@@ -183,11 +140,11 @@ TZy9ZAA=</ConnectionStringEncrypted>
           <Page isRef="5"/>
           <Parent isRef="5"/>
         </PageFooterBand1>
-        <ReportTitleBand1 type="ReportTitleBand" Ref="15" isKey="true">
+        <ReportTitleBand1 type="ReportTitleBand" Ref="12" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0.4,19,3.6</ClientRectangle>
           <Components isList="true" count="1">
-            <Image1 type="Image" Ref="16" isKey="true">
+            <Image1 type="Image" Ref="13" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,18.6,3.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1305,7 +1262,7 @@ mRNymG7ddEtMY+KfUtSt9CYAIAC3cp64T7jtilpCSEfiJ4IgCIIgvj7LJcAiCIIgCIK4Zyyp0ChB
 EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Name>Image1</Name>
               <Page isRef="5"/>
-              <Parent isRef="15"/>
+              <Parent isRef="12"/>
             </Image1>
           </Components>
           <Conditions isList="true" count="0"/>
@@ -1313,11 +1270,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
           <Page isRef="5"/>
           <Parent isRef="5"/>
         </ReportTitleBand1>
-        <ReportTitleBand2 type="ReportTitleBand" Ref="17" isKey="true">
+        <ReportTitleBand2 type="ReportTitleBand" Ref="14" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,4.8,19,1.2</ClientRectangle>
           <Components isList="true" count="3">
-            <Text5 type="Text" Ref="18" isKey="true">
+            <Text5 type="Text" Ref="15" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0.2,19,0.8</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1326,37 +1283,37 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text5</Name>
               <Page isRef="5"/>
-              <Parent isRef="17"/>
+              <Parent isRef="14"/>
               <Text>Purchase Request</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text5>
-            <HorizontalLinePrimitive1 type="HorizontalLinePrimitive" Ref="19" isKey="true">
+            <HorizontalLinePrimitive1 type="HorizontalLinePrimitive" Ref="16" isKey="true">
               <ClientRectangle>0,0,19,0.0254</ClientRectangle>
+              <Color>Black</Color>
+              <Conditions isList="true" count="0"/>
+              <EndCap type="Cap" Ref="17" isKey="true">
+                <Color>Black</Color>
+              </EndCap>
+              <Name>HorizontalLinePrimitive1</Name>
+              <Page isRef="5"/>
+              <Parent isRef="14"/>
+              <StartCap type="Cap" Ref="18" isKey="true">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive1>
+            <HorizontalLinePrimitive3 type="HorizontalLinePrimitive" Ref="19" isKey="true">
+              <ClientRectangle>0,1,19,0.0254</ClientRectangle>
               <Color>Black</Color>
               <Conditions isList="true" count="0"/>
               <EndCap type="Cap" Ref="20" isKey="true">
                 <Color>Black</Color>
               </EndCap>
-              <Name>HorizontalLinePrimitive1</Name>
-              <Page isRef="5"/>
-              <Parent isRef="17"/>
-              <StartCap type="Cap" Ref="21" isKey="true">
-                <Color>Black</Color>
-              </StartCap>
-            </HorizontalLinePrimitive1>
-            <HorizontalLinePrimitive3 type="HorizontalLinePrimitive" Ref="22" isKey="true">
-              <ClientRectangle>0,1,19,0.0254</ClientRectangle>
-              <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap type="Cap" Ref="23" isKey="true">
-                <Color>Black</Color>
-              </EndCap>
               <Guid>698c5b5a529c515b9fe3b10f28dbd883</Guid>
               <Name>HorizontalLinePrimitive3</Name>
               <Page isRef="5"/>
-              <Parent isRef="17"/>
-              <StartCap type="Cap" Ref="24" isKey="true">
+              <Parent isRef="14"/>
+              <StartCap type="Cap" Ref="21" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive3>
@@ -1366,11 +1323,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
           <Page isRef="5"/>
           <Parent isRef="5"/>
         </ReportTitleBand2>
-        <DataBand1 type="DataBand" Ref="25" isKey="true">
+        <DataBand1 type="DataBand" Ref="22" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,6.8,19,2.6</ClientRectangle>
           <Components isList="true" count="16">
-            <Text1 type="Text" Ref="26" isKey="true">
+            <Text1 type="Text" Ref="23" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,0.2,5.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1378,11 +1335,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text1</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>{pr.no}</Text>
               <TextBrush>Black</TextBrush>
             </Text1>
-            <Text2 type="Text" Ref="27" isKey="true">
+            <Text2 type="Text" Ref="24" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,0.2,2.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1390,12 +1347,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text2</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>No</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text2>
-            <Text3 type="Text" Ref="28" isKey="true">
+            <Text3 type="Text" Ref="25" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,1,5.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1403,11 +1360,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text3</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>{pr.keperluan}</Text>
               <TextBrush>Black</TextBrush>
             </Text3>
-            <Text4 type="Text" Ref="29" isKey="true">
+            <Text4 type="Text" Ref="26" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,1,2.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1415,12 +1372,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text4</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>Keperluan</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text4>
-            <Text6 type="Text" Ref="30" isKey="true">
+            <Text6 type="Text" Ref="27" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,0.2,0.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1429,12 +1386,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text6</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text6>
-            <Text8 type="Text" Ref="31" isKey="true">
+            <Text8 type="Text" Ref="28" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,1,0.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1444,12 +1401,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text8</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text8>
-            <Text9 type="Text" Ref="32" isKey="true">
+            <Text9 type="Text" Ref="29" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,1.8,2.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1458,12 +1415,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text9</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>Mata Uang</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text9>
-            <Text10 type="Text" Ref="33" isKey="true">
+            <Text10 type="Text" Ref="30" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>10.6,0.2,3.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1472,12 +1429,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text10</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>Tanggal Digunakan</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text10>
-            <Text11 type="Text" Ref="34" isKey="true">
+            <Text11 type="Text" Ref="31" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>10.6,1,3.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1486,12 +1443,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text11</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>Dikirim Ke</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text11>
-            <Text12 type="Text" Ref="35" isKey="true">
+            <Text12 type="Text" Ref="32" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,1.8,0.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1501,12 +1458,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text12</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text12>
-            <Text13 type="Text" Ref="36" isKey="true">
+            <Text13 type="Text" Ref="33" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.8,0.2,0.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1516,12 +1473,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text13</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text13>
-            <Text14 type="Text" Ref="37" isKey="true">
+            <Text14 type="Text" Ref="34" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.8,1,0.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1531,12 +1488,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text14</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text14>
-            <Text7 type="Text" Ref="38" isKey="true">
+            <Text7 type="Text" Ref="35" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>14.2,0.2,4.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1544,12 +1501,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text7</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>{pr.tanggal_digunakan.ToString("dd MMMM yyyy")}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text7>
-            <Text15 type="Text" Ref="39" isKey="true">
+            <Text15 type="Text" Ref="36" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>14.2,1,4.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1557,11 +1514,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text15</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>{pr.gudang}</Text>
               <TextBrush>Black</TextBrush>
             </Text15>
-            <Text16 type="Text" Ref="40" isKey="true">
+            <Text16 type="Text" Ref="37" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,1.8,5.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1569,21 +1526,21 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
+              <Parent isRef="22"/>
               <Text>{pr.kurensi}</Text>
               <TextBrush>Black</TextBrush>
             </Text16>
-            <HorizontalLinePrimitive2 type="HorizontalLinePrimitive" Ref="41" isKey="true">
+            <HorizontalLinePrimitive2 type="HorizontalLinePrimitive" Ref="38" isKey="true">
               <ClientRectangle>0,2.4,19,0.0254</ClientRectangle>
               <Color>Black</Color>
               <Conditions isList="true" count="0"/>
-              <EndCap type="Cap" Ref="42" isKey="true">
+              <EndCap type="Cap" Ref="39" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive2</Name>
               <Page isRef="5"/>
-              <Parent isRef="25"/>
-              <StartCap type="Cap" Ref="43" isKey="true">
+              <Parent isRef="22"/>
+              <StartCap type="Cap" Ref="40" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive2>
@@ -1596,11 +1553,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
           <Parent isRef="5"/>
           <Sort isList="true" count="0"/>
         </DataBand1>
-        <HeaderBand1 type="HeaderBand" Ref="44" isKey="true">
+        <HeaderBand1 type="HeaderBand" Ref="41" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,10.2,19,0.6</ClientRectangle>
           <Components isList="true" count="7">
-            <Text17 type="Text" Ref="45" isKey="true">
+            <Text17 type="Text" Ref="42" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,1.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1608,12 +1565,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text17</Name>
               <Page isRef="5"/>
-              <Parent isRef="44"/>
+              <Parent isRef="41"/>
               <Text>No</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text17>
-            <Text20 type="Text" Ref="46" isKey="true">
+            <Text20 type="Text" Ref="43" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2,0,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1622,12 +1579,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text20</Name>
               <Page isRef="5"/>
-              <Parent isRef="44"/>
+              <Parent isRef="41"/>
               <Text>Barcode</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text20>
-            <Text22 type="Text" Ref="47" isKey="true">
+            <Text22 type="Text" Ref="44" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.2,0,7,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1636,12 +1593,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text22</Name>
               <Page isRef="5"/>
-              <Parent isRef="44"/>
+              <Parent isRef="41"/>
               <Text>Description</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text22>
-            <Text24 type="Text" Ref="48" isKey="true">
+            <Text24 type="Text" Ref="45" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.8,0,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1650,12 +1607,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text24</Name>
               <Page isRef="5"/>
-              <Parent isRef="44"/>
+              <Parent isRef="41"/>
               <Text>Qty</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text24>
-            <Text26 type="Text" Ref="49" isKey="true">
+            <Text26 type="Text" Ref="46" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>14,0,2,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1664,12 +1621,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text26</Name>
               <Page isRef="5"/>
-              <Parent isRef="44"/>
+              <Parent isRef="41"/>
               <Text>Unit Price</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text26>
-            <Text28 type="Text" Ref="50" isKey="true">
+            <Text28 type="Text" Ref="47" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.6,0,2.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1678,22 +1635,22 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text28</Name>
               <Page isRef="5"/>
-              <Parent isRef="44"/>
+              <Parent isRef="41"/>
               <Text>Subtotal</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text28>
-            <HorizontalLinePrimitive4 type="HorizontalLinePrimitive" Ref="51" isKey="true">
+            <HorizontalLinePrimitive4 type="HorizontalLinePrimitive" Ref="48" isKey="true">
               <ClientRectangle>0,0.6,19,0.0254</ClientRectangle>
               <Color>Black</Color>
               <Conditions isList="true" count="0"/>
-              <EndCap type="Cap" Ref="52" isKey="true">
+              <EndCap type="Cap" Ref="49" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive4</Name>
               <Page isRef="5"/>
-              <Parent isRef="44"/>
-              <StartCap type="Cap" Ref="53" isKey="true">
+              <Parent isRef="41"/>
+              <StartCap type="Cap" Ref="50" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive4>
@@ -1703,11 +1660,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
           <Page isRef="5"/>
           <Parent isRef="5"/>
         </HeaderBand1>
-        <DataBand2 type="DataBand" Ref="54" isKey="true">
+        <DataBand2 type="DataBand" Ref="51" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,11.6,19,1.2</ClientRectangle>
           <Components isList="true" count="6">
-            <Text18 type="Text" Ref="55" isKey="true">
+            <Text18 type="Text" Ref="52" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0.2,1.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1715,11 +1672,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text18</Name>
               <Page isRef="5"/>
-              <Parent isRef="54"/>
+              <Parent isRef="51"/>
               <Text>{Line}</Text>
               <TextBrush>Black</TextBrush>
             </Text18>
-            <Text19 type="Text" Ref="56" isKey="true">
+            <Text19 type="Text" Ref="53" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2,0.2,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1727,11 +1684,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text19</Name>
               <Page isRef="5"/>
-              <Parent isRef="54"/>
+              <Parent isRef="51"/>
               <Text>{list.kode_barang}</Text>
               <TextBrush>Black</TextBrush>
             </Text19>
-            <Text21 type="Text" Ref="57" isKey="true">
+            <Text21 type="Text" Ref="54" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>4.2,0.2,7,0.8</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1739,12 +1696,12 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text21</Name>
               <Page isRef="5"/>
-              <Parent isRef="54"/>
+              <Parent isRef="51"/>
               <Text>{list.deskripsi}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
             </Text21>
-            <Text23 type="Text" Ref="58" isKey="true">
+            <Text23 type="Text" Ref="55" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.8,0.2,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1753,11 +1710,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text23</Name>
               <Page isRef="5"/>
-              <Parent isRef="54"/>
+              <Parent isRef="51"/>
               <Text>{list.jumlah}</Text>
               <TextBrush>Black</TextBrush>
             </Text23>
-            <Text25 type="Text" Ref="59" isKey="true">
+            <Text25 type="Text" Ref="56" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>14,0.2,2,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1766,11 +1723,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text25</Name>
               <Page isRef="5"/>
-              <Parent isRef="54"/>
+              <Parent isRef="51"/>
               <Text>{list.harga}</Text>
               <TextBrush>Black</TextBrush>
             </Text25>
-            <Text27 type="Text" Ref="60" isKey="true">
+            <Text27 type="Text" Ref="57" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.6,0.2,2.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1779,7 +1736,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text27</Name>
               <Page isRef="5"/>
-              <Parent isRef="54"/>
+              <Parent isRef="51"/>
               <Text>{list.jumlah*list.harga}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
@@ -1793,7 +1750,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
           <Parent isRef="5"/>
           <Sort isList="true" count="0"/>
         </DataBand2>
-        <EmptyBand1 type="Stimulsoft.Report.Components.StiEmptyBand" Ref="61" isKey="true">
+        <EmptyBand1 type="Stimulsoft.Report.Components.StiEmptyBand" Ref="58" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,13.6,19,3.8</ClientRectangle>
           <Components isList="true" count="0"/>
@@ -1810,18 +1767,18 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
       <PageHeight>29.7</PageHeight>
       <PageWidth>21</PageWidth>
       <Report isRef="0"/>
-      <Watermark type="Stimulsoft.Report.Components.StiWatermark" Ref="62" isKey="true">
+      <Watermark type="Stimulsoft.Report.Components.StiWatermark" Ref="59" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings type="Stimulsoft.Report.Print.StiPrinterSettings" Ref="63" isKey="true"/>
+  <PrinterSettings type="Stimulsoft.Report.Print.StiPrinterSettings" Ref="60" isKey="true"/>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>03/26/2016 02:17:53 PM</ReportChanged>
+  <ReportChanged>03/28/2016 04:19:52 PM</ReportChanged>
   <ReportCreated>03/26/2016 09:09:47 AM</ReportCreated>
   <ReportFile>D:\xampp\htdocs\gsm\print\reports\pr.mrt</ReportFile>
-  <ReportGuid>00081b869a75a665f26cb1c91eba51ba</ReportGuid>
+  <ReportGuid>0d40a9d39676c275056ebc85a777fdf2</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.2</ReportVersion>
