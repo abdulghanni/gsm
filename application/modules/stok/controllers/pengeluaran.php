@@ -134,16 +134,28 @@ class Pengeluaran extends MX_Controller {
    function surat_jalan($id)
     {
         permissionUser();
+        $this->data['nosurat']=date("Ymd").sprintf('%04d',$id);
         $this->data['id'] = $id;
         $this->data[$this->file_name] = GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row_array();
-        $this->data[$this->file_name.'_list'] =  GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id))->result_array();
+        $this->data['clients']=$this->db->query("SELECT kontak_id FROM sales_order WHERE so='".$this->data[$this->file_name]['ref']."' ")->row_array();//lastq();
         
-        $this->load->library('mpdf60/mpdf');
-        $html = $this->load->view($this->module.'/'.$this->file_name.'/surat_jalan', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+        $this->data['client']=GetValue('title','kontak',array('id'=>'where/'.$this->data['clients']['kontak_id']));
+       
+        $this->data[$this->file_name.'_list'] =  GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id))->result_array();
+        //$this->load->view($this->module.'/'.$this->file_name.'/surat_jalan', $this->data); 
+//        $this->load->library('mpdf60/mpdf');
+//        $html = $this->load->view($this->module.'/'.$this->file_name.'/surat_jalan', $this->data, true); 
+//        $mpdf = new mPDF();
+//        $mpdf = new mPDF('A4');
+//        $mpdf->WriteHTML($html);
+//        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+        
+  $this->load->library('pdf');
+  $html = $this->load->view($this->module.'/'.$this->file_name.'/surat_jalan', $this->data, true); 
+		$this->pdf->load_html($html);
+  $this->pdf->render();
+  $this->pdf->stream($id.'-'.$this->title.'.pdf');
+        //$this->load->view($this->module.'/'.$this->file_name.'/surat_jalan', $this->data);
     }
 	function deletec()
 	{		
