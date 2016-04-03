@@ -38,13 +38,14 @@
 				</div>
 				<div class="row form-row">
 					<div class="col-md-6">
-						<div class="col-md-4">
-							<label class="control-label">Salin Dari S.O</label>
+						<div class="col-md-6">
+							<label class="control-label">Salin Dari So</label>
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-6">
 							<select class="select2 select_so" id="list_so" style="width:100%">
-								<option value="0">-- Pilih NO. S.O --</option>
+								<option value="0">-- Pilih NO. SO --</option>
 								<?php foreach($so as $p):?>
+								<!--<option value="<?=$p->id?>"><?=date('Ymd', strtotime($p->created_on)).sprintf('%04d',$p->id)?></option>-->
 								<option value="<?=$p->id?>"><?=$p->so?></option>
 								<?php endforeach;?>
 							</select>
@@ -382,22 +383,22 @@
 	cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">';
 
 	var cell5=row.insertCell(x++);
-	cell5.innerHTML = '<input name="diorder[]" value="0" type="text" class="form-control jumlah text-right" required="required">';
+	cell5.innerHTML = '<input name="diorder[]" value="0" type="text" class="jumlah text-right" required="required">';
 
 	var cell6=row.insertCell(x++);
-	cell6.innerHTML = '<input name="diterima[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
+	cell6.innerHTML = '<input name="diterima[]" value="0" type="text" class="jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 
 	var cell7=row.insertCell(x++);
 	cell7.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 
 	var cell8=row.insertCell(x++);
-	cell8.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
+	cell8.innerHTML = '<input name="harga[]" value="0" type="text" class="harga text-right" required="required" id="harga'+rowCount+'">';  
 
 	var cell9=row.insertCell(x++);
-	cell9.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'">';
+	cell9.innerHTML = '<input name="disc[]" value="0" type="text" class="text-right" required="required" id="disc'+rowCount+'">';
 
 	var cell10=row.insertCell(x++);
-	cell10.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
+	cell10.innerHTML = '<input name="sub_total[]" type="text" class="subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
 
 	var cell11=row.insertCell(x++);
 	cell11.innerHTML = '<input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
@@ -414,6 +415,10 @@
         });
     })
     .change();
+
+    $('input[type="text"]').keyup(function(){
+  $(this).attr({width: 'auto', size: $(this).val().length});
+});
 
 	$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
 	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).add("#pajak"+rowCount).keyup(function() {

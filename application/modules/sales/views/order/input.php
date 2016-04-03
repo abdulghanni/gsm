@@ -565,19 +565,19 @@ function addRow(tableID){
 	cell5.innerHTML = '<textarea name="deskripsi[]" value="0" class="form-control" required="required" id="deskripsi'+rowCount+'"></textarea>';
 
 	var cell6=row.insertCell(5);
-	cell6.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
+	cell6.innerHTML = '<input name="jumlah[]" value="0" type="text" class="jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 
 	var cell7=row.insertCell(6);
 	cell7.innerHTML = "<select name='satuan[]' class='select2' style='width:100%' id="+'satuanlist'+rowCount+"><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 
 	var cell8=row.insertCell(7);
-	cell8.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'">';  
+	cell8.innerHTML = '<input name="harga[]" value="0" type="text" class="harga text-right" required="required" id="harga'+rowCount+'">';  
 
 	var cell9=row.insertCell(8);
 	cell9.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'"><input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc'+rowCount+'">';
 
 	var cell10=row.insertCell(9);
-	cell10.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly><input name="pajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">';
+	cell10.innerHTML = '<input name="sub_total[]" type="text" class="subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly><input name="pajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">';
 	/*
 	var cell11=row.insertCell(10);
 	cell11.innerHTML = '<input name="pajak[]" value="10" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'"><input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">';
@@ -591,7 +591,9 @@ function addRow(tableID){
 	element11.setAttribute("id", "pajak"+rowCount);
 	cell11.appendChild(element11);
 
-	
+	$('input[type="text"]').keyup(function(){
+	  $(this).attr({size: $(this).val().length});
+	});
 	$("#barang_id"+rowCount).change(function(){
         var id = $(this).val();
          $.ajax({
