@@ -10,7 +10,7 @@ error_reporting(0);
 <!--input type="button" value="Tambah" onclick="window.location = '<?//= base_url() ?>index.php/ms_con/add'"/-->
 <script type="text/javascript">
 var _base_url = '<?php echo  base_url() ?>';
-var controller = '<?php echo $modul.'/'.$filename?>/';
+var controller = '<?php echo $this->file_name?>/';
 function del(id) { 
   i = confirm('Hapus : ' + id + ' ?');
   if (i) {
@@ -24,7 +24,7 @@ function edit(id) {
 }
 
 function detail(id) {
-  window.location = _base_url + controller + 'input/' + id;
+  window.location = _base_url + controller + 'form/' + id;
 }
 function btn(com,grid)
 {
@@ -48,7 +48,7 @@ function btn(com,grid)
        			 abbr[index] = $(this).attr('abbr');
   				  });
 		//var items = $('.trSelected',grid);
- 		 window.location = _base_url + controller + 'input/' + $('td:nth-child('+ (1+$.inArray('idnya',abbr)) +')>div', '.trSelected',grid).text();
+ 		 window.location = _base_url + controller + 'form/' + $('td:nth-child('+ (1+$.inArray('idnya',abbr)) +')>div', '.trSelected',grid).text();
 			} else {
 				return false;
 			} 

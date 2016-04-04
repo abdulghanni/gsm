@@ -57,7 +57,7 @@
 					</div>
                                     </div>
 				</div>
-				<div class="row" id="addedso">
+				<div id="addedso">
                                    
 				</div>
 				<!--div class="row">
@@ -124,7 +124,7 @@
             var idlist=getRandomInt(11111,9999999);
             var so=$('.so').length;
             var soawal=$('#ref').val();
-            $('#addedso').append("<div class='row so' id='so"+so+"' ><div class='form-group'><label class='col-sm-3 control-label' for='inputEmail3'>No. S.O </label><div class='col-sm-6' id='so-"+so+"'></div><div class='col-md-3' ></div></div></div> ");
+            $('#addedso').append("<div class='row so' id='so"+so+"' ><div class='col-md-7'><div class='form-group'><label class='col-sm-3 control-label' for='inputEmail3'>No. S.O </label><div class='col-sm-6' id='so-"+so+"'></div><div class='col-md-3' ></div></div></div></div> ");
             setTimeout(function(e){
                 $('#so-'+so).load('<?php echo base_url()?>stok/pengeluaran/addso/',{so:soawal,idp:idlist});
             },100);

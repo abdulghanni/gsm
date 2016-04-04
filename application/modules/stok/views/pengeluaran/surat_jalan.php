@@ -1,6 +1,6 @@
-				<style>
+<style>
     .bio{
-        font-size:14						px;
+        font-size:12px;
     }
 </style>
 <body>
@@ -9,7 +9,7 @@
 <table cellspacing="0" cellpadding="0" width="100%">
   <col width="64" span="10">
   <tr>
-    <td width="105"></td>	
+    <td width="105"></td>
     <td width="282"></td>
     <td width="76"></td>
     <td width="34"></td>
@@ -27,22 +27,21 @@
           <td width="64"></td>
         </tr>
       </table></td>
-    <td colspan="0" style="font-size:20px"><strong>PT. Gramaselindo Utama</strong>
-    <br>General Trading of Telecommunication, Multi Media & Electronic Goods</br>
-	</td>
+    <td colspan="9"><strong>PT. Gramaselindo Utama</strong>
+    <p>Material Supply &amp;    Implementation Teleclommunication</p></td>
   </tr>
   <tr>
     <td colspan="5"></td>
     <td colspan="5">&nbsp;</td>
   </tr>
   <tr>
-    <td colspan="15"><table width="100%" border="0" cellspacing="0" cellpadding="00" class="bio">
+    <td colspan="5"><table width="100%" border="0" cellspacing="0" cellpadding="00" class="bio">
       <tbody>
         <tr>
-          <td>Jl. Utan Kayu Raya No. 61</td>
+          <td>Jl.    Utan Kayu Raya No. 61</td>
           <td>&nbsp;</td>
-          <td>&nbsp;</td>	
-        </tr>								
+          <td>&nbsp;</td>
+        </tr>
         <tr>
           <td>Jakarta    Timur 13120</td>
           <td>&nbsp;</td>
@@ -77,17 +76,17 @@
           </tr>
         <tr>
           <td width="18%">Kepada</td>
-          <td width="1%"> :</td>
+          <td width="1%">:</td>
           <td width="81%"><?php echo $client ?></td>
         </tr>
         <tr>
           <td>Alamat</td>
-          <td> :</td>
+          <td>:</td>
           <td><?php echo $pengeluaran['alamat'] ?></td>
-        </tr>																										
+        </tr>
         <tr>
-          <td>No SJ		</td>
-          <td> :</td>
+          <td>No Surat Jalan</td>
+          <td>:</td>
           <td><?php echo $nosurat ?></td>
         </tr>
       </tbody>
@@ -100,7 +99,7 @@
     <td></td>
   </tr>
   <tr>
-    <td colspan="7" class="bio">Kami kirimkan barang-barang tersebut dibawah ini dengan kendaraan   </td>
+    <td colspan="7">Kami kirimkan barang-barang tersebut dibawah ini dengan kendaraan   </td>
     <td></td>
     <td></td>
     <td></td>
@@ -112,13 +111,13 @@
     <td></td>
   </tr>
 </table>
-<table width="100%" style="border:1px solid black;" cellspacing="0" cellpadding="0" class="bio"				>
+<table width="100%" style="border:1px solid black;" cellspacing="0" cellpadding="0">
     <thead>
   <tr>
     <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">No</td>
-    <td colspan="5" style="border-bottom:1px solid black;border-right:1px solid black;" align="center">URAIAN</td>
+    <td colspan="5" style="border-bottom:1px solid black;border-right:1px solid black;">URAIAN</td>
     <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Jumlah</td>
-    <td colspan="2" style="border-bottom:1px solid black;" align="center">No. S/O</td>
+    <td colspan="2" style="border-bottom:1px solid black;" align="center">No. P/O</td>
   </tr>
   </thead>
   <?php
@@ -126,7 +125,7 @@
    foreach($pengeluaran_list as $ls){ ?>
   <tr>
     <td align="center" style="border-right:1px solid black;"><?php echo $no;?></td>
-    <td colspan="5" width="320" style="border-right:1px solid black;" ><?php echo GetValue('title','barang',array('id'=>'where/'.$ls['barang_id']))?></td>
+    <td colspan="5" width="320" style="border-right:1px solid black;"><?php echo GetValue('title','barang',array('id'=>'where/'.$ls['barang_id']))?></td>
     <td style="border-right:1px solid black;" align="center"><?php echo $ls['jumlah']?></td>
     <td colspan="2" style="border-right:1px solid black;" align="center"><?php echo $ls['ref'] ?></td>
   </tr>
@@ -181,7 +180,7 @@
     <td></td>
   </tr>
   <tr>
-    <td colspan="4">   </td>
+    <td colspan="4">No Doc :    </td>
     <td></td>
     <td></td>
     <td></td>
@@ -190,7 +189,7 @@
     <td></td>
   </tr>
   <tr>
-    <td colspan="3">   </td>
+    <td colspan="3">No Rev :    </td>
     <td></td>
     <td></td>
     <td></td>

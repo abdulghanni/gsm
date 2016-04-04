@@ -237,8 +237,17 @@ class Pengeluaran extends MX_Controller {
         $this->db->insert($this->module.'_'.$this->file_name, $data);
         $insert_id = $this->db->insert_id();
 		$sisaan=0;
+                $ref='';
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
+            
 		$sisa=$list['jumlah_po'][$i]-$list['jumlah'][$i];
+            
+                if(!isset($ref[$list['ref_id'][$i]])){
+                    $ref[$list['ref_id'][$i]]=0;
+                }else{
+                    $ref[$list['ref_id'][$i]]=+$sisa;
+                }
+            
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
                 'ref_type' => $data['ref_type'],
@@ -255,8 +264,12 @@ class Pengeluaran extends MX_Controller {
 	keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',','',$list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
         $this->send_notification($insert_id);
 		endfor;
+                //print_mz($ref);
 		//echo $sisaan;
-		if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
+                foreach($ref as $key=>$val){
+         if($val==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$key."'");}
+                }
+		//if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
 	function send_notification($id)
@@ -318,7 +331,8 @@ class Pengeluaran extends MX_Controller {
 					if($data['refid']['is_closed']==0){
 					
 					$data['reftype']='sales_order';
-					$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."' ORDER BY id DESC LIMIT 1");
+					$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran_list WHERE ref_type='".$data['reftype']."' AND order_id='".$data['refid']['id']."' GROUP BY pengeluaran_id ORDER BY id DESC ");
+                                        //lastq();
 					if($cekparsial->num_rows()>0){
 						$data['part']=TRUE;	
 						$data['partno']=$cekparsial->num_rows()+1;

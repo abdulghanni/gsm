@@ -18,7 +18,7 @@
 									<th width="5%">Satuan</th>
 								</tr><?php $c=1; foreach($list as $daftar){
 										if(isset($part)){
-												$carisisa=$this->db->query("SELECT * FROM stok_pengeluaran_list WHERE pengeluaran_id='".$partdata['id']."' AND list_id='".$daftar['id']."' ORDER BY id DESC LIMIT 1")->row_array();
+												$carisisa=$this->db->query("SELECT * FROM stok_pengeluaran_list WHERE list_id='".$daftar['id']."' ORDER BY id DESC LIMIT 1")->row_array(); //lastq();
 												
 										}
 										
@@ -38,7 +38,7 @@
 									<th width="5%"><?php echo $daftar['disc'] ?></th>
 									<th width="15%"> Sub Total </th>
 									<th width="5%"><?php echo $daftar['pajak'] ?></th-->
-									<th width="5%"><?php echo form_input("jumlah[]",isset($part)?$carisisa['sisa'] : $daftar['jumlah']) ?></th>
+									<th width="5%"><?php echo form_input("jumlah[]",isset($part)?$carisisa['sisa'] : $daftar['jumlah'],'max="'.(isset($part)?$carisisa['sisa'] : $daftar['jumlah']).'"') ?></th>
 									<th width="5%"><?php echo form_dropdown("satuan[]",GetOptAll('satuan'),$daftar['satuan_id']) ?></th>
 								</tr><?php $c++;}  ?>
 							</thead>

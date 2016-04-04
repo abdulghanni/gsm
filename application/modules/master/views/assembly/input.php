@@ -10,7 +10,7 @@
 				<span>Pages</span>
 			</li>
 			<li class="active">
-				<span><a href="<?=base_url($module.'/'.$file_name)?>">order</a></span>
+				<span><a href="<?=base_url($module.'/'.$file_name)?>"><?php echo $file_name ?></a></span>
 			</li>
 			<li>
 				<span><a href="<?=base_url($module.'/'.$file_name.'/input')?>">input</a></span>
@@ -40,13 +40,15 @@
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
+                                                    <?php echo form_hidden('id',isset($val['id'])?$val['id'] : 0) ?>
 							<label class="col-sm-4 control-label" for="inputEmail3">
 								Judul
 							</label>
 							<div class="col-sm-8">
 								<?php 
 			                    	$js = 'class="" style="width:100%" id="kontak_id"';
-			                    	echo form_input('title','',$js); 
+                                                $nmf='title';
+			                    	echo form_input($nmf,isset($val[$nmf])?$val[$nmf] : '',$js); 
 			                  	?>
 							</div>
 						</div>
@@ -56,8 +58,9 @@
 							</label>
 							<div class="col-sm-8">
 								<?php 
+                                                $nmf='output';
 			                    	$js = 'class="select2" style="width:100%" id="output"';
-			                    	echo form_dropdown('output',$opt_barang,'',$js); 
+			                    	echo form_dropdown($nmf,$opt_barang,isset($val[$nmf])?$val[$nmf] : '',$js); 
 			                  	?>
 							</div>
 						</div>
@@ -72,7 +75,7 @@
 				<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">
                     <?= lang('add').' '.lang('item') ?> <i class="fa fa-plus"></i>
                 </button>
-                <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" style="display:none">
+                <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" style="display:<?php echo isset($val[$nmf])?'' : 'none' ?>">
                     <?= 'Remove' ?> <i class="fa fa-remove"></i>
                 </button>
 				<div class="row">
@@ -81,8 +84,7 @@
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
-									<th width="5%"> # </th>
-									<th width="5%"> No. </th>
+									<th width="5%"> # </th
 									<th width="10%"> Kode Barang </th>
 									<!--th width="20%"> Deskripsi </th-->
 									<th width="5%">Quantity</th>
@@ -90,6 +92,29 @@
 								</tr>
 							</thead>
 							<tbody>
+                                                                <?php
+                                                                $a=1;
+                                                                foreach($list as $ls){?>
+								<tr>
+                                                                    <td><input type="checkbox" name="chkbox[]" class="checkbox1"/></td>
+									<td> <?php 
+                                                $nmf='kode_barang[]';
+			                    	$js = 'class="select2" style="width:100%" id="barang_id'.$a.'"';
+			                    	echo form_dropdown($nmf,$opt_barang,isset($ls['kode_barang'])?$ls['kode_barang'] : '',$js); 
+			                  	?> </td>
+									<!--th width="20%"> Deskripsi </th--><?php 
+                                                $nmf='jumlah[]';
+                                                
+                                                ?>
+									<td><input name="jumlah[]" value="<?php echo isset($ls['jumlah'])?$ls['jumlah'] : '' ?>" type="text" class="form-control jumlah text-right" required="required" id="jumlah<?php echo $a?>"></td>
+									<td> <?php 
+                                                $nmf='satuan[]';
+			                    	$js = 'class="select2" style="width:100%" id="jumlah'.$a.'"';
+			                    	echo form_dropdown($nmf,GetOptAll('satuan'),isset($ls['satuan_id'])?$ls['satuan_id'] : '',$js); 
+			                  	?> </td>
+								</tr>
+                                                                <?php $a++;}?>
+                                                                
 							</tbody>
 						</table>
 					</div>
@@ -111,6 +136,10 @@
 <!-- end: INVOICE -->
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
+    $(document).ready(function(e){
+        
+		var rowCount=table.rows.length;
+    });
 	function addRow(tableID){
 		var table=document.getElementById(tableID);
 		var rowCount=table.rows.length;
@@ -123,21 +152,21 @@
 		element1.className="checkbox1";
 		cell1.appendChild(element1);
 		
-		var cell2=row.insertCell(1);
-		cell2.innerHTML=rowCount+1-1;
+//		var cell2=row.insertCell(1);
+//		cell2.innerHTML=rowCount+1-1;
 		
-		var cell3=row.insertCell(2);
+		var cell2=row.insertCell(1);
 		<?php $s = array('"', "'");$r=array('&quot;','&#39;');?>
-		cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>";  
+		cell2.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>";  
 		
 		/* var cell4=row.insertCell(3);
 		cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">'; */
 		
-		var cell4=row.insertCell(3);
-		cell4.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
+		var cell3=row.insertCell(2);
+		cell3.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 		
-		var cell5=row.insertCell(4);
-		cell5.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
+		var cell4=row.insertCell(3);
+		cell4.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 		
 		
 		/* $("#barang_id"+rowCount).change(function(){
@@ -159,47 +188,7 @@
 		});
 		
 		$('.harga').maskMoney({allowZero:true});
-		$('#dibayar, #biaya_pengiriman').keyup(function(){
-			hitung();
-		});
-		function hitung()
-		{
-			var a = parseInt($('#jumlah'+rowCount).val()),
-        	b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
-        	c = parseFloat($('#disc'+rowCount).val()),
-        	p = parseFloat($('#pajak'+rowCount).val()).toFixed(2),
-        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
-        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
-        	d = (a*b)*(c/100),//jumlah diskon
-       		val = (a*b)-d,
-       		disc = (a*b)*(c/100),
-        	subPajak = val*(p/100),//jumlah pajak
-        	jmlPajak = 0,
-        	jmlDisc = 0,
-        	total = 0;
-			
-			$('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
-			$('#subpajak'+rowCount).val(subPajak);
-			$("#subdisc"+rowCount).val(addCommas(parseFloat(disc).toFixed(2)));
-			$('.subpajak').each(function (index, element) {
-				jmlPajak = jmlPajak + parseInt($(element).val());
-			});
-			$('.subtotal').each(function (index, element) {
-				total = total + parseInt($(element).val().replace(/,/g,""));
-			});
-			$('.subdisc').each(function (index, element) {
-				jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
-			});
-			total = total+biayaPengiriman;
-			totalpluspajak = total + jmlPajak;
-			diBayar = totalpluspajak * (diBayar/100);
-			$('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
-			$('#total').val(addCommas(parseFloat(total).toFixed(2)));
-			$('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
-			$('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-			var saldo = totalpluspajak-diBayar;
-			$('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
-		}
+		
 		
 		function addCommas(nStr)
 		{
@@ -214,5 +203,21 @@
 			return x1 + x2;
 		}
 	}
-	function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
+	function deleteRow(tableID){
+        try{
+            var table=document.getElementById(tableID);
+            var rowCount=table.rows.length;
+            for(var i=0;i<rowCount;i++){
+                var row=table.rows[i];
+                var chkbox=row.cells[0].childNodes[0];
+                //alert(chkbox);
+                //console.log(chkbox)
+                if(null!=chkbox&&true==chkbox.checked){
+                //alert('yes');    
+                table.deleteRow(i);rowCount--;i--;}
+            }
+        }catch(e){
+            alert(e);
+            //alert('no');
+            }}
 </script>
