@@ -18,7 +18,7 @@ td{ height:30px;}
 			<table>
 				<tbody>
 					<tr>
-						<td colspan="3"><p> <strong><img src="<?php echo base_url()?>assets/images/your-logo-here.png" width="50px"> PT  GRAMASELINDO UTAMA</strong></p></td>
+						<td colspan="3"><p> <center><strong><img src="<?php echo base_url()?>assets/images/your-logo-here.png" width="50px"></strong></center></p></td>
 					</tr>
 					<tr>
 						<td colspan="3"><center><strong><u>BERITA ACARA SERAH TERIMA BARANG</u></strong></center></td>
@@ -26,11 +26,7 @@ td{ height:30px;}
 					<tr>
 				<td colspan="3"><p>Pada hari ini <strong> <?php echo dayindo($day)?></strong> tanggal<strong> <?php echo  substr($penerimaan['tgl'],8,2)?> </strong> bulan <strong><?php echo GetMonthFull(substr($penerimaan['tgl'],5,2))?></strong> tahun <strong><?php echo substr($penerimaan['tgl'],0,4)?></strong>, yang bertanda  tangan di bawah ini,telah melakukan serah terima barang berdasarkan:</p></td>
 					</tr>
-					<tr>
-						<td width="44%">&nbsp;</td>
-						<td width="28%">&nbsp;</td>
-						<td width="28%">&nbsp;</td>
-					</tr>
+					
 					<tr>
 						<td>No PO              : <?php echo $penerimaan['ref'] ?><u></u></td>
 						<td>&nbsp;</td>
@@ -80,11 +76,7 @@ td{ height:30px;}
 							<input type="checkbox" name="checkbox4" id="checkbox6">
 						<strong>rusak   </strong></td>
 					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-					</tr>
+					
 					<tr>
 						<td colspan="3"><p><strong>Keterangan: - </strong></p></td>
 					</tr>
@@ -94,13 +86,14 @@ td{ height:30px;}
 						<td>&nbsp;</td>
 					</tr>
 					<tr>
-						<td colspan="3"><p>Demikianlah Berita Acara Serah  Terima Barang ini dibuat dengan sebenarnya untuk digunakan sebagaimana mestinya</p></td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
 					</tr>
 					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
+						<td colspan="3"><p>Demikianlah Berita Acara Serah  Terima Barang ini dibuat dengan sebenarnya untuk digunakan sebagaimana mestinya</p></td>
 					</tr>
+					
 					<tr>
 						<td><p>Yang menyerahkan                           </p></td>
 						<td>QC      </td>
@@ -123,11 +116,6 @@ td{ height:30px;}
 						<td>Tanggal:</td>
 						<td>Tanggal:</td>
 						<td>Tanggal: </td>
-					</tr>
-					<tr>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
-						<td>&nbsp;</td>
 					</tr>
 					<tr>
 						<td>Lembar 1 : Inbound</td>

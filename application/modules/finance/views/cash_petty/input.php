@@ -3,7 +3,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Petty Cash</h1>
+			<h1 class="mainTitle">Kas & Bank</h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">

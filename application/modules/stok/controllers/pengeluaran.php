@@ -35,6 +35,7 @@ class Pengeluaran extends MX_Controller {
 		$colModel['surat_jalan'] = array('Surat Jalan',110,TRUE,'left',2);
 		$colModel['delivered'] = array('Is Delivered',110,TRUE,'left',2);
 		$colModel['created_by'] = array('Input Oleh',110,TRUE,'left',2);
+		$colModel['created_on'] = array('Input Tanggal',110,TRUE,'left',2);
         
 		$gridParams = array(
 		'rp' => 25,
@@ -120,6 +121,8 @@ class Pengeluaran extends MX_Controller {
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan/".$row->id."' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
 			$dev,
 			GetValue('username','users',array('id'=>'where/'.$row->created_by)),
+                        $row->created_on,
+
 			);
 		}
 		
@@ -228,6 +231,8 @@ class Pengeluaran extends MX_Controller {
                 'tgl'=>date('Y-m-d',strtotime($this->input->post('tgl'))),
                 
                 'gudang_to'=>$this->input->post('gudang_id'),
+                'driver'=>$this->input->post('driver'),
+                'plat'=>$this->input->post('plat'),
                
                 'keterangan' =>$this->input->post('keterangan'),
                 'created_on' =>date("Y-m-d"),

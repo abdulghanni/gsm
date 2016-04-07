@@ -56,6 +56,32 @@
 									?>
 								</div>
 							</div>
+                                                        <div class="form-group">
+								<label class="col-sm-3 control-label" for="inputPassword3">
+									No Plat Kendaraan
+								</label>
+								<div class="col-sm-9">
+									<?php 
+										$nm_f='plat';
+										$js = 'style="width:100%; height:60px;" class="form-control"  id="'.$nm_f.'"';
+										echo form_textarea($nm_f,isset($refid[$nm_f]) ? $refid[$nm_f] :'',$js); 
+										//echo GetValue('title','gudang',array('id'=>'where/'.$refid[$nm_f])); 
+									?>
+								</div>
+							</div>
+                                                        <div class="form-group">
+								<label class="col-sm-3 control-label" for="inputPassword3">
+									Kendaraan
+								</label>
+								<div class="col-sm-9">
+									<?php 
+										$nm_f='driver';
+										$js = 'style="width:100%; height:60px;" class="form-control"  id="'.$nm_f.'"';
+										echo form_textarea($nm_f,isset($refid[$nm_f]) ? $refid[$nm_f] :'',$js); 
+										//echo GetValue('title','gudang',array('id'=>'where/'.$refid[$nm_f])); 
+									?>
+								</div>
+							</div>
 						</div>
 						</div>
 					</fieldset>

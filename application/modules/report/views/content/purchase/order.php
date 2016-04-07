@@ -7,10 +7,12 @@
 
 <body>
   <br><div id='title'><br><br><span style="margin:0 auto; font-family:Calibri;">PERIOD : <?php echo $period?></span><br><br><span style="margin:0 auto; font-family:Calibri;">Tanggal Cetak : <?php echo date("d-m-Y")?></span><br>
-<?php error_reporting(0);// echo print_r($kolom); ?>
+<?php error_reporting(E_ALL);// echo print_r($kolom); ?>
 </div>  
     
-   <?php foreach($q as $h){ 
+   <?php
+   $keluarin=TRUE;
+   foreach($q as $h){ 
        //echo $barang;
        if($barang){
            $listz=GetAll('purchase_order_list',array('order_id'=>'where/'.$h['id'],'kode_barang'=>'where/'.$barang));

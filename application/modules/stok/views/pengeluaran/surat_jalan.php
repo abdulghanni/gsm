@@ -2,6 +2,9 @@
     .bio{
         font-size:12px;
     }
+	.header{
+		font-size:26px;
+	}
 </style>
 <body>
 <?php //print_r($pengeluaran) ?>
@@ -27,25 +30,23 @@
           <td width="64"></td>
         </tr>
       </table></td>
-    <td colspan="9"><strong>PT. Gramaselindo Utama</strong>
-    <p>Material Supply &amp;    Implementation Teleclommunication</p></td>
+    <td colspan="15" ><strong class="header">PT. Gramaselindo Utama</strong>
+    <br>General Trading of Telecommunication, Multi Media & Electronic Goods</br>
+	<hr width="91%" align="left"></hr>
+	<strong>Surat Jalan</strong>
+	</td>
   </tr>
   <tr>
     <td colspan="5"></td>
     <td colspan="5">&nbsp;</td>
   </tr>
   <tr>
-    <td colspan="5"><table width="100%" border="0" cellspacing="0" cellpadding="00" class="bio">
+    <td colspan="13"><table width="100%" border="0" cellspacing="0" cellpadding="00" class="bio">
       <tbody>
         <tr>
-          <td>Jl.    Utan Kayu Raya No. 61</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
-        </tr>
-        <tr>
-          <td>Jakarta    Timur 13120</td>
-          <td>&nbsp;</td>
-          <td>&nbsp;</td>
+          <td>Alamat</td>
+          <td>:</td>
+          <td>Jl. Utan Kayu Raya No. 1 Jakarta Timur 13120</td>
         </tr>
         <tr>
           <td>Phone</td>
@@ -72,26 +73,28 @@
     <td colspan="5" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="00" class="bio">
       <tbody>
         <tr>
-          <td colspan="3">Jakarta,</td>
+          <td colspan="3"></td>
           </tr>
         <tr>
-          <td width="18%">Kepada</td>
-          <td width="1%">:</td>
-          <td width="81%"><?php echo $client ?></td>
+          <td >Kepada</td>
+          <td >:</td>
+          <td >&nbsp;<?php echo $client ?></td>
         </tr>
         <tr>
           <td>Alamat</td>
           <td>:</td>
-          <td><?php echo $pengeluaran['alamat'] ?></td>
+          <td>&nbsp;<?php echo $pengeluaran['alamat'] ?></td>
         </tr>
         <tr>
-          <td>No Surat Jalan</td>
+          <td>No SJ</td>
           <td>:</td>
-          <td><?php echo $nosurat ?></td>
+          <td>&nbsp;<?php echo $nosurat ?></td>
         </tr>
+	
       </tbody>
     </table></td>
   </tr>
+  
   <tr>
     <td colspan="7">&nbsp;</td>
     <td></td>
@@ -99,8 +102,14 @@
     <td></td>
   </tr>
   <tr>
-    <td colspan="7">Kami kirimkan barang-barang tersebut dibawah ini dengan kendaraan   </td>
+    <td colspan="7" class="bio">Kami Kirimkan Barang Ini Dengan Kendaraan : </td>
+    <td><?php echo $pengeluaran['driver'] ?></td>
     <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="7" class="bio">No Plat Kendaraan :</td>
+    <td><?php echo $pengeluaran['plat'] ?></td>
     <td></td>
     <td></td>
   </tr>
@@ -115,9 +124,9 @@
     <thead>
   <tr>
     <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">No</td>
-    <td colspan="5" style="border-bottom:1px solid black;border-right:1px solid black;">URAIAN</td>
+    <td colspan="5" style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Uraian</td>
     <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Jumlah</td>
-    <td colspan="2" style="border-bottom:1px solid black;" align="center">No. P/O</td>
+    <td colspan="2" style="border-bottom:1px solid black;" align="center">No. S/O</td>
   </tr>
   </thead>
   <?php
@@ -134,14 +143,14 @@
 <br>
 
   <table width="100%" >
-  <tr>
-    <td colspan="3">Penerima,</td>
+  <tr align="center">
+    <td  class="bio">Penerima (Received by)</td>
     <td></td>
+	<td></td>
+    <td class="bio">Pemeriksa (Checked by)</td>
+	<td></td>
     <td></td>
-    <td></td>
-    <td></td>
-    <td colspan="2">Hormat Kami,</td>
-    <td></td>
+	<td class="bio">Pengirim (Sent by)</td>
   </tr>
   <tr>
     <td></td>
@@ -180,7 +189,7 @@
     <td></td>
   </tr>
   <tr>
-    <td colspan="4">No Doc :    </td>
+    <td colspan="4"></td>
     <td></td>
     <td></td>
     <td></td>
@@ -189,7 +198,7 @@
     <td></td>
   </tr>
   <tr>
-    <td colspan="3">No Rev :    </td>
+    <td colspan="3"></td>
     <td></td>
     <td></td>
     <td></td>

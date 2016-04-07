@@ -3,7 +3,7 @@
 class cash_petty extends MX_Controller {
     public $data;
     var $module = 'finance';
-    var $title = 'Cash Petty';
+    var $title = 'Kas & Bank';
     var $file_name = 'cash_petty';
     
     function __construct()
