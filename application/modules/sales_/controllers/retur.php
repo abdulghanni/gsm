@@ -1,34 +1,34 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Penjualan extends MX_Controller {
+class Retur extends MX_Controller {
     public $data;
     var $module = 'sales';
-    var $title = 'Penjualan';
-    var $file_name = 'penjualan';
-    var $main_title = 'Penjualan';
-    var $table_name = 'penjualan';
-	function __construct()
-	{
-		parent::__construct();
-		$this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
-	}
+    var $title = 'Retur';
+    var $file_name = 'retur';
+    var $main_title = 'Retur';
+    var $table_name = 'sales_return';
+    function __construct()
+    {
+        parent::__construct();
+        $this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+    }
 
-	function index()
-	{
+    function index()
+    {
         $this->data['title'] = $this->title;
-        $this->data['module'] = $this->module;
-        $this->data['file_name'] = $this->file_name;
         $this->data['main_title'] = $this->main_title;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['module'] = $this->module;
         permissionUser();
-		$this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
-	}
+        $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
+    }
 
     function input()
     {
         $this->data['title'] = $this->title.' - Input';
-        $this->data['module'] = $this->module;
-        $this->data['file_name'] = $this->file_name;
         $this->data['main_title'] = $this->main_title;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['module'] = $this->module;
         permissionUser();
         $num_rows = getAll($this->table_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
@@ -38,27 +38,38 @@ class Penjualan extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Customer --');
-        $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
-        $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
-        $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
-        //$this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
-        $this->data['so'] = GetAllSelect('stok_pengeluaran', array('id', 'created_on'), array('id'=>'order/desc'))->result();
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
+        $this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
     function detail($id)
     {
-        $this->data['title'] = $this->title.' - Detail';
-        $this->data['module'] = $this->module;
-        $this->data['file_name'] = $this->file_name;
         $this->data['main_title'] = $this->main_title;
+        $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
-        $this->data['penjualan'] = $this->main->get_detail($id);
-        $this->data['penjualan_list'] = $this->main->get_list_detail($id);
+        $this->data[$this->file_name] = $this->main->get_detail($id);
+        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
+    }
+
+    function get_dari_so($id)
+    {
+        permissionUser();
+
+        $num_rows = getAll($this->table_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
+        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        $approver1 = '1';
+        $this->data['jabatan_lv1'] = getUserGroup($approver1);
+        $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
+        $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
+        $this->data['order'] = $this->main->get_detail_so($id);
+        $this->data['order_list'] = $this->main->get_list_detail_so($id);
+        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
+        $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
     }
 
     function add()
@@ -67,40 +78,37 @@ class Penjualan extends MX_Controller {
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
+                        'diretur'=>$this->input->post('diretur'),
                         'diterima'=>$this->input->post('diterima'),
-                        'diorder'=>$this->input->post('diorder'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
                         );
-
+        $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
-                'no_sj'=> $this->input->post('no_sj'),
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
                 'alamat'=>'',
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
+                'tanggal_pengiriman'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
                 'so'=>$this->input->post('so'),
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
                 'kurensi_id'=>$this->input->post('kurensi_id'),
                 'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
                 'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
-                //'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'catatan' =>$this->input->post('catatan'),
-                'pajak_komponen_id' =>implode(',',$this->input->post('pajak_komponen_id')),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
+                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
                 'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
                 'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
                 'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
-                'created_by' => sessId(),
-                'created_on' => dateNow(),
             );
 
         $this->db->insert($this->table_name, $data);
@@ -110,8 +118,8 @@ class Penjualan extends MX_Controller {
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
+                'diretur' => str_replace(',', '', $list['diretur'][$i]),
                 'diterima' => str_replace(',', '', $list['diterima'][$i]),
-                'diorder' => str_replace(',', '', $list['diorder'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
@@ -119,6 +127,7 @@ class Penjualan extends MX_Controller {
                 );
         $this->db->insert($this->table_name.'_list', $data2);
         endfor;
+        
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
@@ -129,24 +138,19 @@ class Penjualan extends MX_Controller {
         $no = $_POST['start'];
         foreach ($list as $r) {
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
-            //$print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
-            $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
-             $print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=invoice.mrt&param1=".$r->id;
+            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->no_sj;
+            $row[] = $r->so;
             $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
-            $row[] = $r->tanggal_pengantaran;
+            $row[] = $r->tanggal_pengiriman;
             $row[] = $r->gudang;
-            $row[] = getName($r->created_by);
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>
-                    $delete
-                    ";
+                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
             $data[] = $row;
         }
 
@@ -160,18 +164,13 @@ class Penjualan extends MX_Controller {
         echo json_encode($output);
     }
 
-    public function ajax_delete($id)
-    {
-        $this->main->delete_by_id($id);
-        echo json_encode(array("status" => TRUE));
-    }
-    
     function print_pdf($id)
     {
         permissionUser();
+        $this->data['title'] = $this->title;
         $this->data['id'] = $id;
-        $this->data['penjualan'] = $this->main->get_detail($id);
-        $this->data['penjualan_list'] = $this->main->get_list_detail($id);
+        $this->data[$this->file_name] = $this->main->get_detail($id);
+        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
         
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
@@ -184,8 +183,8 @@ class Penjualan extends MX_Controller {
             0, // margin bottom
             0, // margin header
             5); // margin footer
-    $this->mpdf->WriteHTML($html);
-    $this->mpdf->Output($id.'-'.'.pdf', 'I');
+        $this->mpdf->WriteHTML($html);
+        $this->mpdf->Output($id.'-'.'.pdf', 'I');
     }
 
     //FOR JS
@@ -198,56 +197,8 @@ class Penjualan extends MX_Controller {
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 
     }
-
-    function get_nama_barang($id)
-    {
-        $q = getValue('title', 'barang', array('id'=>'where/'.$id));
-
-        echo json_encode($q);
-
-    }
     
-    function get_dari_so($id)
-    {
-        permissionUser();
-        $this->data['pengeluaran'] = GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row_array();
-        $num_rows = getAll($this->table_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
-        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-        $this->data['order'] = $this->main->get_detail_so($this->data['pengeluaran']['ref']);
-        $this->data['order_list'] = $this->main->get_list_detail_so($id);
-        $this->data['pajak_komponen'] = getAll('pajak_komponen',array(), array('!=id'=>'1'))->result();
-        $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
-        $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
-        $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
-        $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
-    }
-
-    function get_dari_so_lain($id)
-    {
-        permissionUser();
-        $row_count = $this->input->post('row_count');
-        $this->data['row_count'] = $row_count + 1;
-        $this->data['order_list'] = $this->main->get_list_detail_so($id);
-        $this->load->view($this->module.'/'.$this->file_name.'/dari_so_lain', $this->data);
-    }
-
-    function add_so(){
-        permissionUser();
-
-         $this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
-        $this->load->view($this->module.'/'.$this->file_name.'/no_so', $this->data);
-    }
-
-    function get_table()
-    {
-        $id = $this->input->post('id');
-        //$id = substr_replace($id, '', -1);
-        $this->data['list'] = GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id));
-        $this->load->view($this->module.'/'.$this->file_name.'/table', $this->data);
-    }
-
-	function _render_page($view, $data=null, $render=false)
+    function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;
         if ( ! $render)

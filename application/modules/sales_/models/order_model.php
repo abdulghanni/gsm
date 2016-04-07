@@ -1,16 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class penjualan_model extends CI_Model {
+class order_model extends CI_Model {
 
-    var $table = 'penjualan';
-    var $table_so = 'sales_order';
-    var $table_list_so = 'sales_order_list';
+    var $table = 'sales_order';
     var $table_join1 = 'kontak';
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('no', 'no_sj', 'kontak','tanggal_transaksi', 'tanggal_pengantaran', 'gudang'); //set column field database for order and search
+    var $column = array('id','so', 'kontak', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -24,13 +22,12 @@ class penjualan_model extends CI_Model {
         
         $this->db->select(
             $this->table.'.id as id,
-            '.$this->table.'.no as no,
             '.$this->table.'.so as so,
-            '.$this->table.'.no_sj,
+            '.$this->table.'.is_draft,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
-            '.$this->table.'.tanggal_pengantaran,
             '.$this->table.'.created_by,
             '.$this->table_join1.'.title as kontak,
+            '.$this->table_join2.'.title as metode_pembayaran,
             '.$this->table_join4.'.title as gudang,
             ');
         $this->db->from($this->table);
@@ -110,52 +107,9 @@ class penjualan_model extends CI_Model {
         return $query->row();
     }
 
-    function get_list_detail($id)
-    {
-        $q = $this->db->select('barang.id as barang_id, barang.photo,barang.kode as kode_barang, 
-                                order_list.deskripsi, 
-                                diorder, 
-                                diterima,
-                                satuan.title as satuan, 
-                                harga, 
-                                disc, 
-                                pajak')
-                  ->from('penjualan_list as order_list')
-                  ->join('barang', 'barang.id = order_list.kode_barang', 'left')
-                  ->join('satuan', 'satuan.id = order_list.satuan_id')
-                  ->where('penjualan_id', $id)
-                  ->get();
-        return $q;
-    }   
-
     function get_detail($id)
     {
-        $q = $this->db->select('no,
-                                kontak.title as kontak,
-                                kontak.email as email,
-                                kontak.up, 
-                                kontak.alamat,
-                                metode_pembayaran_id, 
-                                metode_pembayaran.title as metode_pembayaran, 
-                                tanggal_transaksi, 
-                                tanggal_pengantaran, 
-                                so, 
-                                no_sj, 
-                                gudang.title as gudang, 
-                                jatuh_tempo_pembayaran, 
-                                kurensi.title as kurensi, 
-                                biaya_pengiriman, 
-                                dibayar,  
-                                dibayar_nominal,  
-                                lama_angsuran_2, 
-                                lama_angsuran_1, 
-                                bunga, 
-                                penjualan.catatan,
-                                pajak_komponen_id,
-                                total_ppn,
-                                total_pph22,
-                                total_pph23,
-                                penjualan.created_on')
+        $q = $this->db->select('no, kontak.title as kontak,kontak.email as email,kontak_id,kurensi_id,gudang_id,project,pajak_komponen_id, total_ppn, total_pph22, total_pph23, kontak.up,sales_order.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar,dibayar_nominal, lama_angsuran_2, lama_angsuran_1, bunga,sales_order.created_by, sales_order.created_on')
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.kontak_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
@@ -166,35 +120,16 @@ class penjualan_model extends CI_Model {
         return $q;
     }
 
-    function get_detail_so($id)
+    function get_list_detail($id)
     {
-        $q = $this->db->select('no, kontak.title as kontak,project,kontak_id, kontak.up,sales_order.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran,gudang_id, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi_id,kurensi.title as kurensi, biaya_pengiriman, dibayar, lama_angsuran_2, lama_angsuran_1, bunga, sales_order.created_on')
-                 ->from($this->table_so)
-                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table_so.'.kontak_id', 'left')
-                 ->join($this->table_join2, $this->table_join2.'.id ='.$this->table_so.'.metode_pembayaran_id', 'left')
-                 ->join($this->table_join3, $this->table_join3.'.id ='.$this->table_so.'.kurensi_id', 'left')
-                 ->join($this->table_join4, $this->table_join4.'.id ='.$this->table_so.'.gudang_id', 'left')
-                 ->where($this->table_so.'.id', $id)
-                 ->get();
-        return $q;
-    }
-
-    function get_list_detail_so($id)
-    {
-        $id = explode(',', $id);
-        $q = $this->db->select('sales_order_list.id as id,barang.id as barang_id,barang.title as nama_barang, barang.kode as kode_barang, sales_order_list.deskripsi, jumlah,sales_order_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
-                  ->from($this->table_list_so)
-                  ->join('barang', 'barang.id ='.$this->table_list_so.'.kode_barang', 'left')
-                  ->join('satuan', 'satuan.id ='.$this->table_list_so.'.satuan_id');
-                  foreach ($id as $key => $value) {
-                      $this->db->or_where('order_id', $value);
-                  }
-                  
-        $q = $this->db->get();
+        $q = $this->db->select('barang.id as barang_id,satuan_id, barang.photo,barang.kode as kode_barang, order_list.deskripsi as deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+                  ->from('sales_order_list as order_list')
+                  ->join('barang', 'barang.id = order_list.kode_barang', 'left')
+                  ->join('satuan', 'satuan.id = order_list.satuan_id')
+                  ->where('order_id', $id)
+                  ->get();
         return $q;
     }   
-
-    
 
     public function save($data)
     {
@@ -219,10 +154,12 @@ class penjualan_model extends CI_Model {
         //$this->db->delete($this->table);
     }
 
+    
     public function get_kontak()
     {   
         $this->db->where($this->table_join1.'.is_deleted',0)
-                 ->where($this->table_join1.'.jenis_id',2);
+                 ->where($this->table_join1.'.jenis_id',2)
+                 ->or_where($this->table_join1.'.jenis_id',3);
         $this->db->order_by($this->table_join1.'.title','asc');
         return $this->db->get($this->table_join1);
     }

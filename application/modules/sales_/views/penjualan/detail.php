@@ -95,15 +95,7 @@
                     <div class="col-md-6">
                     	<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. Surat Jalan
-							</label>
-							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->no_sj?>" class="form-control" disabled="disabled">
-							</div>
-						</div>
-                    	<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. PO
+								No. SO
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->so?>" class="form-control" disabled="disabled">
@@ -163,7 +155,6 @@
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="20%"> Sub Total </th>
-									<th width="5%">Exclude PPN</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -190,7 +181,6 @@
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
-									<td class="text-center"><?= ($ol->pajak != 0)? '<i class="fa fa-check"></i>' : '<i class="fa fa-remove"></i>'?></td>
 								</tr>
 								<?php endforeach;
 									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
@@ -207,6 +197,9 @@
 
 					<div id="panel-total" class="panel-body col-md-6 pull-right">
 						<ul class="list-group">
+							<?php
+							 $pajak_komponen = explode(',', $o->pajak_komponen_id);
+							 if(in_array(1, $pajak_komponen)){?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">
@@ -217,6 +210,7 @@
 									</div>
 								</div>
 							</li>
+							<?php } ?>
 							<?php if(in_array(2, $pajak_komponen)){?>
 							<li class="list-group-item" id="totalPPH22">
 								<div class="row">

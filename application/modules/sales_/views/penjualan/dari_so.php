@@ -1,8 +1,4 @@
 <?php foreach ($order->result() as $o) :?><div class="row">
-
-	<input type="hidden" id="ppn_val" value="<?=$ppn_val?>">
-	<input type="hidden" id="pph22_val" value="<?=$pph22_val?>">
-	<input type="hidden" id="pph23_val" value="<?=$pph23_val?>">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -152,12 +148,6 @@
 <script type="text/javascript" src="<?=assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js')?>"></script>
 <script type="text/javascript" src="<?=assets_url('vendor/jquery-mask-money/jquery.MaskMoney.js')?>"></script>
 <script type="text/javascript">
-$('.input-append.date')
-        .datepicker({
-            todayHighlight: true,
-            autoclose: true,
-            format: "dd-mm-yyyy"
-        });
 	$("input:checkbox:not(:checked)").each(function() {
 	    var total = "#total"+$(this).attr("class");
 	    $(total).hide();

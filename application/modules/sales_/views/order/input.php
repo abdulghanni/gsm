@@ -22,6 +22,9 @@
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
 <form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-so">
+	<input type="hidden" id="ppn_val" value="<?=$ppn_val?>">
+	<input type="hidden" id="pph22_val" value="<?=$pph22_val?>">
+	<input type="hidden" id="pph23_val" value="<?=$pph23_val?>">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">

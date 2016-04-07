@@ -39,11 +39,8 @@ class Penjualan extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Customer --');
-        $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
-        $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
-        $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
-        //$this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
-        $this->data['so'] = GetAllSelect('stok_pengeluaran', array('id', 'created_on'), array('id'=>'order/desc'))->result();
+        $this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
+        //$this->data['so'] = GetAllSelect('stok_pengeluaran', array('id', 'created_on'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -77,7 +74,6 @@ class Penjualan extends MX_Controller {
 
         $data = array(
                 'no' => $this->input->post('no'),
-                'no_sj'=> $this->input->post('no_sj'),
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
                 'alamat'=>'',
@@ -136,7 +132,7 @@ class Penjualan extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->no_sj;
+            $row[] = $r->so;
             $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->tanggal_pengantaran;
@@ -210,16 +206,13 @@ class Penjualan extends MX_Controller {
     function get_dari_so($id)
     {
         permissionUser();
-        $this->data['pengeluaran'] = GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row_array();
-        $num_rows = getAll($this->table_name)->num_rows();
+
+         $num_rows = getAll($this->table_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-        $this->data['order'] = $this->main->get_detail_so($this->data['pengeluaran']['ref']);
+        $this->data['order'] = $this->main->get_detail_so($id);
         $this->data['order_list'] = $this->main->get_list_detail_so($id);
-        $this->data['pajak_komponen'] = getAll('pajak_komponen',array(), array('!=id'=>'1'))->result();
-        $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
-        $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
-        $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
+        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
         $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
     }
 
@@ -242,8 +235,8 @@ class Penjualan extends MX_Controller {
     function get_table()
     {
         $id = $this->input->post('id');
-        //$id = substr_replace($id, '', -1);
-        $this->data['list'] = GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id));
+        $id = substr_replace($id, '', -1);
+        $this->data['order_list'] = $this->main->get_list_detail_so($id);//lastq();
         $this->load->view($this->module.'/'.$this->file_name.'/table', $this->data);
     }
 

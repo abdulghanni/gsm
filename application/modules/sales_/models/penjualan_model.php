@@ -10,7 +10,7 @@ class penjualan_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('no', 'no_sj', 'kontak','tanggal_transaksi', 'tanggal_pengantaran', 'gudang'); //set column field database for order and search
+    var $column = array('no', 'so', 'kontak','tanggal_transaksi', 'tanggal_pengantaran', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -26,7 +26,6 @@ class penjualan_model extends CI_Model {
             $this->table.'.id as id,
             '.$this->table.'.no as no,
             '.$this->table.'.so as so,
-            '.$this->table.'.no_sj,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
             '.$this->table.'.tanggal_pengantaran,
             '.$this->table.'.created_by,
@@ -140,13 +139,11 @@ class penjualan_model extends CI_Model {
                                 tanggal_transaksi, 
                                 tanggal_pengantaran, 
                                 so, 
-                                no_sj, 
                                 gudang.title as gudang, 
                                 jatuh_tempo_pembayaran, 
                                 kurensi.title as kurensi, 
                                 biaya_pengiriman, 
                                 dibayar,  
-                                dibayar_nominal,  
                                 lama_angsuran_2, 
                                 lama_angsuran_1, 
                                 bunga, 

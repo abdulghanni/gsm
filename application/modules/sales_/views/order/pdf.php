@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Invoice</title>
+<title>Sales Order</title>
 <style type="text/css">
 td{ height:30px;}
 .catatan {font-family:Arial, sans-serif;font-size:10px;}
@@ -19,70 +19,77 @@ td{ height:30px;}
 </style>
 </head>
 <body>
-<div style="text-align: center;">
+  <div style="text-align: center;">
   <!--<img height="100px" width="100px" src="<?php echo assets_url('images/logo-gsm.png')?>"/>-->
   <img width="100%" src="<?php echo assets_url('images/logo-full.png')?>"/>
 </div>
  <hr/>
-  <h3 style="margin-bottom: -10px;margin-top: -10px;text-align: center">Invoice</h3>
+  <h3 style="margin-bottom: -10px;margin-top: -10px;text-align: center">Sales Order</h3>
 <hr/>
-<?php foreach ($penjualan->result() as $o) :
-	  $pajak_komponen = explode(',', $o->pajak_komponen_id);
+<?php foreach ($order->result() as $o) :
+$pajak_komponen = explode(',', $o->pajak_komponen_id);
 ?>
 <table width="1000" border="0">
   <tbody>
     <tr>
-      <td width="180">Invoice No.</td>
+      <td width="180">SO Number</td>
       <td width="20">:</td>
-      <td width="300"><?=$o->no?></td>
-      <td width="180">Charged To</td>
+      <td width="300"><?=$o->so?></td>
+      <td width="180">To</td>
       <td width="20">:</td>
       <td width="300"><?=$o->kontak?></td>
     </tr>
     <tr>
 
-      <td width="180">Invoice Date</td>
+      <td width="180">Date</td>
+      <td width="20">:</td>
+      <td width="300"><?=dateIndo($o->created_on)?></td>
+      
+      <td>Up</td>
+      <td>:</td>
+      <td><?=$o->up?></td>
+      
+    </tr>
+
+    <tr>
+
+      <td width="180">Delivery</td>
       <td width="20">:</td>
       <td width="300"><?=dateIndo($o->tanggal_transaksi)?></td>
-       <td>Address</td>
-      <td>:</td>
-      <td><?=$o->alamat?></td>
-      
-      
-    </tr>
 
-    <tr>
-      <td width="180">Due Date</td>
-      <td width="20">:</td>
-      <td width="300"><?=dateIndo($o->tanggal_pengantaran)?></td>
-      <td>Attn</td>
-      <td>:</td>
-      <td>Finance</td>
-     
-    </tr>
-    <tr>
-      <td>PO No.</td>
-      <td>:</td>
-      <td><?=$o->so?></td>
 
-      <td>Email</td>
+      <td>Phone</td>
       <td>:</td>
-      <td><?=$o->email?></td>
-      
+      <td><?=$phone?></td>
     </tr>
     <tr>
+    
       <td>Currency</td>
       <td>:</td>
       <td><?=$o->kurensi?></td>
-      <td>Project</td>
+
+
+      <td>Fax</td>
       <td>:</td>
-      <td><?=$o->proyek?></td>
+      <td><?=$fax?></td>
     </tr>
     <tr>
-    		
-      <td>Payment Term</td>
+
+      <td>Payment Method</td>
       <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
       <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
+      <td>Email</td>
+      <td>:</td>
+      <td><?=$o->email?></td>
+    </tr>
+    <tr>
+      <td>Project</td>
+      <td>:</td>
+      <td><?=$o->project?></td>
+      
+      <td>Address</td>
+      <td>:</td>
+      <td><?=$o->alamat?></td>
     </tr>
   </tbody>
 </table>
@@ -110,19 +117,20 @@ td{ height:30px;}
     </tr>
 	<?php 
 		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-		$i=1;foreach($penjualan_list->result() as $ol): ?>
+		$i=1;foreach($order_list->result() as $ol): ?>
 	<tr>
 	<?php 
-		$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
-		$subtotal = $ol->diterima*$ol->harga-$diskon;
+		$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
+		$subtotal = $ol->jumlah*$ol->harga-$diskon;
 		$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+		$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 		$total = $total + $subtotal;
-		$total_diskon= $total_diskon + ($ol->diterima*$ol->harga * ($ol->disc/100));
+		$ex_tax = ($ol->pajak != 0)? '*' : '';
 	?>
 		<td width="5%"><?=$i++?></td>
-		<td width="15%"><?=$ol->kode_barang?></td>
+		<td width="15%"><?=$ol->kode_barang.' '.$ex_tax?></td>
 		<td width="20%"><?=$ol->deskripsi?></td>
-		<td width="5%" align="right"><?=$ol->diterima?> <?=$ol->satuan?></td>
+		<td width="5%" align="right"><?=$ol->jumlah?> <?=$ol->satuan?></td>
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<td width="5%" align="right"><?=$ol->disc?></td>
 		<td width="20%" align="right"><?= number_format($subtotal, 2)?></td>
@@ -133,15 +141,14 @@ td{ height:30px;}
 		$total = $total+$o->biaya_pengiriman;
 		$totalpluspajak = $total+$total_pajak;
 		$dp = $totalpluspajak * ($o->dibayar/100);
-		$saldo = $totalpluspajak - $dp;
+		$saldo = $totalpluspajak - $dp - $o->dibayar_nominal;
 	?>
 	
 	</table>
 
-<?php endforeach;
-$kurensi = ($o->kurensi_id == 1) ? 'Rupiah' : "Dollar"; 
-?>
+<?php endforeach;?>
 <br/>
+
 <div class="myfixed1">
 	<table table width="1000" style="border:0">
 	<tr>
@@ -155,25 +162,26 @@ $kurensi = ($o->kurensi_id == 1) ? 'Rupiah' : "Dollar";
 		<th width="10%"></th>
 		<th width="10%"></th>
 	</tr>
-
-		<?php 
-		if(!empty($o->catatan)){
-			echo '<tr><td colspan="4">Notes :</td></tr>';
+		<tr><td colspan="4">Note :</td></tr>
+		
+		<tr><td colspan="4"><?= ($is_ex_tax > 0) ? "- The Price for Barcode with asterix(*) sign is Exclude Value Added Tax(VAT)" : '';?></td></tr>
+		<?php if(!empty($o->catatan)){
 		$c = explode(PHP_EOL, $o->catatan);
 			  foreach ($c as $key => $value) {?>
-		<tr><td colspan="4"><?=$value?></td></tr>
+			  <tr><td colspan="4">- <?=$value?></td></tr>
 		<?php }} ?>
-	<tr><td colspan="9"></td></tr>
+		<tr><td colspan="9"></td>
+	</tr>
 	<hr style="width:100%">
 	<tr><td>&nbsp;</td></tr>
 	<tr>
-		<td align="center">Director</td>
-		<td align="center"><!--Order By,--></td>
-		<td align="center">Chief Executive Officer</td>
-	<?php if(in_array(1, $pajak_komponen)){?>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<?php if($is_ex_tax > 0){?>
 		<td colspan="3">PPN</td>
 		<td align="right">:</td>
-		<td align="right" colspan="2"><?=number_format($o->total_ppn, 2)?></td>
+		<td align="right" colspan="2"><?= number_format($o->total_ppn, 2)?></td>
 	</tr>
 	<?php } ?>
 	<?php if(in_array(2, $pajak_komponen)){?>
@@ -201,7 +209,7 @@ $kurensi = ($o->kurensi_id == 1) ? 'Rupiah' : "Dollar";
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Biaya Pengiriman</td>
+		<td colspan="3">Delivery Cost</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($o->biaya_pengiriman, 2)?></td>
 	</tr>
@@ -210,7 +218,7 @@ $kurensi = ($o->kurensi_id == 1) ? 'Rupiah' : "Dollar";
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
 		<td align="center">&nbsp;</td>
-		<td colspan="3">Diskon</td>
+		<td colspan="3">Discount</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($total_diskon, 2)?></td>
 	</tr>
@@ -227,7 +235,7 @@ $kurensi = ($o->kurensi_id == 1) ? 'Rupiah' : "Dollar";
 		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
-		<td colspan="3">Total + Pajak</td>
+		<td colspan="3">Total + Tax</td>
 		<td align="right">:</td>
 		<td align="right" colspan="2"><?=number_format($totalpluspajak, 2)?></td>
 	</tr>
@@ -244,9 +252,9 @@ $kurensi = ($o->kurensi_id == 1) ? 'Rupiah' : "Dollar";
 	</tr>
 
 	<tr>
-		<td align="center">(Iriawan)</td>
+		<td align="center"><!--(<?=(!empty($o->user_app_id_lv4))?getFullName($o->user_app_id_lv4):'';?>)--></td>
 		<td align="center"><!--(<?=getFullName($o->created_by)?>)--></td>
-		<td align="center">(Mursiawaty Suryadinata)</td>
+		<td align="center"><!--(Sign & Return by Fax)--></td>
 		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Saldo<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
 		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($saldo, 2)?><?php endif; ?></td>

@@ -17,7 +17,7 @@ $(document).ready(function() {
         if(id != 0){
             $('#dari-so').html('<img src="/gsm/assets/images/ajax-loader.gif"> loading...');
             $('#dari-so').load('get_dari_so/'+id);
-            $("#add_so").show();
+            //$("#add_so").show();
         }
         getTable();
         getTable();

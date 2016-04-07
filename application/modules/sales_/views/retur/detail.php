@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle"><?=$main_title?></h1>
+			<h1 class="mainTitle">Retur Order</h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('sales/penjualan')?>"><?=$main_title?></a></span>
+				<span><a href="<?=base_url('sales/retur')?>">retur</a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url('sales/penjualan/detail/'.$id)?>">Detail</a></span>
+				<span><a href="<?=base_url('sales/retur/detail/'.$id)?>">detail</a></span>
 			</li>
 		</ol>
 	</div>
@@ -22,13 +22,13 @@
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
 
-<div class="row pull-right">
-	<a href="<?=base_url().'sales/penjualan/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
+<div class="row pull-right" style="display: none">
+	<a href="<?=base_url().'transaksi/order/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 		 <i class="fa fa-print"></i> <?= lang('print')?>
 	</a>
 </div>
-<?php foreach ($penjualan->result() as $o) :?>
-<form role="form" action="<?= base_url('transaksi/penjualan/add')?>" method="post" class="form-horizontal">
+<?php foreach ($retur->result() as $o) :?>
+<form role="form" action="<?= base_url('transaksi/retur/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -48,16 +48,16 @@
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. Invoice
+								No. Retur
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="No. Invoice" name="no" class="form-control" value="<?=$o->no?>" disabled>
+								<input type="text" placeholder="No. Retur" name="no" class="form-control" value="<?=$o->no?>" disabled>
 							</div>
 						</div>
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tgl. Invoice
+								Tgl. Retur
 							</label>
 							<div class="col-sm-8">
 								<input type="text" placeholder="Tgl. Faktur" name="no" class="form-control" value="<?=$o->tanggal_transaksi?>" disabled>
@@ -93,28 +93,20 @@
                     </div>
 
                     <div class="col-md-6">
-                    	<div class="form-group">
+						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. Surat Jalan
+								No. SO
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->no_sj?>" class="form-control" disabled="disabled">
-							</div>
-						</div>
-                    	<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. PO
-							</label>
-							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->so?>" class="form-control" disabled="disabled">
+								<input type="text" name="so" value="<?=$o->so?>" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tgl. Pengiriman
+								Tanggal Pengiriman SO
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->tanggal_pengantaran?>" class="form-control" disabled="disabled">
+                                  <input type="text" class="form-control" name="tanggal_pengiriman" value="<?=dateIndo($o->tanggal_pengiriman)?>" readonly>
 							</div>
 						</div>
 						<div class="form-group">
@@ -122,30 +114,37 @@
 								Dikirim Ke
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" readonly>
+								<input type="hidden" name="gudang_id" value="<?=$o->gudang_id?>" class="form-control" readonly>
 							</div>
 						</div>
-
+						<?php $d = "display:none";?>
+						<div id="kredit" style="<?=($o->metode_pembayaran_id == 1) ? $d : $d?>">
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Term
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control" readonly>
+								<input type="hidden" name="metode_pembayaran_id" value="<?=$o->metode_pembayaran_id?>" class="form-control" readonly>
 							</div>
 						</div>
-						<?php if($o->metode_pembayaran_id == 2):?>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Tempo Pembayaran
 							</label>
-							<div class="col-sm-4">
-								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" disabled="disabled">
+							<div class="col-sm-2">
+								<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
+							</div>
+							<div class="col-sm-6">
+								<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
+								<option value="0">-- Pilih Tempo Pembayaran --</option>
+							    <option value="hari">Hari</option>
+					            <option value="bulan">Bulan</option>
+					            <option value="tahun">Tahun</option>
+	              	            </select>
 							</div>
 						</div>
-						<?php endif;
-							  $pajak_komponen = explode(',', $o->pajak_komponen_id);
-						 ?>
 					</div>
 				</div>
 				<div class="row">
@@ -158,18 +157,17 @@
 									<th width="8%"> SS Barang </th>
 									<th width="25%"> Nama Barang </th>
 									<th width="5%">Diorder</th>
-									<th width="5%">Dikirim</th>
+									<th width="5%">Diretur</th>
 									<th width="10%"> Satuan </th>
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="20%"> Sub Total </th>
-									<th width="5%">Exclude PPN</th>
 								</tr>
 							</thead>
 							<tbody>
 								<?php
 									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= $p2 = $p3 = 0;
-									$i=1;foreach($penjualan_list->result() as $ol): 
+									$i=1;foreach($retur_list->result() as $ol): 
 									$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
 									$subtotal = $ol->diterima*$ol->harga-$diskon;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
@@ -184,20 +182,19 @@
 									<td><?=$ol->kode_barang?></td>
 									<td><img height="75px" width="75px" src="<?=$src?>"></td>
 									<td><?=$ol->deskripsi?></td>
-									<td class="text-right"><?=$ol->diorder?></td>
 									<td class="text-right"><?=$ol->diterima?></td>
+									<td class="text-right"><?=$ol->diretur?></td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
-									<td class="text-center"><?= ($ol->pajak != 0)? '<i class="fa fa-check"></i>' : '<i class="fa fa-remove"></i>'?></td>
 								</tr>
 								<?php endforeach;
 									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
 									$total = $total+$o->biaya_pengiriman;
 									$totalpluspajak = $total+$total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
-									$saldo = $totalpluspajak - $dp- $o->dibayar_nominal;
+									$saldo = $totalpluspajak;
 								?>
 							</tbody>
 						</table>
@@ -207,6 +204,9 @@
 
 					<div id="panel-total" class="panel-body col-md-6 pull-right">
 						<ul class="list-group">
+							<?php
+							 $pajak_komponen = explode(',', $o->pajak_komponen_id);
+							 if(in_array(1, $pajak_komponen)){?>
 							<li class="list-group-item">
 								<div class="row">
 									<div class="col-md-3">
@@ -217,6 +217,7 @@
 									</div>
 								</div>
 							</li>
+							<?php } ?>
 							<?php if(in_array(2, $pajak_komponen)){?>
 							<li class="list-group-item" id="totalPPH22">
 								<div class="row">
@@ -281,41 +282,6 @@
 									</div>
 								</div>
 							</li>
-							<?php if($o->metode_pembayaran_id == 2):?>
-								<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Uang Muka
-											</div>
-											<div class="col-md-2">
-											</div>
-											<?php if($o->dibayar != 0){?>
-											<div class="col-md-4">
-											<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="<?=$o->dibayar?>" readonly>
-											</div>
-											<div class="col-md-1">
-											%
-											</div>
-											<?php }else{?>
-											<div id="dp-nominal">
-												<div class="col-md-6">
-													<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="<?=number_format($o->dibayar_nominal, 2)?>" readonly>
-												</div>
-											</div>
-											<?php  } ?>
-										</div>
-									</li>
-								<li class="list-group-item">
-								<div class="row">
-									<div class="col-md-3">
-									Saldo
-									</div>
-									<div class="col-md-7 pull-right">
-									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($saldo, 2)?>" readonly="readonly">
-									</div>
-								</div>
-							</li>
-						<?php endif?>
 							
 						</ul>
 					</div>

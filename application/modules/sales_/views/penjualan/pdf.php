@@ -143,6 +143,12 @@ $kurensi = ($o->kurensi_id == 1) ? 'Rupiah' : "Dollar";
 ?>
 <br/>
 <div class="myfixed1">
+
+Amount in Words : <?php
+$f = new NumberFormatter('en', NumberFormatter::SPELLOUT);
+$kurensi = ($o->kurensi_id==1)?"Rupiah":"Dollars";
+echo $f->format($total).' '.$kurensi;
+?>
 	<table table width="1000" style="border:0">
 	<tr>
 		<th width="20%"></th>
