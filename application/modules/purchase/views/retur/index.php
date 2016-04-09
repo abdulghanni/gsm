@@ -2,7 +2,7 @@
 <section id="page-title">
     <div class="row">
         <div class="col-sm-8">
-            <h1 class="mainTitle"><?= $main_title?></h1>
+            <h1 class="mainTitle"><?= $main_title?> Penerimaan</h1>
         </div>
         <ol class="breadcrumb">
             <li>
@@ -29,14 +29,15 @@
                 <table class="table table-striped table-bordered table-hover table-full-width" id="table">
                     <thead>
                         <tr>
-                            <th width="5%" align="center">No.</th>
+                            <th width="1%" align="center">No.</th>
                             <th width="10%"><?php echo 'No. Retur';?></th>
+                            <th width="15%"><?php echo 'No. Penerimaan';?></th>
                             <th width="15%"><?php echo 'No. PO';?></th>
                             <th width="15%"><?php echo 'Supplier';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal PO';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal Retur';?></th>
                             <th width="15%"><?php echo 'Diretur Dari';?></th>
-                            <th width="10%" class="text-center"><?php echo lang('action');?></th>
+                            <th width="9%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>
                     <tbody>

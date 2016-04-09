@@ -39,7 +39,8 @@ class Retur extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
-        $this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
+        //$this->data['po'] = GetAllSelect('sales_order', array('id','po'), array('id'=>'order/desc'))->result();
+        $this->data['po'] = GetAllSelect('stok_pengeluaran', array('id', 'created_on'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -62,13 +63,11 @@ class Retur extends MX_Controller {
         $num_rows = getAll($this->table_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-        $approver1 = '1';
-        $this->data['jabatan_lv1'] = getUserGroup($approver1);
-        $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
-        $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
-        $this->data['order'] = $this->main->get_detail_so($id);
-        $this->data['order_list'] = $this->main->get_list_detail_so($id);
-        $this->data['pajak_komponen'] = getAll('pajak_komponen')->result();
+        $order_id = getValue('ref', 'stok_pengeluaran', array('id'=>'where/'.$id));
+        $so = $this->db->where('id', $order_id)->get('sales_order')->row()->so;
+        $this->data['tgl_terima'] = getValue('tgl', 'stok_pengeluaran', array('id'=>'where/'.$id));
+        $this->data['order'] = $this->main->get_detail_po($so);
+        $this->data['order_list'] = getAll('stok_pengeluaran_list', array('pengeluaran_id'=>'where/'.$id));
         $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
     }
 
@@ -81,34 +80,14 @@ class Retur extends MX_Controller {
                         'diretur'=>$this->input->post('diretur'),
                         'diterima'=>$this->input->post('diterima'),
                         'satuan'=>$this->input->post('satuan'),
-                        'harga'=>$this->input->post('harga'),
-                        'disc'=>$this->input->post('disc'),
-                        'pajak'=>$this->input->post('pajak'),
                         );
-        $approver = $this->input->post('approver');
         $data = array(
                 'no' => $this->input->post('no'),
-                'kontak_id'=>$this->input->post('kontak_id'),
-                'up'=>'',
-                'alamat'=>'',
-                'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'tanggal_pengiriman'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
-                'so'=>$this->input->post('so'),
-                'gudang_id'=>$this->input->post('gudang_id'),
-                'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'kurensi_id'=>$this->input->post('kurensi_id'),
-                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
-                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
-                'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
-                'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
+                'pengeluaran_id'=>$this->input->post('pengeluaran_id'),
                 'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
-                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
-                'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
-                'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
-                'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
             );
 
         $this->db->insert($this->table_name, $data);
@@ -121,9 +100,6 @@ class Retur extends MX_Controller {
                 'diretur' => str_replace(',', '', $list['diretur'][$i]),
                 'diterima' => str_replace(',', '', $list['diterima'][$i]),
                 'satuan_id' => $list['satuan'][$i],
-                'harga' => str_replace(',', '', $list['harga'][$i]),
-                'disc' => str_replace(',', '', $list['disc'][$i]),
-                'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 );
         $this->db->insert($this->table_name.'_list', $data2);
         endfor;
@@ -143,14 +119,16 @@ class Retur extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = date('Ymd', strtotime($r->created_on)).sprintf('%04d',$r->pengeluaran_id);
             $row[] = $r->so;
             $row[] = $r->kontak;
+            $row[] = $r->tanggal_pengeluaran;
             $row[] = $r->tanggal_transaksi;
-            $row[] = $r->tanggal_pengiriman;
             $row[] = $r->gudang;
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
+                    ";
+                    //<a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>
             $data[] = $row;
         }
 

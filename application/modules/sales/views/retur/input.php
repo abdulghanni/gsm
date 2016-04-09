@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Retur Order</h1>
+			<h1 class="mainTitle">Retur Pengeluaran</h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -21,7 +21,7 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url('sales/retur/add')?>" method="post" class="form-horizontal" id="form-so">
+<form role="form" action="<?= base_url('sales/retur/add')?>" method="post" class="form-horizontal" id="form-po">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -31,20 +31,21 @@
 					</div>
 					<div class="col-sm-6">
 						<p class="text-dark">
-							#<?=$last_id.'/RET-I/GSM/'.monthRomawi(date('m')).'/'.date('Y')?><small class="text-light"></small>
+							#<?=$last_id.'/PO-I/GSM/I/'.date('Y')?><small class="text-light"></small>
 						</p>
 					</div>
 				</div>
 				<div class="row form-row">
 					<div class="col-md-6">
-						<div class="col-md-4">
-							<label class="control-label">Salin Dari S.O</label>
+						<div class="col-md-5">
+							<label class="control-label">Salin Dari Pengeluaran Stok</label>
 						</div>
-						<div class="col-md-8">
-							<select class="select2" id="list_pembelian" style="width:100%" name="no">
-								<option value="0">-- Pilih NO. S.O --</option>
-								<?php foreach($so as $p):?>
-								<option value="<?=$p->id?>"><?=$p->so?></option>
+						<div class="col-md-7">
+							<select class="select2" id="list_pembelian" style="width:100%" name="pengeluaran_id">
+								<option value="0">-- Pilih NO. Pengeluaran --</option>
+								<?php foreach($po as $p):?>
+								<option value="<?=$p->id?>"><?=date('Ymd', strtotime($p->created_on)).sprintf('%04d',$p->id)?></option>
+								<!--<option value="<?=$p->id?>"><?=$p->po?></option>-->
 								<?php endforeach;?>
 							</select>
 						</div>

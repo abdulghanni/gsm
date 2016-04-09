@@ -10,7 +10,7 @@ class retur_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('id', 'no','po', 'kontak', 'tanggal_pengiriman', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
+    var $column = array('id', 'no', 'penerimaan_id', 'po','kontak','tanggal_penerimaan', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -22,21 +22,23 @@ class retur_model extends CI_Model {
     private function _get_datatables_query()
     {
         
-        $this->db->select(
-            $this->table.'.id as id,
-            '.$this->table.'.no as no,
-            '.$this->table.'.po as po,
-            '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
-            '.$this->table.'.tanggal_pengiriman as tanggal_pengiriman,
-            '.$this->table_join1.'.title as kontak,
-            '.$this->table_join2.'.title as metode_pembayaran,
-            '.$this->table_join4.'.title as gudang,
-            ');
-        $this->db->from($this->table);
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.kontak_id', 'left');
-        $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.metode_pembayaran_id', 'left');
-        $this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table.'.gudang_id', 'left');
-        //$this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.kurensi_id', 'left');
+        $this->db->select('purchase_return.no,
+                            purchase_return.id as id,
+                                penerimaan_id,
+                                stok_penerimaan.tgl as tanggal_penerimaan,
+                                purchase_order.po as po,
+                                kontak.title as kontak,
+                                gudang.title as gudang,
+                                purchase_return.tanggal_transaksi,
+                                purchase_return.catatan,
+                                purchase_return.created_on,
+                                purchase_return.created_by'
+                                )
+                 ->from($this->table)
+                 ->join('stok_penerimaan', 'stok_penerimaan'.'.id ='.$this->table.'.penerimaan_id', 'left')
+                 ->join('gudang', 'stok_penerimaan'.'.gudang_to ='.'gudang'.'.id', 'left')
+                 ->join('purchase_order', 'stok_penerimaan'.'.ref_id ='.'purchase_order'.'.id', 'left')
+                 ->join('kontak', 'kontak'.'.id ='.'purchase_order'.'.kontak_id', 'left');
 
         $i = 0;
     
@@ -109,38 +111,22 @@ class retur_model extends CI_Model {
 
     function get_detail($id)
     {
-        $q = $this->db->select('no,
+        $q = $this->db->select('purchase_return.no,
+                                penerimaan_id,
+                                stok_penerimaan.tgl as tanggal_penerimaan,
+                                purchase_order.po as po,
                                 kontak.title as kontak,
-                                kontak.up,
-                                kontak.alamat,
-                                metode_pembayaran_id,
-                                metode_pembayaran.title as metode_pembayaran,
-                                tanggal_transaksi, 
-                                tanggal_pengiriman, 
-                                po,
                                 gudang.title as gudang,
-                                gudang_id,
-                                kurensi_id,
-                                jatuh_tempo_pembayaran,
-                                kurensi.title as kurensi,
-                                biaya_pengiriman,
-                                dibayar,
-                                lama_angsuran_2,
-                                lama_angsuran_1,
-                                bunga,
-                                pajak_komponen_id,
-                                total_ppn,
-                                total_pph22,
-                                total_pph23,
+                                purchase_return.tanggal_transaksi,
                                 purchase_return.catatan,
                                 purchase_return.created_on,
                                 purchase_return.created_by'
                                 )
                  ->from($this->table)
-                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.kontak_id', 'left')
-                 ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
-                 ->join($this->table_join3, $this->table_join3.'.id ='.$this->table.'.kurensi_id', 'left')
-                 ->join($this->table_join4, $this->table_join4.'.id ='.$this->table.'.gudang_id', 'left')
+                 ->join('stok_penerimaan', 'stok_penerimaan'.'.id ='.$this->table.'.penerimaan_id', 'left')
+                 ->join('gudang', 'stok_penerimaan'.'.gudang_to ='.'gudang'.'.id', 'left')
+                 ->join('purchase_order', 'stok_penerimaan'.'.ref_id ='.'purchase_order'.'.id', 'left')
+                 ->join('kontak', 'kontak'.'.id ='.'purchase_order'.'.kontak_id', 'left')
                  ->where("$this->table.id", $id)
                  ->get();
         return $q;
@@ -150,14 +136,12 @@ class retur_model extends CI_Model {
     {
         $q = $this->db->select('barang.kode as kode_barang,
                                 barang.id as barang_id,
+                                barang.title as nama_barang,
                                 barang.photo,
                                 order_list.deskripsi,
                                 diretur,
                                 diterima, 
-                                satuan.title as satuan, 
-                                harga, 
-                                disc, 
-                                pajak')
+                                satuan.title as satuan')
                   ->from($this->table."_list as order_list")
                   ->join('barang', 'barang.id = order_list.kode_barang', 'left')
                   ->join('satuan', 'satuan.id = order_list.satuan_id', 'left')
