@@ -12,8 +12,32 @@ class Dashboard extends MX_Controller {
 	function index()
 	{
         permissionUser();
+        $this->data['num_data_po'] = getAll('purchase_order', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
+        $this->data['num_data_pembelian'] = getAll('pembelian', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
+        $this->data['num_data_so'] = getAll('sales_order', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
+        $this->data['num_data_penjualan'] = getAll('penjualan', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
 		$this->_render_page('dashboard/index', $this->data);
 	}
+
+    function get_chart(){
+        $tanggal = array();
+        $num_data = array();
+        for($i=7;$i>0;$i--){
+            $d = new dateTime("$i days ago");
+            $tanggal[] = $d->format('d M');
+            $num_data_po[] = getAll('purchase_order', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
+            $num_data_so[] = getAll('sales_order', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
+            $num_data_pembelian[] = getAll('pembelian', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
+            $num_data_penjualan[] = getAll('penjualan', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
+        }
+
+        echo json_encode(array('tanggal'=>$tanggal,
+                                'num_data_po'=>$num_data_po,
+                                'num_data_pembelian'=>$num_data_pembelian,
+                                'num_data_so'=>$num_data_so,
+                                'num_data_penjualan'=>$num_data_penjualan,
+                                ));
+    }
 
     function _render_page($view, $data=null, $render=false)
     {

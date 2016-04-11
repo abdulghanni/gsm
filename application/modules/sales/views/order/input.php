@@ -440,28 +440,28 @@
                     <legend>Info Kontak</legend>
                         <div class="form-body">
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Email</label>
+                                <label class="control-label col-sm-5">Email</label>
                                 <div class="col-sm-7">
                                     <input name="email" placeholder="" class="form-control" type="text">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Fax</label>
+                                <label class="control-label col-sm-5">Fax</label>
                                 <div class="col-sm-7">
                                     <input name="fax" placeholder="" class="form-control" type="text">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Telepon</label>
+                                <label class="control-label col-sm-5">Telepon</label>
                                 <div class="col-sm-7">
                                     <input name="telepon[]" placeholder="" class="form-control" type="text"><br/>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Alamat</label>
+                                <label class="control-label col-sm-5">Alamat</label>
                                 <div class="col-sm-7">
                                     <textarea class="form-control" name="alamat[]"></textarea><br/>
                                     <span class="help-block"></span>
@@ -474,42 +474,42 @@
                         <fieldset>
                             <legend>Info Finansial</legend>
                             <div class="form-group">
-                                <label class="control-label col-sm-3">NPWP</label>
+                                <label class="control-label col-sm-5">NPWP</label>
                                 <div class="col-sm-7">
                                     <input name="npwp" placeholder="" class="form-control" type="text">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-3">No. Rekening</label>
+                                <label class="control-label col-sm-5">No. Rekening</label>
                                 <div class="col-sm-7">
                                     <input name="no_rekening" placeholder="" class="form-control" type="text">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Nama Bank</label>
+                                <label class="control-label col-sm-5">Nama Bank</label>
                                 <div class="col-sm-7">
                                     <input name="bank" placeholder="" class="form-control" type="text">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Atas Nama</label>
+                                <label class="control-label col-sm-5">Atas Nama</label>
                                 <div class="col-sm-7">
                                     <input name="a_n" placeholder="" class="form-control" type="text">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Alamat Pajak</label>
+                                <label class="control-label col-sm-5">Alamat Pajak</label>
                                 <div class="col-sm-7">
                                     <input name="alamat_pajak" placeholder="" class="form-control" type="text">
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-sm-3">Acc</label>
+                                <label class="control-label col-sm-5">Acc</label>
                                 <div class="col-sm-7">
                                     <input name="acc" placeholder="" class="form-control" type="text">
                                     <span class="help-block"></span>

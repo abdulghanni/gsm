@@ -3,180 +3,197 @@ var Index = function() {
 
 	//CHART PO
 	var chartPoHandler = function() {
-		var data = {
-			labels: ['07 Mar', '08 Mar', '09 Mar', '10 Mar', '11 Mar', '12 Mar', '13 Mar'],
-			datasets: [{
-				label: 'PO',
-				fillColor: 'rgba(220,220,220,0.2)',
-				strokeColor: 'rgba(220,220,220,1)',
-				pointColor: 'rgba(220,220,220,1)',
-				pointStrokeColor: '#fff',
-				pointHighlightFill: '#fff',
-				pointHighlightStroke: 'rgba(220,220,220,1)',
-				data: [6, 5, 2, 3, 7, 8, 8]
-			}, {
-				label: 'Pembelian',
-				fillColor: 'rgba(151,187,205,0.2)',
-				strokeColor: 'rgba(151,187,205,1)',
-				pointColor: 'rgba(151,187,205,1)',
-				pointStrokeColor: '#fff',
-				pointHighlightFill: '#fff',
-				pointHighlightStroke: 'rgba(151,187,205,1)',
-				data: [7, 3, 4, 5, 6, 9, 2]
-			}]
-		};
+		$.ajax({
+            url : "/gsm/dashboard/get_chart/",
+            type: "GET",
+            dataType: "JSON",
+            success: function(json)
+            {
+            	//alert(json);
+				var data = {
+					labels: json.tanggal,
+					datasets: [{
+						label: 'PO',
+						fillColor: 'rgba(220,220,220,0.2)',
+						strokeColor: 'rgba(220,220,220,1)',
+						pointColor: 'rgba(220,220,220,1)',
+						pointStrokeColor: '#fff',
+						pointHighlightFill: '#fff',
+						pointHighlightStroke: 'rgba(220,220,220,1)',
+						data: json.num_data_po
+					}, {
+						label: 'Pembelian',
+						fillColor: 'rgba(151,187,205,0.2)',
+						strokeColor: 'rgba(151,187,205,1)',
+						pointColor: 'rgba(151,187,205,1)',
+						pointStrokeColor: '#fff',
+						pointHighlightFill: '#fff',
+						pointHighlightStroke: 'rgba(151,187,205,1)',
+						data: json.num_data_pembelian
+					}]
+				};
 
-		var options = {
+				var options = {
 
-			maintainAspectRatio: false,
+					maintainAspectRatio: false,
 
-			// Sets the chart to be responsive
-			responsive: true,
+					// Sets the chart to be responsive
+					responsive: true,
 
-			///Boolean - Whether grid lines are shown across the chart
-			scaleShowGridLines: true,
+					///Boolean - Whether grid lines are shown across the chart
+					scaleShowGridLines: true,
 
-			//String - Colour of the grid lines
-			scaleGridLineColor: 'rgba(0,0,0,.05)',
+					//String - Colour of the grid lines
+					scaleGridLineColor: 'rgba(0,0,0,.05)',
 
-			//Number - Width of the grid lines
-			scaleGridLineWidth: 1,
+					//Number - Width of the grid lines
+					scaleGridLineWidth: 1,
 
-			//Boolean - Whether the line is curved between points
-			bezierCurve: false,
+					//Boolean - Whether the line is curved between points
+					bezierCurve: false,
 
-			//Number - Tension of the bezier curve between points
-			bezierCurveTension: 0.4,
+					//Number - Tension of the bezier curve between points
+					bezierCurveTension: 0.4,
 
-			//Boolean - Whether to show a dot for each point
-			pointDot: true,
+					//Boolean - Whether to show a dot for each point
+					pointDot: true,
 
-			//Number - Radius of each point dot in pixels
-			pointDotRadius: 4,
+					//Number - Radius of each point dot in pixels
+					pointDotRadius: 4,
 
-			//Number - Pixel width of point dot stroke
-			pointDotStrokeWidth: 1,
+					//Number - Pixel width of point dot stroke
+					pointDotStrokeWidth: 1,
 
-			//Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-			pointHitDetectionRadius: 20,
+					//Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+					pointHitDetectionRadius: 20,
 
-			//Boolean - Whether to show a stroke for datasets
-			datasetStroke: true,
+					//Boolean - Whether to show a stroke for datasets
+					datasetStroke: true,
 
-			//Number - Pixel width of dataset stroke
-			datasetStrokeWidth: 2,
+					//Number - Pixel width of dataset stroke
+					datasetStrokeWidth: 2,
 
-			//Boolean - Whether to fill the dataset with a colour
-			datasetFill: true,
+					//Boolean - Whether to fill the dataset with a colour
+					datasetFill: true,
 
-			// Function - on animation progress
-			onAnimationProgress: function() {
-			},
+					// Function - on animation progress
+					onAnimationProgress: function() {
+					},
 
-			// Function - on animation complete
-			onAnimationComplete: function() {
-			},
+					// Function - on animation complete
+					onAnimationComplete: function() {
+					},
 
-			//String - A legend template
-			legendTemplate: '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
-		};
-		// Get context with jQuery - using jQuery's .get() method.
-		var ctx = $("#chart1").get(0).getContext("2d");
-		// This will get the first returned node in the jQuery collection.
-		var chart1 = new Chart(ctx).Line(data, options);
-		//generate the legend
-		var legend = chart1.generateLegend();
-		//and append it to your page somewhere
-		$('#chartPoLegend').append(legend);
+					//String - A legend template
+					legendTemplate: '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+				};
+				// Get context with jQuery - using jQuery's .get() method.
+				var ctx = $("#chart1").get(0).getContext("2d");
+				// This will get the first returned node in the jQuery collection.
+				var chart1 = new Chart(ctx).Line(data, options);
+				//generate the legend
+				var legend = chart1.generateLegend();
+				//and append it to your page somewhere
+				$('#chartPoLegend').append(legend);
+			}
+		});
 	};
 
 	//CHART SO
 	var chartSoHandler = function() {
-		var data = {
-			labels: ['07 Mar', '08 Mar', '09 Mar', '10 Mar', '11 Mar', '12 Mar', '13 Mar'],
-			datasets: [{
-				label: 'SO',
-				fillColor: 'rgba(220,220,220,0.2)',
-				strokeColor: 'rgba(220,220,220,1)',
-				pointColor: 'rgba(220,220,220,1)',
-				pointStrokeColor: '#fff',
-				pointHighlightFill: '#fff',
-				pointHighlightStroke: 'rgba(220,220,220,1)',
-				data: [6, 5, 2, 3, 7, 8, 8]
-			}, {
-				label: 'Penjualan',
-				fillColor: 'rgba(151,187,205,0.2)',
-				strokeColor: 'rgba(151,187,205,1)',
-				pointColor: 'rgba(151,187,205,1)',
-				pointStrokeColor: '#fff',
-				pointHighlightFill: '#fff',
-				pointHighlightStroke: 'rgba(151,187,205,1)',
-				data: [7, 3, 4, 5, 6, 9, 2]
-			}]
-		};
+		$.ajax({
+            url : "/gsm/dashboard/get_chart/",
+            type: "GET",
+            dataType: "JSON",
+            success: function(json)
+            {
+				var data = {
+					labels: json.tanggal,
+					datasets: [{
+						label: 'SO',
+						fillColor: 'rgba(220,220,220,0.2)',
+						strokeColor: 'rgba(220,220,220,1)',
+						pointColor: 'rgba(220,220,220,1)',
+						pointStrokeColor: '#fff',
+						pointHighlightFill: '#fff',
+						pointHighlightStroke: 'rgba(220,220,220,1)',
+						data: json.num_data_so
+					}, {
+						label: 'Penjualan',
+						fillColor: 'rgba(151,187,205,0.2)',
+						strokeColor: 'rgba(151,187,205,1)',
+						pointColor: 'rgba(151,187,205,1)',
+						pointStrokeColor: '#fff',
+						pointHighlightFill: '#fff',
+						pointHighlightStroke: 'rgba(151,187,205,1)',
+						data: json.num_data_penjualan
+					}]
+				};
 
-		var options = {
+				var options = {
 
-			maintainAspectRatio: false,
+					maintainAspectRatio: false,
 
-			// Sets the chart to be responsive
-			responsive: true,
+					// Sets the chart to be responsive
+					responsive: true,
 
-			///Boolean - Whether grid lines are shown across the chart
-			scaleShowGridLines: true,
+					///Boolean - Whether grid lines are shown across the chart
+					scaleShowGridLines: true,
 
-			//String - Colour of the grid lines
-			scaleGridLineColor: 'rgba(0,0,0,.05)',
+					//String - Colour of the grid lines
+					scaleGridLineColor: 'rgba(0,0,0,.05)',
 
-			//Number - Width of the grid lines
-			scaleGridLineWidth: 1,
+					//Number - Width of the grid lines
+					scaleGridLineWidth: 1,
 
-			//Boolean - Whether the line is curved between points
-			bezierCurve: false,
+					//Boolean - Whether the line is curved between points
+					bezierCurve: false,
 
-			//Number - Tension of the bezier curve between points
-			bezierCurveTension: 0.4,
+					//Number - Tension of the bezier curve between points
+					bezierCurveTension: 0.4,
 
-			//Boolean - Whether to show a dot for each point
-			pointDot: true,
+					//Boolean - Whether to show a dot for each point
+					pointDot: true,
 
-			//Number - Radius of each point dot in pixels
-			pointDotRadius: 4,
+					//Number - Radius of each point dot in pixels
+					pointDotRadius: 4,
 
-			//Number - Pixel width of point dot stroke
-			pointDotStrokeWidth: 1,
+					//Number - Pixel width of point dot stroke
+					pointDotStrokeWidth: 1,
 
-			//Number - amount extra to add to the radius to cater for hit detection outside the drawn point
-			pointHitDetectionRadius: 20,
+					//Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+					pointHitDetectionRadius: 20,
 
-			//Boolean - Whether to show a stroke for datasets
-			datasetStroke: true,
+					//Boolean - Whether to show a stroke for datasets
+					datasetStroke: true,
 
-			//Number - Pixel width of dataset stroke
-			datasetStrokeWidth: 2,
+					//Number - Pixel width of dataset stroke
+					datasetStrokeWidth: 2,
 
-			//Boolean - Whether to fill the dataset with a colour
-			datasetFill: true,
+					//Boolean - Whether to fill the dataset with a colour
+					datasetFill: true,
 
-			// Function - on animation progress
-			onAnimationProgress: function() {
-			},
+					// Function - on animation progress
+					onAnimationProgress: function() {
+					},
 
-			// Function - on animation complete
-			onAnimationComplete: function() {
-			},
+					// Function - on animation complete
+					onAnimationComplete: function() {
+					},
 
-			//String - A legend template
-			legendTemplate: '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
-		};
-		// Get context with jQuery - using jQuery's .get() method.
-		var ctx = $("#chart2").get(0).getContext("2d");
-		// This will get the first returned node in the jQuery collection.
-		var chart1 = new Chart(ctx).Line(data, options);
-		//generate the legend
-		var legend = chart1.generateLegend();
-		//and append it to your page somewhere
-		$('#chartSoLegend').append(legend);
+					//String - A legend template
+					legendTemplate: '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+				};
+				// Get context with jQuery - using jQuery's .get() method.
+				var ctx = $("#chart2").get(0).getContext("2d");
+				// This will get the first returned node in the jQuery collection.
+				var chart1 = new Chart(ctx).Line(data, options);
+				//generate the legend
+				var legend = chart1.generateLegend();
+				//and append it to your page somewhere
+				$('#chartSoLegend').append(legend);
+			}
+		});
 	};
 
 	//CHART2

@@ -280,13 +280,29 @@
 </div>
 
 <script type="text/javascript">
-	
+	$("#dp-persen-cek:not(:checked)").each(function() {
+	     $("#dp-persen").hide("slow");
+	     $("#dp-nominal").show("slow");
+	});
+
+	$("#dp-persen-cek").click(function(){
+	     $("#dp-persen").toggle("slow");
+	     $("#dp-nominal").toggle("slow");
+	     hitung();
+	});
+
     $('#dibayar,#dibayar-nominal, #biaya_pengiriman').keyup(function(){
     	hitung();
     });
 
     function hitung()
     {
+    	if($('#dp-persen-cek').is(':checked')){
+			$('#dibayar-nominal').val(parseFloat(0));
+		}else{
+			$('#dibayar').val(parseFloat(0));
+		}
+
     	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
     	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
     	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),

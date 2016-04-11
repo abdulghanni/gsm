@@ -104,8 +104,14 @@
 								Term
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control" readonly>
-								<input type="hidden" name="metode_pembayaran_id" value="<?=$o->metode_pembayaran_id?>" class="form-control" readonly>
+								<div class="clip-radio radio-primary">
+									<?php foreach($metode as $m):?>
+									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>" <?= ($o->metode_pembayaran_id == $m->id)?'checked':'';?>>
+									<label for="metode<?=$m->id?>">
+										<?=$m->title?>
+									</label>
+									<?php endforeach;?>
+								</div>
 							</div>
 						</div>
 						<?php $d = "display:none";?>
@@ -167,4 +173,15 @@ $('.input-append.date')
 	    var total = "#total"+$(this).attr("class");
 	    $(total).toggle();
 	});
+
+	$('input:radio[name=metode_pembayaran_id]').click(function() {
+      var val = $('input:radio[name=metode_pembayaran_id]:checked').val();
+      if(val==1){
+        $('#kredit').hide("slow");
+        $('#total_angsuran').hide("slow");
+      }else{
+        $('#kredit').show("slow");
+        $('#total_angsuran').show("slow");
+      }
+    });
 </script>

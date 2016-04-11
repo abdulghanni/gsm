@@ -216,6 +216,7 @@ class Penjualan extends MX_Controller {
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['order'] = $this->main->get_detail_so($this->data['pengeluaran']['ref']);
         $this->data['order_list'] = $this->main->get_list_detail_so($id);
+        $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['pajak_komponen'] = getAll('pajak_komponen',array(), array('!=id'=>'1'))->result();
         $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
         $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
