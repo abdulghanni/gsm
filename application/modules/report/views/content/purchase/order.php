@@ -21,7 +21,11 @@
            else {$keluarin=TRUE;}
        }
       if($keluarin){
-        $list=GetAll('purchase_order_list',array('order_id'=>'where/'.$h['id']))->result_array();
+          
+       if($barang){
+       $list=GetAll('purchase_order_list',array('order_id'=>'where/'.$h['id'],'kode_barang'=>'where/'.$barang))->result_array();}
+       else{
+       $list=GetAll('purchase_order_list',array('order_id'=>'where/'.$h['id']))->result_array();}
        ?>
 <table width="100%" border="0" style="border:1px solid black;">
   <tbody>

@@ -102,7 +102,7 @@
     <td></td>
   </tr>
   <tr>
-    <td colspan="7" class="bio">Kami Kirimkan Barang Ini Dengan Kendaraan : </td>
+    <td colspan="15" class="bio">Kami Kirimkan Barang Ini Dengan Kendaraan : </td>
     <td><?php echo $pengeluaran['driver'] ?></td>
     <td></td>
     <td></td>

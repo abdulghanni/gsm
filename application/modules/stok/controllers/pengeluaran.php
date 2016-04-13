@@ -245,7 +245,10 @@ class Pengeluaran extends MX_Controller {
                 $ref='';
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
             
-		$sisa=$list['jumlah_po'][$i]-$list['jumlah'][$i];
+            $qtysisa=konversi($list['kode_barang'][$i],$list['jumlah'][$i],$list['satuan'][$i]);
+            
+            
+		$sisa=$list['jumlah_po'][$i]-$qtysisa;
             
                 if(!isset($ref[$list['ref_id'][$i]])){
                     $ref[$list['ref_id'][$i]]=0;

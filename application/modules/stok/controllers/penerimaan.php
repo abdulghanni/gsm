@@ -198,6 +198,12 @@ class Penerimaan extends MX_Controller {
         $insert_id = $this->db->insert_id();
 		$sisaan=0;
         for($i=1;$i<=sizeof($list['kode_barang']);$i++):
+            $barang=$list['kode_barang'][$i];
+            $qty=$list['jumlah'][$i];
+            $satuan=$list['satuan'][$i];
+            $hasil=konversi($barang,$qty,$satuan);
+            
+            
 		$sisa=$list['jumlah_po'][$i]-$list['jumlah'][$i];
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,

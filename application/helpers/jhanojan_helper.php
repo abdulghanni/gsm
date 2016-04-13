@@ -981,7 +981,7 @@ if (!function_exists('GetOptDoc')){
 		if($filter_where_in==NULL)$filter_where_in = array();
 		if($field==NULL)$field='title';
 		if($id==NULL)$id='id';
-		$q = $CI->db->query("SELECT a.id id, a.title_document title_document FROM report a LEFT JOIN report_permission b ON b.menu_id=a.id AND b.user_id = '$user_id' WHERE b.view='1' ");
+		$q = $CI->db->query("SELECT a.id id, a.title_document title_document FROM report a LEFT JOIN report_permission b ON b.menu_id=a.id AND b.user_id = '$user_id' WHERE b.view='1' AND a.statusisasi='1' ");
 		if($judul) $opt[''] = $judul;
 		foreach($q->result_array() as $r)
 		{
@@ -1978,6 +1978,19 @@ function masukstok($gudang,$barang,$qty,$satuan=NULL,$source=NULL,$ref=NULL,$tgl
                             historystok('in', $source, $ref, $gudang, $barang, $satuan, $qty, $tgl,$no);
                             return TRUE;}
                         else {return FALSE;}
+}
+function konversi($barang,$qty,$satuan){
+        $satuanbarang=GetValue('satuan','barang',array('id'=>'where/'.$barang));
+        $multiply=1;
+	if($satuan!=$satuanbarang){
+		$multiply=GetValue('value','barang_satuan',array('barang_id'=>'where/'.$barang,'satuan'=>'where/'.$satuan));
+                if($multiply==0){
+                $multiply=GetValue('satuan_dasar_num','satuan',array('satuan_dasar_id'=>'where/'.$satuanbarang,'id'=>'where/'.$satuan));
+                }
+		$qty=$qty*$multiply;
+	}
+        return $qty;
+    
 }
 function getoptsatuan($barang){
 	$q = GetAll('barang_satuan', array('barang_id'=>'where/'.$barang));
