@@ -10,7 +10,9 @@ error_reporting(0);
 <!--input type="button" value="Tambah" onclick="window.location = '<?//= base_url() ?>index.php/ms_con/add'"/-->
 <script type="text/javascript">
 var _base_url = '<?php echo  base_url() ?>';
-var controller = '<?php echo $this->file_name?>/';
+var modul = '<?php echo  $modul ?>/';
+
+var controller = '<?php echo $filename?>/';
 function del(id) { 
   i = confirm('Hapus : ' + id + ' ?');
   if (i) {
@@ -20,11 +22,11 @@ function del(id) {
 //$('.flex1').flexigrid({height:'auto',width:'auto',striped:false});
 
 function edit(id) {
-  window.location = _base_url + controller + 'input/' + id;
+  window.location = _base_url + controller + modul + 'input/' + id;
 }
 
 function detail(id) {
-  window.location = _base_url + controller + 'form/' + id;
+  window.location = _base_url + controller + modul+ 'input/' + id;
 }
 function btn(com,grid)
 {
@@ -41,14 +43,14 @@ function btn(com,grid)
     {
 		$('.bDiv tbody tr',grid).removeClass('trSelected');
     }
-	if(com=='edit'){
+	if(com=='edit'||com=='detail'){
 		if($('.trSelected',grid).length==1){ 
     			var abbr = [];
     				$('.hDiv th', flex).each( function(index){
        			 abbr[index] = $(this).attr('abbr');
   				  });
 		//var items = $('.trSelected',grid);
- 		 window.location = _base_url + controller + 'form/' + $('td:nth-child('+ (1+$.inArray('idnya',abbr)) +')>div', '.trSelected',grid).text();
+ 		 window.location = _base_url +modul+ controller  + 'input/' + $('td:nth-child('+ (1+$.inArray('idnya',abbr)) +')>div', '.trSelected',grid).text();
 			} else {
 				return false;
 			} 

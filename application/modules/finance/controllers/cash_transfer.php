@@ -12,6 +12,7 @@ class cash_transfer extends MX_Controller {
 		$this->load->library('flexigrid');
         $this->load->helper('flexigrid');
         //$this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+        error_reporting(0); 
     }
 
     function index()
@@ -49,7 +50,7 @@ class cash_transfer extends MX_Controller {
 //            $buttons[] = array('separator');
 //            $buttons[] = array('add','add','btn');
 //            $buttons[] = array('separator');
-//             $buttons[] = array('edit','edit','btn');
+            $buttons[] = array('detail','edit','btn');
 //            $buttons[] = array('delete','delete','btn');
             $buttons[] = array('separator');
 		
@@ -129,7 +130,7 @@ class cash_transfer extends MX_Controller {
 		//echo "Sukses!";
 	}
 
-    function input()
+    function input($id)
     {
         $this->data['title'] = $this->title.' - Input';
         permissionUser();
@@ -146,6 +147,13 @@ class cash_transfer extends MX_Controller {
        // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         $numbering=GetAll('cash_transfer');
         $this->data['numbering']='CA'.sprintf('%05d',$numbering->num_rows()+1);
+         if($id>0){            
+            $this->data['val']= GetAll('cash_transfer',array('id'=>'where/'.$id))->row_array();
+
+        }
+        else{
+            $this->data['var']=array();
+        }
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }

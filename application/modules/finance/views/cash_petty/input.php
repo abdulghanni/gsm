@@ -83,7 +83,7 @@
 			   <div class="col-sm-3">
 				   <label for="<?php echo $nm_f?>">Amount</label>
 				   </div><div class="col-sm-9">
-				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required]">
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required]" onclick="jumlahamount()">
 			   </div>
 			   </div>
 		  
@@ -205,8 +205,9 @@
 					
 				</div>
     		<div class="form-group">
+             <?php if(!isset($detail)){ ?>
             <button type="submit" class="btn pull-right">Submit</button>
-            
+             <?php }?>
              </div>
 				
 		</div>
@@ -231,6 +232,19 @@ $select.each(function(i,item){
   setTimeout(addlines(), 3000);
   setTimeout(selectadd(), 4000);
 };
+function jumlahamount(){
+    var kredit = 0;
+    var debit = 0;
+    var semua=0;
+$('.kredit').each(function(){
+    kredit += Number($(this).val());  //Or this.innerHTML, this.innerText
+});
+$('.debit').each(function(){
+    debit += Number($(this).val());  //Or this.innerHTML, this.innerText
+});
+    semua=debit-kredit;
+    $('#amount').val(semua);
+}
 function addrow(){
   $("table tr:last").clone().appendTo("table");
 }
