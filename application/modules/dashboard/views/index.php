@@ -1,52 +1,3 @@
-	<!--<section id="page-title" class="padding-top-15 padding-bottom-15">
-	<div class="row">
-		<div class="col-sm-7">
-			<h1 class="mainTitle">Dashboard</h1>
-			<span class="mainDescription">overview &amp; stats </span>
-		</div>
-		<div class="col-sm-5">
-			<!-- start: MINI STATS WITH SPARKLINE 
-			<ul class="mini-stats pull-right">
-				<li>
-					<div class="sparkline-1">
-						<span ></span>
-					</div>
-					<div class="values">
-						<strong class="text-dark">18304</strong>
-						<p class="text-small no-margin">
-							Sales
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="sparkline-2">
-						<span ></span>
-					</div>
-					<div class="values">
-						<strong class="text-dark">&#36;3,833</strong>
-						<p class="text-small no-margin">
-							Earnings
-						</p>
-					</div>
-				</li>
-				<li>
-					<div class="sparkline-3">
-						<span ></span>
-					</div>
-					<div class="values">
-						<strong class="text-dark">&#36;848</strong>
-						<p class="text-small no-margin">
-							Referrals
-						</p>
-					</div>
-				</li>
-			</ul>
-			 end: MINI STATS WITH SPARKLINE 
-		</div>
-	</div>
-</section>
-<!-- end: DASHBOARD TITLE -->
-
 <!-- start: FIRST SECTION -->
 <div class="container-fluid container-fullw padding-bottom-10">
 	<div class="row">
@@ -126,21 +77,21 @@
 											<div class="row margin-top-30">
 												<div class="col-xs-4 text-center">
 													<div class="rate">
-														<i class="fa fa-caret-up text-green"></i><span class="value">26</span><span class="percentage">%</span>
+														<span class="value">26</span><span class="percentage">%</span>
 													</div>
-													Mac OS X
+													Barang Jadi
 												</div>
 												<div class="col-xs-4 text-center">
 													<div class="rate">
-														<i class="fa fa-caret-up text-green"></i><span class="value">62</span><span class="percentage">%</span>
+														<span class="value">62</span><span class="percentage">%</span>
 													</div>
-													Windows
+													Barang Mentah
 												</div>
 												<div class="col-xs-4 text-center">
 													<div class="rate">
-														<i class="fa fa-caret-down text-red"></i><span class="value">12</span><span class="percentage">%</span>
+														<span class="value">12</span><span class="percentage">%</span>
 													</div>
-													Other OS
+													Barang Inventaris
 												</div>
 											</div>
 											<div class="margin-top-10">
@@ -182,7 +133,13 @@
 														<span class="badge badge-success margin-top-10"><?=$num_data_so?> S.O</span>
 													</div>
 													<div class="col-md-4 text-center">
-														<h4 class="text-dark no-margin">Penjulan</h4>
+														<h4 class="text-dark no-margin">Pengeluaran Stok</h4>
+														<h6 class="text-dark no-margin">Today</h6>
+														<!--<h6 class="no-margin"><small>Rp.</small>2,450,000.00</h6>-->
+														<span class="badge badge-success margin-top-10"><?=$num_data_pengeluaran?> Pengeluaran</span>
+													</div>
+													<div class="col-md-4 text-center">
+														<h4 class="text-dark no-margin">Invoicing</h4>
 														<h6 class="text-dark no-margin">Today</h6>
 														<!--<h6 class="no-margin"><small>Rp.</small>2,950,000.00</h6>-->
 														<span class="badge badge-success margin-top-10"><?=$num_data_penjualan?> Penjualan</span>
@@ -235,21 +192,21 @@
 											<div class="row margin-top-30">
 												<div class="col-xs-4 text-center">
 													<div class="rate">
-														<i class="fa fa-caret-up text-green"></i><span class="value">26</span><span class="percentage">%</span>
+														<span class="value">26</span><span class="percentage">%</span>
 													</div>
-													Mac OS X
+													Barang Jadi
 												</div>
 												<div class="col-xs-4 text-center">
 													<div class="rate">
-														<i class="fa fa-caret-up text-green"></i><span class="value">62</span><span class="percentage">%</span>
+														<span class="value">62</span><span class="percentage">%</span>
 													</div>
-													Windows
+													Barang Mentah
 												</div>
 												<div class="col-xs-4 text-center">
 													<div class="rate">
-														<i class="fa fa-caret-down text-red"></i><span class="value">12</span><span class="percentage">%</span>
+														<span class="value">12</span><span class="percentage">%</span>
 													</div>
-													Other OS
+													Barang Inventaris
 												</div>
 											</div>
 											<div class="margin-top-10">
@@ -344,21 +301,21 @@
 											<div class="row margin-top-30">
 												<div class="col-xs-4 text-center">
 													<div class="rate">
-														<i class="fa fa-caret-up text-green"></i><span class="value">26</span><span class="percentage">%</span>
+														<span class="value">26</span><span class="percentage">%</span>
 													</div>
-													Mac OS X
+													Barang Jadi
 												</div>
 												<div class="col-xs-4 text-center">
 													<div class="rate">
-														<i class="fa fa-caret-up text-green"></i><span class="value">62</span><span class="percentage">%</span>
+														<span class="value">62</span><span class="percentage">%</span>
 													</div>
-													Windows
+													Barang Mentah
 												</div>
 												<div class="col-xs-4 text-center">
 													<div class="rate">
-														<i class="fa fa-caret-down text-red"></i><span class="value">12</span><span class="percentage">%</span>
+														<span class="value">12</span><span class="percentage">%</span>
 													</div>
-													Other OS
+													Barang Inventaris
 												</div>
 											</div>
 											<div class="margin-top-10">
