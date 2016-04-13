@@ -16,6 +16,11 @@ class Dashboard extends MX_Controller {
         $this->data['num_data_pembelian'] = getAll('pembelian', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
         $this->data['num_data_so'] = getAll('sales_order', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
         $this->data['num_data_penjualan'] = getAll('penjualan', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
+        $this->data['num_data_penerimaan'] = getAll('stok_penerimaan', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
+        $this->data['num_data_pengeluaran'] = getAll('stok_pengeluaran', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
+        $this->data['num_stok'] = getAll('stok')->num_rows();
+        $this->data['num_stok_tersedia'] = getAll('stok', array(), array('!=dalam_stok'=>'0'))->num_rows();
+        $this->data['num_stok_minimum'] = $this->db->where('dalam_stok < minimum_stok')->get('stok')->num_rows();
 		$this->_render_page('dashboard/index', $this->data);
 	}
 
@@ -27,6 +32,8 @@ class Dashboard extends MX_Controller {
             $tanggal[] = $d->format('d M');
             $num_data_po[] = getAll('purchase_order', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
             $num_data_so[] = getAll('sales_order', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
+            $num_data_penerimaan[] = getAll('stok_penerimaan', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
+            $num_data_pengeluaran[] = getAll('stok_pengeluaran', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
             $num_data_pembelian[] = getAll('pembelian', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
             $num_data_penjualan[] = getAll('penjualan', array('created_on'=>'where/'.$d->format('Y-m-d')))->num_rows();
         }
@@ -36,6 +43,8 @@ class Dashboard extends MX_Controller {
                                 'num_data_pembelian'=>$num_data_pembelian,
                                 'num_data_so'=>$num_data_so,
                                 'num_data_penjualan'=>$num_data_penjualan,
+                                'num_data_penerimaan'=>$num_data_penerimaan,
+                                'num_data_pengeluaran'=>$num_data_pengeluaran,
                                 ));
     }
 

@@ -22,14 +22,14 @@ var Index = function() {
 						pointHighlightStroke: 'rgba(220,220,220,1)',
 						data: json.num_data_po
 					}, {
-						label: 'Pembelian',
+						label: 'Penerimaan Stok',
 						fillColor: 'rgba(151,187,205,0.2)',
 						strokeColor: 'rgba(151,187,205,1)',
 						pointColor: 'rgba(151,187,205,1)',
 						pointStrokeColor: '#fff',
 						pointHighlightFill: '#fff',
 						pointHighlightStroke: 'rgba(151,187,205,1)',
-						data: json.num_data_pembelian
+						data: json.num_data_penerimaan
 					}]
 				};
 
@@ -118,8 +118,17 @@ var Index = function() {
 						pointHighlightFill: '#fff',
 						pointHighlightStroke: 'rgba(220,220,220,1)',
 						data: json.num_data_so
+					},{
+						label: 'Pengeluaran',
+						fillColor: 'rgba(100,100,100,0.2)',
+						strokeColor: 'rgba(100,100,100,1)',
+						pointColor: 'rgba(100,100,100,1)',
+						pointStrokeColor: '#fff',
+						pointHighlightFill: '#fff',
+						pointHighlightStroke: 'rgba(100,100,100,1)',
+						data: json.num_data_pengeluaran
 					}, {
-						label: 'Penjualan',
+						label: 'Invoicing',
 						fillColor: 'rgba(151,187,205,0.2)',
 						strokeColor: 'rgba(151,187,205,1)',
 						pointColor: 'rgba(151,187,205,1)',
@@ -185,13 +194,110 @@ var Index = function() {
 					legendTemplate: '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
 				};
 				// Get context with jQuery - using jQuery's .get() method.
-				var ctx = $("#chart2").get(0).getContext("2d");
+				var ctx = $("#chartSo").get(0).getContext("2d");
 				// This will get the first returned node in the jQuery collection.
 				var chart1 = new Chart(ctx).Line(data, options);
 				//generate the legend
 				var legend = chart1.generateLegend();
 				//and append it to your page somewhere
 				$('#chartSoLegend').append(legend);
+			}
+		});
+	};
+
+	//CHART LOGISTIK
+	var chartStokHandler = function() {
+		$.ajax({
+            url : "/gsm/dashboard/get_chart/",
+            type: "GET",
+            dataType: "JSON",
+            success: function(json)
+            {
+				var data = {
+					labels: json.tanggal,
+					datasets: [{
+						label: 'Penerimaan',
+						fillColor: 'rgba(220,220,220,0.2)',
+						strokeColor: 'rgba(220,220,220,1)',
+						pointColor: 'rgba(220,220,220,1)',
+						pointStrokeColor: '#fff',
+						pointHighlightFill: '#fff',
+						pointHighlightStroke: 'rgba(220,220,220,1)',
+						data: json.num_data_penerimaan
+					}, {
+						label: 'Pengeluaran',
+						fillColor: 'rgba(151,187,205,0.2)',
+						strokeColor: 'rgba(151,187,205,1)',
+						pointColor: 'rgba(151,187,205,1)',
+						pointStrokeColor: '#fff',
+						pointHighlightFill: '#fff',
+						pointHighlightStroke: 'rgba(151,187,205,1)',
+						data: json.num_data_pengeluaran
+					}]
+				};
+
+				var options = {
+
+					maintainAspectRatio: false,
+
+					// Sets the chart to be responsive
+					responsive: true,
+
+					///Boolean - Whether grid lines are shown across the chart
+					scaleShowGridLines: true,
+
+					//String - Colour of the grid lines
+					scaleGridLineColor: 'rgba(0,0,0,.05)',
+
+					//Number - Width of the grid lines
+					scaleGridLineWidth: 1,
+
+					//Boolean - Whether the line is curved between points
+					bezierCurve: false,
+
+					//Number - Tension of the bezier curve between points
+					bezierCurveTension: 0.4,
+
+					//Boolean - Whether to show a dot for each point
+					pointDot: true,
+
+					//Number - Radius of each point dot in pixels
+					pointDotRadius: 4,
+
+					//Number - Pixel width of point dot stroke
+					pointDotStrokeWidth: 1,
+
+					//Number - amount extra to add to the radius to cater for hit detection outside the drawn point
+					pointHitDetectionRadius: 20,
+
+					//Boolean - Whether to show a stroke for datasets
+					datasetStroke: true,
+
+					//Number - Pixel width of dataset stroke
+					datasetStrokeWidth: 2,
+
+					//Boolean - Whether to fill the dataset with a colour
+					datasetFill: true,
+
+					// Function - on animation progress
+					onAnimationProgress: function() {
+					},
+
+					// Function - on animation complete
+					onAnimationComplete: function() {
+					},
+
+					//String - A legend template
+					legendTemplate: '<ul class="tc-chart-js-legend"><% for (var i=0; i<datasets.length; i++){%><li><span style="background-color:<%=datasets[i].strokeColor%>"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>'
+				};
+				// Get context with jQuery - using jQuery's .get() method.
+				var ctx = $("#chartStok").get(0).getContext("2d");
+				// This will get the first returned node in the jQuery collection.
+				var chart1 = new Chart(ctx).Line(data, options);
+				//generate the legend
+				var legend = chart1.generateLegend();
+				//and append it to your page somewhere
+				$('#chartStokLegend').append(legend);
 			}
 		});
 	};
@@ -268,6 +374,7 @@ var Index = function() {
 			chartPoHandler();
 			chartSoHandler();
 			chartUtHandler();
+			chartStokHandler();
 			//chart4Handler();
 			//sparklineHandler();
 		}
