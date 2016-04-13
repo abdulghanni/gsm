@@ -133,7 +133,7 @@
 														<span class="badge badge-success margin-top-10"><?=$num_data_so?> S.O</span>
 													</div>
 													<div class="col-md-4 text-center">
-														<h4 class="text-dark no-margin">Pengeluaran Stok</h4>
+														<h4 class="text-dark no-margin">Pengeluaran</h4>
 														<h6 class="text-dark no-margin">Today</h6>
 														<!--<h6 class="no-margin"><small>Rp.</small>2,450,000.00</h6>-->
 														<span class="badge badge-success margin-top-10"><?=$num_data_pengeluaran?> Pengeluaran</span>
