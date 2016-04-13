@@ -12,6 +12,7 @@ class cash_petty extends MX_Controller {
 		$this->load->library('flexigrid');
         $this->load->helper('flexigrid');
         //$this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+        error_reporting(0); 
     }
 
     function index()
@@ -51,6 +52,7 @@ class cash_petty extends MX_Controller {
 //            $buttons[] = array('separator');
 //             $buttons[] = array('edit','edit','btn');
 //            $buttons[] = array('delete','delete','btn');
+              $buttons[] = array('detail','edit','btn');
             $buttons[] = array('separator');
 		
             return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record/"),$colModel,'id','asc',$gridParams,$buttons);
@@ -128,7 +130,7 @@ class cash_petty extends MX_Controller {
 		//echo "Sukses!";
 	}
 
-    function input()
+    function input($id)
     {
         $this->data['title'] = $this->title.' - Input';
         permissionUser();
@@ -145,6 +147,14 @@ class cash_petty extends MX_Controller {
        // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         $numbering=GetAll('cash_petty');
         $this->data['numbering']='CA'.sprintf('%05d',$numbering->num_rows()+1);
+        if($id>0){            
+            $this->data['val']= GetAll('cash_petty',array('id'=>'where/'.$id))->row_array();
+
+            $this->data['detail']=GetAll('cash_petty_detail',array('id_petty'=>'where/'.$id))->result_array();
+        }
+        else{
+            $this->data['var']=array();
+        }
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }

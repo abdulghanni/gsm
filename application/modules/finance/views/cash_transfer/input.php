@@ -3,7 +3,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Petty Cash</h1>
+			<h1 class="mainTitle">Transfer Kas</h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -120,8 +120,9 @@
 				
                     
     		<div class="form-group">
+                   <?php if(!isset($val['id'])){ ?>
             <button type="submit" class="btn pull-right">Submit</button>
-            
+                   <?php } ?>
              </div>
 				
 		</div>
