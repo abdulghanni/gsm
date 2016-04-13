@@ -13,78 +13,177 @@
             </li>
         </ol>
     </div>
-</section>
-    <div class="container-fluid container-fullw bg-white">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="row">
-                <div class="col-md-12 space20">
-                    <button class="btn btn-green add-row" onclick="add_user()">
-                        <?= lang('add') ?> <i class="fa fa-plus"></i>
-                    </button>
-                    <!--
-                    <button class="btn btn-green add-row" onclick="reload_table()">
-                        Refresh <i class="fa fa-refresh"></i>
-                    </button>
-                    -->
-                    <div class="btn-group">
-                        <a target="_blank" href="<?= base_url('print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=barang.mrt')?>" class="btn btn-azure">
-                            Export <i class="fa fa-upload"></i>
-                        </a>
-                        <!--
-                        <ul class="dropdown-menu" role="menu">
-                            <li>
-                                <a href="<?=base_url('master/barang/pdf')?>" target="_blank">
-                                    PDF
-                                </a>
-                            </li>
-                            <li>
-                                <a href="<?=base_url('master/barang/excel')?>" target="_blank">
-                                    XLS
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#">
-                                    DOC
-                                </a>
-                            </li>
-                        </ul>
-                        -->
+</section><div class="row">
+<div class="col-lg-12">
+    <div class="tabbable">
+        <ul id="myTab2" class="nav nav-tabs nav-justified">
+            <li class="active">
+                <a href="#myTab2_example1" data-toggle="tab">
+                    Barang Produksi
+                </a>
+            </li>
+            <li>
+                <a href="#myTab2_example2" data-toggle="tab">
+                    Barang Inventaris
+                </a>
+            </li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane fade in active" id="myTab2_example1">
+                <div class="container-fluid container-fullw bg-white">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-12 space20">
+                                    <button class="btn btn-green add-row" onclick="add_user()">
+                                        <?= lang('add') ?> <i class="fa fa-plus"></i>
+                                    </button>
+                                    <!--
+                                    <button class="btn btn-green add-row" onclick="reload_table()">
+                                        Refresh <i class="fa fa-refresh"></i>
+                                    </button>
+                                    -->
+                                    <div class="btn-group">
+                                        <a target="_blank" href="<?= base_url('print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=barang.mrt')?>" class="btn btn-azure">
+                                            Export <i class="fa fa-upload"></i>
+                                        </a>
+                                        <!--
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="<?=base_url('master/barang/pdf')?>" target="_blank">
+                                                    PDF
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="<?=base_url('master/barang/excel')?>" target="_blank">
+                                                    XLS
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    DOC
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        -->
+                                    </div>
+                                    <span class="btn btn-light-azure fileinput-button"><span>Import <i class="fa fa-download"></i></span>
+                                        <input name="files[]" multiple="" type="file">
+                                    </span>
+                                    <!--
+                                    <a href="<?=assets_url('template/barang.xlsx')?>">
+                                        <span class="btn btn-light-azure fileinput-button"><span>Template Upload <i class="fa fa-file"></i></span>
+                                            <input name="files[]" multiple="" type="file">
+                                        </span>
+                                    </a>
+                                    -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                            </div>
+                            <br/>
+                            <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover table-full-width" id="table" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%" align="center">No.</th>
+                                            <th width="10%" align="center">Foto</th>
+                                            <th width="10%"><?php echo lang('code');?></th>
+                                            <th width="20%"><?php echo lang('description');?></th>
+                                            <th width="10%">Alias</th>
+                                            <th width="12%"><?php echo 'Jenis Barang';?></th>
+                                            <th width="8%"><?php echo lang('unit');?></th>
+                                            <th width="10%"><?php echo 'Action';?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                    <span class="btn btn-light-azure fileinput-button"><span>Import <i class="fa fa-download"></i></span>
-                        <input name="files[]" multiple="" type="file">
-                    </span>
-                    <!--
-                    <a href="<?=assets_url('template/barang.xlsx')?>">
-                        <span class="btn btn-light-azure fileinput-button"><span>Template Upload <i class="fa fa-file"></i></span>
-                            <input name="files[]" multiple="" type="file">
-                        </span>
-                    </a>
-                    -->
                 </div>
             </div>
-            <div class="row">
-                
-            </div>
-            <br/>
-            <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
-            <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover table-full-width" id="table" style="width: 100%;">
-                    <thead>
-                        <tr>
-                            <th width="5%" align="center">No.</th>
-                            <th width="10%" align="center">Foto</th>
-                            <th width="10%"><?php echo lang('code');?></th>
-                            <th width="20%"><?php echo lang('description');?></th>
-                            <th width="10%">Alias</th>
-                            <th width="12%"><?php echo 'Jenis Barang';?></th>
-                            <th width="8%"><?php echo lang('unit');?></th>
-                            <th width="10%"><?php echo 'Action';?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+            <!-- TAB INVENTARIS -->
+            <div class="tab-pane fade" id="myTab2_example2">
+                <div class="container-fluid container-fullw bg-white">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="row">
+                                
+                                <!--
+                                <div class="col-md-12 space20">
+                                    <button class="btn btn-green add-row" onclick="add_user_inv()">
+                                        <?= lang('add') ?> <i class="fa fa-plus"></i>
+                                    </button>
+                                    <!--
+                                    <button class="btn btn-green add-row" onclick="reload_table()">
+                                        Refresh <i class="fa fa-refresh"></i>
+                                    </button>
+                                    <div class="btn-group">
+                                        <a target="_blank" href="<?= base_url('print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=barang.mrt')?>" class="btn btn-azure">
+                                            Export <i class="fa fa-upload"></i>
+                                        </a>
+                                        <!--
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li>
+                                                <a href="<?=base_url('master/barang/pdf')?>" target="_blank">
+                                                    PDF
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="<?=base_url('master/barang/excel')?>" target="_blank">
+                                                    XLS
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#">
+                                                    DOC
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        
+                                    </div>
+                                    <span class="btn btn-light-azure fileinput-button"><span>Import <i class="fa fa-download"></i></span>
+                                        <input name="files[]" multiple="" type="file">
+                                    </span>
+                                    <!--
+                                    <a href="<?=assets_url('template/barang.xlsx')?>">
+                                        <span class="btn btn-light-azure fileinput-button"><span>Template Upload <i class="fa fa-file"></i></span>
+                                            <input name="files[]" multiple="" type="file">
+                                        </span>
+                                    </a>
+                                </div>
+                                    -->
+                            </div>
+                            <div class="row">
+                                
+                            </div>
+                            <br/>
+                            <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
+                            <div class="table-responsive">
+                                <table class="table table-striped table-bordered table-hover table-full-width" id="table_inv" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%" align="center">No.</th>
+                                            <th width="10%" align="center">Foto</th>
+                                            <th width="10%"><?php echo lang('code');?></th>
+                                            <th width="20%"><?php echo lang('description');?></th>
+                                            <th width="10%">Tanggal Pembelian</th>
+                                            <th width="12%"><?php echo 'Harga Perolehan';?></th>
+                                            <th width="8%"><?php echo 'Tarif Penyusutan(%)'?></th>
+                                            <th width="10%"><?php echo 'Action';?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -150,6 +249,46 @@
                             </div>
                         </div>
 
+                        <div id="inv" style="display: none">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Jenis Barang Inventaris</label>
+                                <div class="col-md-9">
+                                    <?php 
+                                        $js = 'class="select2" style="width:100%" id="jenis_barang_inv"';
+                                        echo form_dropdown('jenis_barang_inventaris_id', $options_jenis_barang_inventaris,'',$js); 
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label" for="inputEmail3">
+                                    Tgl. Pembelian
+                                </label>
+                                <div class="col-sm-9">
+                                    <div id="tanggal_transaksi" class="input-append date success no-padding">
+                                      <input type="text" class="form-control" name="tgl" required>
+                                      <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Harga Perolehan</label>
+                                <div class="col-md-9">
+                                    <input name="harga" placeholder="harga" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Tarif Penyusutan(%)</label>
+                                <div class="col-md-2">
+                                    <input name="penyusutan" placeholder="penyusutan" class="form-control" type="text">
+                                    <span class="help-block"></span>
+                                </div>
+                                <label class="control-label col-md-1">%</label>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="col-md-6">
 
@@ -181,6 +320,7 @@
                                 ?>
                             </div>
                         </div>
+                        
                         <!--
                         <div class="form-group">
                             <label class="control-label col-md-3">Attachment</label>
@@ -236,6 +376,7 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Bootstrap modal -->
+
 
 <script type="text/javascript">
   function removeFile(){

@@ -19,14 +19,15 @@ class Barang extends MX_Controller {
         permissionUser();
         $this->data['jenis_barang'] = getAll('jenis_barang');
         $this->data['options_jenis_barang'] = options_row('barang', 'get_jenis_barang','id','title', '-- Pilih Jenis Barang --');
+        $this->data['options_jenis_barang_inventaris'] = options_row('barang', 'get_jenis_barang_inventaris','id','title', '-- Pilih Jenis Barang Inventaris--');
         $this->data['options_satuan'] = options_row('barang', 'get_satuan','id','title', '-- Pilih Satuan --');
 		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
-    public function ajax_list()
+    public function ajax_list($inv = null)
     {
         permissionUser();
-        $list = $this->barang->get_datatables();
+        $list = $this->barang->get_datatables($inv);
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $barang) {
@@ -39,11 +40,16 @@ class Barang extends MX_Controller {
             $row[] = "<img height='75px' width='100px' src='$photo' />";
             $row[] = $barang->kode;
             $row[] = $barang->title;
-            $row[] = $barang->alias;
-            $row[] = $barang->jenis_barang;
-            $row[] = $barang->satuan;
+            if(($inv != 0)){
+                $row[] = $barang->tgl;
+                $row[] = $barang->harga;
+                $row[] = $barang->penyusutan;
+            }else{
+                $row[] = $barang->alias;
+                $row[] = $barang->jenis_barang;
+                $row[] = $barang->satuan;
+            }
             //$row[] = $barang->lokasi_gudang;
-
 
             //add html for action
             $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$barang->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -65,13 +71,22 @@ class Barang extends MX_Controller {
     public function ajax_edit($id)
     {
         $data = $this->barang->get_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
-		echo json_encode($data);
+        $inv = getAll('barang_inventaris_detail', array('barang_id'=>'where/'.$id))->row(); 
+		echo json_encode(array('data'=>$data, 'inv'=>$inv));
     }
+
+    public function ajax_edit_inv($id)
+    {
+        $data = $this->barang->get_by_inv_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
+        echo json_encode($data);
+    }
+
 	public function loadsatuanexist($id){
 		$data['ex']=GetAll('barang_satuan',array('barang_id'=>'where/'.$id))->result_array();
         $data['options_satuan'] = options_row('barang', 'get_satuan','id','title', '-- Pilih Satuan --');
 		$this->load->view('barang/satuan_exist',$data);
 	}
+
     public function ajax_add()
     {
 
@@ -80,6 +95,7 @@ class Barang extends MX_Controller {
 		$satuanlain_id=$this->input->post('satuan_lain_id');
 		$valuelain=$this->input->post('value_lain');
         $is_update = $this->input->post('is_update');
+        $jenis_barang = $this->input->post('jenis_barang_id');
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
@@ -93,9 +109,21 @@ class Barang extends MX_Controller {
                 'created_on' => dateNow(),
             );
         $id = $this->input->post('id');
+
+            $data_inv = array(
+                        'barang_id' => $id,
+                        'jenis_barang_inventaris_id' => $this->input->post('jenis_barang_inventaris_id'),
+                        'tgl' => date('Y-m-d',strtotime($this->input->post('tgl'))),
+                        'harga' => $this->input->post('harga'),
+                        'penyusutan' => $this->input->post('penyusutan')
+            );
         if($is_update == 1) {
 			$this->barang->update(array('id' => $id), $data);
             
+            if($jenis_barang == 3){
+                $num = getAll('barang_inventaris_detail', array('barang_id'=>'where/'.$id))->num_rows();
+                if($num > 0 )$this->db->where('barang_id', $id)->update('barang_inventaris_detail', $data_inv);else $this->db->insert('barang_inventaris_detail', $data_inv);
+            }
             /* $num_satuan_dasar = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$this->input->post('satuan')))->num_rows();
             if($num_satuan_dasar>0):
                 $this->db->where('satuan',$this->input->post('satuan'))->where('barang_id', $id);
@@ -119,7 +147,14 @@ class Barang extends MX_Controller {
             
 		}
         else{ $id = $this->barang->save($data);
-			
+            $data_inv = array(
+                        'barang_id' => $id,
+                        'jenis_barang_inventaris_id' => $this->input->post('jenis_barang_inventaris_id'),
+                        'tgl' => date('Y-m-d',strtotime($this->input->post('tgl'))),
+                        'harga' => $this->input->post('harga'),
+                        'penyusutan' => $this->input->post('penyusutan')
+            );
+			$this->db->insert('barang_inventaris_detail', $data_inv);
 			$a=0;
                 $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>1,'satuan'=>$this->input->post('satuan')));
 			foreach($satuanlain as $sl){
@@ -134,6 +169,73 @@ class Barang extends MX_Controller {
         $this->upload($id);
         $this->cek_stok($id);
 		
+        //echo json_encode(array("status" => TRUE));
+        redirect(base_url('master/barang'), 'refresh');
+    }
+
+
+    public function ajax_add_inv()
+    {
+
+        //$this->_validate();
+        $satuanlain=$this->input->post('satuan_lain');//print_ag($satuanlain);
+        $satuanlain_id=$this->input->post('satuan_lain_id');
+        $valuelain=$this->input->post('value_lain');
+        $is_update = $this->input->post('is_update');
+        $data = array(
+                'kode' => $this->input->post('kode'),
+                'title' => $this->input->post('title'),
+                'alias' => $this->input->post('alias'),
+                'merk' => $this->input->post('merk'),
+                'jenis_barang_id' => $this->input->post('jenis_barang_id'),
+                'satuan' => $this->input->post('satuan'),
+                'satuan_laporan' => $this->input->post('satuan_laporan'),
+                'catatan' => $this->input->post('catatan'),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
+            );
+        $id = $this->input->post('id');
+        if($is_update == 1) {
+            $this->barang->update(array('id' => $id), $data);
+            
+            /* $num_satuan_dasar = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$this->input->post('satuan')))->num_rows();
+            if($num_satuan_dasar>0):
+                $this->db->where('satuan',$this->input->post('satuan'))->where('barang_id', $id);
+                $this->db->update('barang_satuan',array('value'=>1,'satuan'=>$this->input->post('satuan')));
+            else:
+                $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>1,'satuan'=>$this->input->post('satuan')));
+            endif; */
+            $a=0;
+            foreach($satuanlain as $sl){
+                $num_satuan = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$satuanlain[$a]))->num_rows();
+                if(isset($satuanlain_id[$a])):
+                    $this->db->where('id',$satuanlain_id[$a]);
+                    $this->db->update('barang_satuan',array('value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+                else:
+                    if(isset($satuanlain[$a])){
+                    $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+                    }
+                endif;
+                $a++;
+            }
+            
+        }
+        else{ $id = $this->barang->save($data);
+            
+            $a=0;
+                $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>1,'satuan'=>$this->input->post('satuan')));
+            foreach($satuanlain as $sl){
+                if(isset($sl[$a])){
+                $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+                }
+                $a++;
+            }
+            
+        }
+        //$this->upload_attachment($id);
+        $this->upload($id);
+        $this->cek_stok($id);
+        
         //echo json_encode(array("status" => TRUE));
         redirect(base_url('master/barang'), 'refresh');
     }
@@ -414,6 +516,7 @@ class Barang extends MX_Controller {
 
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
                     $this->template->add_css('vendor/select2/select2.css');
+                    $this->template->add_css('vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css');
 
                     $this->template->add_js('vendor/jquery-validation/jquery.validate.min.js');
                     $this->template->add_js('assets/js/form-validation.js');
@@ -421,6 +524,7 @@ class Barang extends MX_Controller {
                     $this->template->add_js('vendor/bootstrap-fileinput/jasny-bootstrap.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('vendor/select2/select2.min.js');
+                    $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
                     $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'.js');
                 }
 
