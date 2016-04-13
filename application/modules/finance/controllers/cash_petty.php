@@ -204,6 +204,7 @@ class cash_petty extends MX_Controller {
         $insert_id = $this->db->insert_id();
 		$sisaan=0;
         for($i=0;$i<sizeof($list['akun']);$i++):
+            if($list['akun'][$i]>0){
             $data2 = array(
                 'id_petty' => $insert_id,                
                 'akun' => $list['akun'][$i],
@@ -212,7 +213,7 @@ class cash_petty extends MX_Controller {
                 'kredit' => str_replace(',', '', $list['kredit'][$i]),
                 'remark' => $list['remark'][$i],
                 );
-        $this->db->insert('cash_petty_detail', $data2);
+            $this->db->insert('cash_petty_detail', $data2);}
         //$sisaan=+$sisa;
 	//	masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
         //$this->send_notification($insert_id);

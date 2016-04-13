@@ -44,7 +44,7 @@
 			   <div class="col-sm-3">
 				   <label for="<?php echo $nm_f?>"><?php echo ucfirst($nm_f)?></label>
 				   </div><div class="col-sm-9">
-				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : date('Ymd',strtotime('now')).$last_id) ?>" class="col-sm-2 text-input" readonly>
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : date('Ymd',strtotime('now')).$last_id) ?>" class="col-sm-2 text-input">
 			   </div>
 		   </div>
 		   <div class="form-group">
@@ -149,8 +149,7 @@
 						<thead>
 							<tr>
 								<th class="col-md-2">Account</th>
-								<th class="col-md-2">Debit</th>
-								<th class="col-md-2">Credit</th>
+								<th class="col-md-2">Amount</th>
 								<th class="col-md-3">Remark</th>
 							</tr>
 						</thead>
@@ -188,16 +187,14 @@
 							<?php 
 							echo form_hidden('idj[]',$isi['id']); ?>
 								<td><?php echo form_dropdown('akun[]',$opt_coa,$isi['akun'],'class="form-control select2" ')?></td>
-								<td><?php echo form_input('debit[]',$isi['debit']/$isi['kurs'],'class="form-control debit currency duit " ')?></td>
-								<td><?php echo form_input('kredit[]',$isi['kredit']/$isi['kurs'],'class="form-control kredit currency duit "')?></td>
+								<td><?php echo form_input('amount[]',$isi['amount']/$isi['kurs'],'class="form-control debit currency duit " ')?></td>
 								<td><?php echo form_input('remark[]',$isi['remark'],'class="form-control"')?></td>
 							</tr>	
 						<?php }?>
 							<tr>
 								<?php echo form_hidden('idj[]','');?>
 								<td><?php echo form_dropdown('akun[]',$opt_coa,'','class=" form-control select2" ')?></td>
-								<td><?php echo form_input('debit[]','','class="form-control debit currency duit"')?></td>
-								<td><?php echo form_input('kredit[]','','class="form-control kredit currency duit"')?></td>
+								<td><?php echo form_input('amount[]','0','class="form-control debit currency duit"')?></td>
 								<td><?php echo form_input('remark[]','','class="form-control" onClick="addTableRow()"')?></td>
 							</tr>	
 						</tbody>
@@ -232,19 +229,42 @@ $select.each(function(i,item){
   setTimeout(addlines(), 3000);
   setTimeout(selectadd(), 4000);
 };
+$('.debit').change(function(e){
+    jumlahamount();
+});
 function jumlahamount(){
-    var kredit = 0;
     var debit = 0;
-    var semua=0;
-$('.kredit').each(function(){
-    kredit += Number($(this).val());  //Or this.innerHTML, this.innerText
-});
+    
 $('.debit').each(function(){
-    debit += Number($(this).val());  //Or this.innerHTML, this.innerText
+    if($(this).val()){
+    a=$(this).val();
+    //alert(a);
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+    var a= a.replace(',','');
+        //alert(a);
+    debit += parseFloat(a);}
+    else{
+    debit+=0;
+        }//Or this.innerHTML, this.innerText 
 });
-    semua=debit-kredit;
-    $('#amount').val(semua);
+    if(isNaN(debit)){
+    $('#amount').val(0);
+    }
+else{
+    $('#amount').val(debit);
+    
+    }
 }
+
 function addrow(){
   $("table tr:last").clone().appendTo("table");
 }
