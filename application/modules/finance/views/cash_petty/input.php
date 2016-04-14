@@ -187,14 +187,14 @@
 							<?php 
 							echo form_hidden('idj[]',$isi['id']); ?>
 								<td><?php echo form_dropdown('akun[]',$opt_coa,$isi['akun'],'class="form-control select2" ')?></td>
-								<td><?php echo form_input('amount[]',$isi['amount']/$isi['kurs'],'class="form-control debit currency duit " ')?></td>
+								<td><?php echo form_input('amounts[]',$isi['amount']/$isi['kurs'],'class="form-control debit currency duit " ')?></td>
 								<td><?php echo form_input('remark[]',$isi['remark'],'class="form-control"')?></td>
 							</tr>	
 						<?php }?>
 							<tr>
 								<?php echo form_hidden('idj[]','');?>
 								<td><?php echo form_dropdown('akun[]',$opt_coa,'','class=" form-control select2" ')?></td>
-								<td><?php echo form_input('amount[]','0','class="form-control debit currency duit"')?></td>
+								<td><?php echo form_input('amounts[]','0','class="form-control debit currency duit"')?></td>
 								<td><?php echo form_input('remark[]','','class="form-control" onClick="addTableRow()"')?></td>
 							</tr>	
 						</tbody>

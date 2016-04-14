@@ -204,7 +204,7 @@ class Penerimaan extends MX_Controller {
             $hasil=konversi($barang,$qty,$satuan);
             
             
-		$sisa=$list['jumlah_po'][$i]-$list['jumlah'][$i];
+		$sisa=$list['jumlah_po'][$i]-$hasil;
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
                 'order_id' => $this->input->post('ref_id'),

@@ -1,4 +1,4 @@
-<!doctype html>
+@<!doctype html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -42,6 +42,17 @@ foreach($q as $hasil)
            else {$keluarin=TRUE;}
        }
        if($keluarin){
+           
+       if($barang){
+       $list=GetAll('sales_order_list',array('order_id'=>'where/'.$hasil->id,'kode_barang'=>'where/'.$barang))->result();
+       //$sub=$this->db->query("SELECT SUM(harga) as tothar,SUM(pajak) as totpajak FROM sales_order_list WHERE order_id='".$hasil->id."' AND kode_barang='$barang'");
+       }
+       else{
+       $list=GetAll('sales_order_list',array('order_id'=>'where/'.$hasil->id))->result();
+       //$sub=$this->db->query("SELECT SUM(harga) as tothar,SUM(pajak) as totpajak FROM sales_order_list WHERE order_id='".$hasil->id."'");
+       }
+	   $peng=$this->db->query("SELECT * FROM stok_pengeluaran WHERE ref='".$hasil->so ."' ORDER BY id DESC")->row_array();
+           
     ?>
     <tr>
       <td valign="top" align="center" style="border-top:3px solid black!important;"><?php echo $no ?></td>
@@ -49,8 +60,8 @@ foreach($q as $hasil)
       <td valign="top" style="border-top:3px solid black!important;">&nbsp;<?php echo $hasil->tanggal_transaksi ?></td>
       <td valign="top" style="border-top:3px solid black!important;">&nbsp;<?php echo $hasil->so ?></td>
       <td valign="top" style="border-top:3px solid black!important;">&nbsp;<?php echo $hasil->project ?></td>
-      <td valign="top" style="border-top:3px solid black!important;">&nbsp;</td>
-      <td valign="top" style="border-top:3px solid black!important;">&nbsp;</td>
+      <td valign="top" style="border-top:3px solid black!important;">&nbsp;<?php echo (isset($peng['tgl'])? date('d-m-Y',strtotime($peng['tgl'])):'')?></td>
+      <td valign="top" style="border-top:3px solid black!important;">&nbsp;<?php echo (isset($peng['alamat'])? $peng['alamat']:'')?></td>
       <td valign="top" style="border-top:3px solid black!important;">&nbsp;</td>
       <td nowrap="" valign="top" style="border-top:3px solid black!important;">&nbsp;</td>
       <td valign="top" style="border-top:3px solid black!important;">&nbsp;</td>
@@ -66,11 +77,7 @@ foreach($q as $hasil)
       <td valign="top" style="border-top:3px solid black!important;">&nbsp;</td>
     </tr>
     <?php
-    
-       if($barang){
-       $list=GetAll('sales_order_list',array('order_id'=>'where/'.$hasil->id,'kode_barang'=>'where/'.$barang))->result();}
-       else{
-       $list=GetAll('sales_order_list',array('order_id'=>'where/'.$hasil->id))->result();    }
+    $sem=0;
     foreach($list as $ls){?>
     
     <tr>
@@ -86,7 +93,7 @@ foreach($q as $hasil)
       <td valign="top">&nbsp;<?php echo '&nbsp;'.GetValue('title','satuan',array('id'=>'where/'.$ls->satuan_id))?></td>
       <td valign="top">&nbsp;<?php echo $ls->jumlah ?></td>
       <td valign="top">&nbsp;<?php echo uang($ls->harga) ?></td>
-      <td valign="top">&nbsp;<?php echo uang($ls->jumlah*$ls->harga) ?></td>
+      <td valign="top">&nbsp;<?php echo uang($sems=$ls->jumlah*$ls->harga) ?></td>
       <td valign="top">&nbsp;</td>
       <td valign="top">&nbsp;</td>
       <td valign="top">&nbsp;</td>
@@ -95,7 +102,31 @@ foreach($q as $hasil)
       <td valign="top">&nbsp;</td>
       <td valign="top">&nbsp;</td>
     </tr>
-    <?php }?>
+    <?php
+	$sem+=$sems;
+	 }?>
+    <tr>
+      <td valign="top"></td>
+      <td valign="top"></td>
+      <td valign="top"></td>
+      <td valign="top"></td>
+      <td valign="top"></td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">&nbsp;</td>
+      <td nowrap="" valign="top">&nbsp;</td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top"><?php echo uang($sem) ?></td>
+      <td valign="top"><?php echo uang($hasil->total_ppn) ?></td>
+      <td valign="top"><?php echo uang($hasil->total_ppn+$sem) ?></td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">&nbsp;</td>
+      <td valign="top">&nbsp;</td>
+    </tr>
 <?php 
 $no++;
 }

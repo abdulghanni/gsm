@@ -62,7 +62,7 @@
 			   <div class="col-sm-3">
 				   <label for="<?php echo $nm_f?>"><?php echo ucfirst($nm_f)?></label>
 				   </div><div class="col-sm-9">
-				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : date('Ymd',strtotime('now')).$last_id) ?>" class="col-sm-2 text-input" readonly>
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : date('Ymd',strtotime('now')).$last_id) ?>" class="col-sm-2 text-input" >
 			   </div>
 		   </div>
 		   <div class="form-group">
@@ -72,7 +72,7 @@
 				   <label for="<?php echo $nm_f?>">Post Tgl</label>
 				   </div><div class="col-sm-4">
 						<div class="input-group">
-							<?php echo form_input($nm_f,$a= (isset($val[$nm_f]) ? $val[$nm_f] : ''),"id='$nm_f' class='form-control date-picker-this' data-date-format='yyyy-mm-dd'");?>
+							<?php echo form_input($nm_f,$a= (isset($val[$nm_f]) ? $val[$nm_f] : date("Y-m-d")),"id='$nm_f' class='form-control date-picker-this' data-date-format='yyyy-mm-dd'");?>
 							
 						</div>
 			   </div>

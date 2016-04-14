@@ -181,8 +181,7 @@ class cash_petty extends MX_Controller {
 		//print_mz($this->input->post());
         $list = array(
                         'akun'=>$this->input->post('akun'),
-                        'debit'=>$this->input->post('debit'),
-                        'kredit'=>$this->input->post('kredit'),
+                        'amount'=>$this->input->post('amount'),
                         'remark'=>$this->input->post('remark'),
                         );
 
@@ -209,8 +208,7 @@ class cash_petty extends MX_Controller {
                 'id_petty' => $insert_id,                
                 'akun' => $list['akun'][$i],
 
-                'debit' => str_replace(',', '', $list['debit'][$i]),
-                'kredit' => str_replace(',', '', $list['kredit'][$i]),
+                'amount' => str_replace(',', '', $list['amounts'][$i]),
                 'remark' => $list['remark'][$i],
                 );
             $this->db->insert('cash_petty_detail', $data2);}

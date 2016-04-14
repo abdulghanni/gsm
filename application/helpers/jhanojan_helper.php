@@ -1979,6 +1979,15 @@ function masukstok($gudang,$barang,$qty,$satuan=NULL,$source=NULL,$ref=NULL,$tgl
                             return TRUE;}
                         else {return FALSE;}
 }
+if (!function_exists('GetUserGroups')){
+	function GetUserGroups()
+	{
+		$CI =& get_instance();
+		$uid=$CI->session->userdata("user_id");
+                $g=GetValue('group_id','users_groups',array('user_id'=>'where/'.$uid));
+                return $g;
+	}
+}
 function konversi($barang,$qty,$satuan){
         $satuanbarang=GetValue('satuan','barang',array('id'=>'where/'.$barang));
         $multiply=1;
@@ -1993,13 +2002,15 @@ function konversi($barang,$qty,$satuan){
     
 }
 function getoptsatuan($barang){
-	$q = GetAll('barang_satuan', array('barang_id'=>'where/'.$barang));
+	
+    	//$q = GetAll('barang_satuan', array('barang_id'=>'where/'.$barang));
+        $q = GetAll('satuan');
 	//if($judul) $opt[''] = $judul;
 	$small=GetValue('satuan','barang',array('id'=>'where/'.$barang));
 	$opt['']='-Satuan-';
 	$opt[$small] = GetValue('title','satuan',array('id'=>'where/'.$small));
 	//$opt[$small]=GetValue('title','satuan',array('id'=>'where/'.$small));
-        if($q->num_rows>0){
+        if($q->num_rows()>0){
 	foreach($q->result_array() as $r)
 	{
 			if(!in_array($r['id'],$opt)){

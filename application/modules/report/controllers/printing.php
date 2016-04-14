@@ -232,4 +232,18 @@ class Printing extends MX_Controller {
                  // $this->load->view('layout/sales_order',$data);
 
 	}
+        
+	function liststok(){
+            error_reporting(E_ALL);
+                        $data['autoprint']=FALSE;
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+			$data['period']=$sd.' / '.$ed;
+			$data['kolom']=$this->input->post('kolom');
+			$data['q']=$this->db->query("SELECT * FROM stok ")->result();
+                        $data['content']='stok/list';
+			$this->load->view('layout/main',$data);
+                 // $this->load->view('layout/sales_order',$data);
+
+	}
 }
