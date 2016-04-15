@@ -21,12 +21,13 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-
+<!--
 	<div class="row pull-right">
 		<a href="<?=base_url().'transaksi/order/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 			 <i class="fa fa-print"></i> <?= lang('print')?>
 		</a>
 	</div>
+-->
 	<?php 
 	foreach ($det->result() as $o) :?>
 	<form role="form" action="<?= base_url('transaksi/order/add')?>" method="post" class="form-horizontal">
