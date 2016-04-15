@@ -2,6 +2,13 @@ var save_method; //for save method string
 var table;
 $(document).ready(function() {
     $(".select2").select2();
+    
+    $('.input-append.date')
+        .datepicker({
+            todayHighlight: true,
+            autoclose: true,
+            format: "dd-mm-yyyy"
+        });
     $("#no").change(function(){
         var id = $(this).val();
         if(id!=0)getDetail(id);
