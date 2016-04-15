@@ -92,6 +92,30 @@
 						<div class="col-md-5">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputPassword3">
+									No Transaksi
+								</label>
+								<div class="col-sm-9">
+									<input type="text" name="up" value="<?=$o->no?>" class="form-control" disabled="disabled">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="inputPassword3">
+									Tgl. Pembayaran
+								</label>
+								<div class="col-sm-9">
+									<input type="text" name="up" value="<?=$o->tgl_dibayar?>" class="form-control" disabled="disabled">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="inputPassword3">
+									COA
+								</label>
+								<div class="col-sm-9">
+									<input type="text" name="up" value="<?=getValue('name', 'sv_setup_coa', array('id'=>'where/'.$o->coa_id))?>" class="form-control" disabled="disabled">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="inputPassword3">
 									Dibayar
 								</label>
 								<div class="col-sm-9">

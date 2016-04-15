@@ -17,6 +17,7 @@ class Debt_payment extends MX_Controller {
         $this->data['title'] = $this->title;
         $this->data['main_title'] = $this->title;
         permissionUser();
+        $this->data['coa'] = GetAllSelect('sv_setup_coa', 'id,name')->result();
         $this->data['options_po'] = options_row('main','get_po','po','po','-- Pilih No. P.O --');//print_mz($this->data['options_po']);
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
     }
@@ -51,6 +52,9 @@ class Debt_payment extends MX_Controller {
         $data = array(
                 'jatuh_tempo' => $this->input->post('jatuh_tempo'),
                 'po'=>$this->input->post('po'),
+                'no'=>$this->input->post('no'),
+                'coa_id'=>$this->input->post('coa_id'),
+                'tgl_dibayar'=> date('Y-m-d',strtotime($this->input->post('tgl_dibayar'))),
                 'kontak'=>$this->input->post('kontak_id'),
                 'kurensi'=>$this->input->post('kurensi'),
                 'total'=>$this->input->post('total'),
@@ -76,17 +80,20 @@ class Debt_payment extends MX_Controller {
             $no++;
             $row = array();
             $row[] = $no;
+            $row[] = "<a href=$detail>#".$r->no.'</a>';
             $row[] = "<a href=$detail>#".$r->po.'</a>';
-            $row[] = $r->kontak;
-            $row[] = $r->kurensi;
-            $row[] = $r->dibayar;
-            $row[] = $r->terbayar;
-            $row[] = $r->total;
-            $row[] = $r->saldo;
+            $row[] = $r->coa;
+            $row[] = $r->tgl_dibayar;
             $row[] = $r->jatuh_tempo;
+            $row[] = $r->kontak;
+            $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>";
+            //$row[] = $r->kurensi;
+            //$row[] = $r->dibayar;
+            //$row[] = $r->terbayar;
+            //$row[] = $r->total;
+            //$row[] = $r->saldo;
 
-            $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
+            //$row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a><a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
             $data[] = $row;
         }
 
@@ -154,9 +161,11 @@ class Debt_payment extends MX_Controller {
                     $this->template->set_layout('default');
 
                     $this->template->add_css('vendor/select2/select2.css');
+                    $this->template->add_css('vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css');
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
                     $this->template->add_js('vendor/select2/select2.min.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
+                    $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
                     $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
                 {

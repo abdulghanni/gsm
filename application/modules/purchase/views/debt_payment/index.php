@@ -30,14 +30,12 @@
                     <thead>
                         <tr>
                             <th width="5%" align="center">No.</th>
+                            <th width="15%"><?php echo 'No. Transaksi';?></th>
                             <th width="15%"><?php echo 'No. PO';?></th>
-                            <th width="15%"><?php echo 'Supplier';?></th>
-                            <th width="5%"><?php echo 'Kurensi';?></th>
-                            <th width="10%"><?php echo 'Dibayar';?></th>
-                            <th width="10%"><?php echo 'Terbayar';?></th>
-                            <th width="10%"><?php echo 'Total';?></th>
-                            <th width="10%"><?php echo 'Saldo';?></th>
-                            <th width="10%"><?php echo 'Jatuh Tempo';?></th>
+                            <th width="10%"><?php echo 'COA';?></th>
+                            <th width="10%"><?php echo 'Tgl. Pembayaran';?></th>
+                            <th width="10%"><?php echo 'Tgl. Jatuh Tempo';?></th>
+                            <th width="10%"><?php echo 'Supplier';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>
@@ -107,6 +105,38 @@
                     </div>
                 </div>
                 <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">No Transaksi</label>
+                        <div class="col-md-9">
+                            <input name="no" placeholder="" class="form-control" type="text">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label col-md-3">COA</label>
+                        <div class="col-md-9">
+                            <select name="coa_id" class="select2" style="width:100%">
+                                <?php foreach($coa as $c): ?>
+                                <option value="<?= $c->id?>"><?=$c->name?></option>
+                                <?php endforeach;?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="inputEmail3">
+                            Tgl. Pembayaran
+                        </label>
+                        <div class="col-sm-9">
+                            <div id="tgl_dibayar" class="input-append date success no-padding">
+                              <input type="text" class="form-control" name="tgl_dibayar" required>
+                              <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         <label class="control-label col-md-3">Dibayar</label>
                         <div class="col-md-9">

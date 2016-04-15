@@ -6,7 +6,9 @@ class debt_payment_model extends CI_Model {
     var $table = 'purchase_hutang';
     var $table_join1 = 'kontak';
     var $table_join2 = 'kurensi';
-    var $column = array('id', 'po', 'kontak', 'kurensi', 'total', 'dibayar', 'terbayar', 'saldo', 'jatuh_tempo');
+    var $table_join3 = 'sv_setup_coa';
+   // var $column = array('id', 'po', 'kontak', 'kurensi', 'total', 'dibayar', 'terbayar', 'saldo', 'jatuh_tempo');
+    var $column = array('id', 'no', 'po', 'coa', 'tgl_dibayar', 'jatuh_tempo');
     var $order = array('id' => 'desc');
 
     public function __construct()
@@ -18,7 +20,14 @@ class debt_payment_model extends CI_Model {
     private function _get_datatables_query()
     {
         
+        $this->db->select(
+            $this->table.'.id as id,
+            '.$this->table.'.*,
+            '.$this->table_join3.'.name as coa,
+            ');
         $this->db->from($this->table);
+        $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.coa_id', 'left');
+        $this->db->where($this->table.'.is_deleted', 0);
 
         $i = 0;
     
