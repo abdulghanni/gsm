@@ -2,6 +2,16 @@ var save_method; //for save method string
 var table;
 $(document).ready(function() {
     $(".select2").select2();
+
+     $("#jenis_barang").change(function(){
+        var id = $(this).val();
+        if(id == 3){
+            $("#inv").show();
+            }else{
+                $("#inv").hide();
+            }
+    })
+    .change();
     //datatables
     $('.input-append.date')
         .datepicker({

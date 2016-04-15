@@ -113,9 +113,9 @@
                         <div class="col-md-12">
                             <div class="row">
                                 
-                                <!--
+                                
                                 <div class="col-md-12 space20">
-                                    <button class="btn btn-green add-row" onclick="add_user_inv()">
+                                    <button class="btn btn-green add-row" onclick="add_user()">
                                         <?= lang('add') ?> <i class="fa fa-plus"></i>
                                     </button>
                                     <!--
@@ -155,8 +155,9 @@
                                             <input name="files[]" multiple="" type="file">
                                         </span>
                                     </a>
-                                </div>
                                     -->
+                                </div>
+                                    
                             </div>
                             <div class="row">
                                 
