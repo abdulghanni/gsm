@@ -14,3 +14,14 @@
 					</div>
 					
 				</div>
+				<script>
+$(function() 
+{
+	$('.date-picker')
+	.datepicker({
+		todayHighlight: true,
+		autoclose: true,
+		format: "yyyy-mm"
+	});
+});
+</script>

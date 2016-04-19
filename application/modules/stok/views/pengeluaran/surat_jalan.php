@@ -9,7 +9,7 @@
 <body>
 <?php //print_r($pengeluaran) ?>
 <title>Surat Jalan</title>
-<table cellspacing="0" cellpadding="0" width="100%">
+<table cellspacing="0" cellpadding="0" width="100%" style="min-height: 700px;">
   <col width="64" span="10">
   <tr>
     <td width="105"></td>
@@ -90,6 +90,11 @@
           <td>:</td>
           <td>&nbsp;<?php echo $nosurat ?></td>
         </tr>
+		<tr>
+          <td>Tanggal Pengiriman</td>
+          <td>:</td>
+          <td>&nbsp;<?php echo $pengeluaran['tgl'] ?></td>
+        </tr>
 	
       </tbody>
     </table></td>
@@ -102,14 +107,14 @@
     <td></td>
   </tr>
   <tr>
-    <td colspan="15" class="bio">Kami Kirimkan Barang Ini Dengan Kendaraan : </td>
-    <td><?php echo $pengeluaran['driver'] ?></td>
+    <td colspan="7" class="bio">Kami Kirimkan Barang Ini Dengan Kendaraan : </td>
+    <td class="bio"><?php echo $pengeluaran['driver'] ?></td>
     <td></td>
     <td></td>
   </tr>
   <tr>
     <td colspan="7" class="bio">No Plat Kendaraan :</td>
-    <td><?php echo $pengeluaran['plat'] ?></td>
+    <td class="bio"><?php echo $pengeluaran['plat'] ?></td>
     <td></td>
     <td></td>
   </tr>
@@ -139,8 +144,12 @@
     <td colspan="2" style="border-right:1px solid black;" align="center"><?php echo $ls['ref'] ?></td>
   </tr>
   <?php $no++; } ?>
-</table><br>
-<br>
+</table>
+<br/>
+Note:
+<br/><?php echo $pengeluaran['keterangan'] ?>
+<br/>
+<br/>
 
   <table width="100%" >
   <tr align="center">

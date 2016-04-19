@@ -167,7 +167,9 @@ class Printing extends MX_Controller {
                         
 			$cr=$this->input->post('kurensi');
 			$sp=$this->input->post('customer');
-			$barang=$this->input->post('barang');
+			$period=$this->input->post('period');	
+                        $barang=$this->input->post('barang');
+
                         
                         $q="SELECT * FROM sales_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ";
                         if($cr){$q.="AND kurensi_id='$cr'";}
@@ -178,6 +180,16 @@ class Printing extends MX_Controller {
 			$data['period']=date('d-m-Y',strtotime($sd)).' s/d '.date('d-m-Y',strtotime($ed));
 
 			$data['kolom']=$this->input->post('kolom');
+                        //query akun
+                        $akun=GetAll('sv_setup_coa');
+                        foreach($akun->result_array() as $akun){
+                            $data['sum'][$akun['id']]['debit']=$this->db->query("SELECT SUM(amount) as debit FROM cash_petty WHERE coa='".$akun['id']."' AND SUBSTRING(dates,1,7)='$period' AND save_type='out' ")->row_array();
+                            $data['sum'][$akun['id']]['kredit']=$this->db->query("SELECT SUM(amount) as kredit FROM cash_petty WHERE coa='".$akun['id']."' AND SUBSTRING(dates,1,7)='$period' AND save_type='in' ")->row_array();
+                            //lastq();
+                        }
+                        
+                        
+                        
 			$data['q']=$this->db->query($q)->result();
                         $data['content']='finance/neraca_lajur';
 			$this->load->view('layout/main',$data);
@@ -242,6 +254,34 @@ class Printing extends MX_Controller {
 			$data['kolom']=$this->input->post('kolom');
 			$data['q']=$this->db->query("SELECT * FROM stok ")->result();
                         $data['content']='stok/list';
+			$this->load->view('layout/main',$data);
+                 // $this->load->view('layout/sales_order',$data);
+
+	}
+        
+	function listcustomer(){
+            error_reporting(E_ALL);
+                        $data['autoprint']=FALSE;
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+			$data['period']=$sd.' / '.$ed;
+			$data['kolom']=$this->input->post('kolom');
+                            $data['q']=$this->db->query("SELECT * FROM kontak WHERE jenis_id='2'")->result_array();
+                        $data['content']='list/customer';
+			$this->load->view('layout/main',$data);
+                 // $this->load->view('layout/sales_order',$data);
+
+	}
+        
+	function listsupplier(){
+            error_reporting(E_ALL);
+                        $data['autoprint']=FALSE;
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+			$data['period']=$sd.' / '.$ed;
+			$data['kolom']=$this->input->post('kolom');
+                            $data['q']=$this->db->query("SELECT * FROM kontak WHERE jenis_id='1'")->result_array();
+                        $data['content']='list/customer';
 			$this->load->view('layout/main',$data);
                  // $this->load->view('layout/sales_order',$data);
 

@@ -146,11 +146,9 @@ function edit_user(id)
             $('[name="alias"]').val(data.data.alias);
             $('[name="merk"]').val(data.data.merk);
             $('[name="catatan"]').text(data.data.catatan);
-            $('[name="tgl"]').val(data.inv.tgl);
-            $('[name="harga"]').val(data.inv.harga);
-            $('[name="penyusutan"]').val(data.inv.penyusutan);
+           
             $('[name="jenis_barang_id"]').select2().select2('val',data.data.jenis_barang_id);
-            $('[name="jenis_barang_inventaris_id"]').select2().select2('val',data.inv.jenis_barang_inventaris_id);
+            
             //$('[name="satuan_id"]').select2().select2('val',data.data.satuan_id);
             $('[name="satuan"]').select2().select2('val',data.data.satuan);
             $('[name="satuan_laporan"]').select2().select2('val',data.data.satuan_laporan);
@@ -164,6 +162,10 @@ function edit_user(id)
             */
             if(data.data.jenis_barang_id == 3){
                 $("#inv").show();
+                 $('[name="tgl"]').val(data.inv.tgl);
+            $('[name="harga"]').val(data.inv.harga);
+            $('[name="penyusutan"]').val(data.inv.penyusutan);
+            $('[name="jenis_barang_inventaris_id"]').select2().select2('val',data.inv.jenis_barang_inventaris_id);
             }else{
                 $("#inv").hide();
             }

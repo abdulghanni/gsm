@@ -37,6 +37,9 @@
 					</div>
 				</div>
 				<hr>
+				<input type="hidden" id="ppn_val" value="<?=$ppn_val?>">
+	<input type="hidden" id="pph22_val" value="<?=$pph22_val?>">
+	<input type="hidden" id="pph23_val" value="<?=$pph23_val?>">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">

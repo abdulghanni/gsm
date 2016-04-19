@@ -95,15 +95,17 @@
       <td><?php echo '';?></td>
       <td><?php echo $h['proyek'] ?></td>
       <td><?php echo $h['po'] ?></td>
-      <td><?php echo $ls['harga'] ?></td>      
+      <td><?php echo uang($ls['harga']) ?></td>      
       <td><?php echo $ls['jumlah'] ?></td>
       <td>&nbsp;</td>
       <td><?php echo $ls['disc'] ?></td>
       <td><?php echo $ls['pajak'] ?></td>
-      <td><?php echo $totharsat ?></td>
+      <td><?php echo uang($totharsat) ?></td>
     </tr>
     
-      <?php }?>
+      <?php }
+      $dpptot=($tot-$distot)/1.1;
+      ?>
     <tr>
       <td><strong>SubTotal</strong></td>
       <td>&nbsp;</td>
@@ -112,10 +114,10 @@
       <td>&nbsp;</td>
       <td>&nbsp;</td>
       <td>&nbsp;</td>
-      <td><strong><?php echo $dpptot ?></strong></td>
+      <td><strong><?php echo uang(round($dpptot)) ?></strong></td>
       <td><strong><?php echo $distot ?></strong></td>
       <td><strong><?php echo $ppntot ?></strong></td>
-      <td><strong><?php echo $tot ?></strong></td>
+      <td><strong><?php echo uang($tot) ?></strong></td>
     </tr>
   </tbody>
 </table>
