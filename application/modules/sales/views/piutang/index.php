@@ -50,7 +50,7 @@
 
 <!-- Bootstrap modal -->
 <div class="modal fade" id="modal_form" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog custom-modal">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -66,7 +66,7 @@
                         <label class="control-label col-md-3">No. INVOICE</label>
                         <div class="col-md-9">
                             <?php 
-                                $js = 'class="select2" style="width:100%" id="no"';
+                                $js = 'class="select2" style="width:100%" id="so"';
                                 echo form_dropdown('so', $options_so,'',$js); 
                             ?>
                         </div>
@@ -109,7 +109,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">No Transaksi</label>
                         <div class="col-md-9">
-                            <input name="no" placeholder="" class="form-control" type="text">
+                            <input name="no" id="no" placeholder="" class="form-control" type="text">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -137,33 +137,33 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3">Dibayar</label>
+                        <label class="control-label col-md-3">Hutang Dibayar</label>
                         <div class="col-md-9">
-                            <input name="dibayar" placeholder="" class="form-control" type="text">
+                            <input name="dibayar" id="dibayar" placeholder="" class="form-control money text-right" value="0" type="text" required>
                             <span class="help-block"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3">Terbayar</label>
+                        <label class="control-label col-md-3">Hutang Terbayar</label>
                         <div class="col-md-9">
-                            <input name="terbayar" placeholder="" class="form-control" type="text">
+                            <input name="terbayar" id="terbayar" placeholder="" class="form-control text-right" type="text" value="0" readonly="readonly">
                             <span class="help-block"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3">Total</label>
+                        <label class="control-label col-md-3">Total Hutang</label>
                         <div class="col-md-9">
-                            <input name="total" placeholder="" class="form-control" type="text">
+                            <input name="total" id="total" placeholder="" class="form-control text-right" type="text" value="0" readonly="readonly">
                             <span class="help-block"></span>
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3">Saldo</label>
+                        <label class="control-label col-md-3">Saldo Hutang</label>
                         <div class="col-md-9">
-                            <input name="saldo" placeholder="" class="form-control" type="text">
+                            <input name="saldo" id="saldo" placeholder="" class="form-control text-right" type="text" value="0" readonly="readonly">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -179,3 +179,26 @@
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Bootstrap modal -->
+
+<script type="text/javascript">
+    $("#dibayar").keyup(function(){
+        var terbayar = $("#terbayar").val().replace(/,/g,"");
+        var dibayar = $("#dibayar").val().replace(/,/g,"");
+        var total = $("#total").val().replace(/,/g,"");
+        var saldo = total-terbayar-dibayar;
+        $("#saldo").val(addCommas(parseFloat(saldo).toFixed(2)));
+    });
+
+    function addCommas(nStr)
+    {
+      nStr += '';
+      x = nStr.split('.');
+      x1 = x[0];
+      x2 = x.length > 1 ? '.' + x[1] : '';
+      var rgx = /(\d+)(\d{3})/;
+      while (rgx.test(x1)) {
+        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+      }
+      return x1 + x2;
+    }
+</script>

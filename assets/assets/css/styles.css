@@ -11580,3 +11580,10 @@ background-color: #FFFFFF;
     opacity: 1;
   }
 }
+
+
+@media screen and (min-width: 768px) {
+    .custom-modal {
+        width: 75%; /* either % (e.g. 60%) or px (400px) */
+    }
+}

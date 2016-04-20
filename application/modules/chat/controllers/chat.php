@@ -72,4 +72,32 @@ class chat extends MX_Controller {
 
         $this->load->view('chat/detail', $data);
     }
+
+    function load_msg_header(){
+        //CHAT
+        $data['users'] = getAll('users', array('username'=>'order/asc'), array('!=id'=>sessId()));
+        $data['unread_all'] = GetAllSelect('chat', 'is_read', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()))->num_rows();
+        $data['messages'] = getAll('chat', array('receiver_id'=>'where/'.sessId(), 'limit'=>'limit/3', 'id'=>'order/desc'))->result();
+
+        $this->load->view('chat/header', $data);
+    }
+
+    function load_content($id){
+        $data['id'] = $id;
+        $sess_id = sessId();    
+        $data['sess_name'] = getName(sessId());
+        $data['buddy_name'] = getName($id);
+        $q = "SELECT *
+            FROM chat
+            WHERE (sender_id = '$sess_id' AND receiver_id = '$id')
+            OR (sender_id = '$id' AND receiver_id = '$sess_id')
+            order by sent_on desc
+            limit 10
+            ";
+        $data['message'] = $this->db->query($q);//lastq();
+        $data['photo'] = '';
+        $data['photo_chat'] = '';
+        $this->db->where('sender_id', $id)->update('chat', array('is_read'=>1));
+        $this->load->view('chat/content', $data);
+    }
 }

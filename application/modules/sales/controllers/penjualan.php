@@ -90,6 +90,7 @@ class Penjualan extends MX_Controller {
                 'kurensi_id'=>$this->input->post('kurensi_id'),
                 'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
                 'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
+                'saldo'=>str_replace(',', '', $this->input->post('saldo')),
                 //'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),

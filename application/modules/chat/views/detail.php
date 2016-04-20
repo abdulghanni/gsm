@@ -48,6 +48,12 @@
         }
     });
 }
+  
+  setInterval(function(){
+    $(".chat-content").load('/gsm/chat/load_content/'+<?=$id?>);
+    //showChatsList()
+  }, 5000);
+
 
   $("#btnSend").on('click', function(){
     var receiver_id = $("#receiver_id").val();

@@ -258,7 +258,7 @@
 							Saldo
 							</div>
 							<div class="col-md-6 pull-right">
-							<input type="text" id="saldo" class="form-control text-right" value="0" readonly="readonly">
+							<input type="text" name="saldo" id="saldo" class="form-control text-right" value="0" readonly="readonly">
 							</div>
 						</div>
 					</li>

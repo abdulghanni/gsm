@@ -120,7 +120,7 @@
 									Dibayar
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->po?>" class="form-control" disabled="disabled">
+									<input type="text" name="up" value="<?=$o->dibayar?>" class="form-control" disabled="disabled">
 								</div>
 							</div>
 							<div class="form-group">

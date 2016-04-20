@@ -9,7 +9,7 @@ $(document).ready(function() {
             autoclose: true,
             format: "dd-mm-yyyy"
         });
-    $("#no").change(function(){
+    $("#so").change(function(){
         var id = $(this).val();
         if(id!=0)getDetail(id);
     })
@@ -29,6 +29,9 @@ $(document).ready(function() {
                 $('#kurensi_label').show();
                 $('#jatuh_tempo').val(data.jatuh_tempo);
                 $('#jatuh_tempo_label').show();
+                $('#total').val(data.saldo);
+                $('#terbayar').val(data.terbayar);
+                $('#no').val(data.no);
             }
         });
     }

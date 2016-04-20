@@ -30,6 +30,8 @@
             <span class="dropdown-header"> Belum Dibaca</span>
           </li>
           <li>
+
+            <div id="msg-header">
             <div class="drop-down-wrapper ps-container">
               <ul>
               <?php if($unread_all>0){
@@ -58,6 +60,7 @@
               echo "<span>Tidak ada pesan baru</span>";
               }?>
               </ul>
+              </div>
             </div>
           </li>
           <li class="view-all">
@@ -76,6 +79,7 @@
         <ul class="dropdown-menu dropdown-light dropdown-messages dropdown-large">
           <?php if($notification->num_rows()>0):?>
           <li>
+            <div id="notif-header">
             <div class="drop-down-wrapper ps-container">
               <div class="list-group no-margin">
                 <?php foreach($notification->result() as $n):
@@ -93,6 +97,7 @@
                 </a>
               <?php endforeach; ?>
               </div>
+            </div>
             </div>
           </li>
         <?php else:?>

@@ -181,6 +181,7 @@ class Order extends MX_Controller {
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'gtotal' =>str_replace(',', '', $this->input->post('gtotal')),
+                'saldo' =>str_replace(',', '', $this->input->post('saldo')),
                 'catatan' =>$this->input->post('catatan'),
                 'proyek' =>$this->input->post('proyek'),
                 'pajak_komponen_id' =>implode(',',$this->input->post('pajak_komponen_id')),
@@ -221,9 +222,22 @@ class Order extends MX_Controller {
         $this->db->insert($this->table_name.'_list', $data2);
         }
         endfor;
-        
+        if($this->input->post('metode_pembayaran_id') == 2)$this->insert_hutang($insert_id);
         $this->send_notification($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
+    }
+
+    function insert_hutang($id){
+        $po = getAll($this->table_name, array('id'=>'where/'.$id))->row();
+        
+        $data = array(
+                'kontak_id' => $po->kontak_id,
+                'kurensi_id' => $po->kurensi_id,
+                'terbayar' => 0,
+                'total'=> $po->saldo,
+            );
+
+        $this->db->insert('purchase_hutang_list', $data);
     }
 
     function send_notification($id)

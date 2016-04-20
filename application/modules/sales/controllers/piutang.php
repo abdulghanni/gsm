@@ -57,10 +57,10 @@ class Piutang extends MX_Controller {
                 'tgl_dibayar'=> date('Y-m-d',strtotime($this->input->post('tgl_dibayar'))),
                 'kontak'=>$this->input->post('kontak_id'),
                 'kurensi'=>$this->input->post('kurensi'),
-                'total'=>$this->input->post('total'),
-                'dibayar'=>$this->input->post('dibayar'),
-                'terbayar'=>$this->input->post('terbayar'),
-                'saldo'=>$this->input->post('saldo'),
+                'total'=>str_replace(",","",$this->input->post('total')),
+                'dibayar'=>str_replace(",","",$this->input->post('dibayar')),
+                'terbayar'=>str_replace(",","",$this->input->post('terbayar')),
+                'saldo'=>str_replace(",","",$this->input->post('saldo')),
                 'catatan'=>$this->input->post('catatan'),
                 'created_by'=>sessId(),
                 'created_on'=>dateNow(),
@@ -135,6 +135,8 @@ class Piutang extends MX_Controller {
         $kurensi = getWhere('kurensi_id', $table, 'no', $id);
         $kurensi = getWhere('title', 'kurensi', 'id', $kurensi);;
 
+        $saldo = getWhere('saldo', $table, 'no', $id);
+
         $jatuh_tempo = getWhere('tanggal_transaksi', $table, 'no', $id);
         $lama_angsuran_1 = getWhere('lama_angsuran_1', $table, 'no', $id);
         $lama_angsuran_2 = getWhere('lama_angsuran_2', $table, 'no', $id);
@@ -145,8 +147,21 @@ class Piutang extends MX_Controller {
         }elseif($lama_angsuran_2 == 'tahun'){
             $jatuh_tempo = date( "Y-m-d", strtotime( "$jatuh_tempo +$lama_angsuran_1 year" ) );
         }
-        echo json_encode(array('kontak'=>$kontak, 'kurensi'=>$kurensi, 'jatuh_tempo'=>$jatuh_tempo));
 
+        $num_rows = getAll('sales_piutang')->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get('sales_piutang')->last_row()->id : 0;
+        $last_id = ($num_rows>0) ? $last_id+1 : 1; 
+        $no = $last_id.'/PTG-I/GSM/I/'.date('Y');
+        $terbayar = $this->db->select_sum('dibayar')->where('so', $id)->get('sales_piutang')->row()->dibayar;
+
+
+        echo json_encode(array('kontak'=>$kontak,
+                                'kurensi'=>$kurensi,
+                                'jatuh_tempo'=>$jatuh_tempo,
+                                'saldo'=>number_format($saldo,2),
+                                'terbayar'=>number_format($terbayar, 2),
+                                'no'=>$no
+                              ));
     }
     
     function _render_page($view, $data=null, $render=false)

@@ -423,6 +423,33 @@ var Main = function() {
 		}
 	};
 }();
+
+setInterval(function(){
+	loadMsg();
+}, 10000);
+
+setInterval(function(){
+	loadNotif();
+}, 23000);
+
+function loadMsg(){
+	 $("#msg-badge").load('/gsm/message/load_badge');
+	 $("#msg-header").load('/gsm/chat/load_msg_header');
+}
+function showChatsList(){
+  $.ajax({
+        type: 'POST',
+        url: '/gsm/chat/lists/',
+        success: function(data) {
+            $('#users').html(data);
+        }
+    });
+}
+
+function loadNotif(){
+	$("#notif-badge").load('/gsm/notification/load_badge');
+	$("#notif-header").load('/gsm/notification/load_notif_header');
+}
 //CUSTOM JS
 $(document).ready(function(){
 	$(".notif-list").click(function(){

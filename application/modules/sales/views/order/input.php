@@ -616,7 +616,7 @@ function addRow(tableID){
     })
 
 	$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
-	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).add("#pajak"+rowCount).keyup(function() {
+	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).keyup(function() {
 		hitung();
     });
 

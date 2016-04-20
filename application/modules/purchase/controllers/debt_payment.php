@@ -10,6 +10,7 @@ class Debt_payment extends MX_Controller {
     {
         parent::__construct();
         $this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+        $this->load->model($this->module.'/'.'hutang_list_model', 'main2');
     }
 
     function index()
@@ -49,6 +50,8 @@ class Debt_payment extends MX_Controller {
     public function ajax_add()
     {
         //$this->_validate();
+        $terbayar = str_replace(',', '', $this->input->post('terbayar'));
+        $dibayar = str_replace(',', '', $this->input->post('dibayar'));
         $data = array(
                 'jatuh_tempo' => $this->input->post('jatuh_tempo'),
                 'po'=>$this->input->post('po'),
@@ -57,10 +60,10 @@ class Debt_payment extends MX_Controller {
                 'tgl_dibayar'=> date('Y-m-d',strtotime($this->input->post('tgl_dibayar'))),
                 'kontak'=>$this->input->post('kontak_id'),
                 'kurensi'=>$this->input->post('kurensi'),
-                'total'=>$this->input->post('total'),
-                'dibayar'=>$this->input->post('dibayar'),
-                'terbayar'=>$this->input->post('terbayar'),
-                'saldo'=>$this->input->post('saldo'),
+                'total'=>str_replace(',', '', $this->input->post('total')),
+                'dibayar'=> $dibayar,
+                'terbayar'=> $terbayar,
+                'saldo'=>str_replace(',', '', $this->input->post('saldo')),
                 'catatan'=>$this->input->post('catatan'),
                 'created_by'=>sessId(),
                 'created_on'=>dateNow(),
@@ -107,6 +110,43 @@ class Debt_payment extends MX_Controller {
         echo json_encode($output);
     }
 
+    public function hutang_list()
+    {
+        $list = $this->main2->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $r) {
+            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = "<a href=$detail>#".$r->kontak.'</a>';
+            $row[] = "<a href=$detail>#".$r->kurensi.'</a>';
+            $row[] = $r->total;
+            $row[] = $r->terbayar;
+            $row[] = $r->saldo;
+            $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>";
+            //$row[] = $r->kurensi;
+            //$row[] = $r->dibayar;
+            //$row[] = $r->terbayar;
+            //$row[] = $r->total;
+            //$row[] = $r->saldo;
+
+            //$row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a><a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->main2->count_all(),
+                        "recordsFiltered" => $this->main2->count_filtered(),
+                        "data" => $data,
+                );
+        //output to json format
+        echo json_encode($output);
+    }
+
     function print_pdf($id)
     {
         permissionUser();
@@ -133,7 +173,9 @@ class Debt_payment extends MX_Controller {
         $kontak = getWhere('title', 'kontak', 'id', $kontak);
 
         $kurensi = getWhere('kurensi_id', $table, 'po', $id);
-        $kurensi = getWhere('title', 'kurensi', 'id', $kurensi);;
+        $kurensi = getWhere('title', 'kurensi', 'id', $kurensi);
+
+        $saldo = getWhere('saldo', 'purchase_order', 'po', $id);
 
         $jatuh_tempo = getWhere('tanggal_transaksi', $table, 'po', $id);
         $lama_angsuran_1 = getWhere('lama_angsuran_1', $table, 'po', $id);
@@ -145,7 +187,20 @@ class Debt_payment extends MX_Controller {
         }elseif($lama_angsuran_2 == 'tahun'){
             $jatuh_tempo = date( "Y-m-d", strtotime( "$jatuh_tempo +$lama_angsuran_1 year" ) );
         }
-        echo json_encode(array('kontak'=>$kontak, 'kurensi'=>$kurensi, 'jatuh_tempo'=>$jatuh_tempo));
+        $num_rows = getAll('purchase_hutang')->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get('purchase_hutang')->last_row()->id : 0;
+        $last_id = ($num_rows>0) ? $last_id+1 : 1; 
+        $no = $last_id.'/HTG-I/GSM/I/'.date('Y');
+        $terbayar = $this->db->select_sum('dibayar')->where('po', $id)->get('purchase_hutang')->row()->dibayar;
+
+
+        echo json_encode(array('kontak'=>$kontak,
+                                'kurensi'=>$kurensi,
+                                'jatuh_tempo'=>$jatuh_tempo,
+                                'saldo'=>number_format($saldo,2),
+                                'terbayar'=>number_format($terbayar, 2),
+                                'no'=>$no
+                              ));
 
     }
     
@@ -166,6 +221,7 @@ class Debt_payment extends MX_Controller {
                     $this->template->add_js('vendor/select2/select2.min.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
+                    $this->template->add_js('vendor/jquery-mask-money/jquery.MaskMoney.js');
                     $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
                 {
@@ -201,5 +257,9 @@ class Debt_payment extends MX_Controller {
         {
             return $this->load->view($view, $data, TRUE);
         }
+    }
+
+    function get_terbayar($id){
+
     }
 }

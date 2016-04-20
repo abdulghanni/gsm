@@ -2,7 +2,7 @@ var save_method; //for save method string
 var table;
 $(document).ready(function() {
     $(".select2").select2();
-    
+    $(".money").maskMoney({allowZero:true});
     $('.input-append.date')
         .datepicker({
             todayHighlight: true,
@@ -30,6 +30,9 @@ $(document).ready(function() {
                 $('#kurensi_label').show();
                 $('#jatuh_tempo').val(data.jatuh_tempo);
                 $('#jatuh_tempo_label').show();
+                $('#total').val(data.saldo);
+                $('#terbayar').val(data.terbayar);
+                $('#no').val(data.no);
             }
         });
     }
@@ -44,6 +47,27 @@ $(document).ready(function() {
         // Load data for the table's content from an Ajax source
         "ajax": {
             "url": "debt_payment/ajax_list",
+            "type": "POST"
+        },
+        //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
+            "targets": [-1], //last column
+            "orderable": false, //set not orderable
+        },
+        { "sClass": "text-center", "aTargets": [-1] }
+        ],
+    });
+
+    table_list = $('#table_list').DataTable({ 
+
+        "processing": true, //Feature control the processing indicator.
+        "serverSide": true, //Feature control DataTables' server-side processing mode.
+        "order": [], //Initial no order.
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            "url": "debt_payment/hutang_list",
             "type": "POST"
         },
         //Set column definition initialisation properties.
