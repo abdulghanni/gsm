@@ -36,6 +36,7 @@
                             <th width="10%"><?php echo 'Tgl. Pembayaran';?></th>
                             <th width="10%"><?php echo 'Tgl. Jatuh Tempo';?></th>
                             <th width="10%"><?php echo 'Costumer';?></th>
+                            <th width="10%"><?php echo 'Saldo';?></th>
                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                         </tr>
                     </thead>

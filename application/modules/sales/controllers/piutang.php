@@ -87,6 +87,7 @@ class Piutang extends MX_Controller {
             $row[] = $r->tgl_dibayar;
             $row[] = $r->jatuh_tempo;
             $row[] = $r->kontak;
+            $row[] = $r->saldo;
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>";
             //$row[] = $r->kurensi;
             //$row[] = $r->dibayar;

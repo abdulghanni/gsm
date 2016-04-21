@@ -52,6 +52,7 @@
                                             <th width="10%"><?php echo 'Tgl. Pembayaran';?></th>
                                             <th width="10%"><?php echo 'Tgl. Jatuh Tempo';?></th>
                                             <th width="10%"><?php echo 'Supplier';?></th>
+                                            <th width="10%"><?php echo 'saldo';?></th>
                                             <th width="10%" class="text-center"><?php echo lang('action');?></th>
                                         </tr>
                                     </thead>

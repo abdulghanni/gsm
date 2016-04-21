@@ -8,7 +8,7 @@ class Piutang_model extends CI_Model {
     var $table_join2 = 'kurensi';
     var $table_join3 = 'sv_setup_coa';
     //var $column = array('id', 'so', 'kontak', 'kurensi', 'total', 'dibayar', 'terbayar', 'saldo', 'jatuh_tempo');
-    var $column = array('id', 'no', 'so', 'coa', 'tgl_dibayar', 'jatuh_tempo');
+    var $column = array('sales_piutang.id', 'no', 'so', 'coa', 'tgl_dibayar', 'jatuh_tempo','kontak', 'saldo');
     var $order = array('id' => 'desc');
 
     public function __construct()
@@ -22,34 +22,45 @@ class Piutang_model extends CI_Model {
         
         $this->db->select(
             $this->table.'.id as id,
-            '.$this->table.'.*,
+            '.$this->table.'.no,
+            '.$this->table.'.so,
+            '.$this->table.'.tgl_dibayar,
+            '.$this->table.'.jatuh_tempo,
+            '.$this->table.'.saldo,
             '.$this->table_join3.'.name as coa,
+            '.$this->table.'.kontak,
             ');
         $this->db->from($this->table);
         $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.coa_id', 'left');
+        //$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.kontak', 'left');
         $this->db->where($this->table.'.is_deleted', 0);
 
         $i = 0;
     
         foreach ($this->column as $item) // loop column 
         {
-            if($_POST['search']['value']) // if datatable send POST for search
+            if($_POST['search']['value'])
             {
-                
-                if($i===0) // first loop
-                {
-                    $this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND. 
-                    $this->db->like($item, $_POST['search']['value']);
-                }
-                else
-                {
-                    $this->db->or_like($item, $_POST['search']['value']);
+                if($item == 'no'){
+                    $item = $this->table.'.no';
+                }elseif($item == 'so'){
+                    $item = $this->table.'.so';
+                }elseif($item == 'coa'){
+                    $item = $this->table_join3.'.name';
+                }elseif($item == 'kontak'){
+                    $item = $this->table.'.kontak';
+                }elseif($item == 'tgl_dibayar'){
+                    $item = $this->table.'.tgl_dibayar';
+                }elseif($item == 'jatuh_tempo'){
+                    $item = $this->table.'.jatuh_tempo';
+                }elseif($item == 'saldo'){
+                    $item = $this->table.'.saldo';
                 }
 
-                if(count($this->column) - 1 == $i) //last loop
-                    $this->db->group_end(); //close bracket
+                ($i===0) ? $this->db->like($item, $_POST['search']['value']) : $this->db->or_like($item, $_POST['search']['value']);
             }
-            $column[$i] = $item; // set column array variable to order processing
+                
+            $column[$i] = $item;
             $i++;
         }
         
