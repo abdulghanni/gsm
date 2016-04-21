@@ -153,14 +153,15 @@ class Flexigrid
 			{
 				$searchstr_split = explode(" ",$searchstr);
 				$searchstr_final = "";
+                                if($searchby=='from'){$searchby="`$searchby`";}
 				
 				foreach ($searchstr_split as $key => $value) 
 				{
 					if (trim($value) != "")
-						if ($key == 0)
-							$searchstr_final .= $searchby.' LIKE "%'.$value.'%"';
-						else
-							$searchstr_final .= ' OR '.$searchby.' LIKE "%'.$value.'%"';
+						if ($key == 0){
+                                                $searchstr_final .= $searchby.' LIKE "%'.$value.'%"';}
+						else{
+                                                $searchstr_final .= ' OR '.$searchby.' LIKE "%'.$value.'%"';}
 				}
 				
 				return $searchstr_final;

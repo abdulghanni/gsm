@@ -66,6 +66,7 @@ class Piutang extends MX_Controller {
                 'created_on'=>dateNow(),
             );
         $insert = $this->main->save($data);
+        rekening('sales_piutang', $insert, $data['coa_id'], 'in', $data['dibayar'], 0, $data['kurensi']);
         echo json_encode(array("status" => TRUE));
     }
 

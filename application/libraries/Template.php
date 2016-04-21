@@ -189,7 +189,8 @@ class Template {
         $data['notification_num'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()))->num_rows();
 
         //CHAT
-        $data['users'] = getAll('users', array('username'=>'order/asc'), array('!=id'=>sessId()));
+        //$data['users'] = getAll('users', array('username'=>'order/asc'), array('!=id'=>sessId()));
+        $data['users'] = getAll('users', array('username'=>'order/asc'));
         $data['unread_all'] = GetAllSelect('chat', 'is_read', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()))->num_rows();
         $data['messages'] = getAll('chat', array('receiver_id'=>'where/'.sessId(), 'limit'=>'limit/3', 'id'=>'order/desc'))->result();
 

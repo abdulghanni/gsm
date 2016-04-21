@@ -69,6 +69,7 @@ class Debt_payment extends MX_Controller {
                 'created_on'=>dateNow(),
             );
         $insert = $this->main->save($data);
+        rekening('purchase_hutang', $insert, $data['coa_id'], 'out', $data['dibayar'], 0, $data['kurensi']);
         echo json_encode(array("status" => TRUE));
     }
 
