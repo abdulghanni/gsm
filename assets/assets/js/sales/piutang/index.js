@@ -2,7 +2,7 @@ var save_method; //for save method string
 var table;
 $(document).ready(function() {
     $(".select2").select2();
-    
+    $(".money").maskMoney({allowZero:true});
     $('.input-append.date')
         .datepicker({
             todayHighlight: true,

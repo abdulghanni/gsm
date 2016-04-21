@@ -87,7 +87,7 @@ class Piutang extends MX_Controller {
             $row[] = $r->tgl_dibayar;
             $row[] = $r->jatuh_tempo;
             $row[] = $r->kontak;
-            $row[] = $r->saldo;
+            $row[] = number_format($r->saldo, 2);
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>";
             //$row[] = $r->kurensi;
             //$row[] = $r->dibayar;
@@ -183,6 +183,7 @@ class Piutang extends MX_Controller {
                     $this->template->add_js('vendor/select2/select2.min.js');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
+                    $this->template->add_js('vendor/jquery-mask-money/jquery.MaskMoney.js');
                     $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
                 {
