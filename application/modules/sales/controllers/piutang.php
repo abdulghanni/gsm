@@ -137,7 +137,8 @@ class Piutang extends MX_Controller {
         $kurensi = getWhere('kurensi_id', $table, 'no', $id);
         $kurensi = getWhere('title', 'kurensi', 'id', $kurensi);;
 
-        $saldo = getWhere('saldo', $table, 'no', $id);
+        $total_hutang = getWhere('saldo', $table, 'no', $id);
+        $saldo = $this->db->select('id, saldo')->where('so', $id)->order_by('id', 'desc')->get('sales_piutang')->row()->saldo;
 
         $jatuh_tempo = getWhere('tanggal_transaksi', $table, 'no', $id);
         $lama_angsuran_1 = getWhere('lama_angsuran_1', $table, 'no', $id);
@@ -160,8 +161,9 @@ class Piutang extends MX_Controller {
         echo json_encode(array('kontak'=>$kontak,
                                 'kurensi'=>$kurensi,
                                 'jatuh_tempo'=>$jatuh_tempo,
-                                'saldo'=>number_format($saldo,2),
+                                'total'=>number_format($total_hutang,2),
                                 'terbayar'=>number_format($terbayar, 2),
+                                'saldo'=>number_format($saldo, 2),
                                 'no'=>$no
                               ));
     }

@@ -30,7 +30,8 @@ $(document).ready(function() {
                 $('#kurensi_label').show();
                 $('#jatuh_tempo').val(data.jatuh_tempo);
                 $('#jatuh_tempo_label').show();
-                $('#total').val(data.saldo);
+                $('#total').val(data.total);
+                $('#saldo').val(data.saldo);
                 $('#terbayar').val(data.terbayar);
                 $('#no').val(data.no);
             }
