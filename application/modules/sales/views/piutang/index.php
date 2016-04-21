@@ -138,7 +138,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-md-3">Hutang Dibayar</label>
+                        <label class="control-label col-md-3">Piutang Dibayar</label>
                         <div class="col-md-9">
                             <input name="dibayar" id="dibayar" placeholder="" class="form-control money text-right" value="0" type="text" required>
                             <span class="help-block"></span>
@@ -146,7 +146,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3">Hutang Terbayar</label>
+                        <label class="control-label col-md-3">Piutang Terbayar</label>
                         <div class="col-md-9">
                             <input name="terbayar" id="terbayar" placeholder="" class="form-control text-right" type="text" value="0" readonly="readonly">
                             <span class="help-block"></span>
@@ -154,7 +154,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3">Total Hutang</label>
+                        <label class="control-label col-md-3">Total Piutang</label>
                         <div class="col-md-9">
                             <input name="total" id="total" placeholder="" class="form-control text-right" type="text" value="0" readonly="readonly">
                             <span class="help-block"></span>
@@ -162,7 +162,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3">Saldo Hutang</label>
+                        <label class="control-label col-md-3">Saldo Piutang</label>
                         <div class="col-md-9">
                             <input name="saldo" id="saldo" placeholder="" class="form-control text-right" type="text" value="0" readonly="readonly">
                             <span class="help-block"></span>

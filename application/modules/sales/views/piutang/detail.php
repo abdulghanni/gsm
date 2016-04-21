@@ -134,7 +134,7 @@
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputPassword3">
-									Total Hutang
+									Total Piutang
 								</label>
 								<div class="col-sm-9">
 									<input type="text" name="up" value="<?=$o->total?>" class="form-control" disabled="disabled">

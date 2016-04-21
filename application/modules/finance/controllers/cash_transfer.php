@@ -191,6 +191,8 @@ class cash_transfer extends MX_Controller {
 		}	
 		//konversi mata uang
 		$data['amount']=str_replace(',','',$data['amount']);
+                $data['kurs']=str_replace(',','',$data['kurs']);
+
 		//$data['rv']=$data['amount'];
 		///$data['kurs']=getkurs($data['rc']);
 		//$data['amount']=$data['rv']*$data['kurs'];
@@ -222,7 +224,9 @@ class cash_transfer extends MX_Controller {
 			//addnumbering('petty'.$webmaster_id);
 			$this->session->set_flashdata("message", 'Sukses ditambahkan');
 		}
-		
+		rekening('cash_transfer', $id, $data['dari'], 'out', $data['amount'], $data['kurs'], $data['currency']);
+                rekening('cash_transfer', $id, $data['ke'], 'in', $data['amount'], $data['kurs'], $data['currency']);
+
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
 	function send_notification($id)

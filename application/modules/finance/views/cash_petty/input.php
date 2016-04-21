@@ -86,6 +86,15 @@
 				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required]" onclick="jumlahamount()">
 			   </div>
 			   </div>
+		   <div class="form-group">
+			   
+			   <?php $nm_f="terbilang";?>
+			   <div class="col-sm-3">
+				   <label for="<?php echo $nm_f?>">Terbilang</label>
+				   </div><div class="col-sm-9">
+				<?php echo form_textarea($nm_f,$a= (isset($val[$nm_f]) ? $val[$nm_f] : ''),"id='$nm_f' class='date-picker-this' onclick='jumlahamount()' ");?>
+			   </div>
+			   </div>
 		  
 		  
                    
@@ -232,6 +241,12 @@ $select.each(function(i,item){
 $('.debit').change(function(e){
     jumlahamount();
 });
+function terbilang(){
+    var totalamount=$('#amount').val();
+    $.post("<?php echo base_url()?>finance/cash_petty/terbilang",{v:totalamount},function(e){
+        $('#terbilang').val(e);
+    });
+}
 function jumlahamount(){
     var debit = 0;
     
@@ -254,7 +269,9 @@ $('.debit').each(function(){
     debit += parseFloat(a);}
     else{
     debit+=0;
-        }//Or this.innerHTML, this.innerText 
+        }
+        
+        //Or this.innerHTML, this.innerText 
 });
     if(isNaN(debit)){
     $('#amount').val(0);
@@ -263,6 +280,7 @@ else{
     $('#amount').val(debit);
     
     }
+    terbilang();
 }
 
 function addrow(){

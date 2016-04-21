@@ -101,7 +101,8 @@
 			   <div class="col-sm-3">
 				   <label for="<?php echo $nm_f?>">Currency</label>
 				   </div><div class="col-sm-9">
-                                       <?php echo form_dropdown($nm_f,GetOptAll('kurensi'),isset($val[$nm_f]) ? $val[$nm_f] : '','class="validate[required]"')?>
+                                       <?php echo form_dropdown($nm_f,GetOptAll('kurensi'),isset($val[$nm_f]) ? $val[$nm_f] : '','class="validate[required]"')?><?php $nm_f="kurs";?>
+                                       <?php echo form_input($nm_f,isset($val[$nm_f]) ? $val[$nm_f] : '','class="validate[required] duit" placeholder="Kurs"')?>
 			   </div>
                     </div>
                                 

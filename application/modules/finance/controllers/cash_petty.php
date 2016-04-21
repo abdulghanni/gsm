@@ -32,8 +32,8 @@ class cash_petty extends MX_Controller {
             $colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
             $colModel['code'] = array('Code',110,TRUE,'left',2);
             $colModel['amount'] = array('Amount',110,TRUE,'left',2);
-            $colModel['person'] = array('Dari / Ke',110,TRUE,'left',2);
-            $colModel['remark'] = array('Remark',110,TRUE,'left',2);
+            $colModel['from'] = array('Dari / Ke',110,TRUE,'left',2);
+            $colModel['memo'] = array('Remark',110,TRUE,'left',2);
             $colModel['save_type'] = array('Save Type',110,TRUE,'left',2);
         
             $gridParams = array(
@@ -87,7 +87,7 @@ class cash_petty extends MX_Controller {
 	
 	function get_record(){
 		
-		$valid_fields = array('id','code','name');
+		$valid_fields = array('id','code','amount','from','memo','save_type');
 
             $this->flexigrid->validate_post('id','DESC',$valid_fields);
             $records = $this->get_flexigrid();
@@ -181,7 +181,7 @@ class cash_petty extends MX_Controller {
 		//print_mz($this->input->post());
         $list = array(
                         'akun'=>$this->input->post('akun'),
-                        'amount'=>$this->input->post('amount'),
+                        'amount'=>$this->input->post('amounts'),
                         'remark'=>$this->input->post('remark'),
                         );
 
@@ -202,6 +202,7 @@ class cash_petty extends MX_Controller {
         $this->db->insert('cash_petty', $data);
         $insert_id = $this->db->insert_id();
 		$sisaan=0;
+        rekening('cash_petty', $insert_id, $data['coa'], $data['save_type'], $data['amount'],0,0);
         for($i=0;$i<sizeof($list['akun']);$i++):
             if($list['akun'][$i]>0){
             $data2 = array(
@@ -211,7 +212,9 @@ class cash_petty extends MX_Controller {
                 'amount' => str_replace(',', '', $list['amounts'][$i]),
                 'remark' => $list['remark'][$i],
                 );
-            $this->db->insert('cash_petty_detail', $data2);}
+            $this->db->insert('cash_petty_detail', $data2);
+        rekening('cash_petty', $insert_id, $data2['akun'], $data['save_type'], $data2['amount'],0,0);
+            }
         //$sisaan=+$sisa;
 	//	masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
         //$this->send_notification($insert_id);
@@ -405,5 +408,9 @@ class cash_petty extends MX_Controller {
         {
             return $this->load->view($view, $data, TRUE);
         }
+    }
+    function terbilang(){
+        $v=$_POST['v'];
+        echo terbilang($v,3).' Rupiah';
     }
 }
