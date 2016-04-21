@@ -8,7 +8,7 @@ class order_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('id','so', 'kontak', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
+    var $column = array('sales_order.id','so', 'kontak', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
