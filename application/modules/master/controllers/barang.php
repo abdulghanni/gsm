@@ -132,19 +132,21 @@ class Barang extends MX_Controller {
                 $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>1,'satuan'=>$this->input->post('satuan')));
             endif; */
 			$a=0;
-			foreach($satuanlain as $sl){
-                $num_satuan = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$satuanlain[$a]))->num_rows();
-                if(isset($satuanlain_id[$a])):
-				    $this->db->where('id',$satuanlain_id[$a]);
-				    $this->db->update('barang_satuan',array('value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
-                else:
-					if(isset($satuanlain[$a])){
-                    $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
-					}
-                endif;
-				$a++;
-			}
-            
+            if(!empty($satuanlain)){
+    			foreach($satuanlain as $sl){
+                    $num_satuan = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$satuanlain[$a]))->num_rows();
+                    if(isset($satuanlain_id[$a])):
+    				    $this->db->where('id',$satuanlain_id[$a]);
+    				    $this->db->update('barang_satuan',array('value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+                    else:
+    					if(isset($satuanlain[$a])){
+                        $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
+    					}
+                    endif;
+    				$a++;
+    			}
+            }
+                
 		}
         else{ $id = $this->barang->save($data);
             $data_inv = array(

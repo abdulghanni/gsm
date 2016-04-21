@@ -30,7 +30,7 @@ class cash_petty extends MX_Controller {
 	
             $colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
             $colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
-            $colModel['code'] = array('Code',110,TRUE,'left',2);
+            $colModel['number'] = array('Code',110,TRUE,'left',2);
             $colModel['amount'] = array('Amount',110,TRUE,'left',2);
             $colModel['from'] = array('Dari / Ke',110,TRUE,'left',2);
             $colModel['memo'] = array('Remark',110,TRUE,'left',2);
@@ -87,7 +87,7 @@ class cash_petty extends MX_Controller {
 	
 	function get_record(){
 		
-		$valid_fields = array('id','code','amount','from','memo','save_type');
+		$valid_fields = array('id','number','amount','from','memo','save_type');
 
             $this->flexigrid->validate_post('id','DESC',$valid_fields);
             $records = $this->get_flexigrid();

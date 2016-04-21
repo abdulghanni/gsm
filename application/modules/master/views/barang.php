@@ -266,7 +266,7 @@
                                 </label>
                                 <div class="col-sm-9">
                                     <div id="tanggal_transaksi" class="input-append date success no-padding">
-                                      <input type="text" class="form-control" name="tgl" required>
+                                      <input type="text" class="form-control" name="tgl">
                                       <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
                                     </div>
                                 </div>
