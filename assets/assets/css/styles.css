@@ -59,7 +59,7 @@ html {
 }
 
 body {
-  color: #00BDCC;
+  color: #5F8295;
   direction: ltr;
   overflow-x: hidden;
   height: 100%;
@@ -9861,7 +9861,7 @@ div.timeline .column_center .timeline_element:before, div.timeline .column_cente
 
 .table-bordered.table > thead > tr > th {
   border-bottom: 1px solid #fff;
-  background-color: #00BDCC; 
+  background-color: #5F8295; 
   color : #fff;
 }
 
@@ -11178,7 +11178,7 @@ td.small-width {
   margin: 0 15px;
 }
 #page-title h1 {
-  color: #00BDCC;
+  color: #5F8295;
   font-size: 36px;
   font-weight: 500;
   letter-spacing: 1px;

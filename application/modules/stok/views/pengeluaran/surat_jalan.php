@@ -86,44 +86,37 @@
           <td>&nbsp;<?php echo $pengeluaran['alamat'] ?></td>
         </tr>
         <tr>
-          <td>No SJ</td>
+          <td>No Surat Jalan</td>
           <td>:</td>
           <td>&nbsp;<?php echo $nosurat ?></td>
         </tr>
-		<tr>
+		    <tr>
           <td>Tanggal Pengiriman</td>
           <td>:</td>
           <td>&nbsp;<?php echo $pengeluaran['tgl'] ?></td>
+        </tr>
+        <tr>
+          <td>Jenis Kendaraan</td>
+          <td>:</td>
+          <td>&nbsp;<?php echo $pengeluaran['driver'] ?></td>
+        </tr>
+        <tr>
+          <td>Plat Nomer</td>
+          <td>:</td>
+          <td>&nbsp;<?php echo $pengeluaran['plat'] ?></td>
         </tr>
 	
       </tbody>
     </table></td>
   </tr>
+ 
+  <tr>
+    <td colspan="15">&nbsp;</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
   
-  <tr>
-    <td colspan="7">&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td colspan="7" class="bio">Kami Kirimkan Barang Ini Dengan Kendaraan : </td>
-    <td class="bio"><?php echo $pengeluaran['driver'] ?></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td colspan="7" class="bio">No Plat Kendaraan :</td>
-    <td class="bio"><?php echo $pengeluaran['plat'] ?></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td colspan="7">&nbsp;</td>
-    <td></td>
-    <td></td>
-    <td></td>
-  </tr>
 </table>
 <table width="100%" style="border:1px solid black;" cellspacing="0" cellpadding="0">
     <thead>

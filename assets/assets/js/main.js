@@ -214,7 +214,7 @@ var Main = function() {
 			fixedSidebar: true,
 			closedSidebar: false,
 			fixedFooter: false,
-			theme: 'theme-4'
+			theme: 'theme-5'
 		};
 		if($.cookie) {
 			if($.cookie("clip-setting")) {
@@ -286,7 +286,7 @@ var Main = function() {
 			$('#fixed-sidebar').prop('checked', true);
 			$('#closed-sidebar').prop('checked', false);
 			$('#fixed-footer').prop('checked', false);
-			$('#skin_color').attr("href",  "/gsm/assets/assets/css/themes/theme-1.css");
+			$('#skin_color').attr("href",  "/gsm/assets/assets/css/themes/theme-5.css");
 			$(".navbar-brand img").attr("src",  "/gsm/assets/assets/images/logo.png");
 
 		};
