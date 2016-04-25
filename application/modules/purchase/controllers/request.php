@@ -163,7 +163,7 @@ class Request extends MX_Controller {
     {
         //print_ag($_FILES);die();
         $btn = $this->input->post('btnDraft');
-        print_mz($btn);
+        //print_mz($btn);
         if($btn == "Submit"){
             $type = 0;
         }else{

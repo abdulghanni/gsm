@@ -1979,11 +1979,19 @@ function masukstok($gudang,$barang,$qty,$satuan=NULL,$source=NULL,$ref=NULL,$tgl
                             return TRUE;}
                         else {return FALSE;}
 }
+function hapus_rekening($source,$ref){
+    $CI=&get_instance();
+    $CI->db->query("DELETE FROM cash_log WHERE source='$source' AND ref_id='$ref'");
+}
 function rekening($source,$ref,$coa,$tipe,$amount,$rv,$kurensi){
     $CI=&get_instance();
-    if($tipe=='in'){$credit=$amount;$debit=0;}
-    elseif($tipe=='out'){$debit=$amount;$credit=0;}
-    
+    if($tipe=='in'){$credit=$amount;$debit=0;
+    $cek=$CI->db->query("SELECT * FROM cash_log WHERE ref_id='$ref' AND source='$source' AND debit=0");
+    $dataz=$cek->row_array();
+    }
+    elseif($tipe=='out'){$debit=$amount;$credit=0;
+    $cek=$CI->db->query("SELECT * FROM cash_log WHERE ref_id='$ref' AND source='$source' AND kredit=0");
+    $dataz=$cek->row_array();}
     $data=array(
         'source'=>$source,
         'ref_id'=>$ref,
@@ -1995,7 +2003,11 @@ function rekening($source,$ref,$coa,$tipe,$amount,$rv,$kurensi){
         'created_on'=>date("Y-m-d H:i:s"),
         'created_by'=>$CI->session->userdata('user_id')
     );
-    $CI->db->insert('cash_log',$data);
+    if($cek->num_rows()>0 && $source!='cash_petty'){
+        $CI->db->where('id',$dataz['id']);
+        $CI->db->update('cash_log',$data);
+    }else{
+    $CI->db->insert('cash_log',$data);}
 }
 if (!function_exists('GetUserGroups')){
 	function GetUserGroups()

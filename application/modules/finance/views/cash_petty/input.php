@@ -34,6 +34,7 @@
 						<p class="text-dark">
 							#<?=date('Ymd',strtotime('now')).$last_id?> / <?=dateIndo(date('Y-m-d',strtotime('now')))?> <small class="text-light"></small>
 							<input type="hidden" name="no" value="<?=date('Ymd',strtotime('now')).$last_id?>">
+                                                        <?php echo form_hidden('id',(isset($val['id']) ? $val['id']:0)); ?>
 						</p>
 					</div>
 				</div>
@@ -211,9 +212,7 @@
 					
 				</div>
     		<div class="form-group">
-             <?php if(!isset($detail)){ ?>
             <button type="submit" class="btn pull-right">Submit</button>
-             <?php }?>
              </div>
 				
 		</div>
