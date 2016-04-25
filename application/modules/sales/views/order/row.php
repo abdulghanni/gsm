@@ -125,7 +125,8 @@ function hitung<?=$id?>()
         	ppn = $("#ppn_val").val(),
 			pph22 = $("#pp22_val").val(),
 			pph23 = $("#pp23_val").val(),
-			ppnx =  val*(ppn/100);
+			//ppnx =  val*(ppn/100);
+			ppnx =  val - (val/1.1);
         	totalPajak = 0,
         	jmlDisc = 0,
         	total = 0;
@@ -172,12 +173,13 @@ function hitung<?=$id?>()
 
         total = total+biayaPengiriman;
         totalpluspajak = total+p1+p2+p3;
+        totalminuspajak = total-p1-p2-p3;
         diBayar = totalpluspajak * (diBayar/100);
         $('#totalPajak').val(addCommas(parseFloat(totalPajak).toFixed(2)));
         $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+        $('#total').val(addCommas(parseFloat(totalminuspajak).toFixed(2)));
         
-        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
+        $('#totalpluspajak').val(addCommas(parseFloat(total).toFixed(2)));
         var saldo = totalpluspajak-diBayar-diBayarNominal;
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
    	}

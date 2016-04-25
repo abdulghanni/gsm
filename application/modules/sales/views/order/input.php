@@ -222,7 +222,7 @@
 									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="15%"> Sub Total </th>
-									<th width="5%" class="text-center"> Exclude PPN(%) </th>
+									<th width="5%" class="text-center"> Include PPN </th>
 									<th width="5%" class="text-center"> Attachment </th>
 								</tr>
 							</thead>
