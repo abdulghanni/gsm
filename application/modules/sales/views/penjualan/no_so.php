@@ -1,14 +1,15 @@
 <div class="row form-row">
 	<div class="col-md-6">
-		<div class="col-md-4">
+		<div class="col-md-6">
 		</div>
-		<div class="col-md-8">
-			<select class="select2 select_so" id="" style="width:100%" name="no">
-				<option value="0">-- Pilih NO. S.O --</option>
-				<?php foreach($so as $p):?>
-				<option value="<?=$p->id?>"><?=$p->so?></option>
-				<?php endforeach;?>
-			</select>
+		<div class="col-md-6">
+			<select class="select2 select_so" name="no_sj" id="list_so" style="width:100%">
+                <option value="0">-- Pilih NO. Surat Jalan --</option>
+                <?php foreach($so as $p):?>
+                <option value="<?=$p->id?>"><?=date('Ymd', strtotime($p->created_on)).sprintf('%04d',$p->id)?></option>
+                <!--<option value="<?=$p->id?>"><?=$p->so?></option>-->
+                <?php endforeach;?>
+            </select>
 		</div>
 	</div>
 </div><p></p>

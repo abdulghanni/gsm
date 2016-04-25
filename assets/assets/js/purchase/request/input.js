@@ -7,10 +7,24 @@ $(document).ready(function() {
             format: "dd-mm-yyyy"
         });
 
-    $(".select2").select2();
+   $('.select2').select2({
+        dropdownAutoWidth : true
+    });
+
+    $('.harga')
+    // event handler
+    .change(resizeInput)
+    // resize on page load
+    .each(resizeInput);
+
+    function resizeInput() {
+        $(this).attr('size', $(this).val().length);
+    }
 
     $('#btnAdd').on('click', function () {
-        $(document).find("select.select2").select2();
+        $(document).find("select.select2").select2({
+            dropdownAutoWidth : true
+        });
         $('#btnRemove').show();
         $('#btnSubmit').show("slow");
         $('#panel-total').show("slow");

@@ -120,6 +120,7 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-12">
+					<div class="table-responsive">
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
@@ -127,11 +128,13 @@
 									<th width="10%"> Kode Barang </th>
 									<th width="9%"> SS Barang </th>
 									<th width="25%"> Nama Barang </th>
+									<th width="25%"> Catatan </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
 									<th width="20%"> Harga </th>
 									<!--<th width="5%">Disc(%)</th>-->
 									<th width="20%"> Sub Total </th>
+									<th width="20%"> Attachment </th>
 									<!--<th width="5%">Pajak(%)</th>-->
 								</tr>
 							</thead>
@@ -152,11 +155,13 @@
 									<td><?=$ol->kode_barang?></td>
 									<td><img height="75px" width="75px" src="<?=$src?>"></td>
 									<td><?=$ol->deskripsi?></td>
+									<td><?=$ol->catatan?></td>
 									<td class="text-right"><?=$ol->jumlah?></td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<!--<td class="text-right"><?=$ol->disc?></td>-->
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
+									<td><a target="_blank" href="<?= base_url("uploads/pr/".$ol->attachment)?>"><?=$ol->attachment?></a></td>
 									<!--<td class="text-right"><?=$ol->pajak?></td>-->
 								</tr>
 								<?php endforeach;
@@ -164,6 +169,7 @@
 									$grandtotal = $totalpluspajak;								?>
 							</tbody>
 						</table>
+					</div>
 					</div>
 				</div>
 				<hr/>

@@ -5,148 +5,150 @@
 				<table id="table" class="table table-striped">
 					<thead>
 						<tr>
-							<th width="5%"> No. </th>
-							<th width="10%"> Kode Barang </th>
-							<th width="10%"> Nama Barang </th>
-							<th width="10%"> Deskripsi & Catatan </th>
-							<th width="5%">Qty</th>
-							<th width="10%"> Satuan </th>
-							<th width="20%"> Harga </th>
-							<th width="5%">Disc(%)</th>
-							<th width="15%"> Sub Total </th>
-							<th width="5%" align="center">Exclude PPN</th>
-							</tr><?php $c=1;$total=$totaldiskon=0; 
-							foreach($list->result_array() as $daftar){
-
-							$so = $this->db->where('so', $daftar['ref'])->get('sales_order')->row_array();
-							$det_list = GetAll('sales_order_list',array('order_id'=>'where/'.$so['id'], 'kode_barang'=>'where/'.$daftar['barang_id']))->row_array();
-								$subtotal = $det_list['harga']*$det_list['jumlah'];
-
-								$totaldiskon = $totaldiskon + ($subtotal * ($det_list['disc']/100));
-								$total = $total + $subtotal;
-								$totalpluspajak = $total+$so['total_ppn']+$so['total_pph22']+$so['total_pph23'];
+							<th width="1%">#</th>
+						<!--<th width="1%"> No. </th>-->
+						<th width="5%"> Kode Barang </th>
+						<th width="8%"> SS Barang </th>
+						<th width="20%"> Deskripsi </th>
+						<th width="20%"> Catatan </th>
+						<th width="5%">Qty</th>
+						<th width="5%"> Satuan </th>
+						<th width="10%"> Harga </th>
+						<th width="5%">Disc(%)</th>
+						<th width="10%"> Sub Total </th>
+						<th width="10%"> Include PPN </th>
+						<th width="10%">Attachment</th>
+							</tr><?php $i=1;
+							$totalpluspajak = $totalpajak = $total = $saldo = $totaldiskon = 0;
+							$i=1;foreach($list->result() as $ol){
+							$subtotal = $ol->jumlah*$ol->harga;
+							$totaldiskon = $totaldiskon + ($subtotal * ($ol->disc/100));
+							$total = $total + $subtotal;
 							?>
 							<tr>
-								<th width="5%"><?php echo $c ?> </th>
-								<th width="10%"> <?php echo GetValue('kode','barang',array('id'=>'where/'.$daftar['barang_id'])) ?> </th>
-								<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$daftar['barang_id']?>">
-								<th width="10%"> <?php echo GetValue('title','barang',array('id'=>'where/'.$daftar['barang_id'])) ?> </th>
-								<th width="10%"> <textarea name="deskripsi[]" class=""><?php echo GetValue('title','barang',array('id'=>'where/'.$daftar['barang_id'])) ?></textarea> </th>
-								<th width="5%" class="text-right">
-									<?=$det_list['jumlah']?>
-									<input type="hidden" name="diterima[]" id="jumlah<?=$daftar['id']?>" value="<?=$daftar['jumlah']?>">
-									<input type="hidden" name="diorder[]" class="form-control text-right" value="<?=$det_list['jumlah']?>" id="">
-								</th>
-								<th width="10%"><?php echo GetValue('title','satuan',array('id'=>'where/'. $daftar['satuan_id']))?> </th>
-								<input type="hidden" name="satuan[]" class="form-control text-right" value="<?=$daftar['satuan_id']?>">
-								<th width="20%"><input name="harga[]" type="text" id="harga<?=$daftar['id']?>" class="harga text-right" value="<?= number_format($det_list['harga'], 2)?>"></th>
-									<th width="5%"><input name="disc[]" type="text" id="disc<?=$daftar['id']?>" class="disc form-control text-right" value="<?=$det_list['disc']?>"></th>
-									<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$daftar['id']?>">
-									<th width="15%"><input type="text" id="subtotal<?=$daftar['id']?>" class="subtotal text-right" value="<?= number_format($det_list['harga']*$det_list['jumlah'], 2)?>" readonly="readonly"></th>
-								<th width="5%" class="text-center">
-									<input id="pajak<?=$daftar['id']?>" class="checkbox_pajak text-center" type="checkbox">
-									<input name="pajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$daftar['id']?>">
-								</th>
+								<th width="5%"><?php echo $i ?> </th>
+								<td><?=$ol->kode_barang?></td>
+								<?php $src = (!empty($ol->photo))?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
+								<td><img height="75px" width="75px" src="<?=$src?>"></td>
+								<input type="hidden" name="kode_barang[]" class=" text-right" value="<?=$ol->barang_id?>">
+								</td>
+								<td>
+									<textarea name="deskripsi[]" class="" placeholder="Isi deskripsi dan catatan kaki perbarang disini"><?=$ol->deskripsi?></textarea>
+								</td>
+								<td>
+									<textarea name="catatan_barang[]" class="" placeholder="Isi catatan kaki perbarang disini"><?=$ol->catatan?></textarea>
+								</td>
+
+								<td class="text-right"><input type="text" name="jumlah[]" class=" text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>"></td>
+								<td><?=$ol->satuan?></td>
+								<input type="hidden" name="satuan[]" class=" text-right" value="<?=$ol->satuan_id?>">
+								<td class="text-right"><input type="text" name="harga[]" class=" text-right harga" value="<?=number_format($ol->harga, 2)?>" id="harga<?=$i?>"></td>
+								<td class="text-right">
+								<input type="text" name="disc[]" class=" text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>">
+								<input type="hidden" name="subdisc[]" class=" text-right subdisc" value="0" id="subdisc<?=$i?>">
+								</td>
+								<td class="text-right"><input type="text" name="subtotal" class=" text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly>
+								</td>
+								<td>
+									<?php $checked = ($ol->pajak != 0)?'checked="checked"' : '';?>
+									<div class="checkbox clip-check check-primary checkbox-inline">
+										<input type="checkbox" id="pajak<?=$i?>" value="" <?= $checked ?>>
+										<label for="pajak<?=$i?>">
+										</label>
+									</div>
+									<input type="hidden" name="pajak[]" value="<?= $ol->pajak ?>" id="subpajak<?=$i?>" class="subpajak">
+								</td>
+								<td>
+								<?php if(!empty($ol->attachment)){?>
+								<a target="_blank" href="<?= base_url("uploads/sale/".$ol->attachment)?>"><?=$ol->attachment?></a></td>
+								<input type="hidden" name="attachment[]" value="<?=$ol->attachment?>">
+								<?php }else{?>
+								<input type="file" name="attachment[]">
+								<?php } ?>
 							</tr>
-								<script type="text/javascript">
-								//$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$daftar['id']?>"+'">')
-								$("#harga<?=$daftar['id']?>").add("#jumlah<?=$daftar['id']?>").add("#disc<?=$daftar['id']?>").keyup(function() {
-									hitung<?=$daftar['id']?>();
-							    });
+								<script>
+										$("#pajak<?=$i?>").click(function(){
+										    hitung<?=$i?>();
+										});
+											$("#harga<?=$i?>").maskMoney({allowZero:true});
+											$("#disc<?=$i?>").add("#harga<?=$i?>").add("#jumlah<?=$i?>").add("#dibayar").add("#dibayar-nominal").add("#biaya_pengiriman").keyup(function() {
+												hitung<?=$i?>();
+										    });
 
-							    $('.harga').maskMoney({allowZero:true});
-							    $('.biaya_pengiriman').maskMoney({allowZero:true});
-							    $("#dibayar").maskMoney({allowZero:true}).attr('maxlength', 6);
-							    $("#dibayar-nominal").maskMoney({allowZero:true});
-							    $('.harga').maskMoney({allowZero:true});
+										    function hitung<?=$i?>(){
+										    	var a = parseFloat($("#jumlah<?=$i?>").val()),
+										        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
+										        	c = parseFloat($("#disc<?=$i?>").val()),
+										        	p = parseFloat($("#subpajak<?=$i?>").val()).toFixed(2),
+										        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
+										        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
+										        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
+										        	d = (a*b)*(c/100),//jumlah diskon
+										       		val = (a*b)-d,
+										       		disc = (a*b)*(c/100),
+										       		subPajak = val*(p/100),//jumlah pajak
+	        										totalPajak = 0,
+										        	jmlDisc = 0,
+										        	total = 0;
+											        ppn = $("#ppn_val").val(),
+													pph22 = $("#pp22_val").val(),
+													pph23 = $("#pp23_val").val(),
+													ppnx =  val*(ppn/100);
+										        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
+										        $("#subdisc<?=$i?>").val(addCommas(parseFloat(disc).toFixed(2)));
+										        $('.subdisc').each(function (index, element) {
+										            jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
+										        });
 
-								$("#pajak<?=$daftar['id']?>").click(function(){
-								    hitung<?=$daftar['id']?>();
-								});
+												if($("#pajak<?=$i?>").is(':checked')){
+													$("#subpajak<?=$i?>").val(parseFloat(ppnx));
+												}else{
+													$("#subpajak<?=$i?>").val(parseFloat(0));
+												}
+												$('.subpajak').each(function (index, element) {
+										            totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
+										        });
 
-							    function hitung<?=$daftar['id']?>()
-							    {
-							    		var a = parseFloat($("#jumlah<?=$daftar['id']?>").val()),
-							        	b = parseFloat($("#harga<?=$daftar['id']?>").val().replace(/,/g,"")).toFixed(2),
-							        	c = parseFloat($("#disc<?=$daftar['id']?>").val()),
-							        	p = parseFloat($("#subpajak<?=$daftar['id']?>").val()).toFixed(2),
-							        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
-							        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
-							        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
-							        	d = (a*b)*(c/100),//jumlah diskon
-							       		val = (a*b)-d,
-							       		disc = (a*b)*(c/100),
-							        	subPajak = val*(p/100),//jumlah pajak
-							        	totalPajak = 0,
-							        	jmlDisc = 0,
-							        	total = 0;
-										ppn = $("#ppn_val").val(),
-										pph22 = $("#pp22_val").val(),
-										pph23 = $("#pp23_val").val();
-										ppnx =  val*(ppn/100)
+												parseFloat($('#totalPajak').val(totalPajak));
+												if($('#kpajak2').is(':checked')){
+													$('#totalp2').val(parseFloat(total*(2/100)));
+												}else{
+													$('#totalp2').val(parseFloat(0));
+												}
+												if($('#kpajak3').is(':checked')){
+													$('#totalp3').val(parseFloat(total*(2/100)));
+												}else{
+													$('#totalp3').val(parseFloat(0));
+												}
 
-									if($("#pajak<?=$daftar['id']?>").is(':checked')){
-										$("#subpajak<?=$daftar['id']?>").val(parseFloat(ppnx));
-									}else{
-										$("#subpajak<?=$daftar['id']?>").val(parseFloat(0));
-									}
+												p1 = parseFloat($("#totalPajak").val()),
+												p2 = parseFloat($("#totalp2").val()),
+										        p3 = parseFloat($("#totalp3").val()),
+										        $("#pajak<?=$i?>").val(subPajak);
+										        $('#totalPajak').val(addCommas(parseFloat(totalPajak).toFixed(2)));
 
+										        $('.subtotal').each(function (index, element) {
+										            total = total + parseFloat($(element).val().replace(/,/g,""));
+										        });
 
-							    	if($('#dp-persen-cek').is(':checked')){
-										$('#dibayar-nominal').val(parseFloat(0));
-									}else{
-										$('#dibayar').val(parseFloat(0));
-									}
-							    	
-							        $("#subtotal<?=$daftar['id']?>").val(addCommas(parseFloat(val).toFixed(2)));
-							        $("#subdisc<?=$daftar['id']?>").val(addCommas(parseFloat(disc).toFixed(2)));
-							        $("#pajak<?=$daftar['id']?>").val(subPajak);
-							        $('.subpajak').each(function (index, element) {
-							            totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
-							        });
-							        $('.subtotal').each(function (index, element) {
-							            total = total + parseFloat($(element).val().replace(/,/g,""));
-							        });
-							        $('.subdisc').each(function (index, element) {
-							            jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
-							        });
-							        /*
-							        if($('#kpajak1').is(':checked')){
-										parseFloat($('#totalPajak').val(total*(10/100)));
-									}else{
-										$('#totalPajak').val(parseFloat(0));
-									}
-									*/
-									parseFloat($('#totalPajak').val(totalPajak));
-
-									if($('#kpajak2').is(':checked')){
-										$('#totalp2').val(parseFloat(total*(2/100)));
-									}else{
-										$('#totalp2').val(parseFloat(0));
-									}
-									if($('#kpajak3').is(':checked')){
-										$('#totalp3').val(parseFloat(total*(2/100)));
-									}else{
-										$('#totalp3').val(parseFloat(0));
-									}
-
-									p1 = parseFloat($("#totalPajak").val()),
-									p2 = parseFloat($("#totalp2").val()),
-							        p3 = parseFloat($("#totalp3").val()),
-
-							        total = total+biayaPengiriman;
-							        totalpluspajak = total+p1+p2+p3;
-							        diBayar = totalpluspajak * (diBayar/100);
-
-							        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-							        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
-							        
-							        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
-							        var saldo = totalpluspajak-diBayar-diBayarNominal;
-							        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
-							    }
+										        total = total+biayaPengiriman;
+										        totalpluspajak = total+p1+p2+p3;
+										        diBayar = totalpluspajak * (diBayar/100);
+										        
+										        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
+										        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+										        
+										        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
+										        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+										        //alert(diBayar);
+										        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
+										        var saldo = totalpluspajak-diBayar-diBayarNominal;
+										        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
+										    }
 							</script>
-							<?php $c++;}  ?>
+							<?php $i++;} 
+							
+							 ?>
 					</thead>
 					<tbody>
 					</tbody>

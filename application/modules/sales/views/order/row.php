@@ -6,30 +6,61 @@
 			</label>
 		</div>
 	</td>
+
 	<td><?= $id ?></td>
+
 	<?php $src = (!empty($ol->photo))?assets_url("gsm/uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
-	<td><select name='kode_barang[]' class='select2' id="barang_id<?=$id?>" style='width:100%'>		<option value="0">-- Pilih Barang --</option>
+
+	<td>
+		<select name='kode_barang[]' class='select2' id="barang_id<?=$id?>" style='width:100%'>		<option value="0">-- Pilih Barang --</option>
 		<?php foreach($barang as $value=>$b):?>
 		<option value='<?php echo $b['id']?>'><?php echo $b['kode'].' - '.$b['title']?></option><?php endforeach;?></select>
 	</td>
-	<td><div id="ss"><img width="75px" width="75px" id="photo<?=$id?>" src="<?=assets_url('assets/images/no-image-mid.png')?>" /></div></td>
-	<td><textarea name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi<?=$id?>"></textarea></td>
-	<td><input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah<?=$id?>"></td>
-	<td><select id="satuanlist<?=$id?>" name='satuan[]' class='select2' style='width:100%'><?php foreach($satuan as $s):?><option value='<?php echo $s['id']?>'><?php echo $s['title']?></option><?php endforeach;?></select><input type='hidden' value='0' id="satuanlist_num<?=$id?>"></td>
-	<td><input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga<?=$id?>"></td>
-	<td class="text-right">
-		<input type="text" name="disc[]" class="form-control text-right disc" value="0" id="disc<?=$id?>">
-		<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$id?>">
+
+	<td>
+		<div id="ss"><img width="75px" width="75px" id="photo<?=$id?>" src="<?=assets_url('assets/images/no-image-mid.png')?>" /></div>
 	</td>
-	<td><input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal<?=$id?>" value="0" readonly></td>
+
+	<td>
+		<textarea name="deskripsi[]" value="0" type="text" class="" required="required" id="deskripsi<?=$id?>"></textarea>
+	</td>
+
+	<td>
+		<textarea name="catatan_barang[]" value="0" type="text" class=""></textarea>
+	</td>
+
+	<td>
+		<input name="jumlah[]" value="0" type="text" class=" jumlah text-right" required="required" id="jumlah<?=$id?>">
+	</td>
+
+	<td>
+		<select id="satuanlist<?=$id?>" name='satuan[]' class='select2' style='width:100%'><?php foreach($satuan as $s):?><option value='<?php echo $s['id']?>'><?php echo $s['title']?></option><?php endforeach;?></select><input type='hidden' value='0' id="satuanlist_num<?=$id?>">
+	</td>
+
+	<td>
+		<input name="harga[]" value="0" type="text" class=" harga text-right" required="required" id="harga<?=$id?>">
+	</td>
+
+	<td class="text-right">
+		<input type="text" name="disc[]" class=" text-right disc" value="0" id="disc<?=$id?>">
+		<input type="hidden" name="subdisc[]" class=" text-right subdisc" value="0" id="subdisc<?=$id?>">
+	</td>
+
+	<td>
+		<input name="sub_total[]" type="text" class=" subtotal text-right" required="required" id="subtotal<?=$id?>" value="0" readonly>
+	</td>
+
 	<td>
 		<div class="checkbox clip-check check-primary checkbox-inline">
 			<input type="checkbox" id="pajak<?=$id?>" value="">
 			<label for="pajak<?=$id?>">
 			</label>
 		</div>
-		<input name="pajak[]" value="0" type="text" class="subpajak" id="subpajak<?=$id?>">
+		<input name="pajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$id?>">
 	</td>
+
+	<td><input type="file" name="attachment[]"></td>
+
 </tr>
 <script type="text/javascript"> $(document).find("select.select2").select2();</script>
 <script type="text/javascript">

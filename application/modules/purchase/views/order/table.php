@@ -9,13 +9,14 @@
 						<!--<th width="1%"> No. </th>-->
 						<th width="5%"> Kode Barang </th>
 						<th width="8%"> SS Barang </th>
-						<th width="15%"> Nama Barang </th>
-						<th width="20%"> Deskripsi & Catatan </th>
-						<th width="5%">Quantity</th>
+						<th width="20%"> Deskripsi </th>
+						<th width="20%"> Catatan </th>
+						<th width="5%">Qty</th>
 						<th width="5%"> Satuan </th>
 						<th width="10%"> Harga </th>
 						<th width="5%">Disc(%)</th>
 						<th width="10%"> Sub Total </th>
+						<th width="10%">Attachment</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -39,11 +40,14 @@
 						<td><?=$ol->kode_barang?></td>
 						<td><img height="75px" width="75px" src="<?=$src?>"></td>
 						<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->barang_id?>">
-						<td><input type="text" name="nama_barang[]" class="form-control" value="<?=$ol->nama_barang?>" readonly>
 						</td>
 						<td>
 							<textarea name="deskripsi[]" class="form-control" placeholder="Isi deskripsi dan catatan kaki perbarang disini"><?=$ol->deskripsi?></textarea>
 						</td>
+						<td>
+							<textarea name="catatan_barang[]" class="form-control" placeholder="Isi catatan kaki perbarang disini"><?=$ol->catatan?></textarea>
+						</td>
+
 						<td class="text-right"><input type="text" name="jumlah[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>"></td>
 						<td><?=$ol->satuan?></td>
 						<input type="hidden" name="satuan[]" class="form-control text-right" value="<?=$ol->satuan_id?>">
@@ -54,6 +58,14 @@
 						</td>
 						<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly>
 						</td>
+						
+						<td>
+						<?php if(!empty($ol->attachment)){?>
+						<a target="_blank" href="<?= base_url("uploads/pr/".$ol->created_by."/".$ol->attachment)?>"><?=$ol->attachment?></a></td>
+						<input type="hidden" name="attachment[]" value="<?=$ol->attachment?>">
+						<?php }else{?>
+						<input type="file" name="attachment[]">
+						<?php } ?>
 					</tr>
 					<script>
 					$("#harga<?=$i?>").maskMoney({allowZero:true});
@@ -270,16 +282,17 @@
 		<div class="row" id="btnSubmit">
 			<div class="col-md-7"></div>
 			<div class="col-md-2">
-			<button type="button" id="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
-				Save as Draft <i class="fa fa-save"></i>
-			</button>
+				<button type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
+					Save Draft <i class="fa fa-save"></i>
+				</button>
+				<!--input type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style=""-->
 			</div>
-			<div class="col-md-1">
-			</div>
+			<div class="col-md-1"></div>
 			<div class="col-md-2">
-			<button type="submit"  class="btn btn-lg btn-primary hidden-print pull-right">
-				Submit Request <i class="fa fa-check"></i>
-			</button>
+				<button type="submit" value="Submit" name="btnDraft"  class="btn btn-lg btn-primary hidden-print pull-right">
+					Submit Request <i class="fa fa-check"></i>
+				</button>
+				<!--button type="submit" value="Submit" name="btnDraft" class="btn btn-lg btn-primary hidden-print pull-right" style="">Btn</button-->
 			</div>
 		</div>
 	</div>

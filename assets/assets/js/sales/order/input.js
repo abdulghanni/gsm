@@ -8,8 +8,8 @@ $(document).ready(function() {
         });
 
     $('.select2').select2({
-    dropdownAutoWidth : true
-});
+        dropdownAutoWidth : true
+    });
 
 function resizeInput() {
     $(this).attr('size', $(this).val().length);

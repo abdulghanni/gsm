@@ -21,7 +21,8 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-so">
+<!--form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-so"-->
+<?php echo form_open_multipart(base_url($module.'/'.$file_name.'/add'), array('id'=>'form-so', 'class'=>'form-horizontal'))?>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -215,12 +216,14 @@
 									<th width="10%"> Kode Barang </th>
 									<th width="10%"> SS Barang </th>
 									<th width="20%"> Deskripsi </th>
+									<th width="20%"> Catatan </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
 									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="15%"> Sub Total </th>
 									<th width="5%" class="text-center"> Exclude PPN(%) </th>
+									<th width="5%" class="text-center"> Attachment </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -352,16 +355,17 @@
 					<div class="row" id="btnSubmit">
 						<div class="col-md-7"></div>
 						<div class="col-md-2">
-						<button type="button" id="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
-							Save as Draft <i class="fa fa-save"></i>
-						</button>
+							<button type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
+								Save Draft <i class="fa fa-save"></i>
+							</button>
+							<!--input type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style=""-->
 						</div>
-						<div class="col-md-1">
-						</div>
+						<div class="col-md-1"></div>
 						<div class="col-md-2">
-						<button type="submit"  class="btn btn-lg btn-primary hidden-print pull-right">
-							Submit Order <i class="fa fa-check"></i>
-						</button>
+							<button type="submit" value="Submit" name="btnDraft"  class="btn btn-lg btn-primary hidden-print pull-right">
+								Submit Request <i class="fa fa-check"></i>
+							</button>
+							<!--button type="submit" value="Submit" name="btnDraft" class="btn btn-lg btn-primary hidden-print pull-right" style="">Btn</button-->
 						</div>
 					</div>
 				</div>
@@ -540,179 +544,13 @@
 function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
-	var row=table.insertRow(rowCount);
-
-	var cell1=row.insertCell(0);
-	var element1=document.createElement("input");
-	element1.type="checkbox";
-	element1.name="chkbox[]";
-	element1.className="checkbox1";
-	cell1.appendChild(element1);
-
-	var cell2=row.insertCell(1);
-	cell2.innerHTML=rowCount+1-1;
-
-	var cell3=row.insertCell(2);
-	<?php $s = array('"', "'");$r=array('&quot;','&#39;');?>
-	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><option value='0'>- Pilih Barang --</option><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>";  
-
-	<?php $src = assets_url('assets/images/no-image-mid.png')?>
-	var cell4=row.insertCell(3);
-	cell4.innerHTML = '<img width="100px" width="100px" id="photo'+rowCount+'" src="<?=$src?>" />';
-
-
-	var cell5=row.insertCell(4);
-	cell5.innerHTML = '<textarea name="deskripsi[]" value="0" class="form-control" required="required" id="deskripsi'+rowCount+'"></textarea>';
-
-	var cell6=row.insertCell(5);
-	cell6.innerHTML = '<input name="jumlah[]" value="0" type="text" class="jumlah text-right" required="required" id="jumlah'+rowCount+'">';
-
-	var cell7=row.insertCell(6);
-	cell7.innerHTML = "<select name='satuan[]' class='select2' style='width:100%' id="+'satuanlist'+rowCount+"><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
-
-	var cell8=row.insertCell(7);
-	cell8.innerHTML = '<input name="harga[]" value="0" type="text" class="harga text-right" required="required" id="harga'+rowCount+'">';  
-
-	var cell9=row.insertCell(8);
-	cell9.innerHTML = '<input name="disc[]" value="0" type="text" class="form-control text-right" required="required" id="disc'+rowCount+'"><input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc'+rowCount+'">';
-
-	var cell10=row.insertCell(9);
-	cell10.innerHTML = '<input name="sub_total[]" type="text" class="subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly><input name="pajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">';
-	/*
-	var cell11=row.insertCell(10);
-	cell11.innerHTML = '<input name="pajak[]" value="10" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'"><input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">';
-	*/
-
-	var cell11=row.insertCell(10);
-	var element11=document.createElement("input");
-	element11.type="checkbox";
-	//element11.name="pajak[]";
-	element11.className="checkbox_pajak text-center";
-	element11.setAttribute("id", "pajak"+rowCount);
-	cell11.appendChild(element11);
-
-	$('input[type="text"]').keyup(function(){
-	  $(this).attr({size: $(this).val().length});
-	});
-	$("#barang_id"+rowCount).change(function(){
-        var id = $(this).val();
-         $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: '/gsm/purchase/order/get_nama_barang/'+id,
-            success: function(data) {
-            	if(id != '0'){
-            		$("#deskripsi"+rowCount).val(data.nama_barang);
-            		if(data.photo != ''){
-			            $("#photo"+rowCount).attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+id+"/"+data.photo);
-			        }else{
-			            $("#photo"+rowCount).attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
-			        }
-			        $("#satuanlist"+rowCount).select2().select2('val',data.satuan);
-		                $("#harga"+rowCount).val(data.harga);
-            	}
-            }
+	$.ajax({
+            url: '/gsm/sales/order/add_row/'+rowCount,
+            success: function(response){
+	         	$("#"+tableID).find('tbody').append(response);
+	         },
+	         dataType:"html"
         });
-    })
-
-	$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
-	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).keyup(function() {
-		hitung();
-    });
-
-    $('.harga').maskMoney({allowZero:true});
-    $('.biaya_pengiriman').maskMoney({allowZero:true});
-    $("#dibayar").maskMoney({allowZero:true}).attr('maxlength', 6);
-    $("#dibayar-nominal").maskMoney({allowZero:true});
-    $('.harga').maskMoney({allowZero:true});
-    $('#dibayar,#dibayar-nominal, #biaya_pengiriman').keyup(function(){
-    	hitung();
-    });
-
-	$("#pajak"+rowCount).click(function(){
-	    hitung();
-	});
-
-    function hitung()
-    {var a = parseFloat($('#jumlah'+rowCount).val()),
-        	b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
-        	c = parseFloat($('#disc'+rowCount).val()),
-        	p = parseFloat($('#subpajak'+rowCount).val()).toFixed(2),
-        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
-        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
-        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
-        	d = (a*b)*(c/100),//jumlah diskon
-       		val = (a*b)-d,
-       		disc = (a*b)*(c/100),
-        	subPajak = val*(p/100),//jumlah pajak
-        	totalPajak = 0,
-        	jmlDisc = 0,
-        	total = 0;
-			ppn = $("#ppn_val").val(),
-			pph22 = $("#pp22_val").val(),
-			pph23 = $("#pp23_val").val();
-			ppnx =  val*(ppn/100)
-
-		if($('#pajak'+rowCount).is(':checked')){
-			$('#subpajak'+rowCount).val(parseFloat(ppnx));
-		}else{
-			$('#subpajak'+rowCount).val(parseFloat(0));
-		}
-
-
-    	if($('#dp-persen-cek').is(':checked')){
-			$('#dibayar-nominal').val(parseFloat(0));
-		}else{
-			$('#dibayar').val(parseFloat(0));
-		}
-    	
-        $('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
-        $("#subdisc"+rowCount).val(addCommas(parseFloat(disc).toFixed(2)));
-        $('#pajak'+rowCount).val(subPajak);
-        $('.subpajak').each(function (index, element) {
-            totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
-        });
-        $('.subtotal').each(function (index, element) {
-            total = total + parseFloat($(element).val().replace(/,/g,""));
-        });
-        $('.subdisc').each(function (index, element) {
-            jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
-        });
-        /*
-        if($('#kpajak1').is(':checked')){
-			parseFloat($('#totalPajak').val(total*(10/100)));
-		}else{
-			$('#totalPajak').val(parseFloat(0));
-		}
-		*/
-		parseFloat($('#totalPajak').val(totalPajak));
-
-		if($('#kpajak2').is(':checked')){
-			$('#totalp2').val(parseFloat(total*(2/100)));
-		}else{
-			$('#totalp2').val(parseFloat(0));
-		}
-		if($('#kpajak3').is(':checked')){
-			$('#totalp3').val(parseFloat(total*(2/100)));
-		}else{
-			$('#totalp3').val(parseFloat(0));
-		}
-
-		p1 = parseFloat($("#totalPajak").val()),
-		p2 = parseFloat($("#totalp2").val()),
-        p3 = parseFloat($("#totalp3").val()),
-
-        total = total+biayaPengiriman;
-        totalpluspajak = total+p1+p2+p3;
-        diBayar = totalpluspajak * (diBayar/100);
-
-        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
-        
-        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
-        var saldo = totalpluspajak-diBayar-diBayarNominal;
-        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
-    }
 }
 
 function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}

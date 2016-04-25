@@ -21,7 +21,8 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-pr">
+<!--form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-pr"-->
+<?php echo form_open_multipart(base_url($module.'/'.$file_name.'/add'), array('id'=>'form-pr', 'class'=>'form-horizontal'))?>
 	<input type="hidden" name="id" value=<?=$id?>>
 	<div class="row">
 		<div class="col-md-12">
@@ -171,11 +172,13 @@
 									<th width="8%"> SS Barang </th>
 									<th width="20%"> Kode Barang </th>
 									<th width="20%"> Deskripsi </th>
+									<th width="20%"> Catatan </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
 									<th width="10%"> Harga </th>
 									<th width="5%"  style="display:none">Disc(%)</th>
 									<th width="10%"> Sub Total </th>
+									<th width="10%"> Attachment </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -201,11 +204,19 @@
 									<td><?=$i?></td>
 									<td><img height="100px" width="100px" src="<?=$src?>"></td>
 									<td><?=$ol->kode_barang?></td><input type="hidden" value="<?=$ol->barang_id?>" name="kode_barang[]">
-									<td><textarea class="form-control" name="deskripsi[]"><?=$ol->deskripsi?></textarea></td>
-									<td class="text-right"><input type="text" id="jumlah<?=$i?>" class="form-control text-right jumlah" value="<?=$ol->jumlah?>" name="jumlah[]"></td>
+									<td><textarea class="" name="deskripsi[]"><?=$ol->deskripsi?></textarea></td>
+									<td><textarea class="" name="catatan_barang[]"><?=$ol->catatan?></textarea></td>
+									<td class="text-right"><input type="text" id="jumlah<?=$i?>" class=" text-right jumlah" value="<?=$ol->jumlah?>" name="jumlah[]"></td>
 									<td><?=$ol->satuan?></td><input type="hidden" name="satuan[]" value="<?=$ol->satuan_id?>">
-									<td class="text-right"><input type="text" id="harga<?=$i?>" class="form-control text-right harga" value="<?= number_format($ol->harga, 2)?>" name="harga[]"></td>
-									<td class="text-right"><input type="text" id="subtotal<?=$i?>" class="form-control text-right subtotal" value="<?= number_format($subtotal, 2)?>" name="subtotal"></td>
+									<td class="text-right"><input type="text" id="harga<?=$i?>" class=" text-right harga" value="<?= number_format($ol->harga, 2)?>" name="harga[]"></td>
+									<td class="text-right"><input type="text" id="subtotal<?=$i?>" class=" text-right subtotal" value="<?= number_format($subtotal, 2)?>" name="subtotal"></td>
+									<td><?php if(!empty($ol->attachment)):?>
+											<a target="_blank" href="<?= base_url("uploads/pr/".$ol->attachment)?>"><?=$ol->attachment?></a>
+											<input type="hidden" name="attachment[]" value="<?=$ol->attachment?>">
+										<?php else: ?>
+											<input type="file" name="attachment[]">
+										<?php endif;?>
+									</td>
 
 											<script>
 												$("#jumlah<?=$i?>").add("#harga<?=$i?>").keyup(function() {
@@ -314,16 +325,17 @@
 					<div class="row" id="btnSubmit">
 						<div class="col-md-7"></div>
 						<div class="col-md-2">
-						<button type="button" id="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
-							Save Draft <i class="fa fa-save"></i>
-						</button>
+							<button type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
+								Save Draft <i class="fa fa-save"></i>
+							</button>
+							<!--input type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style=""-->
 						</div>
-						<div class="col-md-1">
-						</div>
+						<div class="col-md-1"></div>
 						<div class="col-md-2">
-						<button type="submit"  class="btn btn-lg btn-primary hidden-print pull-right">
-							Submit Request <i class="fa fa-check"></i>
-						</button>
+							<button type="submit" value="Submit" name="btnDraft"  class="btn btn-lg btn-primary hidden-print pull-right">
+								Submit Request <i class="fa fa-check"></i>
+							</button>
+							<!--button type="submit" value="Submit" name="btnDraft" class="btn btn-lg btn-primary hidden-print pull-right" style="">Btn</button-->
 						</div>
 					</div>
 				</div>
@@ -352,7 +364,7 @@ $(document).ready(function() {
 
 	 $("#remove").on("click", function () {
         $('table tr').has('input[name="row"]:checked').remove();
-        hitung();
+        //hitung();
     })
 });
 	function addRow(tableID){

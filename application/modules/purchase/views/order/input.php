@@ -21,7 +21,8 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal" id="form-po">
+<!--form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal" id="form-po"-->
+<?php echo form_open_multipart(base_url('purchase/order/add'), array('id'=>'form-po', 'class'=>'form-horizontal'))?>
 	<div class="row row-form">
 		<div class="col-md-12">
 			<div class="invoice">

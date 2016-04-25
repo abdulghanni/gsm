@@ -143,6 +143,13 @@ class Order extends MX_Controller {
     function add()
     {
         $po = $this->input->post('so');
+        $btn = $this->input->post('btnDraft');
+        //print_mz($btn);
+        if($btn == "Submit"){
+            $type = 0;
+        }else{
+            $type = 1;
+        }
         permissionUser();
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
@@ -152,6 +159,7 @@ class Order extends MX_Controller {
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
+                        'catatan_barang'=>$this->input->post('catatan_barang'),
                         );
 
         $data = array(
@@ -179,7 +187,7 @@ class Order extends MX_Controller {
                 'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
-                'is_draft' => 0
+                'is_draft' => $type
             );
 
         $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$po))->num_rows();
@@ -208,12 +216,48 @@ class Order extends MX_Controller {
         }else{
         $this->db->insert($this->table_name.'_list', $data2);
         }
+        $this->load->library('upload');
+        $this->upload->initialize($this->set_upload_options());
+        if($this->upload->do_multi_upload("attachment")){
+            $up = $this->upload->get_multi_upload_data();
+            $att = array(
+                    'attachment' => $up[$i]['file_name'],
+                );
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $att);
+        }else{
+            $att = $this->input->post('attachment');
+            $attx = (!empty($att[$i])) ? $att[$i] : '';
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
+        }
         endfor;
         $this->send_notif($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
+    private function set_upload_options()
+    {   
+        if(!is_dir('./'.'uploads')){
+        mkdir('./'.'uploads/', 0777);
+        }
+        if(!is_dir('./uploads/sale/')){
+        mkdir('./uploads/sale/', 0777);
+        }
+        if(!is_dir('./uploads/sale/'.sessId())){
+        mkdir('./uploads/sale/'.sessId(), 0777);
+        }
+
+        $config =  array(
+          'upload_path'     => './uploads/sale/',
+          'allowed_types'   => '*',
+          'overwrite'       => TRUE,
+        );    
+
+        return $config;
+    }
+
     function draft($id){
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
         $this->data['title'] = $this->title.' - Input';
         permissionUser();
         $this->data['id'] = $id;

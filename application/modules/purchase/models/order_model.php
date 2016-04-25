@@ -180,7 +180,7 @@ class order_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.id as barang_id,satuan_id, barang.photo,barang.kode as kode_barang,barang.title as nama_barang, purchase_order_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
+        $q = $this->db->select('barang.id as barang_id,satuan_id, barang.photo,barang.kode as kode_barang,barang.title as nama_barang, purchase_order_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak, purchase_order_list.attachment, purchase_order_list.catatan')
                   ->from($this->table_list)
                   ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id', 'left')
@@ -215,7 +215,7 @@ class order_model extends CI_Model {
     function get_list_detail_pr($id)
     {
         $id = explode(',', $id);
-        $this->db->select('purchase_request_list.id as id, barang.id as barang_id,barang.kode as kode_barang, barang.title as nama_barang, barang.photo, purchase_request_list.deskripsi, jumlah, purchase_request_list.satuan_id, satuan.title as satuan, harga, disc, pajak')
+        $this->db->select('purchase_request_list.id as id, barang.id as barang_id,satuan_id, barang.photo as photo,barang.kode as kode_barang, purchase_request_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak, purchase_request_list.attachment, purchase_request_list.catatan, purchase_request_list.created_by')
                   ->from($this->table_list_pr)
                   ->join('barang', 'barang.id ='.$this->table_list_pr.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list_pr.'.satuan_id');

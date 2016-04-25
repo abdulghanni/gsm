@@ -28,7 +28,8 @@
 		</a>
 	</div>
 	<?php foreach ($order->result() as $o) :?>
-	<form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal" id="form-po">
+	<!--form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal" id="form-po"-->
+	<?php echo form_open_multipart(base_url('purchase/order/add'), array('id'=>'form-po', 'class'=>'form-horizontal'))?>
 	<?php $no = explode( ',', $o->no);
 		foreach ($no as $key => $value) {
 			echo '<input type="hidden" name="no[]" value="'.$value.'">';
@@ -221,6 +222,8 @@
 										<th width="10%"> Harga </th>
 										<th width="5%">Disc(%)</th>
 										<th width="10%"> Sub Total </th>
+										<th width="10%"> Attachment </th>
+
 									</tr>
 								</thead>
 								<tbody>
@@ -249,10 +252,11 @@
 										<td><?=$ol->kode_barang?></td>
 										<td><img height="75px" width="75px" src="<?=$src?>"></td>
 										<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->barang_id?>">
-										<td><input type="text" name="nama_barang[]" class="form-control" value="<?=$ol->nama_barang?>" readonly>
-										</td>
 										<td>
 											<textarea name="deskripsi[]" class="form-control" placeholder="Isi deskripsi dan catatan kaki perbarang disini"><?=$ol->deskripsi?></textarea>
+										</td>
+										<td>
+											<textarea name="catatan_barang[]" class="form-control" placeholder="Isi catatan kaki perbarang disini"><?=$ol->catatan?></textarea>
 										</td>
 										<td class="text-right"><input type="text" name="jumlah[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>"></td>
 										<td><?=$ol->satuan?></td>
@@ -263,6 +267,14 @@
 										<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$i?>">
 										</td>
 										<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
+										<td>
+										<?php if(!empty($ol->attachment)):?>
+											<a target="_blank" href="<?= base_url("uploads/pr/".$ol->attachment)?>"><?=$ol->attachment?></a>
+											<input type="hidden" name="attachment[]" value="<?=$ol->attachment?>">
+										<?php else: ?>
+											<input type="file" name="attachment[]">
+										<?php endif;?>
+										</td>
 										</tr>
 									<script type="text/javascript" src="<?=assets_url('vendor/jquery-mask-money/jquery.MaskMoney.js')?>"></script>
 									<script>
@@ -466,20 +478,21 @@
 					</div>
 				</div>
 				<div class="row" id="btnSubmit">
-			<div class="col-md-7"></div>
-			<div class="col-md-2">
-			<button type="button" id="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
-				Save Draft <i class="fa fa-save"></i>
-			</button>
+				<div class="col-md-7"></div>
+				<div class="col-md-2">
+					<button type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
+						Save Draft <i class="fa fa-save"></i>
+					</button>
+					<!--input type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style=""-->
+				</div>
+				<div class="col-md-1"></div>
+				<div class="col-md-2">
+					<button type="submit" value="Submit" name="btnDraft"  class="btn btn-lg btn-primary hidden-print pull-right">
+						Submit Request <i class="fa fa-check"></i>
+					</button>
+					<!--button type="submit" value="Submit" name="btnDraft" class="btn btn-lg btn-primary hidden-print pull-right" style="">Btn</button-->
+				</div>
 			</div>
-			<div class="col-md-1">
-			</div>
-			<div class="col-md-2">
-			<button type="submit"  class="btn btn-lg btn-primary hidden-print pull-right">
-				Submit Request <i class="fa fa-check"></i>
-			</button>
-			</div>
-		</div>
 		<?php else:
 				echo 'Draft dibuat oleh '.getFullName($o->created_by);
 				endif;

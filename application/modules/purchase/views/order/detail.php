@@ -177,13 +177,14 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 									<th width="1%"> No. </th>
 									<th width="5%"> Kode Barang </th>
 									<th width="8%"> SS Barang </th>
-									<th width="15%"> Nama Barang </th>
-									<th width="20%"> Deskripsi & Catatan </th>
+									<th width="15%"> Deskripsi </th>
+									<th width="20%"> Catatan </th>
 									<th width="5%">Quantity</th>
 									<th width="5%"> Satuan </th>
 									<th width="10%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="10%"> Sub Total </th>
+									<th width="10%"> Attachment </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -203,13 +204,14 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 									<td><?=$i++?></td>
 									<td><?=$ol->kode_barang?></td>
 									<td><img height="75px" width="75px" src="<?=$src?>"></td>
-									<td><textarea class="form-control" readonly="readonly"><?=$ol->nama_barang?></textarea></td>
 									<td><textarea class="form-control" readonly="readonly"><?=$ol->deskripsi?></textarea></td>
+									<td><textarea class="form-control" readonly="readonly"><?=$ol->catatan?></textarea></td>
 									<td class="text-right"><?=$ol->jumlah?></td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
+									<td><a target="_blank" href="<?= base_url("uploads/pr/".$ol->attachment)?>"><?=$ol->attachment?></a></td>
 								</tr>
 								<?php endforeach;
 									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;

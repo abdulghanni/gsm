@@ -97,8 +97,9 @@ class Request extends MX_Controller {
                         'deskripsi'=>$this->input->post('deskripsi'),
                         'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
+                        'catatan_barang'=>$this->input->post('catatan_barang'),
                         'harga'=>$this->input->post('harga'),
-                        );//print_mz($list);
+                        );
         $data = array(
                 'no' => $no,
                 'diajukan_ke'=>$this->input->post('diajukan_ke'),
@@ -127,9 +128,13 @@ class Request extends MX_Controller {
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
+                'catatan' => $list['catatan_barang'][$i],
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
+                'attachment' => '',
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
                 );
         $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
         if($num_rows_list>0){
@@ -137,21 +142,44 @@ class Request extends MX_Controller {
         }else{
         $this->db->insert($this->table_name.'_list', $data2);
         }
+        $this->load->library('upload');
+        $this->upload->initialize($this->set_upload_options());
+        if($this->upload->do_multi_upload("attachment")){
+            $up = $this->upload->get_multi_upload_data();
+            $att = array(
+                    'attachment' => $up[$i]['file_name'],
+                );
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $att);
+        }else{
+            $att = $this->input->post('attachment');
+            $attx = (!empty($att[$i])) ? $att[$i] : '';
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
+        }
         endfor;
         echo json_encode(array('status'=>true));
     }
     
     function add()
     {
+        //print_ag($_FILES);die();
+        $btn = $this->input->post('btnDraft');
+        print_mz($btn);
+        if($btn == "Submit"){
+            $type = 0;
+        }else{
+            $type = 1;
+        }
         permissionUser();
         $no = $this->input->post('no');
         $id = $this->input->post('id');
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
+                        'catatan_barang'=>$this->input->post('catatan_barang'),
                         'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
+                        //'attachment'=>$this->input->post('attachment'),
                         );
         $data = array(
                 'no' => $this->input->post('no'),
@@ -162,7 +190,7 @@ class Request extends MX_Controller {
                 'jenis_barang_id'=>$this->input->post('jenis_barang_id'),
                 'kurensi_id'=>$this->input->post('kurensi_id'),
                 'catatan' =>$this->input->post('catatan'),
-                'is_draft' => 0,
+                'is_draft' => $type,
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -180,20 +208,59 @@ class Request extends MX_Controller {
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
+                'catatan' => $list['catatan_barang'][$i],
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
                 );
+
         $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
         if($num_rows_list>0){
             $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
         }else{
         $this->db->insert($this->table_name.'_list', $data2);
         }
+        $this->load->library('upload');
+        $this->upload->initialize($this->set_upload_options());
+        if($this->upload->do_multi_upload("attachment")){
+            $up = $this->upload->get_multi_upload_data();
+            $att = array(
+                    'attachment' => $up[$i]['file_name'],
+                );
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $att);
+        }else{
+            $att = $this->input->post('attachment');
+            $attx = (!empty($att[$i])) ? $att[$i] : '';
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
+        }
         endfor;
         $this->send_notification($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
+
+    private function set_upload_options()
+    {   
+        if(!is_dir('./'.'uploads')){
+        mkdir('./'.'uploads/', 0777);
+        }
+        if(!is_dir('./uploads/pr/')){
+        mkdir('./uploads/pr/', 0777);
+        }
+        if(!is_dir('./uploads/pr/'.sessId())){
+        mkdir('./uploads/pr/'.sessId(), 0777);
+        }
+
+        $config =  array(
+          'upload_path'     => './uploads/pr/',
+          'allowed_types'   => '*',
+          'overwrite'       => TRUE,
+        );    
+
+        return $config;
+    }
+
     function send_notification($id)
     {
         permissionUser();

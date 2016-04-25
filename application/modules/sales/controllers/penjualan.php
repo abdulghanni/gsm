@@ -67,12 +67,13 @@ class Penjualan extends MX_Controller {
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
-                        'diterima'=>$this->input->post('diterima'),
+                        'diterima'=>$this->input->post('jumlah'),
                         'diorder'=>$this->input->post('diorder'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
+                        'catatan_barang'=>$this->input->post('catatan_barang'),
                         );
 
         $data = array(
@@ -96,7 +97,7 @@ class Penjualan extends MX_Controller {
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'catatan' =>$this->input->post('catatan'),
-                'pajak_komponen_id' =>implode(',',$this->input->post('pajak_komponen_id')),
+                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
                 'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
                 'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
                 'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
@@ -117,10 +118,45 @@ class Penjualan extends MX_Controller {
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
+                'catatan' => str_replace(',', '', $list['catatan_barang'][$i]),
                 );
         $this->db->insert($this->table_name.'_list', $data2);
+        $this->load->library('upload');
+        $this->upload->initialize($this->set_upload_options());
+        if($this->upload->do_multi_upload("attachment")){
+            $up = $this->upload->get_multi_upload_data();
+            $att = array(
+                    'attachment' => $up[$i]['file_name'],
+                );
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $att);
+        }else{
+            $att = $this->input->post('attachment');
+            $attx = (!empty($att[$i])) ? $att[$i] : '';
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
+        }
         endfor;
         redirect($this->module.'/'.$this->file_name, 'refresh');
+    }
+
+    private function set_upload_options()
+    {   
+        if(!is_dir('./'.'uploads')){
+        mkdir('./'.'uploads/', 0777);
+        }
+        if(!is_dir('./uploads/sale/')){
+        mkdir('./uploads/sale/', 0777);
+        }
+        if(!is_dir('./uploads/sale/'.sessId())){
+        mkdir('./uploads/sale/'.sessId(), 0777);
+        }
+
+        $config =  array(
+          'upload_path'     => './uploads/sale/',
+          'allowed_types'   => '*',
+          'overwrite'       => TRUE,
+        );    
+
+        return $config;
     }
 
     public function ajax_list()
@@ -237,15 +273,17 @@ class Penjualan extends MX_Controller {
     function add_so(){
         permissionUser();
 
-         $this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
+        //$this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
+        $this->data['so'] = GetAllSelect('stok_pengeluaran', array('id', 'created_on'), array('id'=>'order/desc'))->result();
         $this->load->view($this->module.'/'.$this->file_name.'/no_so', $this->data);
     }
 
     function get_table()
     {
         $id = $this->input->post('id');
-        //$id = substr_replace($id, '', -1);
-        $this->data['list'] = GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id));
+        $id = substr_replace($id, '', -1);
+        //$this->data['list'] = GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id));
+        $this->data['list'] = $this->main->get_list_detail_so($id);
         $this->load->view($this->module.'/'.$this->file_name.'/table', $this->data);
     }
 

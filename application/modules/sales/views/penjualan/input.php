@@ -21,7 +21,8 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal">
+<!--form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal"-->
+<?php echo form_open_multipart(base_url($module.'/'.$file_name.'/add'), array('id'=>'form-inv', 'class'=>'form-horizontal'))?>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -54,11 +55,11 @@
 				</div>
 				<div class="row">
 					<div class="col-md-6">
-						<div class="col-md-4">
+						<div class="col-md-6">
 						</div>
-						<div class="col-md-8">
+						<div class="col-md-6">
 							<button id="add_so" type="button" class="btn btn-xs btn-green" style="display: none">
-	                        	<?= lang('add') ?> S.O <i class="fa fa-plus"></i>
+	                        	<?= lang('add') ?> dari surat jalan <i class="fa fa-plus"></i>
 	                    	</button>
 						</div>
 					</div>

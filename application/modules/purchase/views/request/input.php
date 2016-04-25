@@ -21,7 +21,8 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-pr">
+<!--form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal" id="form-pr"-->
+<?php echo form_open_multipart(base_url($module.'/'.$file_name.'/add'), array('id'=>'form-pr', 'class'=>'form-horizontal'))?>
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -163,11 +164,13 @@
 									<th width="8%"> SS Barang </th>
 									<th width="20%"> Kode Barang </th>
 									<th width="20%"> Deskripsi </th>
+									<th width="20%"> Catatan </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
 									<th width="10%"> Harga </th>
 									<th width="5%"  style="display:none">Disc(%)</th>
 									<th width="10%"> Sub Total </th>
+									<th width="10%"> Attachment </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -281,16 +284,17 @@
 					<div class="row" id="btnSubmit" style="display:none">
 						<div class="col-md-7"></div>
 						<div class="col-md-2">
-						<button type="button" id="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
-							Save as Draft <i class="fa fa-save"></i>
-						</button>
+							<button type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style="">
+								Save Draft <i class="fa fa-save"></i>
+							</button>
+							<!--input type="submit" value="Save as Draft" name="btnDraft" class="btn btn-lg btn-green hidden-print pull-right" style=""-->
 						</div>
-						<div class="col-md-1">
-						</div>
+						<div class="col-md-1"></div>
 						<div class="col-md-2">
-						<button type="submit"  class="btn btn-lg btn-primary hidden-print pull-right">
-							Submit Request <i class="fa fa-check"></i>
-						</button>
+							<button type="submit" value="Submit" name="btnDraft"  class="btn btn-lg btn-primary hidden-print pull-right">
+								Submit Request <i class="fa fa-check"></i>
+							</button>
+							<!--button type="submit" value="Submit" name="btnDraft" class="btn btn-lg btn-primary hidden-print pull-right" style="">Btn</button-->
 						</div>
 					</div>
 				</div>
@@ -304,7 +308,7 @@
 <!-- end: INVOICE -->
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
-	function addRow(tableID){
+function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
 	$.ajax({
@@ -314,171 +318,7 @@
 	         },
 	         dataType:"html"
         });
-	
 }
-	/*var cell1=row.insertCell(0);
-	var element1=document.createElement("input");
-	element1.type="checkbox";
-	element1.name="chkbox[]";
-	element1.className="checkbox1";
-	cell1.appendChild(element1);
-
-	var cell2=row.insertCell(1);
-	cell2.innerHTML=rowCount+1-1;
-
-	var cell3=row.insertCell(2);
-	cell3.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.$barang[$i]['title']?></option><?php endfor;?></select>";  
-
-	var cell4=row.insertCell(3);
-	cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">';
-
-	var cell5=row.insertCell(4);
-	cell5.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
-
-	var cell6=row.insertCell(5);
-	cell6.innerHTML = "<select id="+'satuanlist'+rowCount+" name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select><input type='text' value='0' id="+'satuanlist_num'+rowCount+"> ";
-
-	var cell7=row.insertCell(6);
-	cell7.innerHTML = '<input name="harga[]" value="0" type="text" class="form-control harga text-right" required="required" id="harga'+rowCount+'"><input name="disc[]"  style="display:none" value="0" type="hidden" class="form-control text-right" required="required" id="disc'+rowCount+'">';  
-
-	var cell8=row.insertCell(7);
-	cell8.innerHTML = '<input name="sub_total[]" type="text" class="form-control subtotal text-right" required="required" id="subtotal'+rowCount+'" readonly>';
-
-	var cell9=row.insertCell(8);
-	cell9.innerHTML = '<input name="pajak[]" value="0" type="text" class="form-control text-right" required="required" id="pajak'+rowCount+'">';
-	//var a = $('input[name="fraksi"]').val();alert(a);
-	$('#jumlah'+rowCount).on('click', function () {
-        if($('input[name="fraksi"]').is(":checked")){
-        	$('#form_fraksi')[0].reset();
-			$('[name="fraksi_id"]').val(rowCount);
-			$('.sf-1').attr('id', 'sf-1'+rowCount);
-			$('.tf-1').attr('id', 'tf-1'+rowCount);
-        	showFModal(rowCount);
-        }
-    });
-function showFModal(id){
-	
-	$('#modal_fraksi').modal('show');
-}
-
-$('#btnFraksi').on('click', function () {
-		$('#modal_fraksi').modal('hide');
-    });
-
-	$("#barang_id"+rowCount).change(function(){
-        var id = $(this).val();
-         $.ajax({
-            type: "GET",
-            dataType: "JSON",
-            url: '../order/get_nama_barang/'+id,
-            success: function(data) {
-                $('#deskripsi'+rowCount).val(data);
-            }
-        });
-         $.ajax({
-            type: 'POST',
-            url: '/gsm/purchase/request/get_satuan/'+id,
-            data: {id : id},
-            success: function(data) {
-                $('#satuan'+rowCount).html(data);
-            }
-        });
-
-    })
-    .change();
-    
-	$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
-	$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).add("#pajak"+rowCount).keyup(function() {
-		hitung();
-    });
-
-    $('.harga').maskMoney({allowZero:true});
-    $('#dibayar, #biaya_pengiriman, #tf-1, #tf-2, #tf-3').keyup(function(){
-    	hitung();
-    });
-    function hitung()
-    {
-    	var a = parseFloat($('#jumlah'+rowCount).val()),
-    		bunga = parseFloat($('#bunga').val()),
-        	b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
-        	c = parseFloat($('#disc'+rowCount).val()),
-        	p = parseFloat($('#pajak'+rowCount).val()).toFixed(2),
-        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
-        	biayaPengiriman = parseFloat($('#biaya_pengiriman').val().replace(/,/g,"")),
-        	lama_angsuran= parseInt($('#lama_angsuran_1').val()),
-        	d = (a*b)*(c/100),//jumlah diskon
-       		val = (a*b)-d,
-        	subPajak = val*(p/100),//jumlah pajak
-        	jmlPajak = 0,
-        	total = 0;
-        	if($('input[name="fraksi"]').is(":checked")){
-        		tf_1 = parseFloat($('#tf-1').val());
-				tf_2 = parseFloat($('#tf-2').val());
-				tf_3 = parseFloat($('#tf-3').val());
-				sf_1_num = parseFloat($("#sf1-num").val());
-				sf_2_num = parseFloat($("#sf2-num").val());
-				sf_3_num = parseFloat($("#sf3-num").val());
-				sf_3_num = parseFloat($("#sf3-num").val());
-				satuan_utama_num = parseFloat($('#satuanlist_num'+rowCount).val());
-				b = parseFloat($('#harga'+rowCount).val().replace(/,/g,"")).toFixed(2),
-				//$('#satuan'+id).select2().select2('val',tf_1);
-				v1 = tf_1*(sf_1_num/satuan_utama_num)*b,
-				v2 = tf_2*(sf_2_num/satuan_utama_num)*b,
-				v3 = tf_3*(sf_3_num/satuan_utama_num)*b,
-				val = parseFloat(v1) + parseFloat(v2) + parseFloat(v3);//alert(v1+'='+tf_1+'*('+sf_1_num+'/'+satuan_utama_num+'*'+b);
-        		$('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
-        	}else{
-        		$('#subtotal'+rowCount).val(addCommas(parseFloat(val).toFixed(2)));
-        	}
-        
-        $('#subpajak'+rowCount).val(subPajak);
-        $('.subpajak').each(function (index, element) {
-            jmlPajak = jmlPajak + parseInt($(element).val());
-        });
-        $('.subtotal').each(function (index, element) {
-            total = total + parseInt($(element).val().replace(/,/g,""));
-        });
-        total = total+biayaPengiriman;
-        totalPlusBunga = (totalpluspajak-diBayar)*(bunga/100);
-        totalPlusBunga = (totalpluspajak-diBayar)+totalPlusBunga;
-        biayaAngsuran = totalPlusBunga/lama_angsuran;
-        totalpluspajak = total + jmlPajak;
-        $('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
-        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
-        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
-        var saldo = totalpluspajak-diBayar;
-        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
-       	$('#totalplusbunga').val(addCommas(parseFloat(totalPlusBunga).toFixed(2)));
-       	$('#biaya_angsuran').val(addCommas(parseFloat(biayaAngsuran).toFixed(2)))
-    }
-
-    function addCommas(nStr)
-    {
-      nStr += '';
-      x = nStr.split('.');
-      x1 = x[0];
-      x2 = x.length > 1 ? '.' + x[1] : '';
-      var rgx = /(\d+)(\d{3})/;
-      while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-      }
-      return x1 + x2;
-    }
-	}
-	function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
-	*/
-	function addCommas(nStr)
-    {
-      nStr += '';
-      x = nStr.split('.');
-      x1 = x[0];
-      x2 = x.length > 1 ? '.' + x[1] : '';
-      var rgx = /(\d+)(\d{3})/;
-      while (rgx.test(x1)) {
-        x1 = x1.replace(rgx, '$1' + ',' + '$2');
-      }
-      return x1 + x2;
-    }
 </script>
 <div class="modal fade" id="modal_fraksi" role="dialog">
     <div class="modal-dialog modal-xs">

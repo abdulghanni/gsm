@@ -149,19 +149,22 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-12">
+						<div class="table-responsive">
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
 									<th width="1%"> No. </th>
 									<th width="10%"> Kode Barang </th>
 									<th width="9%"> SS Barang </th>
-									<th width="25%"> Nama Barang </th>
+									<th width="25%"> Deskripsi </th>
+									<th width="25%"> Catatan </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="20%"> Sub Total </th>
 									<th width="5%">Exclude PPN(%)</th>
+									<th width="5%">Attachment</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -181,13 +184,15 @@
 									<td><?=$i++?></td>
 									<td><?=$ol->kode_barang?></td>
 									<td><img height="75px" width="75px" src="<?=$src?>"></td>
-									<td><?=$ol->deskripsi?></td>
+									<td><textarea readonly="readonly"><?=$ol->deskripsi?></textarea></td>
+									<td><textarea readonly="readonly"><?=$ol->catatan?></textarea></td>
 									<td class="text-right"><?=$ol->jumlah?></td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
 									<td class="text-center"><?= ($ol->pajak != 0)? '<i class="fa fa-check"></i>' : '<i class="fa fa-remove"></i>'?></td>
+									<td class="text-center"><a target="_blank" href="<?= base_url("uploads/sale/".$ol->attachment)?>"><?=$ol->attachment?></a></td>
 								</tr>
 								<?php endforeach;
 									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
@@ -198,6 +203,7 @@
 								?>
 							</tbody>
 						</table>
+						</div>
 					</div>
 				</div>
 				<div class="row">
