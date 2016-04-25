@@ -9,7 +9,8 @@ class Barang extends MX_Controller {
 	{
 		parent::__construct();
         $this->load->database();
-		$this->load->model('master/barang_model', 'barang');
+        $this->load->model('master/barang_model', 'barang');
+		$this->load->model('master/barang_inv_model', 'inv');
         //$this->lang->load('master/barang');
 	}
 
@@ -75,9 +76,9 @@ class Barang extends MX_Controller {
 		echo json_encode(array('data'=>$data, 'inv'=>$inv));
     }
 
-    public function ajax_edit_inv($id)
+    public function edit_inv($id)
     {
-        $data = $this->barang->get_by_inv_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
+        $data = $this->inv->get_by_id($id); // if 0000-00-00 set tu empty for datepicker compatibility
         echo json_encode($data);
     }
 
@@ -176,66 +177,41 @@ class Barang extends MX_Controller {
     }
 
 
-    public function ajax_add_inv()
+    public function add_inv()
     {
 
         //$this->_validate();
-        $satuanlain=$this->input->post('satuan_lain');//print_ag($satuanlain);
-        $satuanlain_id=$this->input->post('satuan_lain_id');
-        $valuelain=$this->input->post('value_lain');
         $is_update = $this->input->post('is_update');
         $data = array(
                 'kode' => $this->input->post('kode'),
                 'title' => $this->input->post('title'),
                 'alias' => $this->input->post('alias'),
-                'merk' => $this->input->post('merk'),
-                'jenis_barang_id' => $this->input->post('jenis_barang_id'),
-                'satuan' => $this->input->post('satuan'),
-                'satuan_laporan' => $this->input->post('satuan_laporan'),
+                'brand' => $this->input->post('brand'),
                 'catatan' => $this->input->post('catatan'),
+                'jenis_inventaris_id' => $this->input->post('jenis_inventaris_id'),
+                'tgl_beli' => date('Y-m-d',strtotime($this->input->post('tgl_beli'))),
+                'harga_beli' => str_replace(',', '', $this->input->post('harga_beli')),
+                'lokasi' => $this->input->post('lokasi'),
+                'akumulasi' => str_replace(',', '', $this->input->post('akumulasi')),
+                'beban_tahun_ini' => str_replace(',', '', $this->input->post('beban_tahun_ini')),
+                'beban_perbulan' => str_replace(',', '', $this->input->post('beban_perbulan')),
+                'nilai_buku' => str_replace(',', '', $this->input->post('nilai_buku')),
+                'tarif_penyusutan' => str_replace(',', '', $this->input->post('tarif_penyusutan')),
+                'umur_ekonomis' => $this->input->post('umur_ekonomis'),
+                'terhitung_tanggal' => date('Y-m-d',strtotime($this->input->post('terhitung_tanggal'))),
+                'nilai_residu' => str_replace(',', '', $this->input->post('nilai_residu')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
         $id = $this->input->post('id');
+
         if($is_update == 1) {
-            $this->barang->update(array('id' => $id), $data);
-            
-            /* $num_satuan_dasar = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$this->input->post('satuan')))->num_rows();
-            if($num_satuan_dasar>0):
-                $this->db->where('satuan',$this->input->post('satuan'))->where('barang_id', $id);
-                $this->db->update('barang_satuan',array('value'=>1,'satuan'=>$this->input->post('satuan')));
-            else:
-                $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>1,'satuan'=>$this->input->post('satuan')));
-            endif; */
-            $a=0;
-            foreach($satuanlain as $sl){
-                $num_satuan = GetAllSelect('barang_satuan', 'id', array('barang_id'=>'where/'.$id, 'satuan'=>'where/'.$satuanlain[$a]))->num_rows();
-                if(isset($satuanlain_id[$a])):
-                    $this->db->where('id',$satuanlain_id[$a]);
-                    $this->db->update('barang_satuan',array('value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
-                else:
-                    if(isset($satuanlain[$a])){
-                    $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
-                    }
-                endif;
-                $a++;
-            }
-            
-        }
-        else{ $id = $this->barang->save($data);
-            
-            $a=0;
-                $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>1,'satuan'=>$this->input->post('satuan')));
-            foreach($satuanlain as $sl){
-                if(isset($sl[$a])){
-                $this->db->insert('barang_satuan',array('barang_id'=>$id,'value'=>$valuelain[$a],'satuan'=>$satuanlain[$a]));
-                }
-                $a++;
-            }
-            
+            $this->inv->update(array('id' => $id), $data);   
+        }else{ 
+            $id = $this->inv->save($data);
         }
         //$this->upload_attachment($id);
-        $this->upload($id);
+        $this->upload($id, 'inv');
         $this->cek_stok($id);
         
         //echo json_encode(array("status" => TRUE));
@@ -286,7 +262,7 @@ class Barang extends MX_Controller {
     }
     */
     
-    function upload($id)
+    function upload($id, $inv = null)
     {
         if(!is_dir('./'.'uploads')){
         mkdir('./'.'uploads', 0777);
@@ -365,7 +341,11 @@ class Barang extends MX_Controller {
             $data = array('photo'=>$image_name);
             //$targetPath = base_url().'uploads/'.$id.'/'.$image_name;
             //echo "<img src='$targetPath' width='100px' height='100px' />";
-            $this->db->where('id', $id)->update('barang', $data);
+            if($inv == 'inv'){
+                $this->db->where('id', $id)->update('barang_inventaris', $data);
+            }else{
+                $this->db->where('id', $id)->update('barang', $data);
+            }
         }
     }
 
@@ -396,6 +376,13 @@ class Barang extends MX_Controller {
         $this->barang->delete_by_id($id);
         echo json_encode(array("status" => TRUE));
     }
+
+    public function delete_inv($id)
+    {
+        $this->inv->delete_by_id($id);
+        echo json_encode(array("status" => TRUE));
+    }
+
 
     function pdf(){
         permissionUser();
@@ -609,5 +596,45 @@ class Barang extends MX_Controller {
                 echo '</pre>';
             }                           
         }
+    }
+
+    public function list_inv()
+    {
+        permissionUser();
+        $list = $this->inv->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $r) {
+            $photo_link = base_url().'uploads/barang/'.$r->id.'/'.$r->photo;
+            $file_headers = @get_headers($photo_link);
+            $photo = $this->data['photo'] = ($file_headers[0] != 'HTTP/1.1 404 Not Found'&&!empty($r->photo)) ? $photo_link : assets_url('assets/images/no-image-mid.png');
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = "<img height='75px' width='100px' src='$photo' />";
+            $row[] = $r->kode;
+            $row[] = $r->title;
+            $row[] = $r->jenis_inventaris;
+            $row[] = $r->harga_beli;
+            $row[] = $r->umur_ekonomis;
+            $row[] = $r->akumulasi;
+            $row[] = $r->beban_perbulan;
+            $row[] = $r->nilai_buku;
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_inv('."'".$r->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_inv('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+        
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->inv->count_all(),
+                        "recordsFiltered" => $this->inv->count_filtered(),
+                        "data" => $data,
+                );
+        //output to json format
+        echo json_encode($output);
     }
 }

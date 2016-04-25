@@ -50,7 +50,7 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "/gsm/master/barang/ajax_list/1",
+            "url": "/gsm/master/barang/list_inv",
             "type": "POST"
         },
 
@@ -108,19 +108,19 @@ function add_user()
     $('.modal-title').text('Tambah Data Barang'); // Set Title to Bootstrap modal title
 }
 
-function add_user_inv()
+function add_inv()
 {
     $('#form_inv')[0].reset(); // reset form on modals
     //$("#attachment").hide();
     //$("#file").show();
-    $('#is_update').val('0');
-    $("#satuan-exist").empty();
-    $("#satuan-lain").empty();
-    $('.form-group').removeClass('has-error'); // clear error class
-    $("#btnTambahSatuan").trigger({ type: "click" });
-    $('.help-block').empty(); // clear error string
-    $('#modal_form_inv').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Tambah Data Barang'); // Set Title to Bootstrap modal title
+    //$('#is_update').val('0');
+    //$("#satuan-exist").empty();
+    //$("#satuan-lain").empty();
+    //$('.form-group').removeClass('has-error'); // clear error class
+    //$("#btnTambahSatuan").trigger({ type: "click" });
+    //$('.help-block').empty(); // clear error string
+    $('#modal_inv').modal('show'); // show bootstrap modal
+    //$('.modal-title').text('Tambah Data Barang Inventaris'); // Set Title to Bootstrap modal title
 }
 
 function edit_user(id)
@@ -187,18 +187,16 @@ function edit_user(id)
     });
 }
 
-function edit_user_inv(id)
+function edit_inv(id)
 {
     save_method = 'update';
-    $("#satuan-exist").empty();
-    $("#satuan-lain").empty();
     $('#form_inv')[0].reset(); // reset form on modals
-    $('#is_update').val('1');
+    $('#is_update_inv').val('1');
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     //Ajax Load data from ajax
     $.ajax({
-        url : "barang/ajax_edit_inv/" + id,
+        url : "barang/edit_inv/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -208,12 +206,20 @@ function edit_user_inv(id)
             $('[name="kode"]').val(data.kode);
             $('[name="title"]').val(data.title);
             $('[name="alias"]').val(data.alias);
-            $('[name="merk"]').val(data.merk);
+            $('[name="brand"]').val(data.brand);
+            $('[name="lokasi"]').val(data.lokasi);
+            $('[name="tgl_beli"]').val(data.tgl_beli);
+            $('[name="harga_beli"]').val(data.harga_beli);
+            $('[name="akumulasi"]').val(data.akumulasi);
+            $('[name="beban_tahun_ini"]').val(data.beban_tahun_ini);
+            $('[name="beban_perbulan"]').val(data.beban_perbulan);
+            $('[name="nilai_residu"]').val(data.nilai_residu);
+            $('[name="nilai_buku"]').val(data.nilai_buku);
+            $('[name="tarif_penyusutan"]').val(data.tarif_penyusutan);
+            $('[name="umur_ekonomis"]').val(data.umur_ekonomis);
+            $('[name="terhitung_tanggal"]').val(data.terhitung_tanggal);
             $('[name="catatan"]').text(data.catatan);
-            $('[name="jenis_barang_inventaris_id"]').select2().select2('val',data.jenis_barang_id);
-            //$('[name="satuan_id"]').select2().select2('val',data.satuan_id);
-            $('[name="satuan"]').select2().select2('val',data.satuan);
-            $('[name="satuan_laporan"]').select2().select2('val',data.satuan_laporan);
+            $('[name="jenis_inventaris_id"]').select2().select2('val',data.jenis_inventaris_id);
             /*
             if(data.attachment != ''){
                 $("#attachment").html(data.attachment+"<button onclick='removeFile()' type='button' class='btn btn-danger btn-small' title='Remove File'><i class='fa fa-remove'></i></button>");
@@ -227,9 +233,7 @@ function edit_user_inv(id)
             }else{
             $("#photo").attr("src", "http://"+window.location.host+"/gsm/assets/assets/images/no-image-mid.png");    
             }
-            drawSatuan(data.id);
-            //drawSatuan(satuan);
-            $('#modal_form_inv').modal('show'); // show bootstrap modal when complete loaded
+            $('#modal_inv').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Ubah Data Barang'); // Set title to Bootstrap modal title
 
         },
@@ -336,6 +340,30 @@ function delete_user(id)
                 //if success reload ajax table
                 $('#modal_form').modal('hide');
                 reload_table();
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error deleting data');
+            }
+        });
+
+    }
+}
+
+function delete_inv(id)
+{
+    if(confirm('Are you sure delete this data?'))
+    {
+        // ajax delete data to database
+        $.ajax({
+            url : "barang/delete_inv/"+id,
+            type: "POST",
+            dataType: "JSON",
+            success: function(data)
+            {
+                //if success reload ajax table
+                $('#modal_form').modal('hide');
+                location.reload();
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
