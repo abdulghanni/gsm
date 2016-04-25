@@ -215,7 +215,7 @@ class Order extends MX_Controller {
                 'diskon_tambahan_nominal' => str_replace(',', '', $this->input->post('diskon_tambahan_nominal')),
                 'diskon_tambahan_persen' => str_replace(',', '', $this->input->post('diskon_tambahan_persen')),
                 'created_by' => sessId(),
-                'created_on' => dateNow(),
+                'created_on' => date('Y-m-d',strtotime($this->input->post('created_on'))),
                 'is_draft' => $type
             );
 

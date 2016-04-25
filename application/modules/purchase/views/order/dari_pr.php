@@ -101,6 +101,18 @@
 				</div>
 			</div>
 
+            <div class="form-group">
+                <label class="col-sm-4 control-label" for="inputEmail3">
+                    Tgl. Pembuatan PO
+                </label>
+                <div class="col-sm-8">
+                    <div id="created_on" class="input-append date success no-padding">
+                      <input type="text" class="form-control" name="created_on" required>
+                      <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
+                    </div>
+                </div>
+            </div>
+
 			<div class="form-group">
 				<label class="col-sm-4 control-label" for="inputPassword3">
 					Term
