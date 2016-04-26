@@ -182,7 +182,7 @@ function hitung<?=$id?>()
         $('#total').val(addCommas(parseFloat(totalminuspajak).toFixed(2)));
         
         $('#totalpluspajak').val(addCommas(parseFloat(total).toFixed(2)));
-        var saldo = totalpluspajak-diBayar-diBayarNominal;
+        var saldo = total-diBayar-diBayarNominal;
         $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
    	}
 
