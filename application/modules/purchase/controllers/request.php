@@ -236,7 +236,7 @@ class Request extends MX_Controller {
             $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
         }
         endfor;
-        $this->send_notification($insert_id);
+        if($type != 1)$this->send_notification($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
