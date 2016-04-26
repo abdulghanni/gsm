@@ -141,9 +141,11 @@ function hitung<?=$id?>()
         });
 
         if($("#pajak<?=$id?>").is(':checked')){
+        	ppnx =  val - (val/1.1);
 			$("#subpajak<?=$id?>").val(parseFloat(ppnx));
 		}else{
-			$("#subpajak<?=$id?>").val(parseFloat(0));
+			ppnx =  val * (10/100);
+			$("#subpajak<?=$id?>").val(parseFloat(ppnx));
 		}
 		$('.subpajak').each(function (index, element) {
             totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
