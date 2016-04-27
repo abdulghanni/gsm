@@ -276,13 +276,10 @@
 											<input type="hidden" name="subdisc[]" class="text-right subdisc" value="0" id="subdisc<?=$i?>">
 											</td>
 											<td class="text-right"><input type="text" name="subtotal" class="text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
-											<td>
-												<?php $checked = ($ol->pajak != 0)?'checked="checked"' : '';?>
-												<div class="checkbox clip-check check-primary checkbox-inline">
-													<input type="checkbox" id="pajak<?=$i?>" value="" <?= $checked ?>>
-													<label for="pajak<?=$i?>">
-													</label>
-												</div>
+											<td class="text-center">
+												<?php $checked = ($ol->pajak != 0)?'' : '';?>
+													<input name= "pajak_checkbox1_checkbox[]" type="checkbox" id="pajak<?=$i?>" value="1" <?= $checked ?>>
+													<input type="hidden" name="pajak_checkbox1[]" value="0" />
 												<input type="hidden" name="pajak[]" value="<?= $ol->pajak ?>" id="subpajak<?=$i?>" class="subpajak">
 											</td>
 											<td><?php if(!empty($ol->attachment)):?>

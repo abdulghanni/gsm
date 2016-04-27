@@ -222,7 +222,7 @@
 									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="15%"> Sub Total </th>
-									<th width="5%" class="text-center"> Include PPN </th>
+									<th width="5%" class="text-center"> Inc PPN </th>
 									<th width="5%" class="text-center"> Attachment </th>
 								</tr>
 							</thead>
@@ -555,6 +555,10 @@ function addRow(tableID){
 
 function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
 
+$('#dibayar, #biaya_pengiriman, #dibayar-nominal').keyup(function(){
+    	hitungTotal();
+    });
+
 $("input:checkbox:not(:checked)").each(function() {
 	    var total = "#total"+$(this).attr("class");
 	    $(total).hide();
@@ -565,7 +569,6 @@ $("input:checkbox:not(:checked)").each(function() {
 	    $(total).toggle();
 	    hitungTotal();
 	});
-
 
 $("#dp-persen-cek:not(:checked)").each(function() {
 	     $("#dp-persen").hide("slow");
@@ -580,8 +583,6 @@ $("#dp-persen-cek:not(:checked)").each(function() {
 
 function hitungTotal()
 {
-
-
 	if($('#dp-persen-cek').is(':checked')){
 		$('#dibayar-nominal').val(parseFloat(0));
 	}else{
@@ -620,23 +621,19 @@ function hitungTotal()
 		$('#totalp3').val(parseFloat(0));
 	}
 
-	p1 = parseFloat($("#totalPajak").val()),
-	p2 = parseFloat($("#totalp2").val()),
-    p3 = parseFloat($("#totalp3").val()),
+	p1 = parseFloat($("#totalPajak").val().replace(/,/g,"")),
+	p2 = parseFloat($("#totalp2").val().replace(/,/g,"")),
+    p3 = parseFloat($("#totalp3").val().replace(/,/g,"")),
 
     total = total+biayaPengiriman;
     totalpluspajak = total+p1+p2+p3;
+    totalminuspajak = total-p1-p2-p3;
     diBayar = totalpluspajak * (diBayar/100);
-    
-    var saldo = totalpluspajak-diBayar-diBayarNominal;
     $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-    $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+    $('#total').val(addCommas(parseFloat(totalminuspajak).toFixed(2)));
     
-    //$('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
-    $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-    $('#total').val(addCommas(parseFloat(total).toFixed(2)));
-    
-    $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
+    $('#totalpluspajak').val(addCommas(parseFloat(total).toFixed(2)));
+    var saldo = total-diBayar-diBayarNominal;
     $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
 }
 

@@ -50,12 +50,9 @@
 		<input name="sub_total[]" type="text" class=" subtotal text-right" required="required" id="subtotal<?=$id?>" value="0" readonly>
 	</td>
 
-	<td>
-		<div class="checkbox clip-check check-primary checkbox-inline">
-			<input type="checkbox" id="pajak<?=$id?>" value="">
-			<label for="pajak<?=$id?>">
-			</label>
-		</div>
+	<td class="text-center">
+		<input name= "pajak_checkbox1_checkbox[]" type="checkbox" id="pajak<?=$id?>" value="1">
+		<input type="hidden" name="pajak_checkbox1[]" value="0" />
 		<input name="pajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$id?>">
 	</td>
 
@@ -67,6 +64,18 @@
 	$("#pajak<?=$id?>").click(function(){
 	    hitung<?=$id?>();
 	});
+	$('input[type="checkbox"]').on('change', function(e){
+        if($(this).prop('checked'))
+        {
+            alert('y');
+            $(this).next().val(1);
+            //$(this).next().disabled = true;
+        } else {
+            $(this).next().val(0);
+            //$(this).next().disabled = true;
+        }
+    });
+
 	$("#barang_id<?=$id?>").change(function(){
 	        var id = $(this).val();
 	         $.ajax({
@@ -169,9 +178,9 @@ function hitung<?=$id?>()
 			$('#totalp3').val(parseFloat(0));
 		}
 
-		p1 = parseFloat($("#totalPajak").val()),
-		p2 = parseFloat($("#totalp2").val()),
-        p3 = parseFloat($("#totalp3").val()),
+		p1 = parseFloat($("#totalPajak").val().replace(/,/g,"")),
+		p2 = parseFloat($("#totalp2").val().replace(/,/g,"")),
+        p3 = parseFloat($("#totalp3").val().replace(/,/g,"")),
 
         total = total+biayaPengiriman;
         totalpluspajak = total+p1+p2+p3;

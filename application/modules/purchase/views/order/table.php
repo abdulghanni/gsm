@@ -35,6 +35,7 @@
 							</label>
 						</div>
 						</td>
+						<input type="hidden" name="request_id[]" value="<?=$ol->request_id?>">
 						<?php $src = (!empty($ol->photo))?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
 						<!--<td><?=$i++?></td>-->
 						<td><?=$ol->kode_barang?></td>

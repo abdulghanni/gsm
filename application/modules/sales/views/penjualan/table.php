@@ -16,7 +16,7 @@
 						<th width="10%"> Harga </th>
 						<th width="5%">Disc(%)</th>
 						<th width="10%"> Sub Total </th>
-						<th width="10%"> Include PPN </th>
+						<th width="10%"> Inc PPN </th>
 						<th width="10%">Attachment</th>
 							</tr><?php $i=1;
 							$totalpluspajak = $totalpajak = $total = $saldo = $totaldiskon = 0;
@@ -50,12 +50,9 @@
 								<td class="text-right"><input type="text" name="subtotal" class=" text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly>
 								</td>
 								<td>
-									<?php $checked = ($ol->pajak != 0)?'checked="checked"' : '';?>
-									<div class="checkbox clip-check check-primary checkbox-inline">
-										<input type="checkbox" id="pajak<?=$i?>" value="" <?= $checked ?>>
-										<label for="pajak<?=$i?>">
-										</label>
-									</div>
+									<?php $checked = ($ol->inc_ppn != 0)?'checked="checked"' : '';?>
+									<input name= "pajak_checkbox1_checkbox[]" type="checkbox" id="pajak<?=$i?>" value="1">
+									<input type="hidden" name="pajak_checkbox1[]" value="0" />
 									<input type="hidden" name="pajak[]" value="<?= $ol->pajak ?>" id="subpajak<?=$i?>" class="subpajak">
 								</td>
 								<td>
@@ -101,9 +98,11 @@
 										        });
 
 												if($("#pajak<?=$i?>").is(':checked')){
+													ppnx =  val - (val/1.1);
 													$("#subpajak<?=$i?>").val(parseFloat(ppnx));
 												}else{
-													$("#subpajak<?=$i?>").val(parseFloat(0));
+													ppnx =  val * (10/100);
+													$("#subpajak<?=$i?>").val(parseFloat(ppnx));
 												}
 												$('.subpajak').each(function (index, element) {
 										            totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
@@ -121,9 +120,9 @@
 													$('#totalp3').val(parseFloat(0));
 												}
 
-												p1 = parseFloat($("#totalPajak").val()),
-												p2 = parseFloat($("#totalp2").val()),
-										        p3 = parseFloat($("#totalp3").val()),
+												p1 = parseFloat($("#totalPajak").val().replace(/,/g,"")),
+												p2 = parseFloat($("#totalp2").val().replace(/,/g,"")),
+										        p3 = parseFloat($("#totalp3").val().replace(/,/g,"")),
 										        $("#pajak<?=$i?>").val(subPajak);
 										        $('#totalPajak').val(addCommas(parseFloat(totalPajak).toFixed(2)));
 
@@ -133,17 +132,16 @@
 
 										        total = total+biayaPengiriman;
 										        totalpluspajak = total+p1+p2+p3;
+										        totalminuspajak = total-p1-p2-p3;
 										        diBayar = totalpluspajak * (diBayar/100);
-										        
+
+										         $('#totalPajak').val(addCommas(parseFloat(totalPajak).toFixed(2)));
 										        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-										        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+										        $('#total').val(addCommas(parseFloat(totalminuspajak).toFixed(2)));
 										        
-										        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-										        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
-										        //alert(diBayar);
-										        $('#totalpluspajak').val(addCommas(parseFloat(totalpluspajak).toFixed(2)));
-										        var saldo = totalpluspajak-diBayar-diBayarNominal;
-										        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));
+										        $('#totalpluspajak').val(addCommas(parseFloat(total).toFixed(2)));
+										        var saldo = total-diBayar-diBayarNominal;
+										        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
 										    }
 							</script>
 							<?php $i++;} 
@@ -282,6 +280,18 @@
 </div>
 
 <script type="text/javascript">
+$('input[type="checkbox"]').on('change', function(e){
+        if($(this).prop('checked'))
+        {
+            $(this).next().val(1);
+            //$(this).next().disabled = true;
+        } else {
+            $(this).next().val(0);
+            //$(this).next().disabled = true;
+        }
+    });
+
+
 	$("#dp-persen-cek:not(:checked)").each(function() {
 	     $("#dp-persen").hide("slow");
 	     $("#dp-nominal").show("slow");
@@ -350,19 +360,20 @@
 		$('#totalp3').val(parseFloat(0));
 	}
 
-	p1 = parseFloat($("#totalPajak").val()),
-	p2 = parseFloat($("#totalp2").val()),
-    p3 = parseFloat($("#totalp3").val()),
+	p1 = parseFloat($("#totalPajak").val().replace(/,/g,"")),
+	p2 = parseFloat($("#totalp2").val().replace(/,/g,"")),
+    p3 = parseFloat($("#totalp3").val().replace(/,/g,"")),
 
     total = total+biayaPengiriman;
     totalpluspajak = total+p1+p2+p3;
-    diBayar = totalpluspajak * (diBayar/100);
-
+    totalminuspajak = total-p1-p2-p3;
+    diBayar = total * (diBayar/100);
+    $('#totalPajak').val(addCommas(parseFloat(totalPajak).toFixed(2)));
     $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-    $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+    $('#total').val(addCommas(parseFloat(totalminuspajak).toFixed(2)));
     
-    $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
-    var saldo = totalpluspajak-diBayar-diBayarNominal;
+    $('#totalpluspajak').val(addCommas(parseFloat(total).toFixed(2)));
+    var saldo = total-diBayar-diBayarNominal;
     $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
 }
 	function addCommas(nStr)

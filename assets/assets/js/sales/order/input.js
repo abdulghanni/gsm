@@ -15,6 +15,17 @@ function resizeInput() {
     $(this).attr('size', $(this).val().length);
 }
 
+$('input[type="checkbox"]').on('change', function(e){
+        if($(this).prop('checked'))
+        {
+            $(this).next().val(1);
+            //$(this).next().disabled = true;
+        } else {
+            $(this).next().val(0);
+            //$(this).next().disabled = true;
+        }
+    });
+
 $('input[type="text"]')
     // event handler
     .change(resizeInput)

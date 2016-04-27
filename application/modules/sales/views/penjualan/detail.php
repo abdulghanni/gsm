@@ -163,7 +163,7 @@
 									<th width="20%"> Harga </th>
 									<th width="5%">Disc(%)</th>
 									<th width="20%"> Sub Total </th>
-									<th width="5%">Exclude PPN</th>
+									<th width="5%">Inc PPN</th>
 									<th width="5%">Attachment</th>
 								</tr>
 							</thead>
@@ -191,13 +191,15 @@
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
-									<td class="text-center"><?= ($ol->pajak != 0)? '<i class="fa fa-check"></i>' : '<i class="fa fa-remove"></i>'?></td>
+									<td class="text-center"><?= ($ol->inc_ppn != 0)? '<i class="fa fa-check"></i>' : '<i class="fa fa-remove"></i>'?></td>
 									<td class="text-center"><a target="_blank" href="<?= base_url("uploads/sale/".$ol->attachment)?>"><?=$ol->attachment?></a>
 								</tr>
 								<?php endforeach;
 									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
-									$total = $total+$o->biaya_pengiriman;
-									$totalpluspajak = $total+$total_pajak;
+									//$total = $total+$o->biaya_pengiriman;
+									$total = $total+$o->biaya_pengiriman-$total_pajak;
+									//$totalpluspajak = $total+$total_pajak;
+									$totalpluspajak = $total + $total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
 									$saldo = $totalpluspajak - $dp- $o->dibayar_nominal;
 								?>

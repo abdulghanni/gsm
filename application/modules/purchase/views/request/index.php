@@ -33,7 +33,8 @@
                           <th rowspan="2" scope="col" width="5">Tgl. Digunakan</th>
                           <th rowspan="2" scope="col" width="10">Gudang</th>
                           <th rowspan="2" scope="col" width="10">Created by</th>
-                          <th colspan="4" scope="col" width="20" class="text-center">Status</th>
+                          <th rowspan="2" scope="col" width="10">Status</th>
+                          <th colspan="4" scope="col" width="20" class="text-center">Approval</th>
                           <th rowspan="2" scope="col" width="15" class="text-center">Action</th>
                         </tr>
                         <tr>

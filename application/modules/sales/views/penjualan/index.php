@@ -31,7 +31,7 @@
                         <tr>
                             <th width="5%" align="center">No.</th>
                             <th width="15%"><?php echo 'No. Invoice';?></th>
-                            <th width="15%"><?php echo 'No. SO';?></th>
+                            <th width="15%"><?php echo 'No. Surat Jalan';?></th>
                             <th width="15%"><?php echo 'Customer';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal Invoice';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal pengiriman';?></th>

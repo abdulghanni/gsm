@@ -160,6 +160,7 @@ class Order extends MX_Controller {
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
                         'catatan_barang'=>$this->input->post('catatan_barang'),
+                        'inc_ppn'=>$this->input->post('pajak_checkbox1'),
                         );
 
         $data = array(
@@ -209,6 +210,7 @@ class Order extends MX_Controller {
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
+                'inc_ppn' => $list['inc_ppn'][$i],
                 );
         $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
         if($num_rows_list>0){

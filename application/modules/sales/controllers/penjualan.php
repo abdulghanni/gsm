@@ -74,6 +74,7 @@ class Penjualan extends MX_Controller {
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
                         'catatan_barang'=>$this->input->post('catatan_barang'),
+                        'inc_ppn'=>$this->input->post('pajak_checkbox1'),
                         );
 
         $data = array(
@@ -115,6 +116,7 @@ class Penjualan extends MX_Controller {
                 'diterima' => str_replace(',', '', $list['diterima'][$i]),
                 'diorder' => str_replace(',', '', $list['diorder'][$i]),
                 'satuan_id' => $list['satuan'][$i],
+                'inc_ppn' => $list['inc_ppn'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
@@ -169,11 +171,12 @@ class Penjualan extends MX_Controller {
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
             $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
              $print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=invoice.mrt&param1=".$r->id;
+             $sj_date = getValue("created_on", "stok_pengeluaran", array('id'=>'where'.$r->id));
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->no_sj;
+            $row[] = date('Ymd', strtotime($sj_date)).sprintf('%04d',$r->no_sj);
             $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->tanggal_pengantaran;

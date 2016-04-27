@@ -177,6 +177,7 @@ class Order extends MX_Controller {
         }
         permissionUser();
         $list = array(
+                        'request_id'=>$this->input->post('request_id'),
                         'kode_barang'=>$this->input->post('kode_barang'),
                         'deskripsi'=>$this->input->post('deskripsi'),
                         'jumlah'=>$this->input->post('jumlah'),
@@ -232,6 +233,7 @@ class Order extends MX_Controller {
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
                 'kode_barang' => $list['kode_barang'][$i],
+                'request_id' => $list['request_id'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],

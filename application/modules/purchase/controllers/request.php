@@ -342,6 +342,7 @@ class Request extends MX_Controller {
             $row[] = $r->tanggal_digunakan;
             $row[] = $r->gudang;
             $row[] = getName($r->created_by);
+            $row[] = $this->get_status($r->id);
             if($r->is_draft == 1){
             $row[] = 'Draft';
             $row[] = 'Draft';
@@ -512,6 +513,21 @@ class Request extends MX_Controller {
         else
         {
             return $this->load->view($view, $data, TRUE);
+        }
+    }
+
+    function get_status($id){
+        $pr_in_po = GetAllSelect('purchase_order_list', 'request_id', array('id'=>'where/'.$id))->num_rows();
+        $num_in_pr = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_request_list')->row()->jumlah;
+        $num_in_po = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_order_list')->row()->jumlah;
+        if($num_in_po >= $num_in_pr){
+            return "Close";
+        }elseif($num_in_po <= $num_in_pr){
+            return "Parsial";
+        }elseif($pr_in_po < 1){
+            return "Open";
+        }else{
+            "-";
         }
     }
 }
