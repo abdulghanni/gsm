@@ -34,7 +34,8 @@
                   <th rowspan="2" scope="col" width="10">Tgl Kirim&nbsp;&nbsp;&nbsp;</th>
                   <th rowspan="2" scope="col" width="10">Dikirim Ke</th>
                   <th rowspan="2" scope="col" width="10">Created by</th>
-                  <th colspan="4" scope="col" width="20" class="text-center">Status</th>
+                  <th rowspan="2" scope="col" width="10">Status</th>
+                  <th colspan="4" scope="col" width="20" class="text-center">Approval</th>
                   <th rowspan="2" scope="col" width="10" class="text-center">Action&nbsp;&nbsp;&nbsp;&nbsp;</th>
                 </tr>
                 <tr>

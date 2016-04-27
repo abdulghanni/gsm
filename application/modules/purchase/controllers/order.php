@@ -407,6 +407,7 @@ class Order extends MX_Controller {
             $row[] = dateIndo($r->tanggal_transaksi);
             $row[] = $r->gudang;
             $row[] = getName($r->created_by);
+            $row[]  = $this->get_status($r->id);
             if($r->is_draft == 1){
             $row[] = 'Draft';
             $row[] = 'Draft';
@@ -681,6 +682,19 @@ class Order extends MX_Controller {
         }
     }
 
-
+    function get_status($id){
+        $po_in_stok = GetAllSelect('stok_penerimaan_list', 'order_id', array('order_id'=>'where/'.$id))->num_rows();
+        $num_in_po = $this->db->select_sum('jumlah')->where('order_id', $id)->get('purchase_order_list')->row()->jumlah;
+        $num_in_stok = $this->db->select_sum('jumlah')->where('order_id', $id)->get('stok_penerimaan_list')->row()->jumlah;
+        if($num_in_stok >= $num_in_po){
+            return "Close";
+        }elseif($num_in_stok < $num_in_po && $po_in_stok > 0){
+            return "Parsial";
+        }elseif($po_in_stok < 1){
+            return "Open";
+        }else{
+            "-";
+        }
+    }
 
 }
