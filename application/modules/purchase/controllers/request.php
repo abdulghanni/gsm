@@ -522,7 +522,7 @@ class Request extends MX_Controller {
         $num_in_po = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_order_list')->row()->jumlah;
         if($num_in_po >= $num_in_pr){
             return "Close";
-        }elseif($num_in_po <= $num_in_pr){
+        }elseif($num_in_po <= $num_in_pr && $pr_in_po > 0){
             return "Parsial";
         }elseif($pr_in_po < 1){
             return "Open";
