@@ -489,26 +489,9 @@
                                     <span class="help-block"></span>
                                 </div>
                                 <label class="control-label col-md-1 pull-left">%</label>
-                                <label class="control-label col-md-2">Umur Ekonomis</label>
-                                <div class="col-md-2">
-                                    <input name="umur_ekonomis" placeholder="Umur Ekonomis" class="form-control text-right" type="text">
-                                    <span class="help-block"></span>
-                                </div>
-                                <label class="control-label col-md-1 pull-left">Thn</label>
-                            </div>
-                            <div class="form-group">
-                                <label class="col-sm-4 control-label" for="inputEmail3">
-                                    Terhitung Tgl.
-                                </label>
-                                <div class="col-sm-3">
-                                    <div id="tanggal_transaksi" class="input-append date success no-padding">
-                                      <input type="text" class="form-control" name="terhitung_tanggal">
-                                      <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
-                                    </div>
-                                </div>
                                 <label class="control-label col-md-2">Nilai Residu</label>
                                 <div class="col-md-3">
-                                    <input name="nilai_residu" placeholder="Nilai Residu Beban" class="form-control money text-right" type="text">
+                                    <input name="nilai_residu" placeholder="Nilai Residu" class="form-control money text-right" type="text">
                                     <span class="help-block"></span>
                                 </div>
                             </div>

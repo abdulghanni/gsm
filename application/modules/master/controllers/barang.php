@@ -197,8 +197,6 @@ class Barang extends MX_Controller {
                 'beban_perbulan' => str_replace(',', '', $this->input->post('beban_perbulan')),
                 'nilai_buku' => str_replace(',', '', $this->input->post('nilai_buku')),
                 'tarif_penyusutan' => str_replace(',', '', $this->input->post('tarif_penyusutan')),
-                'umur_ekonomis' => $this->input->post('umur_ekonomis'),
-                'terhitung_tanggal' => date('Y-m-d',strtotime($this->input->post('terhitung_tanggal'))),
                 'nilai_residu' => str_replace(',', '', $this->input->post('nilai_residu')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
