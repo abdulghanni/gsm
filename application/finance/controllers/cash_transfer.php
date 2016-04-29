@@ -86,7 +86,7 @@ class cash_transfer extends MX_Controller {
 	
 	function get_record(){
 		
-		$valid_fields = array('id','code','name');
+		$valid_fields = array('id','code','name','tanggal');
 
             $this->flexigrid->validate_post('id','DESC',$valid_fields);
             $records = $this->get_flexigrid();
@@ -192,6 +192,14 @@ class cash_transfer extends MX_Controller {
 		//konversi mata uang
 		$data['amount']=str_replace(',','',$data['amount']);
                 $data['kurs']=str_replace(',','',$data['kurs']);
+                if($data['kurs']=='' || $data['kurs']==NULL){$data['kurs']==1;}
+                $data['rv']=$data['amount'];
+                if($data['currency']=='1'){
+                    $data['amount']=$data['rv']*$data['kurs'];
+                }
+                elseif($data['currency']=='2'){
+                    $data['amount']=$data['rv']*$data['kurs'];
+                }
 
 		//$data['rv']=$data['amount'];
 		///$data['kurs']=getkurs($data['rc']);
@@ -201,7 +209,7 @@ class cash_transfer extends MX_Controller {
 		/* if(!$this->input->post('global')){$data['global']='N';}
 		else{$data['global']='Y';}  */
 		
-		if($id != NULL && $id != '')
+		if($id >0)
 		{
 			/* if(!$this->input->post('password')){unset($data['password']);}
 			else{$data['password']=md5($this->config->item('encryption_key').$this->input->post("password"));} */
@@ -214,8 +222,7 @@ class cash_transfer extends MX_Controller {
 		}
 		else
 		{
-			//$data['number']=generatenumbering('petty'.$webmaster_id);
-			//if($this->input->post('password')){$data['password']=md5($this->config->item('encryption_key').$this->input->post("password"));}
+			//$data['number']=generatenumbering('petty'.$webmaster_id);			//if($this->input->post('password')){$data['password']=md5($this->config->item('encryption_key').$this->input->post("password"));}
 			//if(!$this->input->post('avatar')){$data['avatar']='default.png';}
 			$data['created_by'] = $webmaster_id;
 			$data['created_on'] = date("Y-m-d H:i:s");

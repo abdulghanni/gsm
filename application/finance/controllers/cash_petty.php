@@ -30,7 +30,8 @@ class cash_petty extends MX_Controller {
 	
             $colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
             $colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
-            $colModel['code'] = array('Code',110,TRUE,'left',2);
+            $colModel['number'] = array('Code',110,TRUE,'left',2);
+            $colModel['dates'] = array('Tanggal',110,TRUE,'left',2);
             $colModel['amount'] = array('Amount',110,TRUE,'left',2);
             $colModel['from'] = array('Dari / Ke',110,TRUE,'left',2);
             $colModel['memo'] = array('Remark',110,TRUE,'left',2);
@@ -87,7 +88,7 @@ class cash_petty extends MX_Controller {
 	
 	function get_record(){
 		
-		$valid_fields = array('id','code','amount','from','memo','save_type');
+		$valid_fields = array('id','number','amount','from','memo','save_type','dates');
 
             $this->flexigrid->validate_post('id','DESC',$valid_fields);
             $records = $this->get_flexigrid();
@@ -105,12 +106,13 @@ class cash_petty extends MX_Controller {
                 $record_items[] = array(
                 $row->id,
                 $row->id,
-				$row->id,
+		$row->id,
                 $row->number,
-				uang($row->amount),
-				$row->from,
-				$row->memo,
-				$row->save_type
+                $row->dates,
+		uang($row->amount),
+		$row->from,
+		$row->memo,
+		$row->save_type
                         );
             }
 
@@ -179,6 +181,8 @@ class cash_petty extends MX_Controller {
     {
         permissionUser();
 		//print_mz($this->input->post());
+        $webmaster_id=$this->session->userdata('user_id');
+        $id = $this->input->post('id');
         $list = array(
                         'akun'=>$this->input->post('akun'),
                         'amount'=>$this->input->post('amounts'),
@@ -198,18 +202,31 @@ class cash_petty extends MX_Controller {
                 'create_date' =>date("Y-m-d"),
                 'create_user_id' =>sessId(),
             );
-
+        if($id>0){
+            $this->db->where('id',$id);
+        $this->db->update('cash_petty', $data);
+        
+            $insert_id=$id;
+            $this->db->query("DELETE FROM cash_petty_detail WHERE id_petty='$id'");
+        }
+        else{
         $this->db->insert('cash_petty', $data);
         $insert_id = $this->db->insert_id();
-		$sisaan=0;
+        }
+        $sisaan=0;
+        hapus_rekening('cash_petty', $insert_id);
         rekening('cash_petty', $insert_id, $data['coa'], $data['save_type'], $data['amount'],0,0);
         for($i=0;$i<sizeof($list['akun']);$i++):
             if($list['akun'][$i]>0){
+                
+    if($data['save_type']=='in'){$credit=$list['amount'][$i];$debit=0;}
+    elseif($data['save_type']=='out'){$debit=$list['amount'][$i];$credit=0;}
             $data2 = array(
                 'id_petty' => $insert_id,                
                 'akun' => $list['akun'][$i],
-
-                'amount' => str_replace(',', '', $list['amounts'][$i]),
+                'amount' => str_replace(',', '', $list['amount'][$i]),
+                'kredit' => str_replace(',', '', $credit),
+                'debit' => str_replace(',', '', $debit),
                 'remark' => $list['remark'][$i],
                 );
             $this->db->insert('cash_petty_detail', $data2);

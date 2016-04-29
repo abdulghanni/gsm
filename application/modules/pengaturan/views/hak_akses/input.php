@@ -80,8 +80,10 @@
 								<label>
 									<b>
 									<?php echo form_hidden('menu[]',$mod['id']) ?>
-									<?php echo form_checkbox('m_v['.$mod['id'].']','1',($getv==0 ? '':'checked')) ?>
+									
 									<?php echo $mod['title'] ?></b>
+                                                                    <?php echo form_checkbox('m_v['.$mod['id'].']','1',($getv==0 ? '':'checked')) ?>
+                                                                    
 								</label>
 								</div>
 								<!--div class="col-md-2" style="border-left:1px solid #8CE5FF;">
@@ -106,7 +108,7 @@
 								$getd=GetValue('delete','users_permission',array('menu_id'=>'where/'.$sm['id'],'user_id'=>'where/'.$id_user));
 							?>
 								
-								<div class="col-md-12">	
+								<div class="col-md-12" style="border-bottom:1px solid grey;">	
 									<div class="col-md-2">
 										<label>
 											<b>&nbsp;</b>
@@ -116,9 +118,16 @@
 										<label>
 											<b>
 											<?php echo form_hidden('submenu[]',$sm['id']) ?>
-											<?php echo form_checkbox('s_v['.$sm['id'].']','1',($getv==0 ? '':'checked')) ?>
-											<?php echo $sm['title'] ?></b>
-										</label>
+											
+											<?php echo $sm['title'] ?></b></label>
+                                                                                     
+									</div>
+									<div class="col-md-3">       
+                                                                                            <?php echo form_checkbox('s_v['.$sm['id'].']','1',($getv==0 ? '':'checked')) ?><label>View</label>
+									</div>
+									<div class="col-md-3">
+                                                                                            <?php echo form_checkbox('s_u['.$sm['id'].']','1',($getu==0 ? '':'checked')) ?><label>Edit</label>
+										
 									</div>
 									<!--div class="col-md-2" style="border-left:1px solid #8CE5FF;">
 										<?php echo form_checkbox('s_c['.$sm['id'].']','1',($getc==0 ? '':'checked')) ?>

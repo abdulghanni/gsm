@@ -34,6 +34,7 @@
 						<p class="text-dark">
 							#<?=date('Ymd',strtotime('now')).$last_id?> / <?=dateIndo(date('Y-m-d',strtotime('now')))?> <small class="text-light"></small>
 							<input type="hidden" name="no" value="<?=date('Ymd',strtotime('now')).$last_id?>">
+                                                        <?php echo form_hidden('id',isset($val['id']) ? $val['id'] : 0); ?>
 						</p>
 					</div>
 				</div>
@@ -107,11 +108,12 @@
                     </div>
                                 
 		    <div class="form-group">
-			   <?php $nm_f="amount";?>
+			   <?php $nm_f="amount";
+                           ?>
 			   <div class="col-sm-3">
 				   <label for="<?php echo $nm_f?>">Amount</label>
 				   </div><div class="col-sm-9">
-				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val[$nm_f] : '') ?>" class="col-sm-4 validate[required]">
+				   <input type="text" name="<?php echo $nm_f?>"  id="<?php echo $nm_f?>" value="<?php echo $a= (isset($val[$nm_f]) ? $val['rv'] : '') ?>" class="col-sm-4 validate[required]">
 			   </div>
                     </div>
 		  
@@ -121,9 +123,7 @@
 				
                     
     		<div class="form-group">
-                   <?php if(!isset($val['id'])){ ?>
             <button type="submit" class="btn pull-right">Submit</button>
-                   <?php } ?>
              </div>
 				
 		</div>
