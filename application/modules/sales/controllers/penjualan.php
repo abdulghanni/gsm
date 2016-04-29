@@ -170,7 +170,7 @@ class Penjualan extends MX_Controller {
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
             $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
-             $print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=invoice.mrt&param1=".$r->id;
+             //$print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=invoice.mrt&param1=".$r->id;
              $sj_date = getValue("created_on", "stok_pengeluaran", array('id'=>'where'.$r->id));
             $no++;
             $row = array();
