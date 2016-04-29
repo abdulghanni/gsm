@@ -238,7 +238,6 @@ class Penjualan extends MX_Controller {
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
         $footer = $this->load->view($this->module.'/'.$this->file_name.'/pdf_footer', $this->data, true); 
         $this->mpdf = new mPDF();
-        $this->mpdf->setHeader("dasdasdsa");
         $this->mpdf->setFooter($footer);
         $this->mpdf->AddPage('p', // L - landscape, P - portrait
             '', '', '', '',
