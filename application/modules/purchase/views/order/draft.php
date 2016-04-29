@@ -264,20 +264,20 @@
 										<td><img height="75px" width="75px" src="<?=$src?>"></td>
 										<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->barang_id?>">
 										<td>
-											<textarea name="deskripsi[]" class="form-control" placeholder="Isi deskripsi dan catatan kaki perbarang disini"><?=$ol->deskripsi?></textarea>
+											<textarea name="deskripsi[]" class="" placeholder="Isi deskripsi dan catatan kaki perbarang disini"><?=$ol->deskripsi?></textarea>
 										</td>
 										<td>
-											<textarea name="catatan_barang[]" class="form-control" placeholder="Isi catatan kaki perbarang disini"><?=$ol->catatan?></textarea>
+											<textarea name="catatan_barang[]" class="" placeholder="Isi catatan kaki perbarang disini"><?=$ol->catatan?></textarea>
 										</td>
-										<td class="text-right"><input type="text" name="jumlah[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>"></td>
+										<td class="text-right"><input type="text" name="jumlah[]" class=" text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>"></td>
 										<td><?=$ol->satuan?></td>
-										<input type="hidden" name="satuan[]" class="form-control text-right" value="<?=$ol->satuan_id?>">
-										<td class="text-right"><input type="text" name="harga[]" class="form-control text-right harga" value="<?=number_format($ol->harga, 2)?>" id="harga<?=$i?>"></td>
+										<input type="hidden" name="satuan[]" class=" text-right" value="<?=$ol->satuan_id?>">
+										<td class="text-right"><input type="text" name="harga[]" class=" text-right harga" value="<?=number_format($ol->harga, 2)?>" id="harga<?=$i?>"></td>
 										<td class="text-right">
-										<input type="text" name="disc[]" class="form-control text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>">
-										<input type="hidden" name="subdisc[]" class="form-control text-right subdisc" value="0" id="subdisc<?=$i?>">
+										<input type="text" name="disc[]" class=" text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>">
+										<input type="hidden" name="subdisc[]" class=" text-right subdisc" value="0" id="subdisc<?=$i?>">
 										</td>
-										<td class="text-right"><input type="text" name="subtotal" class="form-control text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
+										<td class="text-right"><input type="text" name="subtotal" class=" text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly></td>
 										<td>
 										<?php if(!empty($ol->attachment)):?>
 											<a target="_blank" href="<?= base_url("uploads/pr/".$ol->attachment)?>"><?=$ol->attachment?></a>
