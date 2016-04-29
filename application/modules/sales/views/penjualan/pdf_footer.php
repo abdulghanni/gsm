@@ -69,7 +69,7 @@
 	</tr>
 	<tr>
 		<td align="center"></td>
-		<td align="center"><!--(<?=getFullName($o->created_by)?>)--></td>
+		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
@@ -93,7 +93,15 @@
 	<?php }} ?>
 	<tr>
 		<td align="center"></td>
-		<td align="center"><!--(<?=getFullName($o->created_by)?>)--></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td colspan="3" align="center">Jakarta, <?= date("d M Y", strtotime($o->created_on))?></td>
+	</tr> 
+	<tr>
+		<td align="center"></td>
+		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
@@ -101,15 +109,7 @@
 	</tr> 
 	<tr>
 		<td align="center"></td>
-		<td align="center"><!--(<?=getFullName($o->created_by)?>)--></td>
 		<td align="center"></td>
-		<td align="center"></td>
-		<td align="center"></td>
-		<td colspan="3" align="center"></td>
-	</tr> 
-	<tr>
-		<td align="center"></td>
-		<td align="center"><!--(<?=getFullName($o->created_by)?>)--></td>
 		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
@@ -117,7 +117,23 @@
 	</tr> 
 	<tr>
 		<td align="center"></td>
-		<td align="center"><!--(<?=getFullName($o->created_by)?>)--></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td colspan="3" align="center"></td>
+	</tr> 
+	<tr>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td align="center"></td>
+		<td colspan="3" align="center">(Iriawan)</td>
+	</tr> 
+	<tr>
+		<td align="center"></td>
+		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>
 		<td align="center"></td>

@@ -43,7 +43,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 
       <td width="180">Date</td>
       <td width="20">:</td>
-      <td width="300"><?=dateIndo($o->created_on)?></td>
+      <td width="300"><?=date("d M Y", strtotime($o->created_on))?></td>
       
       <td>Up</td>
       <td>:</td>
@@ -55,7 +55,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 
       <td width="180">Delivery</td>
       <td width="20">:</td>
-      <td width="300"><?=dateIndo($o->tanggal_transaksi)?></td>
+      <td width="300"><?=date("d M Y", strtotime($o->tanggal_transaksi))?></td>
 
 
       <td>Phone</td>
