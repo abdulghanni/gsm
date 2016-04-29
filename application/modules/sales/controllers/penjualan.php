@@ -210,12 +210,36 @@ class Penjualan extends MX_Controller {
     {
         permissionUser();
         $this->data['id'] = $id;
-        $this->data['penjualan'] = $this->main->get_detail($id);
+        $this->data['o'] = $this->main->get_detail($id)->row();
         $this->data['penjualan_list'] = $this->main->get_list_detail($id);
-        
+
+        //Variabel for total-field
+
+        $total_harga = getSum('harga', 'penjualan_list', 'penjualan_id', $id);
+        $total_barang = getSum('diterima', 'penjualan_list', 'penjualan_id', $id);
+        $total = $total_harga * $total_barang;
+
+        $total_ppn = getSum('total_ppn', 'penjualan', 'id', $id);
+        $total_pph22 = getSum('total_pph22', 'penjualan', 'id', $id);
+        $total_pph23 = getSum('total_pph23', 'penjualan', 'id', $id);
+        $biaya_pengiriman = getSum('biaya_pengiriman', 'penjualan', 'id', $id);
+        $dibayar = getSum('dibayar', 'penjualan', 'id', $id);
+        $dibayar_nominal = getSum('dibayar_nominal', 'penjualan', 'id', $id);
+
+        //Total Field
+        $this->data['total_diskon'] = getSum('disc', 'penjualan_list', 'penjualan_id', $id);
+        $this->data['total_pajak'] = $total_pajak = $total_ppn + $total_pph22 + $total_pph23;
+        $this->data['total'] = $total+$biaya_pengiriman-$total_pajak;
+        $this->data['totalpluspajak'] = $totalpluspajak = $total + $total_pajak;
+        $this->data['dp'] = $dp = $totalpluspajak * ($dibayar/100);
+        $this->data['saldo'] = $totalpluspajak - $dp - $dibayar_nominal;
+
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
+        $footer = $this->load->view($this->module.'/'.$this->file_name.'/pdf_footer', $this->data, true); 
         $this->mpdf = new mPDF();
+        $this->mpdf->setHeader("dasdasdsa");
+        $this->mpdf->setFooter($footer);
         $this->mpdf->AddPage('p', // L - landscape, P - portrait
             '', '', '', '',
             5, // margin_left
