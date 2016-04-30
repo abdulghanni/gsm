@@ -248,6 +248,7 @@ class Order extends MX_Controller {
         }else{
         $this->db->insert($this->table_name.'_list', $data2);
         }
+        $this->db->where('barang_id', $list['kode_barang'][$i])->update('stok', array('harga_beli'=>str_replace(',', '', $list['harga'][$i])));
         $this->load->library('upload');
         $this->upload->initialize($this->set_upload_options());
         if($this->upload->do_multi_upload("attachment")){
