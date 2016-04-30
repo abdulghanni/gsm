@@ -46,6 +46,8 @@ class Lists extends MX_Controller {
 		$colModel['a.minimum_stok'] = array('Stok Minimum',110,TRUE,'left',2);
 		$colModel['a.harga_beli'] = array('Harga Beli',110,TRUE,'left',2);
 		$colModel['a.harga_jual'] = array('Harga Jual',110,TRUE,'left',2);
+
+
         
 		$gridParams = array(
 		'rp' => 10,
@@ -112,6 +114,7 @@ class Lists extends MX_Controller {
 		'a.minimum_stok',
 		'a.harga_beli',
 		'a.harga_jual'
+
 		);
 		
 		$this->flexigrid->validate_post('id','DESC',$valid_fields);
