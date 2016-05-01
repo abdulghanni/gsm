@@ -180,7 +180,7 @@ class order_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.id as barang_id,satuan_id, barang.photo,barang.kode as kode_barang,barang.title as nama_barang, purchase_order_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak, purchase_order_list.attachment, purchase_order_list.catatan')
+        $q = $this->db->select('barang.id as barang_id,satuan_id, barang.photo, request_id, barang.kode as kode_barang,barang.title as nama_barang, purchase_order_list.deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak, purchase_order_list.attachment, purchase_order_list.catatan')
                   ->from($this->table_list)
                   ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
                   ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id', 'left')

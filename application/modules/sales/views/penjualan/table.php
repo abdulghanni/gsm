@@ -6,7 +6,7 @@
 					<thead>
 						<tr>
 							<th width="1%">#</th>
-						<!--<th width="1%"> No. </th>-->
+						<th width="1%"> No. Ref</th>
 						<th width="5%"> Kode Barang </th>
 						<th width="8%"> SS Barang </th>
 						<th width="20%"> Deskripsi </th>
@@ -24,9 +24,14 @@
 							$subtotal = $ol->jumlah*$ol->harga;
 							$totaldiskon = $totaldiskon + ($subtotal * ($ol->disc/100));
 							$total = $total + $subtotal;
+							$pengeluaran_id = getValue('pengeluaran_id', 'stok_pengeluaran_list', array('id'=>'where/'.$ol->id));
+							$pengeluaran_date =  getValue('created_on', 'stok_pengeluaran', array('id'=>'where/'.$ol->pengeluaran_id));
+							$pengeluaran_date = date('Ymd', strtotime($pengeluaran_date));
 							?>
 							<tr>
 								<th width="5%"><?php echo $i ?> </th>
+								<td><input type="text" value="<?=$pengeluaran_date.sprintf('%04d',$pengeluaran_id)?>" readonly></td>
+								<input type="hidden" name="ref_id[]" value="<?=$pengeluaran_id?>">
 								<td><?=$ol->kode_barang?></td>
 								<?php $src = (!empty($ol->photo))?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
 								<td><img height="75px" width="75px" src="<?=$src?>"></td>

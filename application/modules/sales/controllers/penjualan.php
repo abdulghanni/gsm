@@ -66,6 +66,7 @@ class Penjualan extends MX_Controller {
         permissionUser();
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
+                        'ref_id'=>$this->input->post('ref_id'),
                         'deskripsi'=>$this->input->post('deskripsi'),
                         'diterima'=>$this->input->post('jumlah'),
                         'diorder'=>$this->input->post('diorder'),
@@ -111,6 +112,7 @@ class Penjualan extends MX_Controller {
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
+                'ref_id' => $list['ref_id'][$i],
                 'kode_barang' => $list['kode_barang'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
                 'diterima' => str_replace(',', '', $list['diterima'][$i]),

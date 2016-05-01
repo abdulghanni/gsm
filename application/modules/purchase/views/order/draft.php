@@ -219,6 +219,7 @@
 					<button id="remove" class="btn btn-danger" type="button" style="display:none">Hapus <i class="fa fa-remove"></i></button>
 					<div class="row">
 						<div class="col-sm-12">
+						<div class="table-responsive">
 							<table id="table" class="table table-striped">
 								<thead>
 									<tr>
@@ -361,6 +362,7 @@
 									?>
 								</tbody>
 							</table>
+						</div>
 						</div>
 					</div>
 					<div id="panel-total" class="panel-body col-md-6 pull-right">

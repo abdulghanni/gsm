@@ -6,7 +6,7 @@
 				<thead>
 					<tr>
 						<th width="1%">#</th>
-						<!--<th width="1%"> No. </th>-->
+						<th width="1%"> No Ref </th>
 						<th width="5%"> Kode Barang </th>
 						<th width="8%"> SS Barang </th>
 						<th width="20%"> Deskripsi </th>
@@ -35,6 +35,7 @@
 							</label>
 						</div>
 						</td>
+						<td><input type="text" value="<?=getValue('no', 'purchase_request', array('id'=>'where/'.$ol->request_id))?>" readonly></td>
 						<input type="hidden" name="request_id[]" value="<?=$ol->request_id?>">
 						<?php $src = (!empty($ol->photo))?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
 						<!--<td><?=$i++?></td>-->

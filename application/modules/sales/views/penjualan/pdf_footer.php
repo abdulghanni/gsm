@@ -140,3 +140,8 @@
 		<td colspan="3" align="center">Direktur</td>
 	</tr> 
 </table>
+<!--
+<div style="float: right; width: 28%; margin-bottom: 0pt; ">
+<img src="tiger.wmf" style="float:right" width="70" />This is text in a &lt;div&gt; element that is set to float:right and width:28%. It also has an image with float:right inside. With this exception, you cannot nest elements with the float property set inside one another.
+</div>
+-->

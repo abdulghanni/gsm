@@ -76,100 +76,10 @@ class Order extends MX_Controller {
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 
-    function add_draft()
-    {
-        permissionUser();
-        //print_mz($this->input->post('attachment'));
-        $po = $this->input->post('po');
-        $list = array(
-                        'kode_barang'=>$this->input->post('kode_barang'),
-                        'deskripsi'=>$this->input->post('deskripsi'),
-                        'jumlah'=>$this->input->post('jumlah'),
-                        'satuan'=>$this->input->post('satuan'),
-                        'harga'=>$this->input->post('harga'),
-                        'disc'=>$this->input->post('disc'),
-                        'pajak'=>$this->input->post('pajak'),
-                        'catatan_barang'=>$this->input->post('catatan_barang'),
-                        );
-        $data = array(
-                'no' => implode(',',$this->input->post('no')),
-                'kontak_id'=>$this->input->post('kontak_id'),
-                'up'=>$this->input->post('up'),
-                'alamat'=>$this->input->post('alamat'),
-                'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
-                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'po'=>$this->input->post('po'),
-                'gudang_id'=>$this->input->post('gudang_id'),
-                'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'kurensi_id'=>$this->input->post('kurensi_id'),
-                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
-                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
-                'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
-                'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
-                'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
-                'gtotal' =>str_replace(',', '', $this->input->post('gtotal')),
-                'catatan' =>$this->input->post('catatan'),
-                'proyek' =>$this->input->post('proyek'),
-                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
-                'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
-                'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
-                'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
-                'diskon_tambahan_nominal' => str_replace(',', '', $this->input->post('diskon_tambahan_nominal')),
-                'diskon_tambahan_persen' => str_replace(',', '', $this->input->post('diskon_tambahan_persen')),
-                'created_by' => sessId(),
-                'created_on' => dateNow(),
-                'is_draft' => 1
-            );
-        $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$po))->num_rows();
-        if($num_rows>0){
-            $this->db->where('po', $po)->update($this->table_name, $data);
-            $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$po));
-        }else{
-            $this->db->insert($this->table_name, $data);
-            $insert_id = $this->db->insert_id();
-        }
-        $this->db->where($this->file_name.'_id', $insert_id)->delete($this->table_name.'_list');
-        for($i=0;$i<sizeof($list['kode_barang']);$i++):
-            $data2 = array(
-                $this->file_name.'_id' => $insert_id,
-                'kode_barang' => $list['kode_barang'][$i],
-                'deskripsi' => $list['deskripsi'][$i],
-                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
-                'satuan_id' => $list['satuan'][$i],
-                'harga' => str_replace(',', '', $list['harga'][$i]),
-                'disc' => str_replace(',', '', $list['disc'][$i]),
-                'pajak' => str_replace(',', '', $list['pajak'][$i]),
-                'catatan' => $list['catatan_barang'][$i],
-                );
-        $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
-        if($num_rows_list>0){
-            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
-        }else{
-        $this->db->insert($this->table_name.'_list', $data2);
-        }
-        $this->load->library('upload');
-        $this->upload->initialize($this->set_upload_options());
-        if($this->upload->do_multi_upload("attachment")){
-            $up = $this->upload->get_multi_upload_data();
-            $att = array(
-                    'attachment' => $up[$i]['file_name'],
-                );
-            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $att);
-        }else{
-            $att = $this->input->post('attachment');
-            $attx = (!empty($att[$i])) ? $att[$i] : '';
-            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
-        }
-        endfor;
-        echo json_encode(array('status'=>true));
-    }
-
     function add()
     {
         $po = $this->input->post('po');
         $btn = $this->input->post('btnDraft');
-        //print_mz($btn);
         if($btn == "Submit"){
             $type = 0;
         }else{
@@ -242,7 +152,7 @@ class Order extends MX_Controller {
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 );
-        $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
+        $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id, 'request_id'=>'where/'.$list['request_id'][$i]))->num_rows();
         if($num_rows_list>0){
             $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
         }else{

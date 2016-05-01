@@ -171,10 +171,12 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 				</div>
 				<div class="row">
 					<div class="col-sm-12">
+					<div class="table-responsive">
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
 									<th width="1%"> No. </th>
+									<th width="5%"> No. Ref </th>
 									<th width="5%"> Kode Barang </th>
 									<th width="8%"> SS Barang </th>
 									<th width="15%"> Deskripsi </th>
@@ -202,10 +204,11 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 									?>
 								<tr>
 									<td><?=$i++?></td>
+									<td><input type="text" value="<?=getValue('no', 'purchase_request', array('id'=>'where/'.$ol->request_id))?>" disabled></td>
 									<td><?=$ol->kode_barang?></td>
 									<td><img height="75px" width="75px" src="<?=$src?>"></td>
-									<td><textarea class="form-control" readonly="readonly"><?=$ol->deskripsi?></textarea></td>
-									<td><textarea class="form-control" readonly="readonly"><?=$ol->catatan?></textarea></td>
+									<td><textarea class="" readonly="readonly"><?=$ol->deskripsi?></textarea></td>
+									<td><textarea class="" readonly="readonly"><?=$ol->catatan?></textarea></td>
 									<td class="text-right"><?=$ol->jumlah?></td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
@@ -224,6 +227,7 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 								?>
 							</tbody>
 						</table>
+					</div>
 					</div>
 				</div>
 				<hr/>

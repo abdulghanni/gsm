@@ -154,6 +154,7 @@
 							<thead>
 								<tr>
 									<th width="5%"> No. </th>
+									<th width="5%"> No. Ref </th>
 									<th width="5%"> Kode Barang </th>
 									<th width="8%"> SS Barang </th>
 									<th width="25%"> Deskripsi </th>
@@ -179,9 +180,12 @@
 									$ss_link = base_url("uploads/barang/$ol->barang_id/$ol->photo");
                  					$ss_headers = @get_headers($ss_link);
 									$src = ($ss_headers[0] != 'HTTP/1.1 404 Not Found')?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png');
+									$pengeluaran_date =  getValue('created_on', 'stok_pengeluaran', array('id'=>'where/'.$ol->ref_id));
+									$pengeluaran_date = date('Ymd', strtotime($pengeluaran_date));
 									?>
 								<tr>
 									<td><?=$i++?></td>
+									<td><input type="text" value="<?=$pengeluaran_date.sprintf('%04d',$ol->ref_id)?>" readonly></td>
 									<td><?=$ol->kode_barang?></td>
 									<td><img height="75px" width="75px" src="<?=$src?>"></td>
 									<td><textarea readonly="readonly"><?=$ol->deskripsi?></textarea></td>
