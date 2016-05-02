@@ -59,7 +59,9 @@
 	<td><input type="file" name="attachment[]"></td>
 
 </tr>
-<script type="text/javascript"> $(document).find("select.select2").select2();</script>
+<script type="text/javascript"> $(document).find("select.select2").select2({
+        dropdownAutoWidth : true
+    });</script>
 <script type="text/javascript">
 	$("#pajak<?=$id?>").click(function(){
 	    hitung<?=$id?>();
@@ -67,7 +69,6 @@
 	$('input[type="checkbox"]').on('change', function(e){
         if($(this).prop('checked'))
         {
-            alert('y');
             $(this).next().val(1);
             //$(this).next().disabled = true;
         } else {

@@ -26,7 +26,9 @@
 	<input name="pajak[]" value="0" type="hiddent" class="form-control text-right" required="required" id="pajak<?=$id?>">
 	<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$id?>">
 </tr>
-<script type="text/javascript"> $(document).find("select.select2").select2();</script>
+<script type="text/javascript"> $(document).find("select.select2").select2({
+        dropdownAutoWidth : true
+    });</script>
 <script type="text/javascript">
 	var a = parseFloat($("#jumlah<?=$id?>").val()),
 		b = parseFloat($("#harga<?=$id?>").val().replace(/,/g,"")).toFixed(2),
