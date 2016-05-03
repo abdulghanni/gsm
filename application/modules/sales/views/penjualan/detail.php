@@ -150,6 +150,7 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-12">
+					<div class="table-responsive">
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
@@ -170,11 +171,12 @@
 							</thead>
 							<tbody>
 								<?php
-									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= $p2 = $p3 = 0;
+									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= $p2 = $p3 = $exc = 0;
 									$i=1;foreach($penjualan_list->result() as $ol): 
 									$diskon = $ol->diterima*$ol->harga*($ol->disc/100);
 									$subtotal = $ol->diterima*$ol->harga-$diskon;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+									$exc = ($ol->inc_ppn != 0) ? 0 : $exc + ($subtotal * (10/100));
 									$total_diskon= $total_diskon + ($ol->diterima*$ol->harga * ($ol->disc/100));
 									$total = $total + $subtotal;
 									$ss_link = base_url("uploads/barang/$ol->barang_id/$ol->photo");
@@ -196,12 +198,12 @@
 									<td class="text-right"><?=$ol->disc?></td>
 									<td class="text-right"><?= number_format($subtotal, 2)?></td>
 									<td class="text-center"><?= ($ol->inc_ppn != 0)? '<i class="fa fa-check"></i>' : '<i class="fa fa-remove"></i>'?></td>
-									<td class="text-center"><a target="_blank" href="<?= base_url("uploads/sale/".$ol->attachment)?>"><?=$ol->attachment?></a>
+									<td class="text-center"><a target="_blank" href="<?= base_url("uploads/sale/".$ol->attachment)?>"><?=$ol->attachment?></a></td>
 								</tr>
 								<?php endforeach;
 									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
 									//$total = $total+$o->biaya_pengiriman;
-									$total = $total+$o->biaya_pengiriman-$total_pajak;
+									$total = $total+$o->biaya_pengiriman-$total_pajak+$exc;
 									//$totalpluspajak = $total+$total_pajak;
 									$totalpluspajak = $total + $total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
@@ -209,6 +211,7 @@
 								?>
 							</tbody>
 						</table>
+					</div>
 					</div>
 				</div>
 				<hr/>

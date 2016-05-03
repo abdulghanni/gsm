@@ -169,11 +169,12 @@
 							</thead>
 							<tbody>
 								<?php
-									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= 0;
+									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo =$exc = $total_diskon= 0;
 									$i=1;foreach($order_list->result() as $ol): 
 									$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
 									$subtotal = $ol->jumlah*$ol->harga-$diskon;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+									$exc = ($ol->inc_ppn != 0) ? 0 : $exc + ($subtotal * (10/100));
 									$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 									$total = $total + $subtotal;
 									$ss_link = base_url("uploads/barang/$ol->barang_id/$ol->photo");
@@ -196,7 +197,7 @@
 								</tr>
 								<?php endforeach;
 									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
-									$total = $total+$o->biaya_pengiriman;
+									$total = $total+$o->biaya_pengiriman-$total_pajak+$exc;
 									$totalpluspajak = $total+$total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
 									$saldo = $totalpluspajak - $dp - $o->dibayar_nominal;

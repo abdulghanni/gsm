@@ -54,6 +54,7 @@
 		<input name= "pajak_checkbox1_checkbox[]" type="checkbox" id="pajak<?=$id?>" value="1">
 		<input type="hidden" name="pajak_checkbox1[]" value="0" />
 		<input name="pajak[]" value="0" type="hidden" class="subpajak" id="subpajak<?=$id?>">
+		<input name="" value="0" type="hidden" class="exc" id="exc<?=$id?>">
 	</td>
 
 	<td><input type="file" name="attachment[]"></td>
@@ -140,6 +141,7 @@ function hitung<?=$id?>()
         	totalPajak = 0,
         	jmlDisc = 0,
         	total = 0;
+        	exc= 0;
 
         $('#subtotal'+<?=$id?>).val(addCommas(parseFloat(val).toFixed(2)));
         $("#subdisc"+<?=$id?>).val(addCommas(parseFloat(disc).toFixed(2)));
@@ -153,13 +155,20 @@ function hitung<?=$id?>()
         if($("#pajak<?=$id?>").is(':checked')){
         	ppnx =  val - (val/1.1);
 			$("#subpajak<?=$id?>").val(parseFloat(ppnx));
+			$("#exc<?=$id?>").val(parseFloat(0));
 		}else{
 			ppnx =  val * (10/100);
 			$("#subpajak<?=$id?>").val(parseFloat(ppnx));
+			$("#exc<?=$id?>").val(parseFloat(ppnx));
 		}
 		$('.subpajak').each(function (index, element) {
             totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
         });
+
+        $('.exc').each(function (index, element) {
+            exc = exc + parseFloat($(element).val().replace(/,/g,""));
+        });
+
 		parseFloat($('#totalPajak').val(totalPajak));
 		/*
         if($('#kpajak1').is(':checked')){
@@ -183,7 +192,7 @@ function hitung<?=$id?>()
 		p2 = parseFloat($("#totalp2").val().replace(/,/g,"")),
         p3 = parseFloat($("#totalp3").val().replace(/,/g,"")),
 
-        total = total+biayaPengiriman;
+        total = total+biayaPengiriman+exc;
         totalpluspajak = total+p1+p2+p3;
         totalminuspajak = total-p1-p2-p3;
         diBayar = totalpluspajak * (diBayar/100);

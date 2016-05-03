@@ -220,7 +220,16 @@ class Penjualan extends MX_Controller {
         $total_harga = getSum('harga', 'penjualan_list', 'penjualan_id', $id);
         $total_barang = getSum('diterima', 'penjualan_list', 'penjualan_id', $id);
         $total = $total_harga * $total_barang;
+        $is_exc = GetAllSelect('penjualan_list', "inc_ppn, pajak", array('penjualan_id'=>'where/'.$id))->result();
+        $exc = 0;
+        foreach($is_exc as $i):
+            echo $i->inc_ppn;
+            if($i->inc_ppn == 0){
+                $exc += $i->pajak;
+            }
+        endforeach;
 
+        //print_mz($exc);
         $total_ppn = getSum('total_ppn', 'penjualan', 'id', $id);
         $total_pph22 = getSum('total_pph22', 'penjualan', 'id', $id);
         $total_pph23 = getSum('total_pph23', 'penjualan', 'id', $id);
@@ -230,9 +239,9 @@ class Penjualan extends MX_Controller {
 
         //Total Field
         $this->data['total_diskon'] = getSum('disc', 'penjualan_list', 'penjualan_id', $id);
-        $this->data['total_pajak'] = $total_pajak = $total_ppn + $total_pph22 + $total_pph23;
-        $this->data['total'] = $total+$biaya_pengiriman-$total_pajak;
-        $this->data['totalpluspajak'] = $totalpluspajak = $total + $total_pajak;
+        $this->data['total_pajak'] = $total_pajak = $total_ppn + $total_pph22 + $total_pph23;//print_mz($total_pajak);
+        $this->data['total'] = $sub_total = $total+$biaya_pengiriman-$total_pajak+$exc;
+        $this->data['totalpluspajak'] = $totalpluspajak = $sub_total + $total_pajak;
         $this->data['dp'] = $dp = $totalpluspajak * ($dibayar/100);
         $this->data['saldo'] = $totalpluspajak - $dp - $dibayar_nominal;
 

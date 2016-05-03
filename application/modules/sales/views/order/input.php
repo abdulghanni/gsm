@@ -625,7 +625,7 @@ function hitungTotal()
 	p2 = parseFloat($("#totalp2").val().replace(/,/g,"")),
     p3 = parseFloat($("#totalp3").val().replace(/,/g,"")),
 
-    total = total+biayaPengiriman;
+    total = total+biayaPengiriman+exc;
     totalpluspajak = total+p1+p2+p3;
     totalminuspajak = total-p1-p2-p3;
     diBayar = totalpluspajak * (diBayar/100);

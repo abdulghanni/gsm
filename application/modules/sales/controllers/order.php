@@ -336,15 +336,41 @@ class Order extends MX_Controller {
     {
         permissionUser();
         $this->data['id'] = $id;
-        $this->data['order'] = $this->order->get_detail($id);
+        $this->data['o'] = $this->order->get_detail($id)->row();
         $this->data['order_list'] = $this->order->get_list_detail($id);
-        $this->data['is_ex_tax'] = $this->db->select('pajak')
-                                              ->where('order_id', $id)
-                                              ->where('pajak !=', "0")
-                                              ->get($this->table_list)->num_rows();
+        //Variabel for total-field
+
+        $total_harga = getSum('harga', 'sales_order_list', 'order_id', $id);
+        $total_barang = getSum('jumlah', 'sales_order_list', 'order_id', $id);
+        $total = $total_harga * $total_barang;
+        $is_exc = GetAllSelect('sales_order_list', "inc_ppn, pajak", array('order_id'=>'where/'.$id))->result();
+        $exc = 0;
+        foreach($is_exc as $i):
+            echo $i->inc_ppn;
+            if($i->inc_ppn == 0){
+                $exc += $i->pajak;
+            }
+        endforeach;
+
+        //print_mz($exc);
+        $total_ppn = getSum('total_ppn', 'sales_order', 'id', $id);
+        $total_pph22 = getSum('total_pph22', 'sales_order', 'id', $id);
+        $total_pph23 = getSum('total_pph23', 'sales_order', 'id', $id);
+        $biaya_pengiriman = getSum('biaya_pengiriman', 'sales_order', 'id', $id);
+        $dibayar = getSum('dibayar', 'sales_order', 'id', $id);
+        $dibayar_nominal = getSum('dibayar_nominal', 'sales_order', 'id', $id);
+
+        //Total Field
+        $this->data['total_diskon'] = getSum('disc', 'sales_order_list', 'order_id', $id);
+        $this->data['total_pajak'] = $total_pajak = $total_ppn + $total_pph22 + $total_pph23;//print_mz($total_pajak);
+        $this->data['total'] = $sub_total = $total+$biaya_pengiriman-$total_pajak+$exc;
+        $this->data['totalpluspajak'] = $totalpluspajak = $sub_total + $total_pajak;
+        $this->data['dp'] = $dp = $totalpluspajak * ($dibayar/100);
+        $this->data['saldo'] = $totalpluspajak - $dp - $dibayar_nominal;
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
         $this->mpdf = new mPDF();
+        $footer = $this->load->view('sales'.'/'.'order'.'/pdf_footer', $this->data, true);
         $this->mpdf->AddPage('p', // L - landscape, P - portrait
             '', '', '', '',
             5, // margin_left
@@ -353,6 +379,7 @@ class Order extends MX_Controller {
             0, // margin bottom
             0, // margin header
             5); // margin footer
+        $this->mpdf->setFooter($footer);
     $this->mpdf->WriteHTML($html);
     $this->mpdf->Output($id.'-'.'.pdf', 'I');
     }

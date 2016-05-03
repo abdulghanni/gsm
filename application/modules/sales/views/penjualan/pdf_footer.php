@@ -171,11 +171,11 @@
 	<tr>
 		<td width="100px">Grand Total</td>
 		<td width="10px">:</td>
-		<td width="100px"><?=number_format($totalpluspajak, 2)?></td>
+		<td width="100px" align="right"><?=number_format($totalpluspajak, 2)?></td>
 	</tr>
 </table>
 </div>
-<div style="float: left; width: 70%; font-size: 10px; ">
+<div style="float: left; width: 70%; font-size: 10px; text-align: left; ">
 <?php $f = new NumberFormatter("en", NumberFormatter::SPELLOUT); ?>
 		Amount in words : <?= ($o->currency_id == 2) ? dollarToWords($totalpluspajak) : $f->format($totalpluspajak)." Rupiah";?>
 </div>

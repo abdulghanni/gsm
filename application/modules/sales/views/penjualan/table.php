@@ -59,6 +59,7 @@
 									<input name= "pajak_checkbox1_checkbox[]" type="checkbox" id="pajak<?=$i?>" value="1">
 									<input type="hidden" name="pajak_checkbox1[]" value="0" />
 									<input type="hidden" name="pajak[]" value="<?= $ol->pajak ?>" id="subpajak<?=$i?>" class="subpajak">
+									<input type="hidden" name="" value="<?= $ol->pajak ?>" id="exc<?=$i?>" class="exc">
 								</td>
 								<td>
 								<?php if(!empty($ol->attachment)){?>
@@ -96,6 +97,7 @@
 													pph22 = $("#pp22_val").val(),
 													pph23 = $("#pp23_val").val(),
 													ppnx =  val*(ppn/100);
+													exc = 0;
 										        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
 										        $("#subdisc<?=$i?>").val(addCommas(parseFloat(disc).toFixed(2)));
 										        $('.subdisc').each(function (index, element) {
@@ -105,14 +107,18 @@
 												if($("#pajak<?=$i?>").is(':checked')){
 													ppnx =  val - (val/1.1);
 													$("#subpajak<?=$i?>").val(parseFloat(ppnx));
+													$("#exc<?=$i?>").val(parseFloat(0));
 												}else{
 													ppnx =  val * (10/100);
 													$("#subpajak<?=$i?>").val(parseFloat(ppnx));
+													$("#exc<?=$i?>").val(parseFloat(ppnx));
 												}
 												$('.subpajak').each(function (index, element) {
 										            totalPajak = totalPajak + parseFloat($(element).val().replace(/,/g,""));
 										        });
-
+												 $('.exc').each(function (index, element) {
+										            exc = exc + parseFloat($(element).val().replace(/,/g,""));
+										        });
 												parseFloat($('#totalPajak').val(totalPajak));
 												if($('#kpajak2').is(':checked')){
 													$('#totalp2').val(parseFloat(total*(2/100)));
@@ -135,7 +141,7 @@
 										            total = total + parseFloat($(element).val().replace(/,/g,""));
 										        });
 
-										        total = total+biayaPengiriman;
+										        total = total+biayaPengiriman+exc;
 										        totalpluspajak = total+p1+p2+p3;
 										        totalminuspajak = total-p1-p2-p3;
 										        diBayar = totalpluspajak * (diBayar/100);
@@ -369,7 +375,7 @@ $('input[type="checkbox"]').on('change', function(e){
 	p2 = parseFloat($("#totalp2").val().replace(/,/g,"")),
     p3 = parseFloat($("#totalp3").val().replace(/,/g,"")),
 
-    total = total+biayaPengiriman;
+    total = total+biayaPengiriman+exc;
     totalpluspajak = total+p1+p2+p3;
     totalminuspajak = total-p1-p2-p3;
     diBayar = total * (diBayar/100);
