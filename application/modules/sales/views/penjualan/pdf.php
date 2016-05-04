@@ -102,7 +102,14 @@ td{ height:30px;}
     	</tr>
     </tr>
 	<?php 
-		$i=1;foreach($penjualan_list->result() as $ol): ?>
+		$i=1;foreach($penjualan_list->result() as $ol):
+    $diskon = $ol->diterima*$ol->harga*($ol->disc/100);
+    $subtotal = $ol->diterima*$ol->harga-$diskon;
+    $totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+    $total_diskon= $total_diskon + ($ol->diterima*$ol->harga * ($ol->disc/100));
+    $total = $total + $subtotal;
+    $ex_tax = ($ol->pajak != 0)? '*' : '';
+     ?>
 	<tr>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang?></td>
