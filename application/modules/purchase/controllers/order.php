@@ -123,6 +123,7 @@ class Order extends MX_Controller {
                 'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
                 'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
                 'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
+                'total_diskon' => str_replace(',', '', $this->input->post('total-diskon')),
                 'diskon_tambahan_nominal' => str_replace(',', '', $this->input->post('diskon_tambahan_nominal')),
                 'diskon_tambahan_persen' => str_replace(',', '', $this->input->post('diskon_tambahan_persen')),
                 'created_by' => sessId(),

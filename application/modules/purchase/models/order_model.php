@@ -145,6 +145,7 @@ class order_model extends CI_Model {
                                 purchase_order.total_pph23, 
                                 purchase_order.diskon_tambahan_nominal, 
                                 purchase_order.diskon_tambahan_persen, 
+                                purchase_order.total_diskon, 
                                 purchase_order.created_on,
                                 is_app_lv1,
                                 is_app_lv2,

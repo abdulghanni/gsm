@@ -36,7 +36,7 @@ $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$o
             $has_approve = 'direktur';
         endif;
 
-if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve == 'ga' && $o->app_status_id_lv2 != 1)):?>
+if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 0) || ($has_approve == 'ga' && $o->app_status_id_lv2 != 1)):?>
                         <div class="row pull-right">
 							<a onclick="cantPrint()" class="btn btn-lg btn-primary hidden-print">
 								 <i class="fa fa-print"></i> <?= lang("print")?>
@@ -44,13 +44,25 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 						</div>
                     <?php else:?>
                         <div class="row pull-right">
-							<a href="<?=base_url().'purchase/order/print_pdf/'.$id;?>" target="_blank" class="btn btn-lg btn-primary hidden-print">
-								 <i class="fa fa-print"></i> <?= lang("print")?>
-							</a>
+                    		<div class="btn-group">
+                    			<a aria-expanded="false" href="#" data-toggle="dropdown" class="btn btn-lg btn-primary hidden-print dropdown-toggle">
+									<i class="fa fa-print"></i> <?= lang("print")?> <span class="caret"></span>
+								</a>
+								<ul class="dropdown-menu" role="menu">
+									<li>
+										<a href="<?=base_url().'purchase/order/print_pdf/'.$id;?>" target="_blank">
+											<i class="fa fa-file-pdf-o"></i> PDF
+										</a>
+									</li>
+									<li>
+										<a href="<?=base_url().'print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=po.mrt&param1='.$id;?>" target="_blank">
+											<i class="fa fa-file"></i> Custom
+										</a>
+									</li>
+								</ul>
+							</div>
 						</div>
                     <?php endif; ?>
-
-
 <form role="form" action="<?= base_url('purchase/order/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
@@ -193,11 +205,11 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 								<?php
 									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= 0;
 									$i=1;foreach($order_list->result() as $ol): 
-									$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
-									$subtotal = $ol->jumlah*$ol->harga-$diskon;
+									//$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
+									$subtotal = $ol->jumlah*$ol->harga;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 									$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
-									$total = $total + $subtotal;
+									$total += $subtotal;
 									$ss_link = base_url("uploads/barang/$ol->barang_id/$ol->photo");
                  					$ss_headers = @get_headers($ss_link);
 									$src = ($ss_headers[0] != 'HTTP/1.1 404 Not Found')?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png');
@@ -220,7 +232,7 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 									$total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
 									$diskon_tambahan = $o->diskon_tambahan_nominal;
 									$diskon_tambahan_persen = $total * ($o->diskon_tambahan_persen / 100); 
-									$total = $total+$o->biaya_pengiriman-$diskon_tambahan-$diskon_tambahan_persen;
+									$total = $total+$o->biaya_pengiriman-$o->total_diskon-$diskon_tambahan-$diskon_tambahan_persen;
 									$totalpluspajak = $total+$total_pajak;
 									$dp = $totalpluspajak * ($o->dibayar/100);
 									$saldo = $totalpluspajak - $dp - $o->dibayar_nominal;
