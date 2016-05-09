@@ -175,7 +175,7 @@
 				<li class="list-group-item" id="totalPPN">
 					<div class="row">
 						<div class="col-md-4">
-						PPN 10%
+						PPN
 						</div>
 						<div class="col-md-6 pull-right">
 						<input type="text" id="totalPajak" name="total-ppn" value="0" class="form-control text-right" readonly="readonly">
@@ -185,7 +185,7 @@
 				<li class="list-group-item" id="totalPPH22">
 					<div class="row">
 						<div class="col-md-4">
-						PPH 22%
+						PPH 22
 						</div>
 						<div class="col-md-6 pull-right">
 						<input type="text" id="totalp2" name="total-pph22" value="0" class="form-control text-right" readonly="readonly">
@@ -195,7 +195,7 @@
 				<li class="list-group-item" id="totalPPH23">
 					<div class="row">
 						<div class="col-md-4">
-						PPH 23%
+						PPH 23
 						</div>
 						<div class="col-md-6 pull-right">
 						<input type="text" id="totalp3" name="total-pph23" value="0" class="form-control text-right" readonly="readonly">

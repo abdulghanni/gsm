@@ -84,6 +84,8 @@ class Penjualan extends MX_Controller {
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
                 'alamat'=>'',
+                'project'=>$this->input->post("project"),
+                'no_faktur'=>$this->input->post("no_faktur"),
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
                 'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
@@ -94,7 +96,7 @@ class Penjualan extends MX_Controller {
                 'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
                 'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
                 'saldo'=>str_replace(',', '', $this->input->post('saldo')),
-                //'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
+                'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'bunga' =>str_replace(',', '', $this->input->post('bunga')),
@@ -103,6 +105,7 @@ class Penjualan extends MX_Controller {
                 'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
                 'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
                 'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
+                'total_diskon' => str_replace(',', '', $this->input->post('total-diskon')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -219,11 +222,17 @@ class Penjualan extends MX_Controller {
 
         $total_harga = getSum('harga', 'penjualan_list', 'penjualan_id', $id);
         $total_barang = getSum('diterima', 'penjualan_list', 'penjualan_id', $id);
-        $total = $total_harga * $total_barang;
+
+        $tot = GetAllSelect('penjualan_list', "diterima, harga", array('penjualan_id'=>'where/'.$id))->result();
+        $total = 0;
+        foreach($tot as $t):
+            $total += $t->diterima * $t->harga;
+        endforeach;
+
+        $total = $total;
         $is_exc = GetAllSelect('penjualan_list', "inc_ppn, pajak", array('penjualan_id'=>'where/'.$id))->result();
         $exc = 0;
         foreach($is_exc as $i):
-            echo $i->inc_ppn;
             if($i->inc_ppn == 0){
                 $exc += $i->pajak;
             }
@@ -238,12 +247,15 @@ class Penjualan extends MX_Controller {
         $dibayar_nominal = getSum('dibayar_nominal', 'penjualan', 'id', $id);
 
         //Total Field
-        $this->data['total_diskon'] = getSum('disc', 'penjualan_list', 'penjualan_id', $id);
+        $this->data['total_diskon'] = $total_diskon = getValue('total_diskon', 'penjualan', array('id'=>'where/'.$id));
+        $dp_nominal = getValue('dibayar_nominal', 'penjualan', array('id'=>'where/'.$id));
+        $this->data['metode_pembayaran_id'] = getValue('metode_pembayaran_id', 'penjualan', array('id'=>'where/'.$id));
         $this->data['total_pajak'] = $total_pajak = $total_ppn + $total_pph22 + $total_pph23;//print_mz($total_pajak);
-        $this->data['total'] = $sub_total = $total+$biaya_pengiriman-$total_pajak+$exc;
+        $this->data['total'] = $sub_total = $total+$biaya_pengiriman-$total_pajak+$exc-$total_diskon;
         $this->data['totalpluspajak'] = $totalpluspajak = $sub_total + $total_pajak;
-        $this->data['dp'] = $dp = $totalpluspajak * ($dibayar/100);
-        $this->data['saldo'] = $totalpluspajak - $dp - $dibayar_nominal;
+        $dp_persen = $totalpluspajak * ($dibayar/100);
+        $this->data['dp'] = $dp = $dp_nominal + $dp_persen;
+        $this->data['saldo'] = $totalpluspajak - $dp;
 
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 

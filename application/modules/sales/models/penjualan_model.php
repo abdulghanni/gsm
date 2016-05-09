@@ -156,6 +156,8 @@ class penjualan_model extends CI_Model {
                                 lama_angsuran_2, 
                                 lama_angsuran_1, 
                                 bunga, 
+                                project,
+                                no_faktur,
                                 penjualan.catatan,
                                 pajak_komponen_id,
                                 total_ppn,

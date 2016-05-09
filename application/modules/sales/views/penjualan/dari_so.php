@@ -101,6 +101,15 @@
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
+								No. Faktur
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="no_faktur" value="" class="form-control" required="required">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Term
 							</label>
 							<div class="col-sm-8">

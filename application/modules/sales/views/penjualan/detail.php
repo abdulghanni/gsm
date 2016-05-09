@@ -23,9 +23,23 @@
 <div class="container-fluid container-fullw bg-white">
 
 <div class="row pull-right">
-	<a href="<?=base_url().'sales/penjualan/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
-		 <i class="fa fa-print"></i> <?= lang('print')?>
-	</a>
+	<div class="btn-group">
+		<a aria-expanded="false" href="#" data-toggle="dropdown" class="btn btn-lg btn-primary hidden-print dropdown-toggle">
+			<i class="fa fa-print"></i> <?= lang("print")?> <span class="caret"></span>
+		</a>
+		<ul class="dropdown-menu" role="menu">
+			<li>
+				<a href="<?=base_url().'sales/penjualan/print_pdf/'.$id;?>" target='_blank'>
+					 <i class="fa fa-file-pdf-o"></i> PDF
+				</a>
+			</li>
+			<li>
+				<a href="<?=base_url().'print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=invoice.mrt&param1='.$id;?>" target="_blank">
+					<i class="fa fa-file"></i> Custom
+				</a>
+			</li>
+		</ul>
+	</div>
 </div>
 <?php foreach ($penjualan->result() as $o) :?>
 <form role="form" action="<?= base_url('transaksi/penjualan/add')?>" method="post" class="form-horizontal">
@@ -110,8 +124,16 @@
 							</div>
 						</div>
 						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								No. Faktur
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="up" value="<?=$o->no_faktur?>" class="form-control" disabled="disabled">
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tgl. Pengiriman
+								Batas Pembayaran
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->tanggal_pengantaran?>" class="form-control" disabled="disabled">
@@ -123,6 +145,15 @@
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Project
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="up" value="<?=$o->project?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
 
