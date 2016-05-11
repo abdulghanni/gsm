@@ -36,7 +36,7 @@ $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$o
             $has_approve = 'direktur';
         endif;
 
-if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 0) || ($has_approve == 'ga' && $o->app_status_id_lv2 != 1)):?>
+if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve == 'ga' && $o->app_status_id_lv2 != 1)):?>
                         <div class="row pull-right">
 							<a onclick="cantPrint()" class="btn btn-lg btn-primary hidden-print">
 								 <i class="fa fa-print"></i> <?= lang("print")?>
