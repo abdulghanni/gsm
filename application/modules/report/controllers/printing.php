@@ -88,6 +88,14 @@ class Printing extends MX_Controller {
                  // $this->load->view('layout/sales_order',$data);
 
 	}
+
+	function inbound(){
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+
+			//redirect(base_url()."print/file/index.php?stimulsoft_report_key=inbound.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=inbound.mrt&stimulsoft_client_key=ViewerFx",'refresh');
+		}
 	function purchase_order(){
                         $data['autoprint']=FALSE;
 			$sd=$this->input->post('start_date');
