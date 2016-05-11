@@ -93,8 +93,7 @@ class Printing extends MX_Controller {
 			$sd=$this->input->post('start_date');
 			$ed=$this->input->post('end_date');
 
-			//redirect(base_url()."print/file/index.php?stimulsoft_report_key=inbound.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
-			redirect(base_url()."print/file/index.php?stimulsoft_report_key=inbound.mrt&stimulsoft_client_key=ViewerFx",'refresh');
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=inbound.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
 		}
 	function purchase_order(){
                         $data['autoprint']=FALSE;
