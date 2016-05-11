@@ -88,7 +88,7 @@
                   $file_headers = @get_headers($photo_link);
                   $sender_photo = ($file_headers[0] != 'HTTP/1.1 404 Not Found') ? $photo_link : assets_url('assets/images/no-image-mid.png');
                 ?>
-                <a class="media list-group-item notif-list" href="#" id="<?=$n->id?>">
+                <a class="media list-group-item notif-list" href="<?=$n->url?>" id="<?=$n->id?>">
                   <img class="img-circle" height="40px" width="40px" alt="..." src="<?=$sender_photo?>">
                   <span class="media-body block no-margin"> <?= $n->judul ?> 
                   <small class="block text-black">No: <?= $n->no?>, <?=getName($n->sender_id)?></small>
