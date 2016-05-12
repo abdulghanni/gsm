@@ -596,6 +596,81 @@ class Barang extends MX_Controller {
         }
     }
 
+    function upload_barang2(){
+               $file = fopen('D:\barang.csv', "r");
+
+        $count = 0;
+        /*satuan :
+        Pcs
+        M
+        roll=300m
+        roll
+        pack
+        set
+        */
+
+        while (($emapData = fgetcsv($file, 10000, ",")) !== FALSE)
+        {
+            $count++; 
+            if($count>0){
+
+                switch ($emapData[6]) {
+                    case 'PCS':
+                        $satuan = 1;
+                        break;
+                    case 'ROLL':
+                        $satuan = 2;
+                        break;
+                    case 'roll=300m':
+                        $satuan = 3;
+                        break;
+                    case 'METER':
+                        $satuan = 4;
+                        break;
+                    case 'PACK':
+                        $satuan = 5;
+                        break;
+                    case 'SET':
+                        $satuan = 6;
+                        break;
+                    
+                    default:
+                        $satuan = 1;
+                        break;
+                }
+
+                if($emapData[6] == 'Barang Inventaris'){
+                    $jenis = 3;
+                }elseif($emapData[6] == 'Barang Mentah'){
+                    $jenis = 2;
+                }else{
+                    $jenis = 1;
+                }
+                $data = array(
+                    'kode'=>$emapData[1],
+                    'merk'=>$emapData[2],
+                    'title' => $emapData[3],
+                    'satuan' => 1,
+                    'jenis_barang_id'=>$jenis,
+                    'created_by'=>1,
+                    'created_on'=>dateNow(),
+                );
+                $cek = getAll('barang', array('kode'=>'where/'.$emapData[1]))->num_rows();
+
+                if($cek<1)$this->db->insert('barang', $data);else $this->db->where('kode', $emapData[1])->update('barang', $data);
+                echo '<pre>';
+                echo $count.'-'.$this->db->last_query();
+                echo '</pre>';
+                $barang_id= getValue('id', 'barang', array('kode'=>'where/'.$emapData[1]));
+                $num = getAll('stok', array('barang_id'=>'where/'.$barang_id))->num_rows;
+                if($num<1)$this->db->insert('stok', array('barang_id'=>$barang_id));
+                echo '<pre>';
+                echo $count.'-'.$this->db->last_query();
+                echo '</pre>';
+            }                           
+        }
+    }
+
     public function list_inv()
     {
         permissionUser();
