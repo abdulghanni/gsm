@@ -133,7 +133,7 @@ class Printing extends MX_Controller {
 
 	}
 	function sales_order(){
-                        $data['autoprint']=FALSE;
+           /*             $data['autoprint']=FALSE;
 			$sd=$this->input->post('start_date');
 			$ed=$this->input->post('end_date');
                         
@@ -153,7 +153,12 @@ class Printing extends MX_Controller {
 			$data['q']=$this->db->query($q)->result();
                         $data['content']='sales/sales_order';
 			$this->load->view('layout/main',$data);
-                 // $this->load->view('layout/sales_order',$data);
+                 // $this->load->view('layout/sales_order',$data);*/
+
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_so.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
 
 	}
 	function neraca(){
