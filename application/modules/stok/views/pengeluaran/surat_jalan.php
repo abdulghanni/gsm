@@ -124,6 +124,7 @@
     <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">No</td>
     <td colspan="5" style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Uraian</td>
     <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Jumlah</td>
+    <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Satuan</td>
     <td colspan="2" style="border-bottom:1px solid black;" align="center">No. S/O</td>
   </tr>
   </thead>
@@ -132,8 +133,9 @@
    foreach($pengeluaran_list as $ls){ ?>
   <tr>
     <td align="center" style="border-right:1px solid black;"><?php echo $no;?></td>
-    <td colspan="5" width="320" style="border-right:1px solid black;"><?php echo GetValue('title','barang',array('id'=>'where/'.$ls['barang_id']))?></td>
+    <td colspan="5" width="320" style="border-right:1px solid black;" align="center"><?php echo GetValue('title','barang',array('id'=>'where/'.$ls['barang_id']))?></td>
     <td style="border-right:1px solid black;" align="center"><?php echo $ls['jumlah']?></td>
+    <td style="border-right:1px solid black;" align="center"><?php echo GetValue('title','satuan',array('id'=>'where/'.$ls['satuan_id']))?></td>
     <td colspan="2" style="border-right:1px solid black;" align="center"><?php echo $ls['ref'] ?></td>
   </tr>
   <?php $no++; } ?>

@@ -400,7 +400,7 @@ class Order extends MX_Controller {
                           'url' => $url,
              );
             $this->db->insert('notifikasi', $data);
-            //$this->send_email(getEmail($u->user_id), $subject, $isi);
+            $this->send_email(getEmail($u->user_id), $subject, $isi);
         endforeach;
     }
 

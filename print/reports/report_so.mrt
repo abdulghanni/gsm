@@ -732,9 +732,11 @@ Amount</Text>
             </Text15>
             <Text16 type="Text" Ref="36" isKey="true">
               <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
               <ClientRectangle>12.6,0,2,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,8</Font>
+              <GrowToHeight>True</GrowToHeight>
               <Guid>09a0f9ea09506dfbb723a78b508f7616</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
@@ -742,6 +744,7 @@ Amount</Text>
               <Parent isRef="29"/>
               <Text>{q.dikirim_ke}</Text>
               <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>DataColumn</Type>
             </Text16>
             <Text17 type="Text" Ref="37" isKey="true">
@@ -887,10 +890,10 @@ Amount</Text>
   </Pages>
   <PrinterSettings type="Stimulsoft.Report.Print.StiPrinterSettings" Ref="49" isKey="true"/>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>05/13/2016 08:04:13 AM</ReportChanged>
+  <ReportChanged>05/13/2016 08:27:29 AM</ReportChanged>
   <ReportCreated>05/10/2016 08:18:04 PM</ReportCreated>
   <ReportFile>inbound.mrt</ReportFile>
-  <ReportGuid>bc6c8a723de982c88862a7a47303ff16</ReportGuid>
+  <ReportGuid>aee86015c40b55f064c7a7b97cf3315f</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.2</ReportVersion>

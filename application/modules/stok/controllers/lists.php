@@ -39,16 +39,19 @@ class Lists extends MX_Controller {
 
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
 		$colModel['a.id'] = array('ID',100,TRUE,'left',2,TRUE);
+		$colModel['b.kode'] = array('Kode',110,TRUE,'left',2);
 		$colModel['b.title'] = array('Barang',110,TRUE,'left',2);
-		$colModel['c.title'] = array('kontak',110,TRUE,'left',2);
 		$colModel['d.title'] = array('Gudang',110,TRUE,'left',2);
-		$colModel['a.stok_dalam'] = array('Stok',110,TRUE,'left',2);
+		$colModel['a.stok_dalam'] = array('Stok Awal',110,TRUE,'left',2);
 		$colModel['a.minimum_stok'] = array('Stok Minimum',110,TRUE,'left',2);
-		$colModel['a.harga_beli'] = array('Harga Beli',110,TRUE,'left',2);
-		$colModel['a.harga_jual'] = array('Harga Jual',110,TRUE,'left',2);
-
-
-        
+                if(GetUserGroups()!='3'){
+		$colModel['a.harga_beli'] = array('Beli',110,TRUE,'left',2);
+		$colModel['a.harga_jual'] = array('Jual',110,TRUE,'left',2);
+		$colModel['a.harga_beli'] = array('Return Beli',110,TRUE,'left',2);
+		$colModel['a.harga_jual'] = array('Return Jual',110,TRUE,'left',2);
+		$colModel['a.harga_beli'] = array('Stok Opname',110,TRUE,'left',2);
+		$colModel['a.harga_jual'] = array('Stok Basket',110,TRUE,'left',2);
+                }
 		$gridParams = array(
 		'rp' => 10,
 		'rpOptions' => '[10,20,30,40]',
@@ -75,7 +78,7 @@ class Lists extends MX_Controller {
 	function get_flexigrid($gdg,$brg)
 	{
 		//Build contents query
-		$this->db->select("a.id as id, b.title as barang,c.title as kontak,d.title as gudang,a.dalam_stok as stok,a.minimum_stok as stok_min,a.harga_beli as harga_beli,a.harga_jual as harga_jual")->from('stok a');
+		$this->db->select("a.id as id, b.title as barang,b.kode as kode,c.title as kontak,d.title as gudang,a.dalam_stok as stok,a.minimum_stok as stok_min,a.harga_beli as harga_beli,a.harga_jual as harga_jual")->from('stok a');
 		$this->db->join('barang b', "a.barang_id=b.id", 'left');
 		$this->db->join('kontak c', "a.supplier_id=c.id", 'left');
 		$this->db->join('gudang d', "a.gudang_id=d.id", 'left');
@@ -114,7 +117,6 @@ class Lists extends MX_Controller {
 		'a.minimum_stok',
 		'a.harga_beli',
 		'a.harga_jual'
-
 		);
 		
 		$this->flexigrid->validate_post('id','DESC',$valid_fields);
@@ -134,8 +136,8 @@ class Lists extends MX_Controller {
 			$row->id,
 			$row->id,
 			$row->id,
+			$row->kode,
 			$row->barang,
-			$row->kontak,
 			$row->gudang,
 			$row->stok,
 			$row->stok_min,

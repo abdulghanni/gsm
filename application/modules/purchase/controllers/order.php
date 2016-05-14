@@ -235,6 +235,21 @@ class Order extends MX_Controller {
              );
         $this->db->insert('notifikasi', $data);
         $this->send_email(getEmail($creator_pr), $subject, $isi);
+
+        //SEND NOTIFICATION TO LOGISTIK
+        $group_id = array('3');
+        $user_id = $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result();
+        foreach($user_id as $u):
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $u->user_id,
+                          'sent_on' => dateNow(),
+                          'judul' => $subject,
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+            $this->db->insert('notifikasi', $data);
+            $this->send_email(getEmail($u->user_id), $subject, $isi);
+
         if($jenis == 3):
             if($gtotal > 1000000){
             $level = array('level' => 'where/3',
@@ -267,7 +282,7 @@ class Order extends MX_Controller {
                           'url' => $url,
              );
         $this->db->insert('notifikasi', $data);
-        $this->send_email(getEmail($r->user_id), $subject, $isi);
+        $this->send_email(getEmail($r->user_id), $subject.'-'.$id, $isi);
         endforeach;
         return TRUE;
     }
