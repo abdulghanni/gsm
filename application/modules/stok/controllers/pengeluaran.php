@@ -28,6 +28,7 @@ class Pengeluaran extends MX_Controller {
 		
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
 		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
+		$colModel['No SUrat Jalan'] = array('No surat jalan',140,TRUE,'left',2);
 		$colModel['ref'] = array('Ref',140,TRUE,'left',2);
 		
 		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
@@ -63,7 +64,7 @@ class Pengeluaran extends MX_Controller {
 	{
 		
 		//Build contents query
-		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered, a.created_by")->from('stok_pengeluaran a');
+		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered, a.created_on, a.created_by")->from('stok_pengeluaran a');
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
                 $this->db->order_by('id','desc');
@@ -115,6 +116,7 @@ class Pengeluaran extends MX_Controller {
 			$row->id,
 			$row->id,
 			$row->id,
+                       "<a href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".date('Ymd', strtotime($row->created_on)).sprintf('%04d',$row->id)."</a>",
                         $ref,
 			$row->gudang_to,
 			$row->tgl,
@@ -283,7 +285,7 @@ class Pengeluaran extends MX_Controller {
 	function send_notification($id)
     {
         permissionUser();
-        $url = base_url().'sales/order/INV/'.$id;
+        $url = base_url().'stok/pengeluaran/detail/'.$id;
         $isi = getName(sessId())." Melakukan Transaksi pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
         $approver = getAll('approver');
         foreach($approver->result() as $r):

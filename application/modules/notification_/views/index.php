@@ -23,7 +23,7 @@
 					<li class="messages-item <?=$bg?>" id="item-<?=$n->id?>">
 						<a href="#" class="<?=$is_read?>" href="#" id="<?=$n->id?>">
 							<span class="messages-item-star" title="Mark as starred"><i class="fa fa-star"></i></span>
-							<img class="messages-item-avatar bordered border-primary" alt="<?=getName($n->sender_id)?>" src="<?=$sender_photo?>">
+							<img class="messages-item-avatar bordered border-primary" alt="John Stark" src="<?=$sender_photo?>">
 							<span class="messages-item-from"><?=getFullName($n->sender_id)?></span>
 							<div class="messages-item-time">
 								<span class="text"><?=$n->sent_on?></span>

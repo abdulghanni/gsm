@@ -302,12 +302,19 @@ class Penjualan extends MX_Controller {
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['order'] = $this->main->get_detail_so($this->data['pengeluaran']['ref']);
         $this->data['order_list'] = $this->main->get_list_detail_so($id);
+        $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
+        $this->data['gudang'] = getAll('gudang')->result();
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Customer --');
         $this->data['pajak_komponen'] = getAll('pajak_komponen',array(), array('!=id'=>'1'))->result();
         $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
         $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
         $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
-        $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
+        if(!empty($this->data['order']->result())){
+            $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
+        }else{    
+            $this->load->view($this->module.'/'.$this->file_name.'/so_kosong', $this->data);
+        }
     }
 
     function get_dari_so_lain($id)

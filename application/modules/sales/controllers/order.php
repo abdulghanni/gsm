@@ -191,10 +191,10 @@ class Order extends MX_Controller {
                 'is_draft' => $type
             );
 
-        $num_rows = GetAllSelect($this->table_name, 'so', array('so'=>'where/'.$po))->num_rows();
+        $num_rows = $this->db->select('so')->where('so', $po)->get($this->table_name)->num_rows();
         if($num_rows>0){
             $this->db->where('so', $po)->update($this->table_name, $data);
-            $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$po));
+            $insert_id = $this->db->select('id')->where('so', $po)->get($this->table_name)->row()->id;
         }else{
             $this->db->insert($this->table_name, $data);
             $insert_id = $this->db->insert_id();

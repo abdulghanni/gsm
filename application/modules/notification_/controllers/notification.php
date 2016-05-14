@@ -19,8 +19,8 @@ class Notification extends MX_Controller {
         $num_rows = getAll($this->table_name, array('receiver_id'=>'where/'.sessId()))->num_rows();
         $this->data['last_id']=$last_id = ($num_rows>0) ? $this->db->select('id')->where('receiver_id', sessId())->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
         $this->data['last_notif'] = getAll($this->table_name, array('receiver_id'=>'where/'.sessId(), 'id'=>'where/'.$last_id))->row();
-        $this->data['all_notification'] = GetAll('notifikasi', array('receiver_id'=>'where/'.sessId(), 'id'=>'order/desc', 'limit'=>'limit/250'));
-		$this->_render_page('notification/index',$this->data);
+        $this->data['all_notification'] = GetAll('notifikasi', array('receiver_id'=>'where/'.sessId(), 'id'=>'order/desc'));
+		$this->_render_page('message/index',$this->data);
 	}
 
     function detail($id){
@@ -54,6 +54,14 @@ class Notification extends MX_Controller {
     {
         $data['notification_num'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()))->num_rows();
         $this->load->view('notification/badges', $data);
+    }
+
+    public function load_notif_header(){
+        $data['notification'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId(), 'limit'=>'limit/3', 'id'=>'order/desc'));
+        $data['notifications'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId(), 'id'=>'order/desc'));
+        $data['notification_num'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()))->num_rows();
+
+        $this->load->view('notification/header', $data);
     }
 
     function _render_page($view, $data=null, $render=false)
