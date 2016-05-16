@@ -249,6 +249,7 @@ class Order extends MX_Controller {
              );
             $this->db->insert('notifikasi', $data);
             $this->send_email(getEmail($u->user_id), $subject, $isi);
+        endforeach;
 
         if($jenis == 3):
             if($gtotal > 1000000){

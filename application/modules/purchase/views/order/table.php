@@ -57,6 +57,7 @@
 						<td class="text-right">
 						<input type="text" name="disc[]" class="text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>">
 						<input type="hidden" name="subdisc[]" class="text-right subdisc" value="0" id="subdisc<?=$i?>">
+						<input type="hidden" name="pajak[]" class="text-right pajak" value="0" id="pajak<?=$i?>">
 						</td>
 						<td class="text-right"><input type="text" name="subtotal" class="text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly>
 						</td>
@@ -99,8 +100,10 @@
 
 				        if($('#kpajak1').is(':checked')){
 							parseFloat($('#totalPajak').val(total*(10/100)));
+							parseFloat($("#pajak<?=$i?>").val(val*(10/100)));
 						}else{
 							$('#totalPajak').val(parseFloat(0));
+							parseFloat($("#pajak<?=$i?>").val(0));
 						}
 						if($('#kpajak2').is(':checked')){
 							$('#totalp2').val(parseFloat(total*(2/100)));
@@ -363,6 +366,7 @@ function hitung()
 		parseFloat($('#totalPajak').val(total*(10/100)));
 	}else{
 		$('#totalPajak').val(parseFloat(0));
+		parseFloat($('.pajak').val(0));
 	}
 	if($('#kpajak2').is(':checked')){
 		$('#totalp2').val(parseFloat(total*(2/100)));
