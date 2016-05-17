@@ -128,6 +128,7 @@
 									<th width="10%"> Kode Barang </th>
 									<th width="9%"> SS Barang </th>
 									<th width="25%"> Nama Barang </th>
+									<th width="25%"> Deskripsi </th>
 									<th width="25%"> Catatan </th>
 									<th width="5%">Quantity</th>
 									<th width="10%"> Satuan </th>
@@ -154,6 +155,7 @@
 									<td><?=$i++?></td>
 									<td><?=$ol->kode_barang?></td>
 									<td><img height="75px" width="75px" src="<?=$src?>"></td>
+									<td><?=$ol->nama_barang?></td>
 									<td><?=$ol->deskripsi?></td>
 									<td><?=$ol->catatan?></td>
 									<td class="text-right"><?=$ol->jumlah?></td>

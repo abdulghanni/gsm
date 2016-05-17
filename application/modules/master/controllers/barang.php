@@ -689,6 +689,7 @@ class Barang extends MX_Controller {
             $row[] = $r->title;
             $row[] = $r->jenis_inventaris;
             $row[] = $r->harga_beli;
+            $row[] = $r->tarif_penyusutan;
             $row[] = $r->akumulasi;
             $row[] = $r->beban_perbulan;
             $row[] = $r->nilai_buku;
