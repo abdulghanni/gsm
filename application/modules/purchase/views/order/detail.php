@@ -205,8 +205,8 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 								<?php
 									$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = $total_diskon= 0;
 									$i=1;foreach($order_list->result() as $ol): 
-									//$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
-									$subtotal = $ol->jumlah*$ol->harga;
+									$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
+									$subtotal = $ol->jumlah*$ol->harga-$diskon;
 									$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
 									$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 									$total += $subtotal;

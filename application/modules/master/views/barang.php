@@ -176,7 +176,6 @@
                                                 <th width="20%"><?php echo lang('description');?></th>
                                                 <th width="10%">Kelompok</th>
                                                 <th width="10%"><?php echo 'Nilai Perolehan';?></th>
-                                                <th width="10%"><?php echo 'Umur'?></th>
                                                 <th width="10%"><?php echo 'Akumulasi Beban'?></th>
                                                 <th width="10%"><?php echo 'Beban Perbulan'?></th>
                                                 <th width="10%"><?php echo 'Nilai Buku'?></th>
