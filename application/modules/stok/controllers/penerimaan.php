@@ -226,7 +226,7 @@ class Penerimaan extends MX_Controller {
 	function send_notification($id)
     {
         permissionUser();
-        $url = base_url().'purchase/order/INV/'.$id;
+        $url = base_url().'stok/penerimaan/'.$id;
         $isi = getName(sessId())." Melakukan Transaksi Penerimaan Barang <a href=$url> KLIK DISINI </a> ";
         $approver = getAll('approver');
         foreach($approver->result() as $r):
