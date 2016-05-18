@@ -109,7 +109,7 @@ class Printing extends MX_Controller {
 			redirect(base_url()."print/file/index.php?stimulsoft_report_key=outbound.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
 		}
 	function purchase_order(){
-                      $data['autoprint']=FALSE;
+            /*          $data['autoprint']=FALSE;
 			$sd=$this->input->post('start_date');
 			$ed=$this->input->post('end_date');
                         
@@ -130,11 +130,11 @@ class Printing extends MX_Controller {
                         $data['content']='purchase/order';
 			$this->load->view('layout/main',$data);
                  // $this->load->view('layout/sales_order',$data);
-                 
+                 */
 			$sd=$this->input->post('start_date');
 			$ed=$this->input->post('end_date');
 
-			//redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
 
 	}
 	function sales_order(){
