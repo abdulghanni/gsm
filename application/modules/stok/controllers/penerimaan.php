@@ -67,6 +67,7 @@ class Penerimaan extends MX_Controller {
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
 		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
+		$this->db->order_by('id', 'desc');
 		$this->flexigrid->build_query();
 		
 		//Get contents
