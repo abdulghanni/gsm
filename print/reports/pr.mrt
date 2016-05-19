@@ -12,7 +12,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
     <DataSources isList="true" count="2">
       <list Ref="3" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
         <Alias>list</Alias>
-        <Columns isList="true" count="10">
+        <Columns isList="true" count="16">
           <value>barang_id,System.String</value>
           <value>satuan_id,System.Int32</value>
           <value>photo,System.String</value>
@@ -23,13 +23,19 @@ TZy9ZAA=</ConnectionStringEncrypted>
           <value>harga,System.Int32</value>
           <value>disc,System.Int32</value>
           <value>pajak,System.Int32</value>
+          <value>nama_barang,System.String</value>
+          <value>jumlah,System.Decimal</value>
+          <value>harga,System.Decimal</value>
+          <value>disc,System.Decimal</value>
+          <value>pajak,System.Decimal</value>
+          <value>catatan,System.String</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>list</Name>
         <NameInSource>pr</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT `barang`.`id` as `barang_id`, `satuan_id`, `barang`.`photo` as `photo`, `barang`.`kode` as `kode_barang`, `purchase_request_list`.`deskripsi`, `jumlah`, `satuan`.`title` as `satuan`, `harga`, `disc`, `pajak` FROM `purchase_request_list` LEFT JOIN `barang` ON `barang`.`id` =`purchase_request_list`.`kode_barang` JOIN `satuan` ON `satuan`.`id` =`purchase_request_list`.`satuan_id` WHERE `request_id` = {param1}</SqlCommand>
+        <SqlCommand>SELECT `barang`.`id` as `barang_id`,`barang`.`title` as `nama_barang`, `satuan_id`, `barang`.`photo` as `photo`, `barang`.`kode` as `kode_barang`, `purchase_request_list`.`deskripsi`,`purchase_request_list`.`catatan`, `jumlah`, `satuan`.`title` as `satuan`, `harga`, `disc`, `pajak` FROM `purchase_request_list` LEFT JOIN `barang` ON `barang`.`id` =`purchase_request_list`.`kode_barang` JOIN `satuan` ON `satuan`.`id` =`purchase_request_list`.`satuan_id` WHERE `request_id` = {param1}</SqlCommand>
       </list>
       <pr Ref="4" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
         <Alias>pr</Alias>
@@ -1425,7 +1431,7 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
         <HeaderBand1 Ref="42" isKey="true" type="HeaderBand">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,10.2,19,0.6</ClientRectangle>
-          <Components isList="true" count="7">
+          <Components isList="true" count="8">
             <Text17 Ref="43" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,1,0.6</ClientRectangle>
@@ -1455,7 +1461,7 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
             </Text20>
             <Text22 Ref="45" isKey="true" type="Text">
               <Brush>Transparent</Brush>
-              <ClientRectangle>3.2,0,7,0.6</ClientRectangle>
+              <ClientRectangle>7.6,0,3,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>30c01b3c265366a0147bb13f91775559</Guid>
@@ -1469,7 +1475,7 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
             </Text22>
             <Text24 Ref="46" isKey="true" type="Text">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.4,0,3.2,0.6</ClientRectangle>
+              <ClientRectangle>10.8,0,2.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>48c46f4807f31887e3dab140461323f9</Guid>
@@ -1510,17 +1516,31 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text28>
-            <HorizontalLinePrimitive4 Ref="49" isKey="true" type="HorizontalLinePrimitive">
+            <Text34 Ref="49" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>3.2,0,4.2,0.6</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Arial,10</Font>
+              <Guid>c7c2a3b0010987c5b16ec753d9fe415f</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text34</Name>
+              <Page isRef="5"/>
+              <Parent isRef="42"/>
+              <Text>Item</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text34>
+            <HorizontalLinePrimitive4 Ref="50" isKey="true" type="HorizontalLinePrimitive">
               <ClientRectangle>0,0.6,19,0.0254</ClientRectangle>
               <Color>Black</Color>
               <Conditions isList="true" count="0"/>
-              <EndCap Ref="50" isKey="true" type="Cap">
+              <EndCap Ref="51" isKey="true" type="Cap">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive4</Name>
               <Page isRef="5"/>
               <Parent isRef="42"/>
-              <StartCap Ref="51" isKey="true" type="Cap">
+              <StartCap Ref="52" isKey="true" type="Cap">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive4>
@@ -1530,11 +1550,11 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
           <Page isRef="5"/>
           <Parent isRef="5"/>
         </HeaderBand1>
-        <DataBand2 Ref="52" isKey="true" type="DataBand">
+        <DataBand2 Ref="53" isKey="true" type="DataBand">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,11.6,19,1.2</ClientRectangle>
-          <Components isList="true" count="7">
-            <Text18 Ref="53" isKey="true" type="Text">
+          <Components isList="true" count="8">
+            <Text18 Ref="54" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0.2,1,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1542,11 +1562,11 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text18</Name>
               <Page isRef="5"/>
-              <Parent isRef="52"/>
+              <Parent isRef="53"/>
               <Text>{Line}</Text>
               <TextBrush>Black</TextBrush>
             </Text18>
-            <Text19 Ref="54" isKey="true" type="Text">
+            <Text19 Ref="55" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.4,0.2,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1554,38 +1574,40 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text19</Name>
               <Page isRef="5"/>
-              <Parent isRef="52"/>
+              <Parent isRef="53"/>
               <Text>{list.kode_barang}</Text>
               <TextBrush>Black</TextBrush>
             </Text19>
-            <Text21 Ref="55" isKey="true" type="Text">
+            <Text21 Ref="56" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>3.2,0.2,7,0.8</ClientRectangle>
+              <ClientRectangle>7.6,0.2,3,0.8</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Margins>0,0,0,0</Margins>
               <Name>Text21</Name>
               <Page isRef="5"/>
-              <Parent isRef="52"/>
-              <Text>{list.deskripsi}</Text>
+              <Parent isRef="53"/>
+              <Text>{list.deskripsi}
+{list.catatan}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>Expression</Type>
             </Text21>
-            <Text23 Ref="56" isKey="true" type="Text">
+            <Text23 Ref="57" isKey="true" type="Text">
               <Brush>Transparent</Brush>
-              <ClientRectangle>10.4,0.2,1.6,0.6</ClientRectangle>
+              <ClientRectangle>10.8,0.2,1.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text23</Name>
               <Page isRef="5"/>
-              <Parent isRef="52"/>
+              <Parent isRef="53"/>
               <Text>{list.jumlah}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="57" isKey="true" type="NumberFormat">
+              <TextFormat Ref="58" isKey="true" type="NumberFormat">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator></GroupSeparator>
@@ -1593,7 +1615,7 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
                 <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
             </Text23>
-            <Text25 Ref="58" isKey="true" type="Text">
+            <Text25 Ref="59" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.8,0.2,2.2,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1602,17 +1624,17 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text25</Name>
               <Page isRef="5"/>
-              <Parent isRef="52"/>
+              <Parent isRef="53"/>
               <Text>{list.harga}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="59" isKey="true" type="NumberFormat">
+              <TextFormat Ref="60" isKey="true" type="NumberFormat">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
                 <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
             </Text25>
-            <Text27 Ref="60" isKey="true" type="Text">
+            <Text27 Ref="61" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.6,0.2,2.4,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1621,10 +1643,10 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text27</Name>
               <Page isRef="5"/>
-              <Parent isRef="52"/>
+              <Parent isRef="53"/>
               <Text>{list.jumlah*list.harga}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="61" isKey="true" type="NumberFormat">
+              <TextFormat Ref="62" isKey="true" type="NumberFormat">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -1632,7 +1654,7 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text27>
-            <Text31 Ref="62" isKey="true" type="Text">
+            <Text31 Ref="63" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>12,0.2,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -1640,10 +1662,27 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text31</Name>
               <Page isRef="5"/>
-              <Parent isRef="52"/>
+              <Parent isRef="53"/>
               <Text>{list.satuan}</Text>
               <TextBrush>Black</TextBrush>
             </Text31>
+            <Text32 Ref="64" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>3.2,0.2,4.2,0.8</ClientRectangle>
+              <Conditions isList="true" count="0"/>
+              <Font>Arial,10</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>40f663a36a1de29f67bbc753d9fe3590</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text32</Name>
+              <Page isRef="5"/>
+              <Parent isRef="53"/>
+              <Text>{list.nama_barang}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>DataColumn</Type>
+            </Text32>
           </Components>
           <Conditions isList="true" count="0"/>
           <DataSourceName>list</DataSourceName>
@@ -1661,18 +1700,18 @@ EIQRQwSIIAiCIAiCIAgjBPBv2L1WCNTU5AYAAAAASUVORK5CYII=</Image>
       <PageHeight>29.7</PageHeight>
       <PageWidth>21</PageWidth>
       <Report isRef="0"/>
-      <Watermark Ref="63" isKey="true" type="Stimulsoft.Report.Components.StiWatermark">
+      <Watermark Ref="65" isKey="true" type="Stimulsoft.Report.Components.StiWatermark">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="64" isKey="true" type="Stimulsoft.Report.Print.StiPrinterSettings"/>
+  <PrinterSettings Ref="66" isKey="true" type="Stimulsoft.Report.Print.StiPrinterSettings"/>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>05/19/2016 10:45:29 AM</ReportChanged>
+  <ReportChanged>05/19/2016 11:46:31 AM</ReportChanged>
   <ReportCreated>03/26/2016 09:09:47 AM</ReportCreated>
   <ReportFile>D:\xampp\htdocs\gsm\print\reports\pr.mrt</ReportFile>
-  <ReportGuid>4e6f769b48ae2c024394c71db41de5e5</ReportGuid>
+  <ReportGuid>f91ca0026d7b17f70325c75578aa1e39</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.2</ReportVersion>
