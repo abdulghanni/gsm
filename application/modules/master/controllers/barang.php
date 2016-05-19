@@ -639,9 +639,9 @@ class Barang extends MX_Controller {
                         break;
                 }
 
-                if($emapData[6] == 'Barang Inventaris'){
+                if($emapData[5] == 'Barang Inventaris'){
                     $jenis = 3;
-                }elseif($emapData[6] == 'Barang Mentah'){
+                }elseif($emapData[5] == 'Barang Mentah'){
                     $jenis = 2;
                 }else{
                     $jenis = 1;
