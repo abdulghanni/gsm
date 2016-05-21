@@ -190,7 +190,7 @@ class Pengeluaran extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         //$this->data['gudang'] = getAll('gudang')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-        $this->data['opt_po'] = GetOptAll('sales_order','-Sales Order-',array('is_closed'=>'where/0','id'=>'order/desc'),'so');
+        $this->data['opt_po'] = GetOptAll('sales_order','-Sales Order-',array('is_closed'=>'where/0', 'is_deleted'=>'where/0','id'=>'order/desc'),'so');
        // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
@@ -271,15 +271,16 @@ class Pengeluaran extends MX_Controller {
                 );
         $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         $sisaan=+$sisa;
+        if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
 	keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',','',$list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
         $this->send_notification($insert_id);
 		endfor;
                 //print_mz($ref);
 		//echo $sisaan;
-                foreach($ref as $key=>$val){
-         if($val==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$key."'");}
-                }
-		//if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
+                //foreach($ref as $key=>$val){
+         //if($val==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$key."'");}
+                //}
+		if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
 	function send_notification($id)

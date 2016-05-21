@@ -290,7 +290,7 @@ class Printing extends MX_Controller {
 	}
         
 	function listcustomer(){
-            error_reporting(E_ALL);
+            /*error_reporting(E_ALL);
                         $data['autoprint']=FALSE;
 			$sd=$this->input->post('start_date');
 			$ed=$this->input->post('end_date');
@@ -299,12 +299,13 @@ class Printing extends MX_Controller {
                             $data['q']=$this->db->query("SELECT * FROM kontak WHERE jenis_id='2'")->result_array();
                         $data['content']='list/customer';
 			$this->load->view('layout/main',$data);
-                 // $this->load->view('layout/sales_order',$data);
+                 // $this->load->view('layout/sales_order',$data);*/
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=costumer.mrt&stimulsoft_client_key=ViewerFx",'refresh');
 
 	}
         
 	function listsupplier(){
-            error_reporting(E_ALL);
+           /* error_reporting(E_ALL);
                         $data['autoprint']=FALSE;
 			$sd=$this->input->post('start_date');
 			$ed=$this->input->post('end_date');
@@ -313,7 +314,8 @@ class Printing extends MX_Controller {
                             $data['q']=$this->db->query("SELECT * FROM kontak WHERE jenis_id='1'")->result_array();
                         $data['content']='list/customer';
 			$this->load->view('layout/main',$data);
-                 // $this->load->view('layout/sales_order',$data);
+                 // $this->load->view('layout/sales_order',$data);*/
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=supplier.mrt&stimulsoft_client_key=ViewerFx",'refresh');
 
 	}
 }

@@ -6,7 +6,7 @@
       <i class="ti-align-justify"></i>
     </a>
     <a class="navbar-brand" href="#">
-      <img height="50" width="150" style="margin-left:25px" src="<?=assets_url('assets/images/logo.png')?>" alt="Agani"/>
+      <img height="50" width="150" style="margin-left:25px" src="<?=assets_url('assets/images/logo.png')?>" alt="GSM"/>
     </a>
     <a href="#" class="sidebar-toggler pull-right visible-md visible-lg" data-toggle-class="app-sidebar-closed" data-toggle-target="#app">
       <i class="ti-align-justify"></i>
