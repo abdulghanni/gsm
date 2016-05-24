@@ -54,6 +54,7 @@ class Order extends MX_Controller {
         $this->data['users'] = getAll('users');
         $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
         $this->data['pr'] = GetAllSelect('purchase_request', array('id','no'), array('id'=>'order/desc','app_status_id_lv4'=>'where/1', 'limit'=>'limit/100'))->result();
+        $this->data['ci'] = $this;
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -619,6 +620,21 @@ class Order extends MX_Controller {
         }elseif($num_in_stok < $num_in_po && $po_in_stok > 0){
             return "Parsial";
         }elseif($po_in_stok < 1){
+            return "Open";
+        }else{
+            "-";
+        }
+    }
+
+    function get_pr_status($id){
+        $pr_in_po = GetAllSelect('purchase_order_list', 'request_id', array('id'=>'where/'.$id))->num_rows();
+        $num_in_pr = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_request_list')->row()->jumlah;
+        $num_in_po = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_order_list')->row()->jumlah;
+        if($num_in_po >= $num_in_pr){
+            return "Close";
+        }elseif($num_in_po <= $num_in_pr && $pr_in_po > 0){
+            return "Parsial";
+        }elseif($pr_in_po < 1){
             return "Open";
         }else{
             "-";

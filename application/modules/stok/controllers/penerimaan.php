@@ -205,7 +205,7 @@ class Penerimaan extends MX_Controller {
             $hasil=konversi($barang,$qty,$satuan);
             
             
-		$sisa=$list['jumlah_po'][$i]-$hasil;
+			$sisa=$list['jumlah_po'][$i]-$hasil;
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
                 'order_id' => $this->input->post('ref_id'),
@@ -215,10 +215,10 @@ class Penerimaan extends MX_Controller {
                 'satuan_id' => $list['satuan'][$i],
                 'sisa' => $sisa,
                 );
-        $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
-        $sisaan=+$sisa;
-	masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
-        $this->send_notification($insert_id);
+        	$this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
+        	$sisaan=+$sisa;
+			masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
+        	$this->send_notification($insert_id);
 		endfor;
 		//echo $sisaan;
 		if($sisaan==0){$this->db->query("UPDATE purchase_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}

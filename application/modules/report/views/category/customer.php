@@ -1,9 +1,25 @@
 
 <table>
 
-<tr id="department">
-    <td width="20%">Customer</td><td width="1%">:</td><td width="79%"><?php echo form_dropdown('customer',GetOptAll('kontak','-All-'),'','class="kontak form-control" style="border:0"') ?></td>
-</tr>
+<div id="department">
+    <div class="row">
+		<div class="col-md-4">
+		Costumer
+		</div>
+		<div class="col-md-1">
+		:
+		</div>
+		<div class="col-md-7">
+	       <select class="kontak" style="width:100%" name="kontak">
+	       	<?php $c=getAll('kontak', array('jenis_id'=>'where/2'))->result();
+	       		echo '<option value="">All</option>';
+	       		foreach($c as $k){
+	       			echo '<option value="'.$k->title.'">'.$k->title.'</option>';
+	       		}?> 
+	       </select>
+		</div>
+	</div>
+</div>
 </table>
 <script type="text/javascript">
 	$(document).ready(function(e){

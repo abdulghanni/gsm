@@ -47,7 +47,7 @@
 								<?php $nm_f="ref";
 								?>
 								<!--Bagian Kanan-->
-								<?php echo form_dropdown($nm_f,$opt_po,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="select2" id="'.$nm_f.'" onchange="cariref(this.value)"')?>
+								<?php echo form_dropdown($nm_f,$opt_po,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="select2" style="width:100%" id="'.$nm_f.'" onchange="cariref(this.value)"')?>
 								
 								<!--//Bagian Kanan-->
 							</div>

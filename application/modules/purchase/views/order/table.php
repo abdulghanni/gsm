@@ -7,8 +7,9 @@
 					<tr>
 						<th width="1%">#</th>
 						<th width="1%"> No Ref </th>
-						<th width="5%"> Kode Barang </th>
 						<th width="8%"> SS Barang </th>
+						<th width="5%"> Kode Barang </th>
+						<th width="10%"> Nama Barang </th>
 						<th width="20%"> Deskripsi </th>
 						<th width="20%"> Catatan </th>
 						<th width="5%">Qty</th>
@@ -39,9 +40,12 @@
 						<input type="hidden" name="request_id[]" value="<?=$ol->request_id?>">
 						<?php $src = (!empty($ol->photo))?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
 						<!--<td><?=$i++?></td>-->
-						<td><?=$ol->kode_barang?></td>
 						<td><img height="75px" width="75px" src="<?=$src?>"></td>
+						<td><?=$ol->kode_barang?></td>
 						<input type="hidden" name="kode_barang[]" class="text-right" value="<?=$ol->barang_id?>">
+						</td>
+						<td>
+							<textarea name="nama_barang[]" class=""><?=$ol->nama_barang?></textarea>
 						</td>
 						<td>
 							<textarea name="deskripsi[]" class="" placeholder="Isi deskripsi dan catatan kaki perbarang disini"><?=$ol->deskripsi?></textarea>

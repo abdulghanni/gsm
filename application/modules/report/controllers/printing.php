@@ -55,26 +55,6 @@ class Printing extends MX_Controller {
 		}
 	}
         
-	function sales_order_(){
-		/*
-            error_reporting(E_ALL);
-                        $data['autoprint']=FALSE;
-			$sd=$this->input->post('start_date');
-			$ed=$this->input->post('end_date');
-			$data['period']=$sd.' / '.$ed;
-			$data['kolom']=$this->input->post('kolom');
-			$data['q']=$this->db->query("SELECT * FROM sales_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ")->result();
-                        $data['content']='sales/sales_order';
-			$this->load->view('layout/main',$data);
-                 // $this->load->view('layout/sales_order',$data);
-                 */
-		$sd=$this->input->post('start_date');
-			$ed=$this->input->post('end_date');
-
-			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_so.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
-
-	}
-        
 	function stok_history(){
                         $data['autoprint']=FALSE;
 			$sd=$this->input->post('start_date');
@@ -138,33 +118,12 @@ class Printing extends MX_Controller {
 
 	}
 	function sales_order(){
-           /*             $data['autoprint']=FALSE;
-			$sd=$this->input->post('start_date');
-			$ed=$this->input->post('end_date');
-                        
-			$cr=$this->input->post('kurensi');
-			$sp=$this->input->post('customer');
-			$barang=$this->input->post('barang');
-                        
-                        $q="SELECT * FROM sales_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ";
-                        if($cr){$q.="AND kurensi_id='$cr'";}
-                        if($sp){$q.="AND kontak_id='$sp'";}
-                        
-                        $data['barang']=$barang;
-                        
-			$data['period']=date('d-m-Y',strtotime($sd)).' s/d '.date('d-m-Y',strtotime($ed));
+        $sd=$this->input->post('start_date');
+		$ed=$this->input->post('end_date');
+		$k=$this->input->post('kontak');
+		$b=$this->input->post('barang');
 
-			$data['kolom']=$this->input->post('kolom');
-			$data['q']=$this->db->query($q)->result();
-                        $data['content']='sales/sales_order';
-			$this->load->view('layout/main',$data);
-                 // $this->load->view('layout/sales_order',$data);*/
-
-			$sd=$this->input->post('start_date');
-			$ed=$this->input->post('end_date');
-
-			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_so.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
-
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_so.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b",'refresh');
 	}
 	function neraca(){
                         $data['autoprint']=FALSE;
