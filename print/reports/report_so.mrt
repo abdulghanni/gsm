@@ -33,17 +33,19 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>q</Name>
         <NameInSource>q</NameInSource>
         <Parameters count="0" isList="true"/>
-        <SqlCommand>SELECT `s`.`title` as `customer`,`a`.`tanggal_transaksi`,`a`.`so` as `so`,`a`.`project`, `sp`.`tgl` as `tanggal_pengiriman`,`sp`.`alamat` as `dikirim_ke`, `b`.`title` as `nama_barang`, `list`.`jumlah`,`st`.`title` as `satuan`, `list`.`harga`,`list`.`pajak` FROM `sales_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id` LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `sales_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `stok_pengeluaran` as `sp` ON `a`.`so` = `sp`.`ref` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{costumer}%' AND `b`.`title` LIKE '%{barang}%'</SqlCommand>
+        <SqlCommand>SELECT `s`.`title` as `customer`,`a`.`tanggal_transaksi`,`a`.`so` as `so`,`a`.`project`, `sp`.`tgl` as `tanggal_pengiriman`,`sp`.`alamat` as `dikirim_ke`, `b`.`title` as `nama_barang`, `list`.`jumlah`,`st`.`title` as `satuan`, `list`.`harga`,`list`.`pajak` FROM `sales_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id` LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `sales_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `stok_pengeluaran` as `sp` ON `a`.`so` = `sp`.`ref` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{costumer}%' AND `b`.`title` LIKE '%{barang}%' AND `list`.`inc_ppn` LIKE '%{ppn}%'</SqlCommand>
       </q>
     </DataSources>
     <Relations count="0" isList="true"/>
     <Report isRef="0"/>
-    <Variables count="5" isList="true">
+    <Variables count="7" isList="true">
       <value>,p1,Dari_x0020_Tanggal,,System.DateTime,,False,False,True</value>
       <value>,p2,Sampai_x0020_Tanggal,,System.DateTime,,False,False,True</value>
       <value>,total,total,System.Decimal,q_x002E_jumlah_x002A_q_x002E_harga_x002B_q_x002E_pajak,True,True</value>
       <value>,costumer,Nama_x0020_Costumer,,System.String,,False,False,True</value>
       <value>,barang,Nama_x0020_Barang,,System.String,,False,False,True</value>
+      <value>,ppn,PPN,,System.String,,False,False,True,False,_x003C__x003F_xml_x0020_version_x003D__x0022_1_x002E_0_x0022__x0020_encoding_x003D__x0022_utf_x002D_8_x0022__x0020_standalone_x003D__x0022_yes_x0022__x003F__x003E__x003C_StiSerializer_x0020_type_x003D__x0022_Flex_x0022__x0020_version_x003D__x0022_1_x002E_02_x0022__x0020_application_x003D__x0022_State_x0022__x003E__x003C_AllowUserValues_x003E_False_x003C__x002F_AllowUserValues_x003E__x003C__x002F_StiSerializer_x003E_</value>
+      <value>,grandtotal,grandtotal,System.Decimal,Sum_x0028_q_x002C__x0028_q_x002E_jumlah_x002A_q_x002E_harga_x0029__x002B_q_x002E_pajak_x0029_,True,True</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
@@ -53,7 +55,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
     <Page1 Ref="4" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components count="3" isList="true">
+      <Components count="4" isList="true">
         <ReportTitleBand1 Ref="5" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0.4,27.7,4.6</ClientRectangle>
@@ -495,7 +497,7 @@ Date</Text>
             </Text7>
             <Text10 Ref="17" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>14.8,0,3.8,0.6</ClientRectangle>
+              <ClientRectangle>14.8,0,3.6,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>3b2529f9b33bf9c12bfb9ceb67392aae</Guid>
@@ -553,7 +555,7 @@ To</Text>
             </Text21>
             <Text8 Ref="21" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>18.8,0,1.2,0.6</ClientRectangle>
+              <ClientRectangle>18.6,0,1.2,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>73b2b90b0d204cfd68cea5b6c0bb1982</Guid>
@@ -567,7 +569,7 @@ To</Text>
             </Text8>
             <Text20 Ref="22" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>20.2,0,1,0.6</ClientRectangle>
+              <ClientRectangle>20,0,0.8,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>627796d459ca50c26460a5b733f35ca8</Guid>
@@ -581,7 +583,7 @@ To</Text>
             </Text20>
             <Text23 Ref="23" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>21.4,0,2,0.6</ClientRectangle>
+              <ClientRectangle>21,0,2,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>e60212a96585d98a899ea5b7631c3935</Guid>
@@ -595,7 +597,7 @@ To</Text>
             </Text23>
             <Text24 Ref="24" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>23.6,0,1.8,0.6</ClientRectangle>
+              <ClientRectangle>23.2,0,1.8,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>996eb07370652289ac8ca5b8c99bf92f</Guid>
@@ -609,7 +611,7 @@ To</Text>
             </Text24>
             <Text25 Ref="25" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>25.6,0,2,1</ClientRectangle>
+              <ClientRectangle>25.2,0,2.4,1</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>08c6ac5b475bcecb00a5a5b91ffcdbe5</Guid>
@@ -624,7 +626,7 @@ Amount</Text>
               <Type>Expression</Type>
             </Text25>
             <HorizontalLinePrimitive2 Ref="26" type="HorizontalLinePrimitive" isKey="true">
-              <ClientRectangle>0.4,1,27.6,0.0254</ClientRectangle>
+              <ClientRectangle>0,1,27.6,0.0254</ClientRectangle>
               <Color>Black</Color>
               <Conditions count="0" isList="true"/>
               <EndCap Ref="27" type="Cap" isKey="true">
@@ -755,7 +757,7 @@ Amount</Text>
             <Text17 Ref="37" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
-              <ClientRectangle>14.8,0,3.8,0.6</ClientRectangle>
+              <ClientRectangle>14.8,0,3.6,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <GrowToHeight>True</GrowToHeight>
@@ -771,7 +773,7 @@ Amount</Text>
             </Text17>
             <Text18 Ref="38" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>18.8,0,1.2,0.6</ClientRectangle>
+              <ClientRectangle>18.6,0,1.2,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>ed44f2873e7d47006144a78b7c7ca8b8</Guid>
@@ -793,7 +795,7 @@ Amount</Text>
             </Text18>
             <Text26 Ref="40" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>20.2,0,1,0.6</ClientRectangle>
+              <ClientRectangle>20,0,0.8,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>26559a83c207182cea47a78b95c93ee6</Guid>
@@ -807,7 +809,7 @@ Amount</Text>
             </Text26>
             <Text27 Ref="41" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>21.4,0,2,0.6</ClientRectangle>
+              <ClientRectangle>21,0,2,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>50675e1ee72c1fde63b6a78bb42f2038</Guid>
@@ -828,7 +830,7 @@ Amount</Text>
             </Text27>
             <Text28 Ref="43" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>23.6,0,1.8,0.6</ClientRectangle>
+              <ClientRectangle>23.2,0,1.8,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>0ae79af4aaadf1911d8aa78bcfd14e77</Guid>
@@ -849,7 +851,7 @@ Amount</Text>
             </Text28>
             <Text29 Ref="45" type="Text" isKey="true">
               <Brush>Transparent</Brush>
-              <ClientRectangle>25.6,0,2,0.6</ClientRectangle>
+              <ClientRectangle>25.2,0,2.4,0.6</ClientRectangle>
               <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>af9f1cc477286b37ebbfa78be50afd8c</Guid>
@@ -877,6 +879,128 @@ Amount</Text>
           <Parent isRef="4"/>
           <Sort count="0" isList="true"/>
         </DataBand1>
+        <FooterBand1 Ref="47" type="FooterBand" isKey="true">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,9.4,27.7,1</ClientRectangle>
+          <Components count="6" isList="true">
+            <Text6 Ref="48" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>25.2,0.2,2.4,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8,Bold</Font>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text6</Name>
+              <Page isRef="4"/>
+              <Parent isRef="47"/>
+              <Text>{grandtotal}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="49" type="NumberFormat" isKey="true">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text6>
+            <Text31 Ref="50" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>23.2,0.2,1.8,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>a1fef8a6d58268e5edaee10d56f46997</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text31</Name>
+              <Page isRef="4"/>
+              <Parent isRef="47"/>
+              <Text>{Sum(q,q.pajak)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="51" type="NumberFormat" isKey="true">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text31>
+            <Text32 Ref="52" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>21,0.2,2,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>7a1f57199c20c3ba6c42e10e92ee0b57</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text32</Name>
+              <Page isRef="4"/>
+              <Parent isRef="47"/>
+              <Text>{Sum(q,q.harga)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="53" type="NumberFormat" isKey="true">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text32>
+            <Text33 Ref="54" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>18.6,0.2,1.2,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,8</Font>
+              <Guid>de713b99b6a7865f712ee10ef931b129</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text33</Name>
+              <Page isRef="4"/>
+              <Parent isRef="47"/>
+              <Text>{Sum(q,q.jumlah)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="55" type="NumberFormat" isKey="true">
+                <DecimalDigits>0</DecimalDigits>
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text33>
+            <Text34 Ref="56" type="Text" isKey="true">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>14.8,0.2,3.6,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10,Bold</Font>
+              <Guid>8ccdd431136dfc76bd94e10f80cdacfe</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text34</Name>
+              <Page isRef="4"/>
+              <Parent isRef="47"/>
+              <Text>Total</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text34>
+            <HorizontalLinePrimitive3 Ref="57" type="HorizontalLinePrimitive" isKey="true">
+              <ClientRectangle>0,0,27.8,0.0254</ClientRectangle>
+              <Color>Black</Color>
+              <Conditions count="0" isList="true"/>
+              <EndCap Ref="58" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </EndCap>
+              <Name>HorizontalLinePrimitive3</Name>
+              <Page isRef="4"/>
+              <Parent isRef="47"/>
+              <StartCap Ref="59" type="Cap" isKey="true">
+                <Color>Black</Color>
+              </StartCap>
+            </HorizontalLinePrimitive3>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <Name>FooterBand1</Name>
+          <Page isRef="4"/>
+          <Parent isRef="4"/>
+        </FooterBand1>
       </Components>
       <Conditions count="0" isList="true"/>
       <Guid>72bfff68f6c032698b849ad13d12e4e6</Guid>
@@ -886,19 +1010,19 @@ Amount</Text>
       <PageHeight>21</PageHeight>
       <PageWidth>29.7</PageWidth>
       <Report isRef="0"/>
-      <ReportUnit Ref="47" type="cm" isKey="true"/>
-      <Watermark Ref="48" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
+      <ReportUnit Ref="60" type="cm" isKey="true"/>
+      <Watermark Ref="61" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="49" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true"/>
+  <PrinterSettings Ref="62" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true"/>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>05/24/2016 09:52:26 AM</ReportChanged>
+  <ReportChanged>05/24/2016 11:45:43 AM</ReportChanged>
   <ReportCreated>05/10/2016 08:18:04 PM</ReportCreated>
   <ReportFile>inbound.mrt</ReportFile>
-  <ReportGuid>1bb119cb5670fa4449e6e0ad59248cd4</ReportGuid>
+  <ReportGuid>444dd32c2290d9b6ea9de114cd106afb</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.2</ReportVersion>
