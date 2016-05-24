@@ -65,13 +65,12 @@ class Index extends MX_Controller {
                 {
                     $this->template->set_layout('default');
 
-                    $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
                     $this->template->add_css('vendor/select2/select2.css');
-
+                     $this->template->add_css('vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css');
                     $this->template->add_js('vendor/jquery-validation/jquery.validate.min.js');
                     $this->template->add_js('assets/js/form-validation.js');
-                    $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('vendor/select2/select2.min.js');
+                    $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
                     //$this->template->add_js('assets/js/master/stok/index.js');
                 }
 

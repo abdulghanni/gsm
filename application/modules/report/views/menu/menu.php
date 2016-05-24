@@ -58,8 +58,6 @@ function carikar(id)
 </div>
 <script>
 	$(document).ready(function(e){
-			
-		
 		$('.select2').select2();
 	});
 </script>

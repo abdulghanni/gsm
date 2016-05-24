@@ -1,3 +1,16 @@
+<link rel="stylesheet" href="<?php echo assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css'); ?>">
+<script src="<?php echo assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js'); ?>"></script>
+<script>
+$(function() 
+{
+	$('.tanggal')
+	.datepicker({
+		todayHighlight: true,
+		autoclose: true,
+		format: "yyyy-mm-dd"
+	});
+});
+</script>
 <div id="periodmonth">
 	<div class="row">
 		<div class="col-md-4">
@@ -13,16 +26,3 @@
 		</div>
 	</div>
 </div>
-
-<!--<link rel="Stylesheet" type="text/css" href="<?php echo base_url();?>assets/style/smoothness/jquery-ui-1.7.1.custom.css"  />-->
-<script>
-$(function() 
-{
-	$('.tanggal')
-	.datepicker({
-		todayHighlight: true,
-		autoclose: true,
-		format: "yyyy-mm-dd"
-	});
-});
-</script>

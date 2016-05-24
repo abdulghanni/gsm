@@ -71,7 +71,6 @@ class Printing extends MX_Controller {
 			$data['q']=$this->db->query($q)->result_array();
                         $data['content']='stok/history';
 			$this->load->view('layout/main',$data);
-                 // $this->load->view('layout/sales_order',$data);
 
 	}
 
@@ -89,32 +88,18 @@ class Printing extends MX_Controller {
 			redirect(base_url()."print/file/index.php?stimulsoft_report_key=outbound.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
 		}
 	function purchase_order(){
-            /*          $data['autoprint']=FALSE;
 			$sd=$this->input->post('start_date');
-			$ed=$this->input->post('end_date');
-                        
-			$cr=$this->input->post('kurensi');
-			$sp=$this->input->post('supplier');
-			$barang=$this->input->post('barang');
-                        
-                        $q="SELECT * FROM purchase_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ";
-                        if($cr){$q.="AND kurensi_id='$cr'";}
-                        if($sp){$q.="AND kontak_id='$sp'";}
-                        
-                        $data['barang']=$barang;
-                        
-			$data['period']=date('d-m-Y',strtotime($sd)).' s/d '.date('d-m-Y',strtotime($ed));
-
-			$data['kolom']=$this->input->post('kolom');
-			$data['q']=$this->db->query($q)->result_array();
-                        $data['content']='purchase/order';
-			$this->load->view('layout/main',$data);
-                 // $this->load->view('layout/sales_order',$data);
-                 */
-			$sd=$this->input->post('start_date');
-			$ed=$this->input->post('end_date');
-
-			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
+		$ed=$this->input->post('end_date');
+		$k=$this->input->post('kontak');
+		$b=$this->input->post('barang');
+		$p=$this->input->post('ppn');
+		if($p == ''){
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b",'refresh');
+		}elseif($p == 1){
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po_not_ppn.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b",'refresh');
+		}else{
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po_ppn.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b",'refresh');
+		}
 
 	}
 	function sales_order(){

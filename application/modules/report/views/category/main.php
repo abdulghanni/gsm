@@ -1,6 +1,3 @@
-
-<script src="<?php echo assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js'); ?>"></script>
-<link rel="stylesheet" href="<?php echo assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css'); ?>">
 <?php $document=$document->row_array(); ?>
 	<form class="form-horizontal formular" id="form_edit" method="post" action="<?php echo site_url($document['aksi_print']);?>" name="detailreport" target="_blank">
 	<h3><?php echo $document['title_document']?></h3>
