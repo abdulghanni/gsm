@@ -185,7 +185,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 			  <tr><td colspan="4">- <?=$value?></td></tr>
 		<?php }} ?>
 		<tr><td colspan="4">- All shipments must included an invoice</td></tr>
-		<tr><td colspan="4">- Invoices is intended shown to finance PT. Gramaselindo Utama and Submitted through the our </td></tr>
+		<tr><td colspan="4">- Invoices is intended shown to finance PT. Gramaselindo Utama and Submitted through our </td></tr>
 		<tr><td colspan="4">  &nbsp;&nbsp;receptionist</td></tr>
 		<tr><td colspan="4">- The items will be returned if not suitable from order</td></tr>
 		<tr><td colspan="9">- PO number should be included in invoices and delivery orders</td>

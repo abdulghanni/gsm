@@ -23,7 +23,7 @@ class Penerimaan extends MX_Controller {
 		$this->data['js_grid']=$this->get_column();
         permissionUser();
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
-		}
+	}
 	function get_column(){
 		$usergroup=GetValue('group_id','users_groups',array('user_id'=>'where/'.$this->session->userdata('user_id')));
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
