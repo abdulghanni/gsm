@@ -93,12 +93,13 @@ class Printing extends MX_Controller {
 		$k=$this->input->post('kontak');
 		$b=$this->input->post('barang');
 		$p=$this->input->post('ppn');
+		$kur=$this->input->post('kurensi');
 		if($p == ''){
-			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b",'refresh');
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b&kurensi=$kur",'refresh');
 		}elseif($p == 1){
-			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po_not_ppn.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b",'refresh');
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po_not_ppn.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b&kurensi=$kur",'refresh');
 		}else{
-			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po_ppn.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b",'refresh');
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_po_ppn.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b&kurensi=$kur",'refresh');
 		}
 
 	}
@@ -108,8 +109,9 @@ class Printing extends MX_Controller {
 		$k=$this->input->post('kontak');
 		$b=$this->input->post('barang');
 		$p=$this->input->post('ppn');
+		$kur=$this->input->post('kurensi');
 
-		redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_so.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b&ppn=$p",'refresh');
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_so.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b&ppn=$p&kurensi=$kur",'refresh');
 	}
 	function neraca(){
                         $data['autoprint']=FALSE;
