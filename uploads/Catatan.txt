@@ -1,0 +1,45 @@
+Alur Proses Pembelian Barang/Jasa (Purchasing Process)
+Urutan Proses Pembelian Barang/Jasa:
+
+Menerima permintaan pembelian (SPP)
+Mengecek speifikasi barang/jasa yang diminta ( lengkap / tidak lengkap ) ( jelas / tidak jelas )
+Mencari supplier atau pemasok barang / jasa yang diminta.
+Membandingkan mutu/harga barang
+Menerbitkan DO/PO
+Membuat surat permintaan pembayaran (Expense Request) -> meminta INVOICE
+Menerima Barang -> SPB
+
+Proses Pembayaran Pembelian:
+Menerima lampiran berupa Surat tagihan (INVOICE ) dari bagian Pembelian (Expense Request) dan Tagihan/Invoice Pemasok.
+Mencatat dokumen ER kepada bagian accounting.
+Membuat perintah pembayaran.
+Melakukan pembayaran
+
+
+Pembelian adalah salah satu bagian/ divisi suatu perusahaan. Bagian pembelian harus memiliki sinergi kinerja dengan bagian lainnya misalnya gudang. Bagaimana alur pembelian yang selalu diterapkan?
+
+Secara sederhana, pembelian menggambarkan transaksi barang atau jasa kepada pemasok yang kemudian terjadi penerimaan barang/ jasa yang dimaksud. Agar kita dapat mengetahui bagaimana alurnya, berikut ini uraiannya:
+
+Dalam suatu alur transaksi pembelian ada salah satu tahap yang dinamakan dengan Pesanan Pembelian (Purchase Order). Officer yang berkecimpung di bagian procurement sudah tentu familiar dengan istilah ini. Purchase order biasanya diajukan setelah adanya permintaan pengadaan oleh pihak gudang ke bagian pembelian menggunakan form yang dinamakan Material Request (MR) atau Permintaan Barang. Form ini berisi pengajuan pengadaan barang jenis apa saja dan berapa jumlah barang yang harus dipesan. Permintaan ini diketahui oleh manajer terkait atau penanggung jawab gudang.
+
+Setelah itu, terjadilah proses pembuatan PO oleh bagian pembelian. Proses yang terjadi dalam PO seperti perintah penawaran untuk memilih pemasok/ tender termasuk kontrak, penerbitan PO yang telah disetujui pihak berwenang, dan penyerahan/ pengiriman PO ke pemasok. PO bisa dianggap juga sebagai surat jalan kepada pemasok yang ditunjuk sebelum terjadinya penerimaan barang/jasa.
+
+Setelah PO diproses oleh pemasok, terjadilah penerimaan barang/ jasa sesuai dengan pesanan yang diajukan di dalam PO. Tahap penerimaan barang/ jasa ini berupa penerbitan surat tanda terima barang kepada pemesan oleh pemasok, dan pengakuan adanya barang/ jasa masuk ke dalam pembukuan pemesan.
+
+Setelah barang/ jasa diterima, bagian pembelian menerima faktur (invoice) yang diterbitkan oleh pemasok berisi perincian pembelian barang/jasa beserta nilai pajak dan diskon (jika digunakan), dan jumlah bersih pembelian. Faktur ini juga digunakan sebagai tagihan atas pembelian yang belum dibayar. Invoice harus cocok dengan PO, tanda terima barang, dan jumlah pengakuan utang.
+
+Selanjutnya adalah tahap pembayaran utang usaha oleh pembeli kepada pemasok sesuai dengan invoice yang diterima sebelumnya. Pembayaran utang usaha dapat menggunakan metode tunai atau giro.
+
+Alur selanjutnya adalah retur. Sesungguhnya retur dapat saja dilakukan sebelum terjadinya pembayaran dan retur pun dilakukan jika memang terdapat kesalahan kirim oleh pemasok atau memang ada kecacatan barang atau ada alasan khusus lainnya. Retur ini akan mengakibatkan berkurangnya jumlah barang yang telah diakui sebelumnya termasuk berkurangnya jumlah utang usaha (jika utang masih bersaldo atau belum dibayar) atau bertambahnya jumlah kas (jika telah ada pembayaran secara tunai).
+
+Secara ringkas alur pembelian ini meliputi:
+
+Permintaan Barang (Material Request)
+Permintaan Penawaran Harga (Quotation)
+Pemesanan Pembelian (Purchase Order)
+Penerimaan Barang
+Pembayaran
+Retur Pembelian
+Formulir PO sudah disediakan di Zahir Accounting. Pengguna dapat menginput terlebih dahulu PO atau dapat juga didahului dengan tahap Permintaan Barang di modul Pembelian. Form PO dapat dicetak di menu Daftar Transaksi dan Cetak Faktur.
+
+Untuk mengetahui contoh formulir PO, silakan klik disini.

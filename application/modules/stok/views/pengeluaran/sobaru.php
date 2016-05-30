@@ -11,7 +11,7 @@
                 function carilist_<?php echo $idp?>(v){
                  var idlist=<?php echo $idp?>;
                  if($('#list-'+idlist).length == 0){
-                    $('#list').append('<fieldset id="list-'+idlist+'" ></fieldset>');}
+                    $('#list').append('<label id="list-'+idlist+'" ></label>');}
 $('#list-'+idlist).load('<?php echo base_url() ?>stok/pengeluaran/carilist',{v:v});
     }
         function getRandomInt(min, max) {

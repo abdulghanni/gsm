@@ -172,13 +172,15 @@ class Penerimaan extends MX_Controller {
     function add()
     {
         permissionUser();
-		//print_mz($this->input->post());
+		//print_mz($this->input->post('deskripsi'));
         $list = array(
                         'list_id'=>$this->input->post('list'),
                         'jumlah'=>$this->input->post('jumlah'),
                         'satuan'=>$this->input->post('satuan'),
                         'jumlah_po'=>$this->input->post('jumlah_po'),
-						'kode_barang'=>$this->input->post('brg')
+						'kode_barang'=>$this->input->post('brg'),
+						'deskripsi'=>$this->input->post('deskripsi'),
+						'catatan'=>$this->input->post('catatan'),
                         );
 
         $data = array(
@@ -211,6 +213,8 @@ class Penerimaan extends MX_Controller {
                 'order_id' => $this->input->post('ref_id'),
                 'list_id' => $list['list_id'][$i],
                 'barang_id' => $list['kode_barang'][$i],
+                'deskripsi' => $list['deskripsi'][$i],
+                'catatan' => $list['catatan'][$i],
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'sisa' => $sisa,

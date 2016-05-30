@@ -56,7 +56,7 @@
 									?>
 								</div>
 							</div>
-                                                        <div class="form-group">
+                            <div class="form-group">
 								<label class="col-sm-3 control-label" for="inputPassword3">
 									No Plat Kendaraan
 								</label>
@@ -69,7 +69,7 @@
 									?>
 								</div>
 							</div>
-                                                        <div class="form-group">
+                            <div class="form-group">
 								<label class="col-sm-3 control-label" for="inputPassword3">
 									Kendaraan
 								</label>

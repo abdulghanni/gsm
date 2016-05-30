@@ -67,8 +67,9 @@
 						</td>
 						
 						<td>
-						<?php if(!empty($ol->attachment)){?>
-						<a target="_blank" href="<?= base_url("uploads/pr/".$ol->created_by."/".$ol->attachment)?>"><?=$ol->attachment?></a></td>
+							<?php if(!empty($ol->attachment)){?>
+							<a target="_blank" href="<?= base_url("uploads/pr/".$ol->created_by."/".$ol->attachment)?>"><?=$ol->attachment?></a>
+						</td>
 						<input type="hidden" name="attachment[]" value="<?=$ol->attachment?>">
 						<?php }else{?>
 						<input type="file" name="attachment[]">

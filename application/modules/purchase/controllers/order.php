@@ -232,7 +232,7 @@ class Order extends MX_Controller {
                           'judul' => $subject,
                           'no' => $no,
                           'isi' => $isi,
-                          'url' => $url,
+                          'url' => $url
              );
         $this->db->insert('notifikasi', $data);
         $this->send_email(getEmail($creator_pr), $subject, $isi);

@@ -133,7 +133,7 @@
    foreach($pengeluaran_list as $ls){ ?>
   <tr>
     <td align="center" style="border-right:1px solid black;"><?php echo $no;?></td>
-    <td colspan="5" width="320" style="border-right:1px solid black;" align="center"><?php echo GetValue('title','barang',array('id'=>'where/'.$ls['barang_id']))?></td>
+    <td colspan="5" width="320" style="border-right:1px solid black;" align="center"><?php echo $ls['deskripsi']?></td>
     <td style="border-right:1px solid black;" align="center"><?php echo $ls['jumlah']?></td>
     <td style="border-right:1px solid black;" align="center"><?php echo GetValue('title','satuan',array('id'=>'where/'.$ls['satuan_id']))?></td>
     <td colspan="2" style="border-right:1px solid black;" align="center"><?php echo $ls['ref'] ?></td>

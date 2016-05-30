@@ -215,18 +215,19 @@ class Pengeluaran extends MX_Controller {
         permissionUser();
 		//print_mz($this->input->post());
         $list = array(
-                        'list_id'=>$this->input->post('list'),
-                        'jumlah'=>$this->input->post('jumlah'),
-                        'satuan'=>$this->input->post('satuan'),
-                        'jumlah_po'=>$this->input->post('jumlah_po'),
-			'ref_id'=>$this->input->post('idtrx'),
-                	'kode_barang'=>$this->input->post('brg')
-
-                        );
+	                'list_id'=>$this->input->post('list'),
+	                'jumlah'=>$this->input->post('jumlah'),
+	                'satuan'=>$this->input->post('satuan'),
+	                'jumlah_po'=>$this->input->post('jumlah_po'),
+					'ref_id'=>$this->input->post('idtrx'),
+	        		'kode_barang'=>$this->input->post('brg'),
+					'deskripsi'=>$this->input->post('deskripsi'),
+					'catatan'=>$this->input->post('catatan_barang'),
+                );
 
         $data = array(
                 'ref'=>GetValue('so','sales_order',array('id'=>'where/'.$this->input->post('ref'))),              
-               'ref_type'=>'sales_order',
+               	'ref_type'=>'sales_order',
                 'alamat'=>$this->input->post('alamat'),
                 'ref_id'=>$this->input->post('ref_id'),
                 
@@ -236,7 +237,7 @@ class Pengeluaran extends MX_Controller {
                 'driver'=>$this->input->post('driver'),
                 'plat'=>$this->input->post('plat'),
                
-                'keterangan' =>$this->input->post('keterangan'),
+                'keterangan' =>$this->input->post('catatan'),
                 'created_on' =>date("Y-m-d"),
                 'created_by' =>sessId(),
             );
@@ -265,6 +266,8 @@ class Pengeluaran extends MX_Controller {
                 'ref' => GetValue('so','sales_order',array('id'=>'where/'.$list['ref_id'][$i])) ,
                 'list_id' => $list['list_id'][$i],
                 'barang_id' => $list['kode_barang'][$i],
+                'deskripsi' => $list['deskripsi'][$i],
+                'catatan' => $list['catatan'][$i],
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'sisa' => $sisa,
