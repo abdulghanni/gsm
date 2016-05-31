@@ -103,7 +103,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Batas. Pembayaran
+								Tanggal SO
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=dateIndo($o->tanggal_transaksi)?>" class="form-control" disabled="disabled">

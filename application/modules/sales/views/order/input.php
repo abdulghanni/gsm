@@ -122,7 +122,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tgl. Pengantaran
+								Tgl. SO
 							</label>
 							<div class="col-sm-8">
 								<div id="tanggal_transaksi" class="input-append date success no-padding">
