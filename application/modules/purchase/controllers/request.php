@@ -453,13 +453,16 @@ class Request extends MX_Controller {
         }
     }
 
+    function tes(){
+        print_mz($this->get_status(100));
+    }
     function get_status($id){
-        $pr_in_po = GetAllSelect('purchase_order_list', 'request_id', array('id'=>'where/'.$id))->num_rows();
+        $pr_in_po = GetAllSelect('purchase_order_list', 'request_id', array('request_id'=>'where/'.$id))->num_rows();//lastq();print_mz($pr_in_po);
         $num_in_pr = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_request_list')->row()->jumlah;
         $num_in_po = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_order_list')->row()->jumlah;
         if($num_in_po >= $num_in_pr){
             return "Close";
-        }elseif($num_in_po <= $num_in_pr && $pr_in_po > 0){
+        }elseif($num_in_po < $num_in_pr && $pr_in_po > 0){
             return "Parsial";
         }elseif($pr_in_po < 1){
             return "Open";

@@ -32,7 +32,7 @@
                             <th align="center">No.</th>
                             <th><?php echo 'No. SO';?></th>
                             <th><?php echo 'Customer';?></th>
-                            <th class="text-center"><?php echo 'Tanggal Pengiriman';?></th>
+                            <th class="text-center"><?php echo 'Tanggal SO';?></th>
                             <th><?php echo 'Dikirim Dari';?></th>
                             <th>Created by</th>
                             <th><?php echo 'Status';?></th>

@@ -174,6 +174,7 @@ class Order extends MX_Controller {
             $attx = (!empty($att[$i])) ? $att[$i] : '';
             $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
         }
+        $this->insert_pr_status($list['request_id'][$i]);
         endfor;
         if($this->input->post('metode_pembayaran_id') == 2)$this->insert_hutang($insert_id);
         if($type != 1)$this->send_notification($insert_id);
@@ -627,15 +628,30 @@ class Order extends MX_Controller {
     }
 
     function get_pr_status($id){
-        $pr_in_po = GetAllSelect('purchase_order_list', 'request_id', array('id'=>'where/'.$id))->num_rows();
+        $pr_in_po = GetAllSelect('purchase_order_list', 'request_id', array('request_id'=>'where/'.$id))->num_rows();//lastq();print_mz($pr_in_po);
         $num_in_pr = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_request_list')->row()->jumlah;
         $num_in_po = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_order_list')->row()->jumlah;
         if($num_in_po >= $num_in_pr){
             return "Close";
-        }elseif($num_in_po <= $num_in_pr && $pr_in_po > 0){
+        }elseif($num_in_po < $num_in_pr && $pr_in_po > 0){
             return "Parsial";
         }elseif($pr_in_po < 1){
             return "Open";
+        }else{
+            "-";
+        }
+    }
+
+    function insert_pr_status($id){
+        $pr_in_po = GetAllSelect('purchase_order_list', 'request_id', array('request_id'=>'where/'.$id))->num_rows();
+        $num_in_pr = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_request_list')->row()->jumlah;
+        $num_in_po = $this->db->select_sum('jumlah')->where('request_id', $id)->get('purchase_order_list')->row()->jumlah;
+        if($num_in_po >= $num_in_pr){
+            $this->db->where('id', $id)->update('purchase_request', array('status_id'=>2));
+        }elseif($num_in_po <= $num_in_pr && $pr_in_po > 0){
+            $this->db->where('id', $id)->update('purchase_request', array('status_id'=>3));
+        }elseif($pr_in_po < 1){
+            $this->db->where('id', $id)->update('purchase_request', array('status_id'=>1));
         }else{
             "-";
         }
