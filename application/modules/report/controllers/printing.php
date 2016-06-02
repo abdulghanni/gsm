@@ -110,8 +110,9 @@ class Printing extends MX_Controller {
 		$b=$this->input->post('barang');
 		$p=$this->input->post('ppn');
 		$kur=$this->input->post('kurensi');
+		$st=$this->input->post('status');
 
-		redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_so.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b&ppn=$p&kurensi=$kur",'refresh');
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_so.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b&ppn=$p&kurensi=$kur&status=$st",'refresh');
 	}
 	function neraca(){
                         $data['autoprint']=FALSE;
