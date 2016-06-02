@@ -160,11 +160,14 @@ class Printing extends MX_Controller {
                         //query akun
                         $akun=GetAll('sv_setup_coa');
                         foreach($akun->result_array() as $akun){
-                            $data['sum'][$akun['id']]['debit']=$this->db->query("SELECT SUM(amount) as debit FROM cash_petty WHERE coa='".$akun['id']."' AND SUBSTRING(dates,1,7)='$period' AND save_type='out' ")->row_array();
-                            $data['sum'][$akun['id']]['kredit']=$this->db->query("SELECT SUM(amount) as kredit FROM cash_petty WHERE coa='".$akun['id']."' AND SUBSTRING(dates,1,7)='$period' AND save_type='in' ")->row_array();
+                            //$data['sum'][$akun['id']]['debit']=$this->db->query("SELECT SUM(amount) as debit FROM cash_petty WHERE coa='".$akun['id']."' AND SUBSTRING(dates,1,7)='$period' AND save_type='out' ")->row_array();
+                           $data['sum'][$akun['id']]['debit']=$this->db->query("SELECT SUM(amount) as debit FROM cash_petty WHERE coa='".$akun['id']."' AND dates>='$sd' AND dates<='$ed' AND save_type='out' ")->row_array();
+
+                            //lastq();
+                            $data['sum'][$akun['id']]['kredit']=$this->db->query("SELECT SUM(amount) as kredit FROM cash_petty WHERE coa='".$akun['id']."' AND dates>='$sd' AND dates<='$ed' AND save_type='in' ")->row_array();
                             //lastq();
                         }
-                        
+            $data['ref_coa']=GetAll('sv_ref_coa')->result_array();            
                         
                         
 			$data['q']=$this->db->query($q)->result();
