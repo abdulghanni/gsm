@@ -147,7 +147,7 @@ class Penerimaan extends MX_Controller {
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         //$this->data['gudang'] = getAll('gudang')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-        $this->data['opt_po'] = GetOptAll('purchase_order','-Purchase Order-',array('app_status_id_lv4'=>'where/1','is_closed'=>'where/0','id'=>'order/desc'),'po');
+        $this->data['opt_po'] = GetOptAll('purchase_order','-Purchase Order-',array('app_status_id_lv4'=>'where/1','is_closed'=>'where/0','id'=>'order/desc'),'po','','',array('!=status_id'=>'2'));
        // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
@@ -222,9 +222,10 @@ class Penerimaan extends MX_Controller {
         	$this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         	$sisaan=+$sisa;
 			masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
-        	$this->send_notification($insert_id);
+			$this->insert_po_status($this->input->post('ref_id'));
 		endfor;
 		//echo $sisaan;
+        $this->send_notification($insert_id);
 		if($sisaan==0){$this->db->query("UPDATE purchase_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
@@ -417,5 +418,28 @@ class Penerimaan extends MX_Controller {
         {
             return $this->load->view($view, $data, TRUE);
         }
+    }
+
+    function insert_po_status($id){
+    	$po_in_stok = GetAllSelect('stok_penerimaan_list', 'order_id', array('order_id'=>'where/'.$id))->num_rows();
+        $num_in_po = $this->db->select_sum('jumlah')->where('order_id', $id)->get('purchase_order_list')->row()->jumlah;
+        $num_in_stok = $this->db->select_sum('jumlah')->where('order_id', $id)->get('stok_penerimaan_list')->row()->jumlah;
+        if($num_in_stok >= $num_in_po){
+            $this->db->where('id', $id)->update('purchase_order', array('status_id'=>2));
+        }elseif($num_in_stok < $num_in_po && $po_in_stok > 0){
+             $this->db->where('id', $id)->update('purchase_order', array('status_id'=>3));
+        }elseif($po_in_stok < 1){
+             $this->db->where('id', $id)->update('purchase_order', array('status_id'=>1));
+        }else{
+            return true;
+        }
+    }
+
+    function insert_all_po_status(){
+    	$q = GetAllSelect('purchase_order', 'id')->result();
+    	foreach ($q as $k) {
+    		$this->insert_po_status($k->id);
+    		print_r($this->db->last_query());
+    	}
     }
 }

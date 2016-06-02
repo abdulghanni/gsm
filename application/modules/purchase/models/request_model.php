@@ -9,7 +9,9 @@ class request_model extends CI_Model {
     var $table_join2 = 'satuan';
     var $table_join3 = 'jenis_barang';
     var $table_join4 = 'kurensi';
-    var $column = array('purchase_request.id', 'no', 'tanggal_digunakan', 'gudang', 'app_status_id_lv1', 'app_status_id_lv2','app_status_id_lv3', 'app_status_id_lv4', 'user_app_lv1', 'user_app_lv2', 'jenis_barang_id'); //set column field database for order and search
+    var $table_join5 = 'status';
+    var $table_join6 = 'users';
+    var $column = array('purchase_request.id', 'no', 'tanggal_digunakan', 'gudang', 'creator', 'status'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -29,15 +31,21 @@ class request_model extends CI_Model {
             '.$this->table.'.tanggal_digunakan,
             '.$this->table.'.keperluan,
             '.$this->table.'.created_by,
+            '.$this->table.'.status_id,
+            '.$this->table.'.is_deleted,
             '.$this->table.'.app_status_id_lv1,
             '.$this->table.'.app_status_id_lv2,
             '.$this->table.'.app_status_id_lv3,
             '.$this->table.'.app_status_id_lv4,
             '.$this->table.'.jenis_barang_id,
             '.$this->table_join1.'.title as gudang,
+            '.$this->table_join5.'.title as status,
+            '.$this->table_join6.'.username as creator,
             ');
         $this->db->from($this->table);
         $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.gudang_id', 'left');
+        $this->db->join($this->table_join5, $this->table_join5.'.id = '.$this->table.'.status_id', 'left');
+        $this->db->join($this->table_join6, $this->table_join6.'.id = '.$this->table.'.created_by', 'left');
         $this->db->where($this->table.'.is_deleted', 0);
 
         $i = 0;
@@ -50,10 +58,12 @@ class request_model extends CI_Model {
                     $item = $this->table.'.no';
                 }elseif($item == 'tanggal_digunakan'){
                     $item = $this->table.'.tanggal_digunakan';
-                }elseif($item == 'diajukan_ke'){
-                    $item = $this->table.'.diajukan_ke';
+                }elseif($item == 'creator'){
+                    $item = $this->table_join6.'.username';
                 }elseif($item == 'gudang'){
                     $item = $this->table_join1.'.title';
+                }elseif($item == 'status'){
+                    $item = $this->table_join5.'.title';
                 }
 
                 ($i===0) ? $this->db->like($item, $_POST['search']['value']) : $this->db->or_like($item, $_POST['search']['value']);
@@ -78,6 +88,7 @@ class request_model extends CI_Model {
     {
         $this->_get_datatables_query();
         if($_POST['length'] != -1)
+        $this->db->where($this->table.'.is_deleted', 0);
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
@@ -86,6 +97,7 @@ class request_model extends CI_Model {
     function count_filtered()
     {
         $this->_get_datatables_query();
+        $this->db->where($this->table.'.is_deleted', 0);
         $query = $this->db->get();
         return $query->num_rows();
     }

@@ -285,35 +285,36 @@ class Order extends MX_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $r) {
-            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
-            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
-            $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
-            $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
-            $no++;
-            $row = array();
-            $row[] = $no;
-           $row[] = ($r->is_draft == 1)?"<a href=$draft>#".$r->so.'</a>' : "<a href=$detail>#".$r->so.'</a>';
-            $row[] = $r->kontak;
-            $row[] = $r->tanggal_transaksi;
-            //$row[] = $r->metode_pembayaran;
-            $row[] = $r->gudang;
-            $row[] = getName($r->created_by);
-            $row[] = ($r->is_draft == 1) ? "Draft" : $this->get_status($r->id);;
+            if($r->is_deleted == 0):
+                $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+                $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+                $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
+                $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
+                $no++;
+                $row = array();
+                $row[] = $no;
+                $row[] = ($r->is_draft == 1)?"<a href=$draft>#".$r->so.'</a>' : "<a href=$detail>#".$r->so.'</a>';
+                $row[] = $r->kontak;
+                $row[] = $r->tanggal_transaksi;
+                $row[] = $r->gudang;
+                $row[] = getName($r->created_by);
+                $row[] = ($r->is_draft == 1) ? "Draft" : (($r->status_id != 0) ? $r->status : $this->get_status($r->id));
 
-            if($r->is_draft == 1){
-                if($r->created_by == sessId()):
-                    $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
-                      <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-                else:
-                    $row[] = '';
-                endif;
-            }else{
-            $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>
-                    $delete
-                    ";
-            }
-            $data[] = $row;
+                if($r->is_draft == 1){
+                    if($r->created_by == sessId()):
+                        $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+                    else:
+                        $row[] = '';
+                    endif;
+                }else{
+                $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
+                        <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>
+                        $delete
+                        ";
+                }
+                $data[] = $row;
+            endif;
         }
 
         $output = array(

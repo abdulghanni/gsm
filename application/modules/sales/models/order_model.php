@@ -8,7 +8,9 @@ class order_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('sales_order.id','so', 'kontak', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
+    var $table_join5 = 'status';
+    var $table_join6 = 'users';
+    var $column = array('sales_order.id','so', 'kontak', 'tanggal_transaksi', 'gudang', 'creator', 'status'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -19,22 +21,26 @@ class order_model extends CI_Model {
 
     private function _get_datatables_query()
     {
-        
         $this->db->select(
             $this->table.'.id as id,
             '.$this->table.'.so as so,
             '.$this->table.'.is_draft,
             '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
             '.$this->table.'.created_by,
+            '.$this->table.'.status_id,
+            '.$this->table.'.is_deleted,
             '.$this->table_join1.'.title as kontak,
             '.$this->table_join2.'.title as metode_pembayaran,
             '.$this->table_join4.'.title as gudang,
+            '.$this->table_join5.'.title as status,
+            '.$this->table_join6.'.username as creator,
             ');
         $this->db->from($this->table);
         $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.kontak_id', 'left');
         $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.metode_pembayaran_id', 'left');
         $this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table.'.gudang_id', 'left');
-        //$this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.kurensi_id', 'left');
+        $this->db->join($this->table_join5, $this->table_join5.'.id = '.$this->table.'.status_id', 'left');
+        $this->db->join($this->table_join6, $this->table_join6.'.id = '.$this->table.'.created_by', 'left');
         $this->db->where($this->table.'.is_deleted', 0);
 
         $i = 0;
@@ -43,18 +49,18 @@ class order_model extends CI_Model {
         {
             if($_POST['search']['value'])
             {
-                if($item == 'no'){
-                    $item = $this->table.'.no';
-                }elseif($item == 'tanggal_transaksi'){
+                if($item == 'tanggal_transaksi'){
                     $item = $this->table.'.tanggal_transaksi';
                 }elseif($item == 'so'){
                     $item = $this->table.'.so';
                 }elseif($item == 'kontak'){
                     $item = $this->table_join1.'.title';
-                }elseif($item == 'metode_pembayaran'){
-                    $item = $this->table_join2.'.title';
                 }elseif($item == 'gudang'){
                     $item = $this->table_join4.'.title';
+                }elseif($item == 'creator'){
+                    $item = $this->table_join6.'.username';
+                }elseif($item == 'status'){
+                    $item = $this->table_join5.'.title';
                 }
 
                 ($i===0) ? $this->db->like($item, $_POST['search']['value']) : $this->db->or_like($item, $_POST['search']['value']);
@@ -79,6 +85,7 @@ class order_model extends CI_Model {
     {
         $this->_get_datatables_query();
         if($_POST['length'] != -1)
+        $this->db->where($this->table.'.is_deleted', 0);
         $this->db->limit($_POST['length'], $_POST['start']);
         $query = $this->db->get();
         return $query->result();
@@ -87,6 +94,7 @@ class order_model extends CI_Model {
     function count_filtered()
     {
         $this->_get_datatables_query();
+        $this->db->where($this->table.'.is_deleted', 0);
         $query = $this->db->get();
         return $query->num_rows();
     }

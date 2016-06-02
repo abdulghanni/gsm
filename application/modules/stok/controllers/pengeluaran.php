@@ -188,11 +188,8 @@ class Pengeluaran extends MX_Controller {
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
-        //$this->data['gudang'] = getAll('gudang')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-        $this->data['opt_po'] = GetOptAll('sales_order','-Sales Order-',array('is_closed'=>'where/0', 'is_deleted'=>'where/0','id'=>'order/desc'),'so');
-       // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
-        
+        $this->data['opt_po'] = GetOptAll('sales_order','-Sales Order-',array('is_draft'=>'where/0','is_deleted'=>'where/0','id'=>'order/desc'),'so','','',array('!=status_id'=>'2'));
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -275,17 +272,20 @@ class Pengeluaran extends MX_Controller {
         $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         $sisaan=+$sisa;
         if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
-	keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',','',$list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
-        $this->send_notification($insert_id);
+		keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',','',$list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
+		$this->insert_so_status($list['ref_id'][$i]);
 		endfor;
-                //print_mz($ref);
+
 		//echo $sisaan;
                 //foreach($ref as $key=>$val){
          //if($val==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$key."'");}
                 //}
+
+        $this->send_notification($insert_id);
 		if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
+
 	function send_notification($id)
     {
         permissionUser();
@@ -451,7 +451,30 @@ class Pengeluaran extends MX_Controller {
 	}
 	function addso($id=NULL){
         $data['idp']=$_POST['idp'];    
-        $data['opt_po'] = GetOptAll('sales_order','-Sales Order-',array('is_closed'=>'where/0','id'=>'order/desc'),'so');
+        $data['opt_po'] = GetOptAll('sales_order','-Sales Order-',array('is_draft'=>'where/0','is_deleted'=>'where/0','id'=>'order/desc'),'so','','',array('!=status_id'=>'2'));
 			$this->load->view('stok/pengeluaran/sobaru',$data);
 	}
+
+	function insert_so_status($id){
+        $po_in_stok = GetAllSelect('stok_pengeluaran_list', 'order_id', array('order_id'=>'where/'.$id))->num_rows();
+        $num_in_po = $this->db->select_sum('jumlah')->where('order_id', $id)->get('sales_order_list')->row()->jumlah;
+        $num_in_stok = $this->db->select_sum('jumlah')->where('order_id', $id)->get('stok_pengeluaran_list')->row()->jumlah;
+        if($num_in_stok >= $num_in_po){
+           $this->db->where('id', $id)->update('sales_order', array('status_id'=>2));
+        }elseif($num_in_stok < $num_in_po && $po_in_stok > 0){
+            $this->db->where('id', $id)->update('sales_order', array('status_id'=>3));
+        }elseif($po_in_stok < 1){
+            $this->db->where('id', $id)->update('sales_order', array('status_id'=>1));
+        }else{
+            return true;
+        }
+    }
+
+    function insert_all_so_status(){
+        $q = GetAllSelect('sales_order', 'id')->result();
+        foreach ($q as $k) {
+            $this->insert_so_status($k->id);
+            print_r($this->db->last_query());
+        }
+    }
 }

@@ -296,80 +296,82 @@ class Order extends MX_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $r) {
-            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
-            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
-            //$print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=po.mrt&param1=".$r->id;
-            $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
-            $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
-            $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
-            $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
-            $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
-
-
-        $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$r->id));
-        $creator_pr = getValue('created_by', 'purchase_request', array('id'=>'where/'.$no_pr));
-        $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$no_pr));
-        $gtotal = getValue('gtotal', 'purchase_order', array('id'=>'where/'.$r->id));
-        if($jenis == 3):
-            if($gtotal > 1000000){
+            if($r->is_deleted == 0):
+                $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+                $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+                //$print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=po.mrt&param1=".$r->id;
+                $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
+                $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
+                $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
                 $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
                 $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
-                $status4 = ($r->app_status_id_lv4==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv4 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv4 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
-                $has_approve = 'direktur';
-            }else{
-                $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
-                $status3 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
-                $status4 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
-                $has_approve = 'ga';
-            }
-        else:
-            $status2 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
-            $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
-            $status4 = ($r->app_status_id_lv4==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv4 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv4 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
-            $has_approve = 'direktur';
-        endif;
 
-            $no++;
-            $row = array();
-            $row[] = $no;
-            $row[] = ($r->is_draft == 1)?"<a href=$draft>#".$r->po.'</a>' : "<a href=$detail>#".$r->po.'</a>';
-            $row[] = $r->kontak;
-            $row[] = dateIndo($r->tanggal_transaksi);
-            $row[] = $r->gudang;
-            $row[] = getName($r->created_by);
-            $row[]  = $this->get_status($r->id);
-            if($r->is_draft == 1){
-            $row[] = 'Draft';
-            $row[] = 'Draft';
-            $row[] = 'Draft';
-            $row[] = 'Draft';
-            }else{
-                $row[] = $status1;
-                $row[] = $status2;
-                $row[] = $status3;
-                $row[] = $status4;
-            }
-            if($r->is_draft == 1){
-                if($r->created_by == sessId()):
-                    $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
-                      <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+
+                $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$r->id));
+                $creator_pr = getValue('created_by', 'purchase_request', array('id'=>'where/'.$no_pr));
+                $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$no_pr));
+                $gtotal = getValue('gtotal', 'purchase_order', array('id'=>'where/'.$r->id));
+                if($jenis == 3):
+                    if($gtotal > 1000000){
+                        $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
+                        $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+                        $status4 = ($r->app_status_id_lv4==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv4 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv4 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+                        $has_approve = 'direktur';
+                    }else{
+                        $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
+                        $status3 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
+                        $status4 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
+                        $has_approve = 'ga';
+                    }
                 else:
-                    $row[] = '';
+                    $status2 = '<i title="Tidak Butuh Approval" class="fa fa-minus" style="color:green"></i>';
+                    $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+                    $status4 = ($r->app_status_id_lv4==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv4 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv4 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
+                    $has_approve = 'direktur';
                 endif;
-            }else{
-                    if(($has_approve == 'direktur' && $r->app_status_id_lv4 != 1) || ($has_approve == 'ga' && $r->app_status_id_lv2 != 1)):
-                        $row[] = "<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                                  <a class='btn btn-sm btn-light-azure' onclick='cantPrint()' title='Cetak'><i class='fa fa-print'></i></a>
-                                  $delete
-                                  ";
+
+                $no++;
+                $row = array();
+                $row[] = $no;
+                $row[] = ($r->is_draft == 1)?"<a href=$draft>#".$r->po.'</a>' : "<a href=$detail>#".$r->po.'</a>';
+                $row[] = $r->kontak;
+                $row[] = dateIndo($r->tanggal_transaksi);
+                $row[] = $r->gudang;
+                $row[] = getName($r->created_by);
+                $row[]  = ($r->status_id != 0) ? $r->status : $this->get_status($r->id);
+                if($r->is_draft == 1){
+                    $row[] = 'Draft';
+                    $row[] = 'Draft';
+                    $row[] = 'Draft';
+                    $row[] = 'Draft';
+                }else{
+                    $row[] = $status1;
+                    $row[] = $status2;
+                    $row[] = $status3;
+                    $row[] = $status4;
+                }
+                if($r->is_draft == 1){
+                    if($r->created_by == sessId()):
+                        $row[] = '<a class="btn btn-sm btn-primary" href='.$draft.' title="Edit Draft"><i class="fa fa-pencil"></i></a>
+                          <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
                     else:
-                        $row[] = "<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                                  <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='cetak'><i class='fa fa-print'></i></a>
-                                  $delete
-                                  ";
+                        $row[] = '';
                     endif;
-            }
-            $data[] = $row;
+                }else{
+                        if(($has_approve == 'direktur' && $r->app_status_id_lv4 != 1) || ($has_approve == 'ga' && $r->app_status_id_lv2 != 1)):
+                            $row[] = "<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
+                                      <a class='btn btn-sm btn-light-azure' onclick='cantPrint()' title='Cetak'><i class='fa fa-print'></i></a>
+                                      $delete
+                                      ";
+                        else:
+                            $row[] = "<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
+                                      <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='cetak'><i class='fa fa-print'></i></a>
+                                      $delete
+                                      ";
+                        endif;
+                }
+                $data[] = $row;
+            endif;
         }
 
         $output = array(
@@ -521,6 +523,7 @@ class Order extends MX_Controller {
         permissionUser();
 
         $this->data['pr'] = GetAllSelect('purchase_request', array('id','no'), array('id'=>'order/desc','app_status_id_lv4'=>'where/1', 'limit'=>'limit/100'))->result();
+        $this->data['ci'] = $this;
         $this->load->view('purchase/order/no_pr', $this->data);
     }
 
@@ -653,8 +656,15 @@ class Order extends MX_Controller {
         }elseif($pr_in_po < 1){
             $this->db->where('id', $id)->update('purchase_request', array('status_id'=>1));
         }else{
-            "-";
+            return true;
         }
     }
 
+    function insert_all_pr_status(){
+        $q = GetAllSelect('purchase_request', 'id')->result();
+        foreach ($q as $k) {
+            $this->insert_pr_status($k->id);
+            print_r($this->db->last_query());
+        }
+    }
 }
