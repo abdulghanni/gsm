@@ -196,8 +196,10 @@ class Barang extends MX_Controller {
                 'beban_tahun_ini' => str_replace(',', '', $this->input->post('beban_tahun_ini')),
                 'beban_perbulan' => str_replace(',', '', $this->input->post('beban_perbulan')),
                 'nilai_buku' => str_replace(',', '', $this->input->post('nilai_buku')),
-                'tarif_penyusutan' => str_replace(',', '', $this->input->post('tarif_penyusutan')),
+               // 'tarif_penyusutan' => str_replace(',', '', $this->input->post('tarif_penyusutan')),
+                'umur_ekonomis' => str_replace(',', '', $this->input->post('umur_ekonomis')),
                 'nilai_residu' => str_replace(',', '', $this->input->post('nilai_residu')),
+                'terhitung_tanggal' => date('Y-m-d',strtotime('last day of last month')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -259,6 +261,12 @@ class Barang extends MX_Controller {
         //print_r($this->db->last_query());
     }
     */
+	function hitung_penyusutan(){
+		$beli=$_POST['tanggal_beli'];
+		$perhitungan=date('Y-m-d',strtotime('last day of last month'));
+		$s=strtotime($perhitungan)-strtotime($beli);
+		echo floor($s/(30*24*60*60));
+	}
     
     function upload($id, $inv = null)
     {
@@ -689,7 +697,7 @@ class Barang extends MX_Controller {
             $row[] = $r->title;
             $row[] = $r->jenis_inventaris;
             $row[] = $r->harga_beli;
-            $row[] = $r->tarif_penyusutan;
+            $row[] = $r->umur_ekonomis;
             $row[] = $r->akumulasi;
             $row[] = $r->beban_perbulan;
             $row[] = $r->nilai_buku;

@@ -1,3 +1,8 @@
+<script>
+$(document).ready(function(e){
+
+});
+</script>
 <!-- start: PAGE TITLE -->
 <section id="page-title">
     <div class="row">
@@ -176,7 +181,7 @@
                                                 <th width="20%"><?php echo lang('description');?></th>
                                                 <th width="10%">Kelompok</th>
                                                 <th width="10%"><?php echo 'Nilai Perolehan';?></th>
-                                                <th width="10%"><?php echo 'Tarif Penyusutan(%)';?></th>
+                                                <th width="10%"><?php echo 'Umur Ekonomis';?></th>
                                                 <th width="10%"><?php echo 'Akumulasi Beban'?></th>
                                                 <th width="10%"><?php echo 'Beban Perbulan'?></th>
                                                 <th width="10%"><?php echo 'Nilai Buku'?></th>
@@ -483,22 +488,29 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label class="control-label col-md-4">Tarif Penyusutan(%)</label>
+                                <!--label class="control-label col-md-4">Tarif Penyusutan(%)</label>
                                 <div class="col-md-2">
                                     <input name="tarif_penyusutan" placeholder="Tarif" class="form-control text-right" type="text">
                                     <span class="help-block"></span>
                                 </div>
-                                <label class="control-label col-md-1 pull-left">%</label>
+                                <label class="control-label col-md-1 pull-left">%</label-->
+								<label class="control-label col-md-4">Umur Ekonomis</label>
+                                <div class="col-md-2">
+                                    <input name="umur_ekonomis" placeholder="Umur Ekonomis" class="form-control text-right" type="text" value='1'>
+                                    <span class="help-block"></span>
+                                </div>
+                                <label class="control-label col-md-1 pull-left">Tahun</label>
                                 <label class="control-label col-md-2">Nilai Residu</label>
                                 <div class="col-md-3">
-                                    <input name="nilai_residu" placeholder="Nilai Residu" class="form-control money text-right" type="text">
+                                    <input name="nilai_residu" placeholder="Nilai Residu" class="form-control money text-right" type="text" value=0>
                                     <span class="help-block"></span>
                                 </div>
                             </div>
                             <br/><br/>
                             <div class="form-group  pull-right ">
                             <div class="col-md-12">
-                                <input type="submit" id="" onclick="" class="btn btn-primary" value="save">
+                                <button type="button" id="btn-hitung" onclick="hitung_penyusutan()">Hitung</button>
+                                <input type="submit" id="" onclick="" class="btn btn-primary" value="Save">
                                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
                             </div>
                             </div>
@@ -517,4 +529,27 @@
     $('#attachment').hide();
     $('#file').show();
   }
+  	
+  function hitung_penyusutan(){
+	var thismonths=<?php echo (int)date('m',strtotime('last day of last month'));?>;
+	var beli=parseFloat($('[name="harga_beli"]').val());
+	var residu = parseFloat($('[name="nilai_residu"]').val());
+	var ekonomis= parseFloat($('[name="umur_ekonomis"]').val())*12;
+	var penyusutan= Math.ceil((beli-residu)/ekonomis);
+	var beban_tahun_ini = Math.ceil(penyusutan*thismonths)
+	  
+	  $.post('<?php echo base_url()?>master/barang/hitung_penyusutan',{tanggal_beli:$('[name="tgl_beli"]').val(),beli:$('[name="harga_beli"]').val(),residu:$('[name="nilai_residu"]').val(),ekonomis:$('[name="umur_ekonomis"]').val()},function(e){
+		  //(Harga Perolehan – Nilai Sisa/Residu) : umur ekonomis
+		 
+	var akumulasi=Math.ceil(penyusutan*e);
+	var nilai_buku=beli-akumulasi;
+		  $('[name="nilai_buku"]').val(nilai_buku);
+		  $('[name="beban_perbulan"]').val(penyusutan);
+		  $('[name="beban_tahun_ini"]').val(beban_tahun_ini);
+		  $('[name="akumulasi"]').val(akumulasi);
+		  
+		  //alert('oi');
+	  });
+  }
+  
 </script>
