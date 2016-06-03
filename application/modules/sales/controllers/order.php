@@ -505,4 +505,9 @@ class Order extends MX_Controller {
             "-";
         }
     }
+
+    function cek_stok($id){
+        $s = getValue('dalam_stok', 'stok', array('barang_id'=>'where/'.$id));
+        echo json_encode($s);
+    }
 }

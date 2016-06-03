@@ -227,6 +227,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
       <value>,grandtotal,grandtotal,System.Decimal,Sum_x0028_q_x002C__x0028_q_x002E_jumlah_x002A_q_x002E_harga_x0029__x002B_q_x002E_pajak_x0029_,True,True</value>
       <value>,subtotal,subtotal,System.String,dpp_x002B_ppn,True,True</value>
       <value>,kurensi,Kurensi,,System.String,,False,False,True</value>
+      <value>,gudang,Gudang,,System.String,,False,False,True</value>
       <value>rupiah</value>
       <value>,rpgtotal,rpgtotal,System.Decimal,rpdpp_x002E_dpp_x002B_rpppn_x002E_ppn,True,True</value>
       <value>,dollargtotal,dollargtotal,System.Decimal,dollardpp_x002E_dpp_x002B_dollarppn_x002E_ppn,True,True</value>

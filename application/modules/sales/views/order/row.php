@@ -86,6 +86,7 @@
 	            url: '/gsm/purchase/order/get_nama_barang/'+id,
 	            success: function(data) {
 	            	if(id != '0'){
+	            		cekStok(id);
 	            		$('#deskripsi<?=$id?>').val(data.nama_barang);
 	            		if(data.photo != ''){
 				            $("#photo<?=$id?>").attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+id+"/"+data.photo);
@@ -96,6 +97,19 @@
 	            }
 	        });
 	    })
+
+	function cekStok(id){
+		 $.ajax({
+	            type: "GET",
+	            dataType: "JSON",
+	            url: '/gsm/sales/order/cek_stok/'+id,
+	            success: function(data) {
+	            	if(data == '0'){
+	            		alert('Stok Barang Yang Dipilih Kosong')
+	            	}
+	            }
+	        });
+	}
 
 	$("#jumlah<?=$id?>").on('click', function () {
 	    if($('input[name="fraksi"]').is(":checked")){

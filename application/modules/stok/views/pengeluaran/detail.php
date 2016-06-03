@@ -91,6 +91,18 @@
 							<div class="col-md-6">
 								<div class="form-group">
 									<label class="col-sm-4 control-label" for="inputPassword3">
+										No. Surat Jalan
+									</label>
+									<div class="col-sm-8">
+										<?php 
+											$nm_f='no';
+											$js = 'style="width:100%; height:60px;" class="form-control"  id="'.$nm_f.'"';
+											echo (!empty($pengeluaran->no)) ? $pengeluaran->no : date('Ymd', strtotime($pengeluaran->created_on)).sprintf('%04d',$pengeluaran->id);
+										?>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="col-sm-4 control-label" for="inputPassword3">
 										No Plat Kendaraan
 									</label>
 									<div class="col-sm-8">
@@ -122,7 +134,7 @@
 											$nm_f='keterangan';
 											$js = 'style="width:100%; height:60px;" class="form-control"  id="'.$nm_f.'"';
 											//echo form_textarea($nm_f,$refid[$nm_f],$js); 
-											echo $refid[$nm_f]; 
+											echo $pengeluaran->$nm_f; 
 										?>
 									</div>
 								</div>

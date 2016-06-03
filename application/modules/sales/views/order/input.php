@@ -544,10 +544,13 @@
 function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
+	$("#btnAdd").attr('disabled',true);;
+	//$("#table").html('<img src="/gsm/assets/images/loading.gif"> loading...');
 	$.ajax({
             url: '/gsm/sales/order/add_row/'+rowCount,
             success: function(response){
 	         	$("#"+tableID).find('tbody').append(response);
+	         	$("#btnAdd").attr('disabled',false);;
 	         },
 	         dataType:"html"
         });

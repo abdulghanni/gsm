@@ -28,7 +28,7 @@ class Pengeluaran extends MX_Controller {
 		
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
 		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
-		$colModel['No SUrat Jalan'] = array('No surat jalan',140,TRUE,'left',2);
+		$colModel['No Surat Jalan'] = array('No surat jalan',140,TRUE,'left',2);
 		$colModel['ref'] = array('Ref',140,TRUE,'left',2);
 		
 		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
@@ -64,7 +64,7 @@ class Pengeluaran extends MX_Controller {
 	{
 		
 		//Build contents query
-		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered, a.created_on, a.created_by")->from('stok_pengeluaran a');
+		$this->db->select("a.id as id,a.no,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered, a.created_on, a.created_by")->from('stok_pengeluaran a');
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
                 $this->db->order_by('id','desc');
@@ -99,25 +99,24 @@ class Pengeluaran extends MX_Controller {
 		$record_items = array();
 		
 		foreach ($records['records']->result() as $row)
-		{/*
-			if($row->status=='y'){$status='Aktif';}
-			elseif($row->status=='n'){$status='Tidak Aktif';}
-			elseif($row->status=='s'){$status='Suspended';}*/
-                        if($row->is_delivered=='No'){
-                            
-                            $ref="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>";
-                            $dev="<a href='".base_url()."stok/pengeluaran/deliver/".$row->id."'>".$row->is_delivered."</a>";
-                        }else{
-                            
-                            $ref=$row->ref;
-                            $dev=$row->is_delivered;
-                        }
+		{
+            if($row->is_delivered=='No'){
+                
+                $ref="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>";
+                $dev="<a href='".base_url()."stok/pengeluaran/deliver/".$row->id."'>".$row->is_delivered."</a>";
+            }else{
+                
+                $ref=$row->ref;
+                $dev=$row->is_delivered;
+            }
+
+			$no_sj = (!empty($row->no)) ? $row->no : date('Ymd', strtotime($row->created_on)).sprintf('%04d',$row->id);
 			$record_items[] = array(
 			$row->id,
 			$row->id,
 			$row->id,
-                       "<a href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".date('Ymd', strtotime($row->created_on)).sprintf('%04d',$row->id)."</a>",
-                        $ref,
+           "<a href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$no_sj."</a>",
+            $ref,
 			$row->gudang_to,
 			$row->tgl,
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan/".$row->id."' target='_blank' title='detail'><i class='fa fa-file'></i></a>",
@@ -139,7 +138,9 @@ class Pengeluaran extends MX_Controller {
    function surat_jalan($id)
     {
         permissionUser();
-        $this->data['nosurat']=date("Ymd").sprintf('%04d',$id);
+        $no = getValue('no','stok_pengeluaran', array('id'=>'where/'.$id));
+        $created_on = getValue('created_on','stok_pengeluaran', array('id'=>'where/'.$id));
+        $this->data['nosurat']= (!empty($no)) ? $no : date('Ymd', strtotime($created_on)).sprintf('%04d',$id);
         $this->data['id'] = $id;
         $this->data[$this->file_name] = GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row_array();
         $this->data['clients']=$this->db->query("SELECT kontak_id FROM sales_order WHERE so='".$this->data[$this->file_name]['ref']."' ")->row_array();//lastq();
@@ -223,6 +224,7 @@ class Pengeluaran extends MX_Controller {
                 );
 
         $data = array(
+        		'no' => $this->input->post('no'),
                 'ref'=>GetValue('so','sales_order',array('id'=>'where/'.$this->input->post('ref'))),              
                	'ref_type'=>'sales_order',
                 'alamat'=>$this->input->post('alamat'),
@@ -305,6 +307,9 @@ class Pengeluaran extends MX_Controller {
         return TRUE;
     }
 	function cariref(){
+		$num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
+        $data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
 			$v=$_POST['v'];
 			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (id='$v' OR so='$v') ");
 			if($cariref->num_rows()>0){
