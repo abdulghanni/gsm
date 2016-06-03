@@ -34,7 +34,7 @@ $(document).ready(function() {
         //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [-1], //last column
+            "targets": [-1, 0, 1], //last column
             "orderable": false, //set not orderable
         },
         { "sClass": "text-center", "aTargets": [-1] }
@@ -57,7 +57,7 @@ $(document).ready(function() {
         //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [-1], //last column
+            "targets": [-1, 0, 1, 4], //last column
             "orderable": false, //set not orderable
         },
         { "sClass": "text-center", "aTargets": [-1] }

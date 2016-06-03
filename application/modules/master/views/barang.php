@@ -73,9 +73,7 @@ $(document).ready(function(e){
                                             </ul>
                                             -->
                                         </div>
-                                        <span class="btn btn-light-azure fileinput-button"><span>Import <i class="fa fa-download"></i></span>
-                                            <input name="files[]" multiple="" type="file">
-                                        </span>
+                                         <button type="button" class="btn btn-light-azure fileinput-button" data-toggle="modal" data-target="#modal_upload"><span>Import <i class="fa fa-download"></i></span></button>
                                         <!--
                                         <a href="<?=assets_url('template/barang.xlsx')?>">
                                             <span class="btn btn-light-azure fileinput-button"><span>Template Upload <i class="fa fa-file"></i></span>
@@ -523,6 +521,46 @@ $(document).ready(function(e){
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
 <!-- End Bootstrap modal -->
+
+<!-- Upload excel modal -->
+<div class="modal fade" id="modal_upload" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h3 class="modal-title">Import Data Barang</h3>
+            </div>
+            <?php echo form_open_multipart(base_url().'master/barang/upload_excel', array('id'=>'form_upload', 'class'=>'form-horizontal'));?>
+            <div class="modal-body form">
+                <div class="form-body">
+                <div class="row form-row">
+                    <div class="col-md-12 pull-right" style="margin: 10px 0px 20px 0px;" ><i class="fa fa-warning-sign" style="color:red ;text-shadow: 1px 1px 1px #ccc;font-size: 1em;"> Pastikan file berformat XLS/XLSX dan format tabel sesuai dengan template yang sudah disediakan.</i>
+                    </div>
+                </div>
+                <div class="row form-row">
+                    <div class="col-md-12 pull-right" style="margin: 10px 0px 20px 0px;" ><i class="fa fa-warning-sign" style="font-size: 1em;"> <a href="<?= assets_url('template_upload_barang.xlsx')?>">Download Template Upload Barang</i></a>
+                    </div>
+                </div>
+                <div class="row form-row">
+                    <div class="col-md-12">
+                        <div class="col-md-3 pull-left"><b>Upload File</b></div>
+                        <div class="col-md-9">
+                            <input name="userfile" multiple="" type="file">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="submit" class="btn btn-primary" value="upload">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+            </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- End Bootstrap modal -->
+
 
 <script type="text/javascript">
   function removeFile(){

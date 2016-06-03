@@ -41,7 +41,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>q</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT `s`.`title` as `supplier`,`a`.`tanggal_transaksi`,`a`.`po` as `po`,`a`.`proyek`, `k`.`simbol` as `kurensi`,`a`.`total_ppn`,`g`.`title` as `gudang`, `b`.`kode` as `barcode`, `b`.`title` as `nama_barang`, `list`.`jumlah`,`list`.`disc`,`st`.`title` as `satuan`, `list`.`harga`,`list`.`pajak` FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` LEFT JOIN `kurensi` as `k` ON `a`.`kurensi_id` = `k`.`id`  WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` LIKE '%{kurensi}%' AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT `s`.`title` as `supplier`,`a`.`tanggal_transaksi`,`a`.`po` as `po`,`a`.`proyek`, `k`.`simbol` as `kurensi`,`a`.`total_ppn`,`g`.`title` as `gudang`, `b`.`kode` as `barcode`, `b`.`title` as `nama_barang`, `list`.`jumlah`,`list`.`disc`,`st`.`title` as `satuan`, `list`.`harga`,`list`.`pajak` FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` LEFT JOIN `kurensi` as `k` ON `a`.`kurensi_id` = `k`.`id`  WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` LIKE '%{kurensi}%' AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </q>
       <rp type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="4" isKey="true">
         <Alias>rp</Alias>
@@ -53,7 +53,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>rp</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(harga) as harga FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1  AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(harga) as harga FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1  AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </rp>
       <dollar type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="5" isKey="true">
         <Alias>dollar</Alias>
@@ -65,7 +65,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>dollar</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(harga) as harga FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2  AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(harga) as harga FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2  AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </dollar>
       <jdollar type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="6" isKey="true">
         <Alias>jdollar</Alias>
@@ -77,7 +77,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>jdollar</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(jumlah) as jumlah FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2  AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(jumlah) as jumlah FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2  AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </jdollar>
       <rpjumlah type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="7" isKey="true">
         <Alias>rpjumlah</Alias>
@@ -89,7 +89,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>rpjumlah</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(jumlah) as jumlah FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1  AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(jumlah) as jumlah FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1  AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </rpjumlah>
       <rppajak type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="8" isKey="true">
         <Alias>rppajak</Alias>
@@ -101,7 +101,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>rppajak</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(pajak) as pajak FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1  AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(pajak) as pajak FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1  AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </rppajak>
       <dollarpajak type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="9" isKey="true">
         <Alias>dollarpajak</Alias>
@@ -113,7 +113,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>dollarpajak</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(pajak) as pajak FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2  AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(pajak) as pajak FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2  AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </dollarpajak>
       <gtotalrp type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="10" isKey="true">
         <Alias>gtotalrp</Alias>
@@ -125,7 +125,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>gtotalrp</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(harga*jumlah+pajak) as gtotal FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1  AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(harga*jumlah+pajak) as gtotal FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1  AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </gtotalrp>
       <gtotaldollar type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="11" isKey="true">
         <Alias>gtotaldollar</Alias>
@@ -137,7 +137,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>gtotaldollar</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(harga*jumlah+pajak) as gtotal FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2  AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(harga*jumlah+pajak) as gtotal FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2  AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </gtotaldollar>
       <rpdisc type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="12" isKey="true">
         <Alias>rpdisc</Alias>
@@ -149,7 +149,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>rpdisc</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(((harga*jumlah)*(disc/100))) as discount FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1 AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(((harga*jumlah)*(disc/100))) as discount FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1 AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </rpdisc>
       <rpppn type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="13" isKey="true">
         <Alias>rpppn</Alias>
@@ -161,7 +161,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>rpppn</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(((harga*jumlah)-((harga*jumlah)*(disc/100)))*(10/100)) as ppn FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1 AND total_ppn &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(((harga*jumlah)-((harga*jumlah)*(disc/100)))*(10/100)) as ppn FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1 AND total_ppn &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </rpppn>
       <dollardisc type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="14" isKey="true">
         <Alias>dollardisc</Alias>
@@ -173,7 +173,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>dollardisc</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(((harga*jumlah)*(disc/100))) as discount FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2 AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(((harga*jumlah)*(disc/100))) as discount FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2 AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </dollardisc>
       <dollarppn type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="15" isKey="true">
         <Alias>dollarppn</Alias>
@@ -185,7 +185,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>dollarppn</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(((harga*jumlah)-((harga*jumlah)*(disc/100)))*(10/100)) as ppn FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2 AND total_ppn &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(((harga*jumlah)-((harga*jumlah)*(disc/100)))*(10/100)) as ppn FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2 AND total_ppn &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </dollarppn>
       <rpdpp type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="16" isKey="true">
         <Alias>rpdpp</Alias>
@@ -197,7 +197,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>rpdpp</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(((harga*jumlah)-((harga*jumlah)*(disc/100)))) as dpp FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1 AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(((harga*jumlah)-((harga*jumlah)*(disc/100)))) as dpp FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 1 AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </rpdpp>
       <dollardpp type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="17" isKey="true">
         <Alias>dollardpp</Alias>
@@ -209,7 +209,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>dollardpp</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(((harga*jumlah)-((harga*jumlah)*(disc/100)))) as dpp FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2 AND `a`.`total_ppn` &lt; 1</SqlCommand>
+        <SqlCommand>SELECT SUM(((harga*jumlah)-((harga*jumlah)*(disc/100)))) as dpp FROM `purchase_order_list` as `list` LEFT JOIN `barang` as `b` ON `list`.`kode_barang` = `b`.`id`  LEFT JOIN `satuan` as `st` ON `list`.`satuan_id` = `st`.`id`  LEFT JOIN `purchase_order` as `a` ON `a`.`id` = `list`.`order_id` LEFT JOIN `kontak` as `s` ON `a`.`kontak_id` = `s`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang_id` = `g`.`id` WHERE `a`.`is_deleted` = 0 AND WHERE `a`.`is_draft` = 0 AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{supplier}%' AND `b`.`title` LIKE '%{barang}%' AND `a`.`kurensi_id` = 2 AND `a`.`total_ppn` &lt; 1 AND `status_id` LIKE '%{status}%'</SqlCommand>
       </dollardpp>
     </DataSources>
     <Relations isList="true" count="0"/>
@@ -222,6 +222,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
       <value>,disc,disc,System.Decimal,total_x002A__x0028_q_x002E_disc_x002F_100_x0029_,True,True</value>
       <value>,dpp,dpp,System.Decimal,total_x002D_disc,True,True</value>
       <value>,supplier,Nama_x0020_Supplier,,System.String,,False,False,True</value>
+      <value>,status,Status,,System.String,,False,False,True</value>
       <value>,barang,Nama_x0020_Barang,,System.String,,False,False,True</value>
       <value>,grandtotal,grandtotal,System.Decimal,Sum_x0028_q_x002C__x0028_q_x002E_jumlah_x002A_q_x002E_harga_x0029__x002B_q_x002E_pajak_x0029_,True,True</value>
       <value>,subtotal,subtotal,System.String,dpp_x002B_ppn,True,True</value>

@@ -5,7 +5,7 @@ class barang_inv_model extends CI_Model {
 
 	var $table = 'barang_inventaris';
 	var $table_join1 = 'jenis_barang_inventaris';
-	var $column = array('barang.id', 'photo', 'kode', 'title','jenis_inventaris', 'harga_beli', 'umur_ekonomis', 'akumulasi', 'beban_perbulan', 'nilai_buku'); //set column field database for order and search
+	var $column = array('kode', 'barang_inventaris.title','harga_beli', 'umur_ekonomis', 'akumulasi', 'beban_perbulan', 'nilai_buku'); //set column field database for order and search
 	var $order = array('title' => 'asc'); // default order 
 
 	public function __construct()

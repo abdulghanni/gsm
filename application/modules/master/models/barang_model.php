@@ -7,7 +7,7 @@ class barang_model extends CI_Model {
 	var $table_inv = 'barang_inventaris_detail';
 	var $table_join1 = 'jenis_barang';
 	var $table_join2 = 'satuan';
-	var $column = array('barang.id', 'photo', 'kode', 'title', 'alias', 'jenis_barang', 'satuan'); //set column field database for order and search
+	var $column = array('kode', 'title', 'alias', 'jenis_barang', 'satuan'); //set column field database for order and search
 	var $order = array('title' => 'asc'); // default order 
 
 	public function __construct()
@@ -28,16 +28,11 @@ class barang_model extends CI_Model {
 			'.$this->table_join1.'.title as jenis_barang,
 			'.$this->table_join1.'.title as jenis_barang_id,
 			'.$this->table_join2.'.title as satuan,
-			'.$this->table_inv.'.harga,
-			'.$this->table_inv.'.penyusutan,
-			'.$this->table_inv.'.tgl,
 			');
 		$this->db->from($this->table);
 		$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.jenis_barang_id', 'left');
 		$this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.satuan', 'left');
-		$this->db->join('barang_inventaris_detail', 'barang_inventaris_detail'.'.barang_id = '.$this->table.'.id', 'left');
-		$this->db->join('jenis_barang_inventaris', 'barang_inventaris_detail'.'.jenis_barang_inventaris_id = '.'barang_inventaris_detail'.'.id', 'left');
-
+		$this->db->where($this->table.'.is_deleted', 0);
 		$i = 0;
 	
 		foreach ($this->column as $item) // loop column 
@@ -82,6 +77,7 @@ class barang_model extends CI_Model {
 		}
 		if($_POST['length'] != -1)
 		$this->db->limit($_POST['length'], $_POST['start']);
+		$this->db->where($this->table.'.is_deleted', 0);
 		$query = $this->db->get();
 		return $query->result();
 	}
@@ -89,6 +85,7 @@ class barang_model extends CI_Model {
 	function count_filtered()
 	{
 		$this->_get_datatables_query();
+		$this->db->where($this->table.'.is_deleted', 0);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -96,6 +93,7 @@ class barang_model extends CI_Model {
 	public function count_all()
 	{
 		$this->db->from($this->table);
+		$this->db->where($this->table.'.is_deleted', 0);
 		return $this->db->count_all_results();
 	}
 
@@ -190,4 +188,37 @@ class barang_model extends CI_Model {
 		$q = $this->db->get();
 		return $q->result_array();
 	}
+
+	public function upload_data($filename){
+        ini_set('memory_limit', '-1');
+        $inputFileName = './uploads/'.$filename;
+        try {
+        $objPHPExcel = PHPExcel_IOFactory::load($inputFileName);
+        } catch(Exception $e) {
+        die('Error loading file :' . $e->getMessage());
+        }
+
+        $worksheet = $objPHPExcel->getActiveSheet()->toArray(null,true,true,true);
+        $numRows = count($worksheet);
+        echo 'Mohon tunggu, sedang mengupload data.....';
+        for ($i=2; $i < ($numRows+1) ; $i++) { 
+        	if(!empty($worksheet[$i]["B"])):
+		        $data = array(
+		        		"kode"          => $worksheet[$i]["B"],
+		        		"merk"          => $worksheet[$i]["C"],
+		        		"title"   => $worksheet[$i]['D'],
+		        		"alias"   => $worksheet[$i]['E'],
+		        		"jenis_barang_id"   => getValue('id', 'jenis_barang', array('title'=>'like/'.$worksheet[$i]['F'])),
+		        		"satuan"   => getValue('id', 'satuan', array('title'=>'like/'.$worksheet[$i]['G'])),
+		        		"satuan_laporan"   => getValue('id', 'satuan', array('title'=>'like/'.$worksheet[$i]['H'])),
+		        	   );
+		        $cek = getAll('barang', array('kode'=>'where/'.$worksheet[$i]["B"]))->num_rows();
+		        if($cek<1)$this->db->insert('barang', $data);else $this->db->where('kode', $worksheet[$i]["B"])->update('barang', $data);
+		
+                $barang_id= getValue('id', 'barang', array('kode'=>'where/'.$worksheet[$i]["B"]));
+                $num = getAll('stok', array('barang_id'=>'where/'.$barang_id))->num_rows();
+                if($num<1)$this->db->insert('stok', array('barang_id'=>$barang_id));
+		    endif;
+	    }
+    }
 }

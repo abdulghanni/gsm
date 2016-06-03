@@ -11,6 +11,7 @@ class Barang extends MX_Controller {
         $this->load->database();
         $this->load->model('master/barang_model', 'barang');
 		$this->load->model('master/barang_inv_model', 'inv');
+        $this->load->library('excel');
         //$this->lang->load('master/barang');
 	}
 
@@ -406,6 +407,28 @@ class Barang extends MX_Controller {
             5); // margin footer
     $this->mpdf->WriteHTML($html);
     $this->mpdf->Output('Master Barang'.'.pdf', 'I');
+    }
+
+    public function upload_excel(){
+
+        $config['upload_path'] = './uploads/';
+        $config['allowed_types'] = 'xlsx|xls';
+       
+        $this->load->library('upload', $config);
+        
+        if ( ! $this->upload->do_upload()){
+            //$error = array('error' => $this->upload->display_errors());
+            echo 'Terjadi Kesalahan, silakan kembali kehalaman sebelumnya';
+        }
+        else{
+            $data = array('upload_data' => $this->upload->data());
+            $upload_data = $this->upload->data(); //Returns array of containing all of the data related to the file you uploaded.
+            $filename = $upload_data['file_name'];
+            $this->barang->upload_data($filename);
+            unlink('./uploads/'.$filename);
+            $this->session->set_flashdata('message', 'Upload Data Selesai');
+            redirect('master/barang','refresh');
+        }
     }
 
     function excel()
