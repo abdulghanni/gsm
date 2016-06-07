@@ -77,15 +77,23 @@ class Printing extends MX_Controller {
 	function inbound(){
 			$sd=$this->input->post('start_date');
 			$ed=$this->input->post('end_date');
+			$k=$this->input->post('kontak');
+			$b=$this->input->post('barang');
+			$st=$this->input->post('status');
+			$g=$this->input->post('gudang');
 
-			redirect(base_url()."print/file/index.php?stimulsoft_report_key=inbound.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=inbound.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&supplier=$k&barang=$b&status=$st&gudang=$g",'refresh');
 		}
 
 		function outbound(){
 			$sd=$this->input->post('start_date');
 			$ed=$this->input->post('end_date');
+			$k=$this->input->post('kontak');
+			$b=$this->input->post('barang');
+			$st=$this->input->post('status');
+			$g=$this->input->post('gudang');
 
-			redirect(base_url()."print/file/index.php?stimulsoft_report_key=outbound.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed",'refresh');
+			redirect(base_url()."print/file/index.php?stimulsoft_report_key=outbound.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&barang=$b&status=$st&gudang=$g",'refresh');
 		}
 	function purchase_order(){
 			$sd=$this->input->post('start_date');

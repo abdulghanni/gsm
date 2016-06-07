@@ -22,13 +22,14 @@ TZy9ZAA=</ConnectionStringEncrypted>
           <value>so,System.String</value>
           <value>gudang,System.String</value>
           <value>project,System.String</value>
+          <value>gudang,System.String</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>q</Name>
         <NameInSource>q</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT `b`.`kode` as `barcode`, `a`.`tgl`, `b`.`title` as `nama_barang`, `a`.`qty`, `s`.`title` as `supplier`, `st`.`title` as `satuan`, `p`.`so` as `so`, `g`.`title` as `gudang`, `p`.`project` FROM `stok_log` as `a` LEFT JOIN `barang` as `b` ON `a`.`barang` = `b`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang` = `g`.`id` LEFT JOIN `satuan` as `st` ON `a`.`satuan` = `st`.`id` LEFT JOIN `sales_order` as `p` ON `a`.`no` = `p`.`so` LEFT JOIN `kontak` as `s` ON `p`.`kontak_id` = `s`.`id` WHERE `type` = 'out' AND `tgl` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tgl` &lt;= '{p2.ToString("Y-M-dd")}'</SqlCommand>
+        <SqlCommand>SELECT `b`.`kode` as `barcode`, `a`.`tgl`, `b`.`title` as `nama_barang`, `a`.`qty`, `s`.`title` as `supplier`, `st`.`title` as `satuan`, `p`.`so` as `so`, `g`.`title` as `gudang`, `p`.`project` FROM `stok_log` as `a` LEFT JOIN `barang` as `b` ON `a`.`barang` = `b`.`id` LEFT JOIN `gudang` as `g` ON `a`.`gudang` = `g`.`id` LEFT JOIN `satuan` as `st` ON `a`.`satuan` = `st`.`id` LEFT JOIN `sales_order` as `p` ON `a`.`no` = `p`.`so` LEFT JOIN `kontak` as `s` ON `p`.`kontak_id` = `s`.`id` WHERE `type` = 'out' AND `tgl` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tgl` &lt;= '{p2.ToString("Y-M-dd")}' AND `s`.`title` LIKE '%{costumer}%' AND `b`.`title` LIKE '%{barang}%' AND `g`.`title` like '%{gudang}%' AND `status_id` LIKE '%{status}%'</SqlCommand>
       </q>
     </DataSources>
     <Relations isList="true" count="0"/>
@@ -36,6 +37,10 @@ TZy9ZAA=</ConnectionStringEncrypted>
     <Variables isList="true" count="2">
       <value>,p1,Dari_x0020_Tanggal,,System.DateTime,,False,False,True,False,_x003C__x003F_xml_x0020_version_x003D__x0022_1_x002E_0_x0022__x0020_encoding_x003D__x0022_utf_x002D_8_x0022__x0020_standalone_x003D__x0022_yes_x0022__x003F__x003E__x003C_StiSerializer_x0020_type_x003D__x0022_Flex_x0022__x0020_version_x003D__x0022_1_x002E_02_x0022__x0020_application_x003D__x0022_State_x0022__x003E__x003C_AllowUserValues_x003E_False_x003C__x002F_AllowUserValues_x003E__x003C_Keys_x0020_isList_x003D__x0022_true_x0022__x0020_count_x003D__x0022_0_x0022__x002F__x003E__x003C_Values_x0020_isList_x003D__x0022_true_x0022__x0020_count_x003D__x0022_0_x0022__x002F__x003E__x003C__x002F_StiSerializer_x003E_</value>
       <value>,p2,Sampai_x0020_Tanggal,,System.DateTime,,False,False,True,False,_x003C__x003F_xml_x0020_version_x003D__x0022_1_x002E_0_x0022__x0020_encoding_x003D__x0022_utf_x002D_8_x0022__x0020_standalone_x003D__x0022_yes_x0022__x003F__x003E__x003C_StiSerializer_x0020_type_x003D__x0022_Flex_x0022__x0020_version_x003D__x0022_1_x002E_02_x0022__x0020_application_x003D__x0022_State_x0022__x003E__x003C_AllowUserValues_x003E_False_x003C__x002F_AllowUserValues_x003E__x003C_Keys_x0020_isList_x003D__x0022_true_x0022__x0020_count_x003D__x0022_0_x0022__x002F__x003E__x003C_Values_x0020_isList_x003D__x0022_true_x0022__x0020_count_x003D__x0022_0_x0022__x002F__x003E__x003C__x002F_StiSerializer_x003E_</value>
+      <value>,gudang,Gudang,,System.String,,False,False,True</value>
+      <value>,costumer,Nama_x0020_Costumer,,System.String,,False,False,True</value>
+      <value>,status,Status,,System.String,,False,False,True</value>
+      <value>,barang,Nama_x0020_Barang,,System.String,,False,False,True</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
