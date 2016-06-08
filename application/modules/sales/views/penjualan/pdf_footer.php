@@ -71,7 +71,7 @@
 	<br/>
 	<table width="250">
 	<tr>
-		<td align="center">Jakarta, <?= date("d M Y", strtotime($o->created_on))?></td>
+		<td align="center">Jakarta, <?= date("d M Y", strtotime($o->tanggal_transaksi))?></td>
 	</tr>
 	<tr>
 		<td align="center">PT. Gramaselindo Utama</td>
@@ -86,10 +86,10 @@
 		<td align="center"></td>
 	</tr>
 	<tr>
-		<td align="center">(Iriawan)</td>
+		<td align="center">(Mursiawaty Suryadinata)</td>
 	</tr>
 	<tr>
-		<td align="center">Direktur</td>
+		<td align="center">Chief Excecutive Officer</td>
 	</tr>
 </table>
 </div>

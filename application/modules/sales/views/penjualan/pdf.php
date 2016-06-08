@@ -61,7 +61,7 @@ td{ height:30px;}
     <tr>
       <td>Project</td>
       <td>:</td>
-      <td><?=$o->proyek?></td>
+      <td><?=$o->project?></td>
       <td width="10"></td>
       <td>Currency</td>
       <td>:</td>
@@ -75,6 +75,15 @@ td{ height:30px;}
       <td>Payment Term</td>
       <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
       <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td width="10"></td>
+      <td>VAT No.</td>
+      <td>:</td>
+      <td><?=$o->no_faktur?></td>
     </tr>
   </tbody>
 </table>

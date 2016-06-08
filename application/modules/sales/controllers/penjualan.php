@@ -83,7 +83,7 @@ class Penjualan extends MX_Controller {
                 'no_sj'=> $this->input->post('no_sj'),
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
-                'alamat'=>'',
+                'alamat'=>$this->input->post('alamat'),
                 'project'=>$this->input->post("project"),
                 'no_faktur'=>$this->input->post("no_faktur"),
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
