@@ -107,14 +107,21 @@
                     </div>
 
                     <div class="col-md-6">
+                		<?php $s = explode(',', $o->no_sj);
+                			foreach($s as $j):
+                				$no = getValue('no', 'stok_pengeluaran', array('id'=>'where/'.$j));
+                				$created_on = getValue('created_on', 'stok_pengeluaran', array('id'=>'where/'.$j));
+                				$no_sj = (!empty($no)) ? $no : date('Ymd', strtotime($created_on)).sprintf('%04d',$j);
+                				?>
                     	<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								No. Surat Jalan
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->no_sj?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$no_sj?>" class="form-control" disabled="disabled">
 							</div>
 						</div>
+						<?php endforeach; ?>
                     	<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								No. PO

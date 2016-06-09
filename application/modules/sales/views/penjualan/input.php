@@ -43,10 +43,12 @@
 							<label class="control-label">Salin Dari Stok Pengeluaran</label>
 						</div>
 						<div class="col-md-6">
-							<select class="select2 select_so" name="no_sj" id="list_so" style="width:100%">
+							<select class="select2 select_so" name="no_sj[]" id="list_so" style="width:100%">
 								<option value="0">-- Pilih NO. Surat Jalan --</option>
-								<?php foreach($so as $p):?>
-								<option value="<?=$p->id?>"><?=date('Ymd', strtotime($p->created_on)).sprintf('%04d',$p->id)?></option>
+								<?php foreach($so as $p):
+									$no = (!empty($p->no)) ? $p->no : date('Ymd', strtotime($p->created_on)).sprintf('%04d',$p->id)
+								?>
+								<option value="<?=$p->id?>"><?=$no?></option>
 								<!--<option value="<?=$p->id?>"><?=$p->so?></option>-->
 								<?php endforeach;?>
 							</select>

@@ -43,7 +43,7 @@ class Penjualan extends MX_Controller {
         $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
         $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
         //$this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
-        $this->data['so'] = GetAllSelect('stok_pengeluaran', array('id', 'created_on'), array('id'=>'order/desc'))->result();
+        $this->data['so'] = GetAllSelect('stok_pengeluaran', array('id','no', 'created_on'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -80,7 +80,7 @@ class Penjualan extends MX_Controller {
 
         $data = array(
                 'no' => $this->input->post('no'),
-                'no_sj'=> $this->input->post('no_sj'),
+                'no_sj'=> implode(',',$this->input->post('no_sj')),
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
                 'alamat'=>$this->input->post('alamat'),
@@ -88,6 +88,7 @@ class Penjualan extends MX_Controller {
                 'no_faktur'=>$this->input->post("no_faktur"),
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
+                'tanggal_faktur'=>date('Y-m-d',strtotime($this->input->post('tanggal_faktur'))),
                 'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
                 'so'=>$this->input->post('so'),
                 'gudang_id'=>$this->input->post('gudang_id'),
