@@ -143,7 +143,8 @@ class Pengeluaran extends MX_Controller {
         $this->data['nosurat']= (!empty($no)) ? $no : date('Ymd', strtotime($created_on)).sprintf('%04d',$id);
         $this->data['id'] = $id;
         $this->data[$this->file_name] = GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row_array();
-        $this->data['clients']=$this->db->query("SELECT kontak_id FROM sales_order WHERE so='".$this->data[$this->file_name]['ref']."' ")->row_array();//lastq();
+        //$this->data['clients']=$this->db->query("SELECT kontak_id FROM sales_order WHERE so='".$this->data[$this->file_name]['ref']."' ")->row_array();//lastq();
+        $this->data['clients']=$this->db->query("SELECT kontak_id FROM stok_pengeluaran WHERE id='".$id."' ")->row_array();//lastq();
         
         $this->data['client']=GetValue('title','kontak',array('id'=>'where/'.$this->data['clients']['kontak_id']));
        
@@ -227,6 +228,7 @@ class Pengeluaran extends MX_Controller {
         		'no' => $this->input->post('no'),
                 'ref'=>GetValue('so','sales_order',array('id'=>'where/'.$this->input->post('ref'))),              
                	'ref_type'=>'sales_order',
+                'kontak_id'=>$this->input->post('kontak_id'),
                 'alamat'=>$this->input->post('alamat'),
                 'ref_id'=>$this->input->post('ref_id'),
                 
@@ -310,6 +312,8 @@ class Pengeluaran extends MX_Controller {
 		$num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
         $data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        $this->load->model('sales/order_model', 'main');
+        $data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
 			$v=$_POST['v'];
 			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (id='$v' OR so='$v') ");
 			if($cariref->num_rows()>0){

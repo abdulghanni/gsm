@@ -5,6 +5,20 @@
 	<div class="col-md-6">
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="inputEmail3">
+				Kepada
+			</label>
+			<div class="col-sm-9">
+				<?php 
+                	$js = 'class="select2" style="width:100%" id="kontak_id"';
+                	echo form_dropdown('kontak_id', $options_kontak,$refid['kontak_id'],$js); 
+              	?>
+			</div>
+			<div class="col-md-1">
+              	<button type="button" class="btn btn-primary btn-xs" style="margin-left: -15px" title="Tambah Supplier Baru" data-toggle="modal" data-target="#modalKontak"><i class="fa fa-plus"></i></button>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="inputEmail3">
 				Tgl. Pengiriman
 			</label>
 			<div class="col-sm-9">

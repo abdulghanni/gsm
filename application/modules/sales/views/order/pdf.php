@@ -126,7 +126,7 @@ td{ height:30px;}
 	?>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang.' '.$ex_tax?></td>
-		<td width="20%"><?=$ol->deskripsi?></td>
+		<td width="20%"><?=$ol->deskripsi?><br/><?=$ol->catatan?></td>
 		<td width="5%" align="right"><?=$ol->jumlah?> <?=$ol->satuan?></td>
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<td width="5%" align="right"><?=$ol->disc?></td>

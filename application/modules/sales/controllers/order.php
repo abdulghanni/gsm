@@ -188,7 +188,8 @@ class Order extends MX_Controller {
                 'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
-                'is_draft' => $type
+                'is_draft' => $type,
+                'is_deleted' => 0,
             );
 
         $num_rows = $this->db->select('so')->where('so', $po)->get($this->table_name)->num_rows();
@@ -207,6 +208,7 @@ class Order extends MX_Controller {
                 'deskripsi' => $list['deskripsi'][$i],
                 'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],
+                'catatan' => $list['catatan_barang'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),

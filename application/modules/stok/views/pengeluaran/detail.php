@@ -48,6 +48,19 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputPassword3">
+									Kepada
+								</label>
+								<div class="col-sm-8">
+									<?php 
+										$nm_f='kontak_id';
+										$js = 'style="width:100%" class="form-control"  id="'.$nm_f.'"';
+										//echo form_dropdown($nm_f, GetOptAll('gudang','-GUDANG-'),$refid[$nm_f],$js); 
+										echo getValue('title', 'kontak', array('id'=>'where/'.$pengeluaran->$nm_f)); 
+									?>
+								</div>
+							</div>
+							<div class="form-group">
 								<label class="col-sm-4 control-label" for="inputEmail3">
 									Tgl. Pengiriman
 								</label>
