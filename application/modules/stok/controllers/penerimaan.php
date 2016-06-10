@@ -56,18 +56,19 @@ class Penerimaan extends MX_Controller {
 		$buttons[] = array('delete','delete','btn');
 		$buttons[] = array('separator');
 		 */
-		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','asc',$gridParams,$buttons);
+		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','desc',$gridParams,$buttons);
 	}
 	
 	function get_flexigrid()
 	{
 		
 		//Build contents query
-		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on, a.created_by")->from('stok_Penerimaan a');
+		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on, d.username username")->from('stok_Penerimaan a');
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
+		$this->db->join('users d','d.id=a.created_by','left');
 		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
-		$this->db->order_by('id', 'desc');
+		//$this->db->order_by('id', 'desc');
 		$this->flexigrid->build_query();
 		
 		//Get contents
@@ -88,9 +89,9 @@ class Penerimaan extends MX_Controller {
 	
 	function get_record(){
 		
-		$valid_fields = array('id','name','code','origin');
+		$valid_fields = array('id','ref','gudang_to','tgl','username');
 		
-		$this->flexigrid->validate_post('id','DESC',$valid_fields);
+		$this->flexigrid->validate_post('id','desc',$valid_fields);
 		$records = $this->get_flexigrid();
 		
 		$this->output->set_header($this->config->item('json_header'));
@@ -111,7 +112,7 @@ class Penerimaan extends MX_Controller {
 			$row->gudang_to,
 			date('d-m-Y',strtotime($row->tgl)),
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/bast/".$row->id."' target='_blank' title='bast'><i class='fa fa-file'></i></a>",
-			GetValue('username','users',array('id'=>'where/'.$row->created_by))
+			$row->username
 			);
                         //"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/INV/".$row->id."' target='_blank' title='invoice'><i class='fa fa-file'></i></a>",
 		}
