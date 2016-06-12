@@ -21,8 +21,9 @@
 							</tr><?php $i=1;
 							$totalpluspajak = $totalpajak = $total = $saldo = $totaldiskon = 0;
 							$i=1;foreach($list->result() as $ol){
+							$totaldiskon = $totaldiskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
 							$subtotal = $ol->jumlah*$ol->harga;
-							$totaldiskon = $totaldiskon + ($subtotal * ($ol->disc/100));
+							$subtotal = $subtotal-($subtotal * ($ol->disc/100));
 							$total = $total + $subtotal;
 							$pengeluaran_id = getValue('pengeluaran_id', 'stok_pengeluaran_list', array('id'=>'where/'.$ol->id));
 							$pengeluaran_date =  getValue('created_on', 'stok_pengeluaran', array('id'=>'where/'.$ol->pengeluaran_id));
@@ -55,11 +56,11 @@
 								<td class="text-right"><input type="text" name="subtotal" class=" text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly>
 								</td>
 								<td>
-									<?php $checked = ($ol->inc_ppn != 0)?'checked="checked"' : '';?>
+									<?php $checked = ($ol->inc_ppn != 0)?'' : '';?>
 									<input name= "pajak_checkbox1_checkbox[]" type="checkbox" id="pajak<?=$i?>" value="1">
 									<input type="hidden" name="pajak_checkbox1[]" value="0" />
-									<input type="hidden" name="pajak[]" value="<?= $ol->pajak ?>" id="subpajak<?=$i?>" class="subpajak">
-									<input type="hidden" name="" value="<?= $ol->pajak ?>" id="exc<?=$i?>" class="exc">
+									<input type="hidden" name="pajak[]" value="<?= $subtotal * (10/100) ?>" id="subpajak<?=$i?>" class="subpajak">
+									<input type="hidden" name="" value="<?= $subtotal * (10/100) ?>" id="exc<?=$i?>" class="exc">
 								</td>
 								<td>
 								<?php if(!empty($ol->attachment)){?>
@@ -178,7 +179,7 @@
 						PPN
 						</div>
 						<div class="col-md-6 pull-right">
-						<input type="text" id="totalPajak" name="total-ppn" value="0" class="form-control text-right" readonly="readonly">
+						<input type="text" id="totalPajak" name="total-ppn" value="<?=number_format($total_table->ppn,2)?>" class="form-control text-right" readonly="readonly">
 						</div>
 					</div>
 				</li>
@@ -218,7 +219,7 @@
 						Diskon
 						</div>
 						<div class="col-md-6 pull-right">
-						<input type="text" name="total-diskon" id="total-diskon" class="form-control text-right" value="<?=$totaldiskon?>" readonly>
+						<input type="text" name="total-diskon" id="total-diskon" class="form-control text-right" value="<?=number_format($totaldiskon,2)?>" readonly>
 						</div>
 					</div>
 				</li>
@@ -228,7 +229,7 @@
 						Total
 						</div>
 						<div class="col-md-6 pull-right">
-						<input type="text" class="form-control text-right" id="total" value="<?=$total?>" readonly="readonly">
+						<input type="text" name="total" class="form-control text-right" id="total" value="<?=number_format($total_table->total,2)?>" readonly="readonly">
 						</div>
 					</div>
 				</li>
@@ -238,7 +239,7 @@
 						Total+Pajak
 						</div>
 						<div class="col-md-6 pull-right">
-						<input type="text" class="form-control text-right" name="gtotal" id="totalpluspajak" value="<?=$totalpluspajak?>" readonly="readonly">
+						<input type="text" name="total_plus_pajak" class="form-control text-right" name="gtotal" id="totalpluspajak" value="<?=number_format($total_table->ppn+$total_table->total,2)?>" readonly="readonly">
 						</div>
 					</div>
 				</li>

@@ -64,7 +64,7 @@ class Pengeluaran extends MX_Controller {
 	{
 		
 		//Build contents query
-		$this->db->select("a.id as id,a.no,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered, a.created_on, d.username as username")->from('stok_pengeluaran a');
+		$this->db->select("a.id as id,a.ref_id,a.no,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on,a.is_delivered as is_delivered, a.created_on, d.username as username")->from('stok_pengeluaran a');
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
 		$this->db->join('users d','d.id=a.created_by','left');
@@ -100,22 +100,24 @@ class Pengeluaran extends MX_Controller {
 		
 		foreach ($records['records']->result() as $row)
 		{
-            if($row->is_delivered=='No'){
-                
-                $ref="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>";
-                $dev="<a href='".base_url()."stok/pengeluaran/deliver/".$row->id."'>".$row->is_delivered."</a>";
+            if(!empty($row->ref_id)){
+            	$refid = explode(',', $row->ref_id);
+            	$ref = '';
+            	foreach($refid as $r=>$v):
+            		$ref .="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".getValue('so','sales_order', array('id'=>'where/'.$v))."</i></a><br/>";
+            	endforeach;
             }else{
-                
-                $ref=$row->ref;
-                $dev=$row->is_delivered;
-            }
+            	$ref="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>";
+        	}
+
+        	$dev="<a href='".base_url()."stok/pengeluaran/deliver/".$row->id."'>".$row->is_delivered."</a>";
 
 			$no_sj = (!empty($row->no)) ? $row->no : date('Ymd', strtotime($row->created_on)).sprintf('%04d',$row->id);
 			$record_items[] = array(
 			$row->id,
 			$row->id,
 			$row->id,
-           "<a href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$no_sj."</a>",
+           "<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$row->id."' target='_blank' title='detail'>".$no_sj."</a>",
             $ref,
 			$row->gudang_to,
 			$row->tgl,
@@ -226,14 +228,13 @@ class Pengeluaran extends MX_Controller {
 
         $data = array(
         		'no' => $this->input->post('no'),
-                'ref'=>GetValue('so','sales_order',array('id'=>'where/'.$this->input->post('ref'))),              
+                //'ref'=>GetValue('so','sales_order',array('id'=>'where/'.$this->input->post('ref'))),              
+                'ref'=>'',              
                	'ref_type'=>'sales_order',
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'alamat'=>$this->input->post('alamat'),
-                'ref_id'=>$this->input->post('ref_id'),
-                
+                'ref_id'=>implode(',',$this->input->post('ref_id')),
                 'tgl'=>date('Y-m-d',strtotime($this->input->post('tgl'))),
-                
                 'gudang_to'=>$this->input->post('gudang_id'),
                 'driver'=>$this->input->post('driver'),
                 'plat'=>$this->input->post('plat'),
@@ -275,8 +276,8 @@ class Pengeluaran extends MX_Controller {
                 );
         $this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         $sisaan=+$sisa;
-        if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
-		keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',','',$list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
+        //if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
+		keluarstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',','',$list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$list['ref_id'][$i],$data['tgl'],$data['ref']);
 		$this->insert_so_status($list['ref_id'][$i]);
 		endfor;
 
@@ -286,7 +287,6 @@ class Pengeluaran extends MX_Controller {
                 //}
 
         $this->send_notification($insert_id);
-		if($sisaan==0){$this->db->query("UPDATE sales_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
 

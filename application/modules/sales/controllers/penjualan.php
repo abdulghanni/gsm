@@ -100,13 +100,14 @@ class Penjualan extends MX_Controller {
                 'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
                 'catatan' =>$this->input->post('catatan'),
                 'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
                 'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
                 'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
                 'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
                 'total_diskon' => str_replace(',', '', $this->input->post('total-diskon')),
+                'total' => str_replace(',', '', $this->input->post('total')),
+                'total_plus_pajak' => str_replace(',', '', $this->input->post('total_plus_pajak')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -129,6 +130,7 @@ class Penjualan extends MX_Controller {
                 'catatan' => str_replace(',', '', $list['catatan_barang'][$i]),
                 );
         $this->db->insert($this->table_name.'_list', $data2);
+        $this->db->where('id', $list['ref_id'][$i])->update('stok_pengeluaran', array('is_closed'=>1));
         $this->load->library('upload');
         $this->upload->initialize($this->set_upload_options());
         if($this->upload->do_multi_upload("attachment")){
@@ -341,6 +343,7 @@ class Penjualan extends MX_Controller {
         $id = substr_replace($id, '', -1);
         //$this->data['list'] = GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id));
         $this->data['list'] = $this->main->get_list_detail_so($id);
+        $this->data['total_table'] = $this->main->get_sum($id)->row();//print_mz($this->data['total']);
         $this->load->view($this->module.'/'.$this->file_name.'/table', $this->data);
     }
 

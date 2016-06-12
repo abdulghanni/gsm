@@ -64,6 +64,7 @@
         dropdownAutoWidth : true
     });</script>
 <script type="text/javascript">
+$('.harga').maskMoney({allowZero:true});
 	$("#pajak<?=$id?>").click(function(){
 	    hitung<?=$id?>();
 	});

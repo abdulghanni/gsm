@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li class="active">
-				<span><a href="<?=base_url('purchase/order')?>">order</a></span>
+				<span><a href="<?=base_url('stok/pengeluaran')?>">Pengeluaran</a></span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/order/input')?>">input</a></span>
+				<span><a href="<?=base_url('stok/pengeluaran/input')?>">Input</a></span>
 			</li>
 		</ol>
 	</div>
@@ -44,7 +44,7 @@
 								No. S.O
                                             </label>
                                                 <div class="col-sm-6">
-								<?php $nm_f="ref";
+								<?php $nm_f="ref_id[]";
 								?>
 								<!--Bagian Kanan-->
 								<?php echo form_dropdown($nm_f,$opt_po,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="select2" id="'.$nm_f.'" onchange="cariref(this.value)" style="width:100%;" ')?>

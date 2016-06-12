@@ -155,8 +155,7 @@ class penjualan_model extends CI_Model {
                                 dibayar,  
                                 dibayar_nominal,  
                                 lama_angsuran_2, 
-                                lama_angsuran_1, 
-                                bunga, 
+                                lama_angsuran_1,
                                 project,
                                 no_faktur,
                                 penjualan.catatan,
@@ -177,7 +176,7 @@ class penjualan_model extends CI_Model {
 
     function get_detail_so($id)
     {
-        $q = $this->db->select('no, kontak.title as kontak,project,kontak_id, kontak.up,sales_order.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran,gudang_id, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi_id,kurensi.title as kurensi, biaya_pengiriman, dibayar, lama_angsuran_2, lama_angsuran_1, bunga, sales_order.created_on')
+        $q = $this->db->select('no, kontak.title as kontak,project,kontak_id, kontak.up,sales_order.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran,gudang_id, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi_id,kurensi.title as kurensi, biaya_pengiriman, dibayar, lama_angsuran_2, lama_angsuran_1, sales_order.created_on')
                  ->from($this->table_so)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table_so.'.kontak_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table_so.'.metode_pembayaran_id', 'left')
@@ -204,6 +203,20 @@ class penjualan_model extends CI_Model {
         return $q;
     }   
 
+    function get_sum($id){
+        $id = explode(',', $id);
+        $this->db->select('SUM(((harga*a.jumlah)-((harga*a.jumlah)*(disc/100))) * (10/100)) as ppn, SUM((harga*a.jumlah)-((harga*a.jumlah)*(disc/100))) as total')
+                  ->from('stok_pengeluaran_list as a')
+                  ->join('sales_order_list as b', 'b.id ='.'a'.'.list_id', 'left')
+                  ->join('barang', 'barang.id ='.'a'.'.barang_id', 'left')
+                  ->join('satuan', 'satuan.id ='.'a'.'.satuan_id');
+                  foreach ($id as $key => $value) {
+                      $this->db->or_where('pengeluaran_id', $value);
+                  }
+                  
+        $q = $this->db->get();
+        return $q;
+    }
     
 
     public function save($data)

@@ -124,6 +124,18 @@
 						</div>
 
 						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tgl. Faktur
+							</label>
+							<div class="col-sm-8">
+								<div id="tanggal_faktur" class="input-append date success no-padding">
+                                  <input type="text" class="form-control" name="tanggal_faktur" required>
+                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
+                                </div>
+							</div>
+						</div>
+						
+						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Term
 							</label>

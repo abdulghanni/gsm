@@ -13,9 +13,6 @@
                 	echo form_dropdown('kontak_id', $options_kontak,$refid['kontak_id'],$js); 
               	?>
 			</div>
-			<div class="col-md-1">
-              	<button type="button" class="btn btn-primary btn-xs" style="margin-left: -15px" title="Tambah Supplier Baru" data-toggle="modal" data-target="#modalKontak"><i class="fa fa-plus"></i></button>
-			</div>
 		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="inputEmail3">

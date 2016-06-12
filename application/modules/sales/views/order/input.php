@@ -295,7 +295,7 @@
 										Total
 										</div>
 										<div class="col-md-6 pull-right">
-										<input type="text" class="form-control text-right" id="total" value="0" readonly="readonly">
+										<input type="text" class="form-control text-right" id="total" name="total" value="0" readonly="readonly">
 										</div>
 									</div>
 								</li>
@@ -306,7 +306,7 @@
 										Total+Pajak
 										</div>
 										<div class="col-md-6 pull-right">
-										<input type="text" class="form-control text-right" id="totalpluspajak" value="0" readonly="readonly">
+										<input type="text" class="form-control text-right" id="totalpluspajak" name="total_plus_pajak" value="0" readonly="readonly">
 										</div>
 									</div>
 								</li>
@@ -344,7 +344,7 @@
 											Saldo
 											</div>
 											<div class="col-md-6 pull-right">
-											<input type="text" id="saldo" class="form-control text-right" value="0" readonly="readonly">
+											<input type="text" id="saldo" class="form-control text-right" name="saldo" value="0" readonly="readonly">
 											</div>
 										</div>
 									</li>

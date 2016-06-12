@@ -164,6 +164,7 @@ class Order extends MX_Controller {
                         );
 
         $data = array(
+                //INFO TRANSAKSI
                 'no' => $this->input->post('no'),
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>$this->input->post('up'),
@@ -174,18 +175,22 @@ class Order extends MX_Controller {
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
                 'kurensi_id'=>$this->input->post('kurensi_id'),
-                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
-                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
-                'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
-                'bunga' =>str_replace(',', '', $this->input->post('bunga')),
+                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
                 'catatan' =>$this->input->post('catatan'),
                 'project' =>$this->input->post('project'),
-                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
+                //INFO PEMBAYARAN
                 'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
                 'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
                 'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
+                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
+                'total_diskon' => str_replace(',', '', $this->input->post('total-diskon')),
+                'total' => str_replace(',', '', $this->input->post('total')),
+                'total_plus_pajak' => str_replace(',', '', $this->input->post('total_plus_pajak')),
+                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
+                'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
+                'saldo' =>str_replace(',', '', $this->input->post('saldo')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
                 'is_draft' => $type,

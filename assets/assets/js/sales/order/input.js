@@ -89,7 +89,7 @@ $('input[type="text"]')
     })
     .change();
 
-    $('#dibayar, #biaya_pengiriman').maskMoney({allowZero:true});
+    $('#dibayar, #biaya_pengiriman, .harga').maskMoney({allowZero:true});
 
     $("#btnDraft").on('click', function(){
         $.ajax({

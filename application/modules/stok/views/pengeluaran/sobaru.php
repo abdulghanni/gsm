@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="<?php echo base_url().'assets/vendor/select2/select2.css' ?>">
-	<?php $nm_f="ref";
+	<?php $nm_f="ref_id[]";
 	?>
 		<!--Bagian Kanan-->
 	<?php echo form_dropdown($nm_f,$opt_po,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="select2" id="'.$nm_f.'-'.$idp.'" onchange="carilist_'.$idp.'(this.value)" style="width:100%;" ')?>
