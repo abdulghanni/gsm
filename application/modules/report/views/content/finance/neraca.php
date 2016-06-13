@@ -85,12 +85,12 @@
     <td style="color: #000000"></td>
     <td style="color: #000000">KAS SETARA DENGAN KAS</td>
     <td style="color: #000000">1</td>
-    <td align="right" style="color: #000000">-1.489.898.777</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000"></td>
     <td style="color: #000000"></td>
     <td style="color: #000000">HUTANG DAGANG</td>
     <td style="color: #000000">6</td>
-    <td align="right" style="color: #000000">10.338.898.210</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000">&nbsp;</td>
   </tr>
   <tr>
@@ -98,12 +98,12 @@
     <td style="color: #000000"></td>
     <td style="color: #000000">PIUTANG USAHA</td>
     <td style="color: #000000">2</td>
-    <td align="right" style="color: #000000">2.792.037.087</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000"></td>
     <td style="color: #000000"></td>
     <td style="color: #000000">HUTANG LAIN-LAIN</td>
     <td style="color: #000000">7</td>
-    <td align="right" style="color: #000000">75.933.188</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000">&nbsp;</td>
   </tr>
   <tr>
@@ -111,12 +111,12 @@
     <td style="color: #000000"></td>
     <td style="color: #000000">PIUTANG KARYAWAN</td>
     <td style="color: #000000">3</td>
-    <td align="right" style="color: #000000">38.445.000</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000"></td>
     <td style="color: #000000"></td>
     <td style="color: #000000">HUTANG PAJAK</td>
     <td style="color: #000000">8</td>
-    <td align="right" style="color: #000000">118.619.307</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000">+</td>
   </tr>
   <tr>
@@ -124,7 +124,7 @@
     <td style="color: #000000"></td>
     <td style="color: #000000">PERSEDIAAN</td>
     <td style="color: #000000">4</td>
-    <td align="right" style="color: #000000">8.743.007.865</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000">+</td>
     <td style="color: #000000"></td>
     <td style="color: #000000"></td>
@@ -150,11 +150,11 @@
     <td style="color: #000000"></td>
     <td style="color: #000000"><strong>JUMLAH AKTIVA LANCAR</strong></td>
     <td style="color: #000000"></td>
-    <td align="right" style="color: #000000"><strong>10.083.591.175</strong></td>
+    <td align="right" style="color: #000000"><strong>0</strong></td>
     <td style="color: #000000"></td>
     <td colspan="2" style="color: #000000"><strong>JUMLAH KEWAJIBAN LANCAR</strong></td>
     <td style="color: #000000"></td>
-    <td align="right" style="color: #000000"><strong>10.533.450.705</strong></td>
+    <td align="right" style="color: #000000"><strong>0</strong></td>
     <td style="color: #000000">&nbsp;</td>
   </tr>
   <tr>
@@ -199,12 +199,12 @@
     <td style="color: #000000"></td>
     <td style="color: #000000">AKTIVA TETAP (NILAI BUKU)</td>
     <td style="color: #000000">5</td>
-    <td align="right" style="color: #000000">4.088.049.857</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000"></td>
     <td style="color: #000000"></td>
     <td style="color: #000000">MODAL </td>
     <td style="color: #000000">9</td>
-    <td align="right" style="color: #000000">250.000.000</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000">&nbsp;</td>
   </tr>
   <tr>
@@ -217,7 +217,7 @@
     <td style="color: #000000"></td>
     <td style="color: #000000">LABA DITAHAN </td>
     <td style="color: #000000"></td>
-    <td align="right" style="color: #000000">3.364.734.138</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000">&nbsp;</td>
   </tr>
   <tr>
@@ -230,7 +230,7 @@
     <td style="color: #000000"></td>
     <td style="color: #000000">LABA BULAN BERJALAN</td>
     <td style="color: #000000"></td>
-    <td align="right" style="color: #000000">172.528.502</td>
+    <td align="right" style="color: #000000">0</td>
     <td style="color: #000000">+</td>
   </tr>
   <tr>
@@ -250,11 +250,11 @@
     <td style="color: #000000">&nbsp;</td>
     <td colspan="2" style="color: #000000"><strong>JUMLAH AKTIVA TIDAK    LANCAR</strong></td>
     <td style="color: #000000"></td>
-    <td align="right" style="color: #000000"><strong>4.088.049.857</strong></td>
+    <td align="right" style="color: #000000"><strong>0</strong></td>
     <td style="color: #000000"></td>
     <td colspan="2" style="color: #000000"><strong>JUMLAH EKUITAS</strong></td>
     <td style="color: #000000"></td>
-    <td align="right" style="color: #000000"><strong>3.787.262.640</strong></td>
+    <td align="right" style="color: #000000"><strong>0</strong></td>
     <td style="color: #000000">&nbsp;</td>
   </tr>
   <tr>
@@ -274,11 +274,11 @@
     <td style="color: #000000">&nbsp;</td>
     <td colspan="2" style="color: #000000"><strong>JUMLAH AKTIVA</strong></td>
     <td style="color: #000000"></td>
-    <td align="right" style="color: #000000"><strong>14.171.641.032</strong></td>
+    <td align="right" style="color: #000000"><strong>0</strong></td>
     <td style="color: #000000"></td>
     <td colspan="2" style="color: #000000"><strong>JUMLAH PASSIVA</strong></td>
     <td style="color: #000000"></td>
-    <td align="right" style="color: #000000"><strong>14.320.713.345</strong></td>
+    <td align="right" style="color: #000000"><strong>0</strong></td>
     <td style="color: #000000">&nbsp;</td>
   </tr>
   <tr>
