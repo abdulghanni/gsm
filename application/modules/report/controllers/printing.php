@@ -240,6 +240,9 @@ class Printing extends MX_Controller {
 
 			$data['kolom']=$this->input->post('kolom');
 			$data['q']=$this->db->query($q)->result();
+			$data['kantor']=$this->db->query("SELECT * FROM barang_inventaris WHERE jenis_inventaris_id='1'")->result_array();
+			$data['kendaraan']=$this->db->query("SELECT * FROM barang_inventaris WHERE jenis_inventaris_id='2'")->result_array();
+			$data['gedung']=$this->db->query("SELECT * FROM barang_inventaris WHERE jenis_inventaris_id='3'")->result_array();
                         $data['content']='finance/aktiva';
 			$this->load->view('layout/main',$data);
                  // $this->load->view('layout/sales_order',$data);
