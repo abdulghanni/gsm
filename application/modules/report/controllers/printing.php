@@ -221,6 +221,30 @@ class Printing extends MX_Controller {
                  // $this->load->view('layout/sales_order',$data);
 
 	}
+	function aktiva(){
+                        $data['autoprint']=FALSE;
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+                        
+			$cr=$this->input->post('kurensi');
+			$sp=$this->input->post('customer');
+			$barang=$this->input->post('barang');
+                        
+                        $q="SELECT * FROM sales_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ";
+                        if($cr){$q.="AND kurensi_id='$cr'";}
+                        if($sp){$q.="AND kontak_id='$sp'";}
+                        
+                        $data['barang']=$barang;
+                        
+			$data['period']=date('d-m-Y',strtotime($sd)).' s/d '.date('d-m-Y',strtotime($ed));
+
+			$data['kolom']=$this->input->post('kolom');
+			$data['q']=$this->db->query($q)->result();
+                        $data['content']='finance/aktiva';
+			$this->load->view('layout/main',$data);
+                 // $this->load->view('layout/sales_order',$data);
+
+	}
 	function catatan(){
                         $data['autoprint']=FALSE;
 			$sd=$this->input->post('start_date');
