@@ -227,8 +227,7 @@ class Pengeluaran extends MX_Controller {
                 );
 
         $data = array(
-        		'no' => $this->input->post('no'),
-                //'ref'=>GetValue('so','sales_order',array('id'=>'where/'.$this->input->post('ref'))),              
+        		'no' => $this->input->post('no'),             
                 'ref'=>'',              
                	'ref_type'=>'sales_order',
                 'kontak_id'=>$this->input->post('kontak_id'),

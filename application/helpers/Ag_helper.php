@@ -109,7 +109,7 @@ if (!function_exists('print_ag')){
 		echo "<pre>";
 		print_r($data);
 		echo "</pre>";
-		die();
+		//die();
 	}
 }
 

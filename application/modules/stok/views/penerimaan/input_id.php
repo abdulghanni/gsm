@@ -135,8 +135,15 @@
 <fieldset>
 	<legend>Detail</legend>
 	<div class="row">
-		<div class="col-md-6">
-		
+		<div class="col-md-8">
+		<div class="form-group">
+			<label class="col-sm-3 control-label" for="inputPassword3">
+				No. Transaksi
+			</label>
+			<div class="col-sm-9">
+				<input type="text" name="no" class="form-control" style="width:100%" value="<?=date('Ymd',strtotime('now')).$last_id?>">
+			</div>
+		</div>
 		<div class="form-group">
 			<label class="col-sm-3 control-label" for="inputEmail3">
 				Tgl. Penerimaan

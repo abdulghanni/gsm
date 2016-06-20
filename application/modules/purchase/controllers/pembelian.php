@@ -3,32 +3,32 @@
 class Pembelian extends MX_Controller {
     public $data;
     var $module = 'purchase';
-    var $title = 'Pembelian';
+    var $title = 'pembelian';
     var $file_name = 'pembelian';
-    var $main_title = 'Pembelian';
+    var $main_title = 'pembelian';
     var $table_name = 'pembelian';
-    function __construct()
-    {
-        parent::__construct();
-        $this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
-    }
+	function __construct()
+	{
+		parent::__construct();
+		$this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+	}
 
-    function index()
-    {
+	function index()
+	{
         $this->data['title'] = $this->title;
-        $this->data['main_title'] = $this->main_title;
-        $this->data['file_name'] = $this->file_name;
         $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['main_title'] = $this->main_title;
         permissionUser();
-        $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
-    }
+		$this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
+	}
 
     function input()
     {
         $this->data['title'] = $this->title.' - Input';
-        $this->data['main_title'] = $this->main_title;
-        $this->data['file_name'] = $this->file_name;
         $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['main_title'] = $this->main_title;
         permissionUser();
         $num_rows = getAll($this->table_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
@@ -38,37 +38,26 @@ class Pembelian extends MX_Controller {
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = getAll('gudang')->result();
-        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
-        $this->data['po'] = GetAllSelect('purchase_order', array('id','po'), array('id'=>'order/desc'))->result();
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Customer --');
+        $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
+        $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
+        $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
+        $this->data['so'] = GetAllSelect('stok_penerimaan', array('id','no', 'created_on'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
     function detail($id)
     {
-        $this->data['main_title'] = $this->main_title;
         $this->data['title'] = $this->title.' - Detail';
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
+        $this->data['main_title'] = $this->main_title;
         permissionUser();
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
+        $this->data['pembelian'] = $this->main->get_detail($id);
+        $this->data['pembelian_list'] = $this->main->get_list_detail($id);
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
-    }
-
-    function get_dari_po($id)
-    {
-        permissionUser();
-
-        $num_rows = getAll($this->table_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
-        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-        $approver1 = '1';
-        $this->data['jabatan_lv1'] = getUserGroup($approver1);
-        $this->data['jabatan_lv2'] = getValue('jabatan', 'approver', array('level'=>'where/2'));
-        $this->data['jabatan_lv3'] = getValue('jabatan', 'approver', array('level'=>'where/3'));
-        $this->data['order'] = $this->main->get_detail_po($id);
-        $this->data['order_list'] = $this->main->get_list_detail_po($id);
-        $this->load->view($this->module.'/'.$this->file_name.'/dari_po', $this->data);
     }
 
     function add()
@@ -76,32 +65,48 @@ class Pembelian extends MX_Controller {
         permissionUser();
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
+                        'ref_id'=>$this->input->post('ref_id'),
                         'deskripsi'=>$this->input->post('deskripsi'),
-                        'diterima'=>$this->input->post('diterima'),
+                        'diterima'=>$this->input->post('jumlah'),
                         'diorder'=>$this->input->post('diorder'),
                         'satuan'=>$this->input->post('satuan'),
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
+                        'catatan_barang'=>$this->input->post('catatan_barang'),
+                        'inc_ppn'=>$this->input->post('pajak_checkbox1'),
                         );
-        $approver = $this->input->post('approver');
+
         $data = array(
                 'no' => $this->input->post('no'),
+                'no_sj'=> implode(',',$this->input->post('no_sj')),
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'up'=>'',
-                'alamat'=>'',
+                'alamat'=>$this->input->post('alamat'),
+                'project'=>$this->input->post("project"),
+                'no_faktur'=>$this->input->post("no_faktur"),
                 'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'tanggal_pengiriman'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
-                'po'=>$this->input->post('po'),
+                'tanggal_faktur'=>date('Y-m-d',strtotime($this->input->post('tanggal_faktur'))),
+                'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
+                'so'=>$this->input->post('so'),
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
                 'kurensi_id'=>$this->input->post('kurensi_id'),
                 'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
                 'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
+                'saldo'=>str_replace(',', '', $this->input->post('saldo')),
+                'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
                 'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'catatan' =>$this->input->post('catatan'),
+                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
+                'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
+                'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
+                'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
+                'total_diskon' => str_replace(',', '', $this->input->post('total-diskon')),
+                'total' => str_replace(',', '', $this->input->post('total')),
+                'total_plus_pajak' => str_replace(',', '', $this->input->post('total_plus_pajak')),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -111,19 +116,56 @@ class Pembelian extends MX_Controller {
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
+                'ref_id' => $list['ref_id'][$i],
                 'kode_barang' => $list['kode_barang'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
                 'diterima' => str_replace(',', '', $list['diterima'][$i]),
                 'diorder' => str_replace(',', '', $list['diorder'][$i]),
                 'satuan_id' => $list['satuan'][$i],
+                'inc_ppn' => $list['inc_ppn'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
+                'catatan' => str_replace(',', '', $list['catatan_barang'][$i]),
                 );
         $this->db->insert($this->table_name.'_list', $data2);
+        $this->db->where('id', $list['ref_id'][$i])->update('stok_penerimaan', array('is_closed'=>1));
+        $this->load->library('upload');
+        $this->upload->initialize($this->set_upload_options());
+        if($this->upload->do_multi_upload("attachment")){
+            $up = $this->upload->get_multi_upload_data();
+            $att = array(
+                    'attachment' => $up[$i]['file_name'],
+                );
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $att);
+        }else{
+            $att = $this->input->post('attachment');
+            $attx = (!empty($att[$i])) ? $att[$i] : '';
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
+        }
         endfor;
-        
         redirect($this->module.'/'.$this->file_name, 'refresh');
+    }
+
+    private function set_upload_options()
+    {   
+        if(!is_dir('./'.'uploads')){
+        mkdir('./'.'uploads/', 0777);
+        }
+        if(!is_dir('./uploads/sale/')){
+        mkdir('./uploads/sale/', 0777);
+        }
+        if(!is_dir('./uploads/sale/'.sessId())){
+        mkdir('./uploads/sale/'.sessId(), 0777);
+        }
+
+        $config =  array(
+          'upload_path'     => './uploads/sale/',
+          'allowed_types'   => '*',
+          'overwrite'       => TRUE,
+        );    
+
+        return $config;
     }
 
     public function ajax_list()
@@ -134,18 +176,22 @@ class Pembelian extends MX_Controller {
         foreach ($list as $r) {
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = $r->po;
+            $row[] = $r->no_bast;
             $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->tanggal_pengiriman;
             $row[] = $r->gudang;
+            $row[] = getName($r->created_by);
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
-                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>";
+                    <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>
+                    $delete
+                    ";
             $data[] = $row;
         }
 
@@ -159,17 +205,63 @@ class Pembelian extends MX_Controller {
         echo json_encode($output);
     }
 
+    public function ajax_delete($id)
+    {
+        $this->main->delete_by_id($id);
+        echo json_encode(array("status" => TRUE));
+    }
+    
     function print_pdf($id)
     {
         permissionUser();
-        $this->data['title'] = $this->title;
         $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-        
+        $this->data['o'] = $this->main->get_detail($id)->row();
+        $this->data['pembelian_list'] = $this->main->get_list_detail($id);
+
+        //Variabel for total-field
+
+        $total_harga = getSum('harga', 'pembelian_list', 'pembelian_id', $id);
+        $total_barang = getSum('diterima', 'pembelian_list', 'pembelian_id', $id);
+
+        $tot = GetAllSelect('pembelian_list', "diterima, harga", array('pembelian_id'=>'where/'.$id))->result();
+        $total = 0;
+        foreach($tot as $t):
+            $total += $t->diterima * $t->harga;
+        endforeach;
+
+        $total = $total;
+        $is_exc = GetAllSelect('pembelian_list', "inc_ppn, pajak", array('pembelian_id'=>'where/'.$id))->result();
+        $exc = 0;
+        foreach($is_exc as $i):
+            if($i->inc_ppn == 0){
+                $exc += $i->pajak;
+            }
+        endforeach;
+
+        //print_mz($exc);
+        $total_ppn = getSum('total_ppn', 'pembelian', 'id', $id);
+        $total_pph22 = getSum('total_pph22', 'pembelian', 'id', $id);
+        $total_pph23 = getSum('total_pph23', 'pembelian', 'id', $id);
+        $biaya_pengiriman = getSum('biaya_pengiriman', 'pembelian', 'id', $id);
+        $dibayar = getSum('dibayar', 'pembelian', 'id', $id);
+        $dibayar_nominal = getSum('dibayar_nominal', 'pembelian', 'id', $id);
+
+        //Total Field
+        $this->data['total_diskon'] = $total_diskon = getValue('total_diskon', 'pembelian', array('id'=>'where/'.$id));
+        $dp_nominal = getValue('dibayar_nominal', 'pembelian', array('id'=>'where/'.$id));
+        $this->data['metode_pembayaran_id'] = getValue('metode_pembayaran_id', 'pembelian', array('id'=>'where/'.$id));
+        $this->data['total_pajak'] = $total_pajak = $total_ppn + $total_pph22 + $total_pph23;//print_mz($total_pajak);
+        $this->data['total'] = $sub_total = $total+$biaya_pengiriman-$total_pajak+$exc-$total_diskon;
+        $this->data['totalpluspajak'] = $totalpluspajak = $sub_total + $total_pajak;
+        $dp_persen = $totalpluspajak * ($dibayar/100);
+        $this->data['dp'] = $dp = $dp_nominal + $dp_persen;
+        $this->data['saldo'] = $totalpluspajak - $dp;
+
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
+        $footer = $this->load->view($this->module.'/'.$this->file_name.'/pdf_footer', $this->data, true); 
         $this->mpdf = new mPDF();
+        $this->mpdf->setFooter($footer);
         $this->mpdf->AddPage('p', // L - landscape, P - portrait
             '', '', '', '',
             5, // margin_left
@@ -178,8 +270,8 @@ class Pembelian extends MX_Controller {
             0, // margin bottom
             0, // margin header
             5); // margin footer
-        $this->mpdf->WriteHTML($html);
-        $this->mpdf->Output($id.'-'.'.pdf', 'I');
+    $this->mpdf->WriteHTML($html);
+    $this->mpdf->Output($id.'-'.'.pdf', 'I');
     }
 
     //FOR JS
@@ -192,8 +284,64 @@ class Pembelian extends MX_Controller {
         echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
 
     }
+
+    function get_nama_barang($id)
+    {
+        $q = getValue('title', 'barang', array('id'=>'where/'.$id));
+
+        echo json_encode($q);
+
+    }
     
-    function _render_page($view, $data=null, $render=false)
+    function get_dari_so($id)
+    {
+        permissionUser();
+        $this->data['penerimaan'] = GetAll('stok_penerimaan',array('id'=>'where/'.$id))->row_array();
+        $num_rows = getAll($this->table_name)->num_rows();
+        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
+        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        $this->data['order'] = $this->main->get_detail_so($this->data['penerimaan']['ref']);
+        $this->data['order_list'] = $this->main->get_list_detail_so($id);
+        $this->data['kurensi'] = getAll('kurensi')->result();
+        $this->data['metode'] = getAll('metode_pembayaran')->result();
+        $this->data['gudang'] = getAll('gudang')->result();
+        $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Customer --');
+        $this->data['pajak_komponen'] = getAll('pajak_komponen',array(), array('!=id'=>'1'))->result();
+        $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
+        $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
+        $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
+        if(!empty($this->data['order']->result())){
+            $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
+        }else{    
+            $this->load->view($this->module.'/'.$this->file_name.'/so_kosong', $this->data);
+        }
+    }
+
+    function get_dari_so_lain($id)
+    {
+        permissionUser();
+        $row_count = $this->input->post('row_count');
+        $this->data['row_count'] = $row_count + 1;
+        $this->data['order_list'] = $this->main->get_list_detail_so($id);
+        $this->load->view($this->module.'/'.$this->file_name.'/dari_so_lain', $this->data);
+    }
+
+    function add_so(){
+        permissionUser();
+        $this->data['so'] = GetAllSelect('stok_penerimaan', array('id', 'created_on'), array('id'=>'order/desc'))->result();
+        $this->load->view($this->module.'/'.$this->file_name.'/no_so', $this->data);
+    }
+
+    function get_table()
+    {
+        $id = $this->input->post('id');
+        $id = substr_replace($id, '', -1);
+        $this->data['list'] = $this->main->get_list_detail_so($id);
+        $this->data['total_table'] = $this->main->get_sum($id)->row();
+        $this->load->view($this->module.'/'.$this->file_name.'/table', $this->data);
+    }
+
+	function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;
         if ( ! $render)

@@ -1,11 +1,23 @@
-  <!--including-->
-  <?php if(!isset($katakuncirahasia)){error_reporting(E_ALL^E_NOTICE);}?>
-<!--
-<script type="text/javascript" src="<?php echo base_url()?>assets/js/print_f.js"></script>-->
+<?php if(!isset($katakuncirahasia)){error_reporting(E_ALL^E_NOTICE);}?>
 <script type="text/javascript">
+$(document).ready(function(e){
+	$('.select2').select2({
+        dropdownAutoWidth : true
+    });
+});
 function carimenu(id)
 {
-	$("#documents").load('<?php echo base_url()?>report/Index/response_cat/'+id);
+	$.ajax({
+        type: 'POST',
+        url: '/gsm/report/Index/response_cat/'+id,
+        success: function(data) {
+        	//$(document).find("select.select2").select2();
+			$("#documents").html(data);
+			$(document).find("select.select2").select2({
+		        dropdownAutoWidth : true
+		    });
+        }
+    });
 }
 function carikar(id)
 {
@@ -13,13 +25,10 @@ function carikar(id)
 	$("#karyawannya").load('<?php echo base_url()?>report/karyawannya/'+id);
 }
 </script>
-<!--<fieldset style="border:1px solid black; border-radius:5px; width:40%; margin:0 auto;"> <legend> Document Report </legend>-->
-<div id="search">
-	
-</div>
+
 <section id="page-title">
     <div class="row">
-        <div class="col-sm-8">
+        <div class="col-sm-12">
             <h1 class="mainTitle">Laporan</h1>
         </div>
         <ol class="breadcrumb">
@@ -56,8 +65,3 @@ function carikar(id)
         </div>
     </div>
 </div>
-<script>
-	$(document).ready(function(e){
-		$('.select2').select2();
-	});
-</script>

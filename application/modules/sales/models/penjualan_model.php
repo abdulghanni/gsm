@@ -163,6 +163,9 @@ class penjualan_model extends CI_Model {
                                 total_ppn,
                                 total_pph22,
                                 total_pph23,
+                                total,
+                                saldo,
+                                total_plus_pajak,
                                 penjualan.created_on')
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.kontak_id', 'left')

@@ -39,11 +39,11 @@ class Stok extends MX_Controller {
             $row[] = $r->kode;
             $row[] = $r->barang;
             $row[] = $r->dalam_stok;
+            $row[] = $r->minimum_stok;
             $row[] = $r->satuan;
             $row[] = $r->harga_beli;
             $row[] = $r->harga_jual;
             $row[] = $r->gudang;
-            $row[] = $r->lokasi_detail;
 
 
             //add html for action

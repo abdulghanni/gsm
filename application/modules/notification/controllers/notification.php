@@ -56,6 +56,14 @@ class Notification extends MX_Controller {
         $this->load->view('notification/badges', $data);
     }
 
+    public function load_notif_header(){
+        $data['notification'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId(), 'limit'=>'limit/3', 'id'=>'order/desc'));
+        $data['notifications'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId(), 'id'=>'order/desc'));
+        $data['notification_num'] = GetAll('notifikasi', array('is_read'=>'where/0', 'receiver_id'=>'where/'.sessId()))->num_rows();
+
+        $this->load->view('notification/head_notif_badge', $data);
+    }
+
     function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

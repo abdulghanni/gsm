@@ -1,16 +1,16 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Lists_model extends CI_Model {
+class lists_model extends CI_Model {
 
-    var $table = 'purchase_order';
-    var $table_list = 'purchase_order_list';
-    var $table_join1 = 'supplier';
-    var $table_join2 = 'metode_pembayaran';
-    var $table_join3 = 'kurensi';
-    var $table_join4 = 'gudang';
-    var $column = array('no', 'supplier', 'tanggal_transaksi', 'metode_pembayaran', 'po', 'gudang'); //set column field database for order and search
-    var $order = array('id' => 'desc'); // default order 
+    var $table = 'stok';
+    var $table_join1 = 'barang';
+    var $table_join2 = 'satuan';
+    var $table_join3 = 'gudang';
+    var $table_join4 = 'lokasi_gudang';
+    var $table_join5 = 'kurensi';
+    var $column = array('stok.id', 'kode', 'barang', 'dalam_stok', 'minimum_stok', 'satuan', 'gudang'); //set column field database for order and search
+    var $order = array('barang' => 'asc'); // default order 
 
     public function __construct()
     {
@@ -20,21 +20,20 @@ class Lists_model extends CI_Model {
 
     private function _get_datatables_query()
     {
-        
+        $this->db->distinct();
         $this->db->select(
             $this->table.'.id as id,
-            '.$this->table.'.no as no,
-            '.$this->table.'.po as po,
-            '.$this->table.'.tanggal_transaksi as tanggal_transaksi,
-            '.$this->table_join1.'.title as supplier,
-            '.$this->table_join2.'.title as metode_pembayaran,
-            '.$this->table_join4.'.title as gudang,
+            '.$this->table.'.dalam_stok as dalam_stok,
+            '.$this->table.'.minimum_stok,
+            '.$this->table_join1.'.kode as kode,
+            '.$this->table_join1.'.title as barang,
+            '.$this->table_join2.'.title as satuan,
+            '.$this->table_join3.'.title as gudang,
             ');
         $this->db->from($this->table);
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.supplier_id', 'left');
-        $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table.'.metode_pembayaran_id', 'left');
-        $this->db->join($this->table_join4, $this->table_join4.'.id = '.$this->table.'.gudang_id', 'left');
-        //$this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.kurensi_id', 'left');
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.barang_id', 'left');
+        $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_join1.'.satuan', 'left');
+        $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.gudang_id', 'left');
 
         $i = 0;
     
@@ -42,18 +41,18 @@ class Lists_model extends CI_Model {
         {
             if($_POST['search']['value'])
             {
-                if($item == 'no'){
-                    $item = $this->table.'.no';
-                }elseif($item == 'tanggal_transaksi'){
-                    $item = $this->table.'.tanggal_transaksi';
-                }elseif($item == 'po'){
-                    $item = $this->table.'.po';
-                }elseif($item == 'supplier'){
+                if($item == 'kode'){
+                    $item = $this->table_join1.'.kode';
+                }elseif($item == 'dalam_stok'){
+                    $item = $this->table.'.dalam_stok';
+                }elseif($item == 'minimum_stok'){
+                    $item = $this->table.'.minimum_stok';
+                }elseif($item == 'barang'){
                     $item = $this->table_join1.'.title';
-                }elseif($item == 'metode_pembayaran'){
+                }elseif($item == 'satuan'){
                     $item = $this->table_join2.'.title';
                 }elseif($item == 'gudang'){
-                    $item = $this->table_join4.'.title';
+                    $item = $this->table_join3.'.title';
                 }
 
                 ($i===0) ? $this->db->like($item, $_POST['search']['value']) : $this->db->or_like($item, $_POST['search']['value']);
@@ -98,52 +97,18 @@ class Lists_model extends CI_Model {
 
     public function get_by_id($id)
     {
+        $this->db->select(
+            $this->table.'.*,
+            '.$this->table_join2.'.title as satuan,
+            ');
         $this->db->from($this->table);
-        $this->db->where('id',$id);
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.barang_id', 'left');
+        $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_join1.'.satuan', 'left');
+        $this->db->where($this->table.'.id',$id);
         $query = $this->db->get();
 
         return $query->row();
     }
-
-    function get_detail($id)
-    {
-        $q = $this->db->select('no, supplier.title as supplier,
-                                supplier.up, 
-                                supplier.alamat,
-                                metode_pembayaran_id, 
-                                metode_pembayaran.title as metode_pembayaran, 
-                                tanggal_transaksi, 
-                                po, 
-                                gudang.title as gudang, 
-                                jatuh_tempo_pembayaran, 
-                                kurensi.title as kurensi, 
-                                biaya_pengiriman, 
-                                dibayar, 
-                                lama_angsuran_2, 
-                                lama_angsuran_1, 
-                                bunga,
-                                keterangan, 
-                                purchase_order.created_on')
-                 ->from($this->table)
-                 ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.supplier_id', 'left')
-                 ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
-                 ->join($this->table_join3, $this->table_join3.'.id ='.$this->table.'.kurensi_id', 'left')
-                 ->join($this->table_join4, $this->table_join4.'.id ='.$this->table.'.gudang_id', 'left')
-                 ->where($this->table.'.id', $id)
-                 ->get();
-        return $q;
-    }
-
-    function get_list_detail($id)
-    {
-        $q = $this->db->select('barang.kode as kode_barang, deskripsi, jumlah, satuan.title as satuan, harga, disc, pajak')
-                  ->from($this->table_list)
-                  ->join('barang', 'barang.id ='.$this->table_list.'.kode_barang', 'left')
-                  ->join('satuan', 'satuan.id ='.$this->table_list.'.satuan_id')
-                  ->where('order_id', $id)
-                  ->get();
-        return $q;
-    }   
 
     public function save($data)
     {
@@ -163,17 +128,31 @@ class Lists_model extends CI_Model {
         $this->db->delete($this->table);
     }
 
-    public function get_supplier()
+    public function get_barang()
     {   
         $this->db->where($this->table_join1.'.is_deleted',0);
         $this->db->order_by($this->table_join1.'.title','asc');
         return $this->db->get($this->table_join1);
     }
 
-    public function get_metode_pembayaran()
+    public function get_satuan()
     {   
         $this->db->where($this->table_join2.'.is_deleted',0);
         $this->db->order_by($this->table_join2.'.title','asc');
         return $this->db->get($this->table_join2);
+    }
+
+    public function get_gudang()
+    {   
+        $this->db->where($this->table_join3.'.is_deleted',0);
+        $this->db->order_by($this->table_join3.'.title','asc');
+        return $this->db->get($this->table_join3);
+    }
+
+    public function get_kurensi()
+    {   
+        $this->db->where($this->table_join5.'.is_deleted',0);
+        $this->db->order_by($this->table_join5.'.title','asc');
+        return $this->db->get($this->table_join5);
     }
 }

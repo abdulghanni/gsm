@@ -45,7 +45,7 @@
 				<fieldset>
 					<legend><?php echo ucfirst(str_replace('_',' ',$penerimaan->ref_type)) ?> No. <?php echo $refid['po'] ;?> </legend>
 					<div class="row">
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputEmail3">
 									Dari
@@ -117,7 +117,7 @@
 							
 						</div>
 						
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputEmail3">
 									Tgl.
@@ -177,8 +177,15 @@
 				<fieldset>
 					<legend>Detail</legend>
 					<div class="row">
-						<div class="col-md-5">
-							
+						<div class="col-md-8">
+							<div class="form-group">
+								<label class="col-sm-3 control-label" for="inputPassword3">
+									No. Transaksi
+								</label>
+								<div class="col-sm-9">
+									<?=(!empty($penerimaan->no)) ? $penerimaan->no : date('Ymd', strtotime($penerimaan->created_on)).$penerimaan->id?>
+								</div>
+							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputEmail3">
 									Tgl. Pengiriman

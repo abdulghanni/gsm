@@ -981,7 +981,7 @@ if (!function_exists('GetOptDoc')){
 		if($filter_where_in==NULL)$filter_where_in = array();
 		if($field==NULL)$field='title';
 		if($id==NULL)$id='id';
-		$q = $CI->db->query("SELECT a.id id, a.title_document title_document FROM report a LEFT JOIN report_permission b ON b.menu_id=a.id AND b.user_id = '$user_id' WHERE b.view='1' AND a.statusisasi='1' ");
+		$q = $CI->db->query("SELECT a.id id, a.title_document title_document FROM report a LEFT JOIN report_permission b ON b.menu_id=a.id AND b.user_id = '$user_id' WHERE b.view='1' AND a.statusisasi='1' ORDER BY  a.title_document ASC");
 		if($judul) $opt[''] = $judul;
 		foreach($q->result_array() as $r)
 		{
@@ -2067,6 +2067,7 @@ function historystok($type,$source,$ref,$gudang,$barang,$satuan,$qty,$tgl,$no=NU
         $data['source']=$source;
         $data['ref']=$ref;
         if($no!=NULL)$data['no']=$no;
+        $data['kontak'] = ($type = 'in') ? getValue("kontak_id","purchase_order", array('id'=>'where/'.$ref)) : getValue("kontak_id","sales_order", array('id'=>'where/'.$ref));
         $data['gudang']=$gudang;
         $data['barang']=$barang;
         $data['satuan']=$satuan;

@@ -8,7 +8,7 @@
 		:
 		</div>
 		<div class="col-md-7">
-	      <select class="kontak" style="width:100%" name="gudang">
+	      <select class="select2" style="width:100%" name="gudang">
 	       	<?php $c=getAll('gudang')->result();
 	       		echo '<option value="">All</option>';
 	       		foreach($c as $k){
@@ -19,9 +19,3 @@
 	</div>
 </div>
 </table>
-
-<script type="text/javascript">
-	$(document).ready(function(e){
-    	$(".barang").select2({});
-    });
-</script>

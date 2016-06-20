@@ -12,7 +12,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
     <DataSources isList="true" count="2">
       <field type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="3" isKey="true">
         <Alias>field</Alias>
-        <Columns isList="true" count="61">
+        <Columns isList="true" count="65">
           <value>no,System.String</value>
           <value>kontak,System.String</value>
           <value>email,System.String</value>
@@ -74,13 +74,17 @@ TZy9ZAA=</ConnectionStringEncrypted>
           <value>no_faktur,System.String</value>
           <value>dibayar_nominal,System.Decimal</value>
           <value>alamat_invoice,System.String</value>
+          <value>biaya_pengiriman,System.Int32</value>
+          <value>total,System.Decimal</value>
+          <value>saldo,System.Decimal</value>
+          <value>total_plus_pajak,System.Decimal</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>field</Name>
         <NameInSource>po</NameInSource>
         <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT `no`, `kontak`.`title` as `kontak`, `kontak`.`email` as `email`, `kontak`.`up`, `kontak`.`alamat`, penjualan.alamat as alamat_invoice, `metode_pembayaran_id`,`project`, `dibayar_nominal`, `no_faktur`, `total_diskon`, `metode_pembayaran`.`title` as `metode_pembayaran`, `tanggal_transaksi`, `tanggal_pengantaran`, `so`, `gudang`.`title` as `gudang`, `jatuh_tempo_pembayaran`,kurensi_id, `kurensi`.`title` as `kurensi`, `biaya_pengiriman`, `dibayar`, `lama_angsuran_2`, `lama_angsuran_1`, `bunga`, `penjualan`.`catatan`, `pajak_komponen_id`, `total_ppn`, `total_pph22`, `total_pph23`, `penjualan`.`created_on` FROM `penjualan` LEFT JOIN `kontak` ON `kontak`.`id` =`penjualan`.`kontak_id` LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` =`penjualan`.`metode_pembayaran_id` LEFT JOIN `kurensi` ON `kurensi`.`id` =`penjualan`.`kurensi_id` LEFT JOIN `gudang` ON `gudang`.`id` =`penjualan`.`gudang_id` WHERE `penjualan`.`id` = {param1}</SqlCommand>
+        <SqlCommand>SELECT `no`, `kontak`.`title` as `kontak`, `kontak`.`email` as `email`, `kontak`.`up`, `kontak`.`alamat`, penjualan.alamat as alamat_invoice, `metode_pembayaran_id`,`project`, `dibayar_nominal`, `no_faktur`, `total_diskon`, `metode_pembayaran`.`title` as `metode_pembayaran`, `tanggal_transaksi`, `tanggal_pengantaran`, `so`, `gudang`.`title` as `gudang`, `jatuh_tempo_pembayaran`,kurensi_id, `kurensi`.`title` as `kurensi`, `biaya_pengiriman`, `dibayar`, `lama_angsuran_2`, `lama_angsuran_1`, `total`,`saldo`,`total_plus_pajak`, `penjualan`.`catatan`, `pajak_komponen_id`, `total_ppn`, `total_pph22`, `total_pph23`, `penjualan`.`created_on` FROM `penjualan` LEFT JOIN `kontak` ON `kontak`.`id` =`penjualan`.`kontak_id` LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` =`penjualan`.`metode_pembayaran_id` LEFT JOIN `kurensi` ON `kurensi`.`id` =`penjualan`.`kurensi_id` LEFT JOIN `gudang` ON `gudang`.`id` =`penjualan`.`gudang_id` WHERE `penjualan`.`id` = {param1}</SqlCommand>
       </field>
       <list type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="4" isKey="true">
         <Alias>list</Alias>
@@ -118,8 +122,8 @@ TZy9ZAA=</ConnectionStringEncrypted>
     <Report isRef="0"/>
     <Variables isList="true" count="4">
       <value>,total_pajak,total_pajak,System.Decimal,field_x002E_total_ppn_x002B_field_x002E_total_pph23_x002B_field_x002E_total_pph22,True,True</value>
-      <value>,total,total,System.Decimal,Sum_x0028_DataBand3_x002C_list_x002E_diterima_x002A_list_x002E_harga_x0029_,True,True</value>
-      <value>,grand_total,grand_total,System.Decimal,total_x002B_field_x002E_total_ppn_x002D__x0020_field_x002E_total_diskon,True,True</value>
+      <value>,total,total,System.Decimal,field_x002E_total,True,True</value>
+      <value>,grand_total,grand_total,System.Decimal,field_x002E_total_plus_pajak,True,True</value>
       <value>,dp_persen,dp_persen,System.Decimal,grand_total_x0020__x002A__x0020__x0028_field_x002E_dibayar_x002F_100_x0029_,True,True</value>
     </Variables>
   </Dictionary>
@@ -457,7 +461,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <Name>Text54</Name>
               <Page isRef="5"/>
               <Parent isRef="6"/>
-              <Text>{field.dibayar_nominal}</Text>
+              <Text>{IIF(field.metode_pembayaran_id == 2,dibayar_nominal)}</Text>
               <TextBrush>Black</TextBrush>
               <TextFormat type="NumberFormat" Ref="32" isKey="true">
                 <DecimalSeparator>,</DecimalSeparator>
@@ -465,7 +469,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
                 <NegativePattern>1</NegativePattern>
                 <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
-              <Type>DataColumn</Type>
+              <Type>Expression</Type>
             </Text54>
             <Text49 type="Text" Ref="33" isKey="true">
               <Brush>Transparent</Brush>
@@ -2226,10 +2230,10 @@ KbRCSBAEQRAEQRAE8Tvl/wIMANa+duJG6fTpAAAAAElFTkSuQmCC</Image>
   </Pages>
   <PrinterSettings type="Stimulsoft.Report.Print.StiPrinterSettings" Ref="106" isKey="true"/>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>06/08/2016 03:14:34 PM</ReportChanged>
+  <ReportChanged>06/15/2016 09:14:43 PM</ReportChanged>
   <ReportCreated>03/26/2016 09:09:47 AM</ReportCreated>
   <ReportFile>D:\xampp\htdocs\gsm\print\reports\pr.mrt</ReportFile>
-  <ReportGuid>d02d4f08ee1ec9db90452f13b5356c80</ReportGuid>
+  <ReportGuid>444e8d1ca3bb42a6baa9546a0a15df82</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.2</ReportVersion>

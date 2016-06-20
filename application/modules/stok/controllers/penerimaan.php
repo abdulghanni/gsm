@@ -28,6 +28,7 @@ class Penerimaan extends MX_Controller {
 		$usergroup=GetValue('group_id','users_groups',array('user_id'=>'where/'.$this->session->userdata('user_id')));
 		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
 		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
+		$colModel['no'] = array('No Transaksi',150,TRUE,'left',2);
 		$colModel['ref'] = array('Ref',150,TRUE,'left',2);
 		
 		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
@@ -63,7 +64,7 @@ class Penerimaan extends MX_Controller {
 	{
 		
 		//Build contents query
-		$this->db->select("a.id as id,a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on, d.username username")->from('stok_Penerimaan a');
+		$this->db->select("a.id as id,a.no, a.ref as ref,c.title as gudang_to,a.tgl as tgl,a.created_on, d.username username")->from('stok_Penerimaan a');
 		//$this->db->join('gudang b','b.id=a.gudang_from','left');
 		$this->db->join('gudang c','c.id=a.gudang_to','left');
 		$this->db->join('users d','d.id=a.created_by','left');
@@ -103,11 +104,12 @@ class Penerimaan extends MX_Controller {
 			if($row->status=='y'){$status='Aktif';}
 			elseif($row->status=='n'){$status='Tidak Aktif';}
 			elseif($row->status=='s'){$status='Suspended';}*/
-			
+			$no = (!empty($row->no)) ? $row->no : date('Ymd', strtotime($row->created_on)).$row->id;
 			$record_items[] = array(
 			$row->id,
 			$row->id,
 			$row->id,
+			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/detail/".$row->id."' target='_blank' title='detail'>".$no."</i></a>",
 			"<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/penerimaan/detail/".$row->id."' target='_blank' title='detail'>".$row->ref."</i></a>",
 			$row->gudang_to,
 			date('d-m-Y',strtotime($row->tgl)),
@@ -173,6 +175,7 @@ class Penerimaan extends MX_Controller {
     function add()
     {
         permissionUser();
+        $gudang = $this->input->post('gudang_id');
 		//print_mz($this->input->post('deskripsi'));
         $list = array(
                         'list_id'=>$this->input->post('list'),
@@ -185,14 +188,12 @@ class Penerimaan extends MX_Controller {
                         );
 
         $data = array(
-                'ref'=>  GetValue('po', 'purchase_order',array('id'=>'where/'.$this->input->post('ref'))),
+        		'no'=>$this->input->post('no'),
                 'ref_type'=>$this->input->post('ref_type'),
                 'ref_id'=>$this->input->post('ref_id'),
-                
+                'ref'=>  GetValue('po', 'purchase_order',array('id'=>'where/'.$this->input->post('ref'))),
+                'gudang_to'=>$gudang,
                 'tgl'=>date('Y-m-d',strtotime($this->input->post('tgl'))),
-                
-                'gudang_to'=>$this->input->post('gudang_id'),
-               
                 'keterangan' =>$this->input->post('keterangan'),
                 'created_on' =>date("Y-m-d"),
                 'created_by' =>sessId(),
@@ -222,7 +223,7 @@ class Penerimaan extends MX_Controller {
                 );
         	$this->db->insert($this->module.'_'.$this->file_name.'_list', $data2);
         	$sisaan=+$sisa;
-			masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
+			masukstok($gudang,$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]),$data2['satuan_id'],$data['ref_type'],$data['ref_id'],$data['tgl'],$data['ref']);
 			$this->insert_po_status($this->input->post('ref_id'));
 		endfor;
 		//echo $sisaan;
@@ -235,11 +236,13 @@ class Penerimaan extends MX_Controller {
         permissionUser();
         $url = base_url().'stok/penerimaan/'.$id;
         $isi = getName(sessId())." Melakukan Transaksi Penerimaan Barang <a href=$url> KLIK DISINI </a> ";
+        $no = getValue('no', 'stok_penerimaan', array('id'=>'where/'.$id));
         $approver = getAll('approver');
         foreach($approver->result() as $r):
 		$data = array('sender_id' => sessId(),
 		'receiver_id' => $r->user_id,
 		'sent_on' => dateNow(),
+		'no'=> $no,
 		'judul' => 'Penerimaan Order',
 		'isi' => $isi,
 		'url' => $url,
@@ -263,7 +266,9 @@ class Penerimaan extends MX_Controller {
 							$data['part']=TRUE;	
 							$data['partno']=$cekparsial->num_rows()+1;	
 						}
-						
+						$num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
+				        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
+				        $data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
 						$this->load->view('stok/penerimaan/input_id',$data);
 						
 						}
@@ -441,6 +446,15 @@ class Penerimaan extends MX_Controller {
     	foreach ($q as $k) {
     		$this->insert_po_status($k->id);
     		print_r($this->db->last_query());
+    	}
+    }
+
+    function insert_kontak_stok_log(){
+    	$q = getAll('stok_log')->result();
+    	foreach ($q as $k) {
+    		$kontak = ($k->type = 'in') ? getValue("kontak_id","purchase_order", array('id'=>'where/'.$k->ref)) : getValue("kontak_id","sales_order", array('id'=>'where/'.$k->ref));
+    		$this->db->where('id', $k->id)->update('stok_log', array('kontak'=>$kontak));
+    		print_ag($this->db->last_query());
     	}
     }
 }

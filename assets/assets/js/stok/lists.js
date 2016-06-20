@@ -14,7 +14,7 @@ $(document).ready(function() {
         $.ajax({
             type: "GET",
             dataType: "JSON",
-            url: 'stok/get_satuan/'+id,
+            url: 'lists/get_satuan/'+id,
             success: function(data) {
                 $('#satuan').val(data);
             }
@@ -31,18 +31,17 @@ $(document).ready(function() {
 
         // Load data for the table's content from an Ajax source
         "ajax": {
-            "url": "stok/ajax_list",
+            "url": "lists/ajax_list",
             "type": "POST"
         },
 
         //Set column definition initialisation properties.
         "columnDefs": [
         { 
-            "targets": [-1, 0], //last column
+            "targets": [0], //last column
             "orderable": false, //set not orderable
         },
-        { "sClass": "text-center", "aTargets": [-1] },
-        { "sClass": "text-right", "aTargets": [3,4,6,7] }
+        { "sClass": "text-right", "aTargets": [3,4] }
         ],
 
     });
@@ -71,7 +70,7 @@ function add_user()
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Add Stok'); // Set Title to Bootstrap modal title
+    $('.modal-title').text('Add lists'); // Set Title to Bootstrap modal title
 }
 
 function edit_user(id)
@@ -83,7 +82,7 @@ function edit_user(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "stok/ajax_edit/" + id,
+        url : "lists/ajax_edit/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -121,9 +120,9 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "stok/ajax_add";
+        url = "lists/ajax_add";
     } else {
-        url = "stok/ajax_update";
+        url = "lists/ajax_update";
     }
 
     // ajax adding data to database
@@ -169,7 +168,7 @@ function delete_user(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "stok/ajax_delete/"+id,
+            url : "lists/ajax_delete/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

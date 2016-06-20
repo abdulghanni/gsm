@@ -316,7 +316,7 @@
 									Total
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($o->total, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -326,7 +326,7 @@
 									Total + Pajak
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($totalpluspajak, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($o->total_plus_pajak, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -360,7 +360,7 @@
 									Saldo
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($saldo, 2)?>" readonly="readonly">
+									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($o->saldo, 2)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>

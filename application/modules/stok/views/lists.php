@@ -2,14 +2,14 @@
 <section id="page-title">
     <div class="row">
         <div class="col-sm-8">
-            <h1 class="mainTitle"><?php echo lang('stock');?></h1>
+            <h1 class="mainTitle">Stok List</h1>
         </div>
         <ol class="breadcrumb">
             <li>
                 <span><?php echo lang('stock');?></span>
             </li>
             <li class="active">
-                <span>Index</span>
+                <span>Lists</span>
             </li>
         </ol>
     </div>
@@ -19,33 +19,29 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12 space20">
-                    <button class="btn btn-green add-row" onclick="add_user()">
+                    <a target="_blank" href="<?= base_url('print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=stok_logistik.mrt')?>" class="btn btn-light-azure fileinput-button">
+                        <span>Cetak <i class="fa fa-print"></i></span>
+                    </a>
+                    <!--button class="btn btn-green add-row" onclick="add_user()">
                         <?= lang('add') ?> <i class="fa fa-plus"></i>
                     </button>
                     <button class="btn btn-green add-row" onclick="reload_table()">
                         Refresh <i class="fa fa-refresh"></i>
-                    </button>
-                    <a target="_blank" href="<?= base_url('print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=stok_full.mrt')?>" class="btn btn-azure">
-                        Export <i class="fa fa-upload"></i>
-                    </a>
-                    <button type="button" class="btn btn-light-azure fileinput-button" data-toggle="modal" data-target="#modal_upload"><span>Import <i class="fa fa-download"></i></span></button>
+                    </button-->
                 </div>
             </div>
-            <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
             <div class="table-responsive">
                 <table class="table table-striped table-bordered table-hover table-full-width" id="table" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th width="1%" align="center">No.</th>
+                            <th width="5%" align="center">No.</th>
                             <th width="5%"><?php echo lang('code');?></th>
-                            <th width="15%"><?php echo lang('description');?></th>
-                            <th width="5%"><?php echo 'Stok'?> Tersedia</th>
-                            <th width="5%"><?php echo 'Stok'?> Minimum</th>
-                            <th width="5%"><?php echo lang('unit');?></th>
-                            <th width="10%"><?php echo lang('price');?> Beli</th>
-                            <th width="10%"><?php echo lang('price');?> Jual</th>
-                            <th width="15%"><?php echo 'Gudang';?></th>
-                            <th width="12%"><?php echo lang('action');?></th>
+                            <th width="50%">Nama Barang</th>
+                            <th width="5%" align="center"><?php echo 'Stok Tersedia'?></th>
+                            <th width="5%" align="center"><?php echo 'Stok Minimum'?></th>
+                            <th width="10%"><?php echo lang('unit');?></th>
+                            <th width="20%"><?php echo 'Gudang';?></th>
+                            <!--th width="12%"><?php echo lang('action');?></th-->
                         </tr>
                     </thead>
                     <tbody>
@@ -57,7 +53,7 @@
 </div>
 
 
-<!-- Bootstrap modal -->
+<!-- Bootstrap modal 
 <div class="modal fade" id="modal_form" role="dialog">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -151,47 +147,7 @@
                 <button type="button" id="btnSave" onclick="save()" class="btn btn-primary">Save</button>
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
             </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!-- End Bootstrap modal -->
-
-
-<!-- Upload excel modal -->
-<div class="modal fade" id="modal_upload" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Import Data Barang</h3>
-            </div>
-            <?php echo form_open_multipart(base_url().'master/barang/upload_excel', array('id'=>'form_upload', 'class'=>'form-horizontal'));?>
-            <div class="modal-body form">
-                <div class="form-body">
-                <div class="row form-row">
-                    <div class="col-md-12 pull-right" style="margin: 10px 0px 20px 0px;" ><i class="fa fa-warning-sign" style="color:red ;text-shadow: 1px 1px 1px #ccc;font-size: 1em;"> Pastikan file berformat XLS/XLSX dan format tabel sesuai dengan template yang sudah disediakan.</i>
-                    </div>
-                </div>
-                <div class="row form-row">
-                    <div class="col-md-12 pull-right" style="margin: 10px 0px 20px 0px;" ><i class="fa fa-warning-sign" style="font-size: 1em;"> <a href="<?= assets_url('template_upload_barang.xlsx')?>">Download Template Upload Barang</i></a>
-                    </div>
-                </div>
-                <div class="row form-row">
-                    <div class="col-md-12">
-                        <div class="col-md-3 pull-left"><b>Upload File</b></div>
-                        <div class="col-md-9">
-                            <input name="userfile" multiple="" type="file">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <input type="submit" class="btn btn-primary" value="upload">
-                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
-            </div>
-            </form>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+        </div>
+    </div>
+</div>
 <!-- End Bootstrap modal -->

@@ -9,8 +9,8 @@ class Stok_model extends CI_Model {
 	var $table_join3 = 'gudang';
 	var $table_join4 = 'lokasi_gudang';
 	var $table_join5 = 'kurensi';
-	var $column = array('stok.id', 'kode', 'barang', 'dalam_stok', 'satuan', 'harga_beli','harga_jual', 'gudang','lokasi_detail'); //set column field database for order and search
-	var $order = array('stok.id' => 'desc'); // default order 
+	var $column = array('stok.id', 'kode', 'barang', 'dalam_stok','minimum_stok', 'satuan', 'harga_beli','harga_jual', 'gudang'); //set column field database for order and search
+	var $order = array('barang' => 'asc'); // default order 
 
 	public function __construct()
 	{
@@ -26,6 +26,7 @@ class Stok_model extends CI_Model {
 			'.$this->table.'.harga_beli as harga_beli,
 			'.$this->table.'.harga_jual as harga_jual,
 			'.$this->table.'.dalam_stok as dalam_stok,
+			'.$this->table.'.minimum_stok,
 			'.$this->table.'.lokasi_detail as lokasi_detail,
 			'.$this->table_join1.'.kode as kode,
 			'.$this->table_join1.'.title as barang,
@@ -47,20 +48,20 @@ class Stok_model extends CI_Model {
 			{
 				if($item == 'kode'){
 					$item = $this->table_join1.'.kode';
-				}elseif($item == 'jumlah'){
-					$item = $this->table.'.jumlah';
-				}elseif($item == 'harga'){
-					$item = $this->table.'.harga';
+				}elseif($item == 'dalam_stok'){
+					$item = $this->table.'.dalam_stok';
+				}elseif($item == 'harga_beli'){
+					$item = $this->table.'.harga_beli';
+				}elseif($item == 'harga_jual'){
+					$item = $this->table.'.harga_jual';
 				}elseif($item == 'barang'){
 					$item = $this->table_join1.'.title';
 				}elseif($item == 'satuan'){
 					$item = $this->table_join2.'.title';
 				}elseif($item == 'gudang'){
 					$item = $this->table_join3.'.title';
-				}elseif($item == 'lokasi_gudang'){
-					$item = $this->table_join4.'.title';
-				}elseif($item == 'kurensi'){
-					$item = $this->table_join5.'.title';
+				}elseif($item == 'minimum_stok'){
+					$item = $this->table.'.minimum_stok';
 				}
 
 				($i===0) ? $this->db->like($item, $_POST['search']['value']) : $this->db->or_like($item, $_POST['search']['value']);

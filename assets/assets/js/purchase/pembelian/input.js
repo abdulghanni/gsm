@@ -4,49 +4,75 @@ $(document).ready(function() {
         .datepicker({
             todayHighlight: true,
             autoclose: true,
-            format: "dd-mm-yyyy",
+            format: "dd-mm-yyyy"
         });
-        
+
     $(".select2").select2();
 
     $("#tanggal_faktur").datepicker("setDate", new Date());
     $("#tanggal_pengiriman").datepicker("setDate", new Date());
 
-    $("#list_po").change(function(){
+    $("#list_so").change(function(){
         var id = $(this).val();
         if(id != 0){
-            $('#dari-po').load('get_dari_po/'+id);
+            $('#dari-so').html('<img src="/gsm/assets/images/ajax-loader.gif"> loading...');
+            $('#dari-so').load('get_dari_so/'+id);
+            //$("#add_so").show();
         }
+        getTable();
+        getTable();
     })
     .change();
 
-    $("#kontak_id").change(function(){
-        var id = $(this).val();
-        if(id != 0)getAlamat(id);
-        if(id != 0)getUp(id);
-    })
-    .change();
-
-    function getAlamat(id)
+    function getTable()
     {
+        var id = '';
+        $('.select_so').each(function (index, element) {
+                if($(element).val() != ''){
+                    id += $(element).val()+',';
+                }
+            });
         $.ajax({
             type: 'POST',
-            url: '/gsm/purchase/order/get_alamat/'+id,
+            url: '/gsm/purchase/pembelian/get_table/',
             data: {id : id},
             success: function(data) {
-                $('#alamat').html(data);
+                $('#table').html(data);
+            }
+        });
+    }
+    
+    $("#customer_id").change(function(){
+        var id = $(this).val();
+        if(id!=0)getCusDetail(id);
+    })
+    .change();
+
+    function getCusDetail(id)
+    {
+        $.ajax({
+            type: "GET",
+            dataType: "JSON",
+            url: '../order/get_customer_detail/'+id,
+            success: function(data) {
+                $('#up').val(data.up);
+                $('#alamat').val(data.alamat);
             }
         });
     }
 
-    function getUp(id)
+    $('#add_so').on('click', function () {
+        $(document).find("select.select2").select2();
+       addSo();
+    });
+
+    function addSo()
     {
         $.ajax({
             type: 'POST',
-            url: '/gsm/purchase/order/get_up/'+id,
-            data: {id : id},
+            url: '/gsm/purchase/pembelian/add_so/',
             success: function(data) {
-                $('#up').html(data);
+                $('#select_so').append(data);
             }
         });
     }

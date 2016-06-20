@@ -8,14 +8,9 @@
 		:
 		</div>
 		<div class="col-md-7">
-	      <?php echo form_dropdown('kurensi',GetOptAll('kurensi','All'),'','class="kontak" style="width:100%"') ?>
+	      <?php echo form_dropdown('kurensi',GetOptAll('kurensi','All'),'','class="select2" style="width:100%"') ?>
 		</div>
 	</div>
 </div>
 </table>
-<script type="text/javascript">
-	$(document).ready(function(e){
-    	$(".select2").select2();
-    });
-</script>
 
