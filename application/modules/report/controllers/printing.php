@@ -207,6 +207,7 @@ class Printing extends MX_Controller {
 	}
 
 	function aktiva(){
+<<<<<<< HEAD
         $data['autoprint']=FALSE;
 		$sd=$this->input->post('start_date');
 		$ed=$this->input->post('end_date');
@@ -222,6 +223,32 @@ class Printing extends MX_Controller {
                     $data['barang']=$barang;
                     
 		$data['period']=date('d-m-Y',strtotime($sd)).' s/d '.date('d-m-Y',strtotime($ed));
+=======
+                        $data['autoprint']=FALSE;
+			$sd=$this->input->post('start_date');
+			$ed=$this->input->post('end_date');
+                        
+			$cr=$this->input->post('kurensi');
+			$sp=$this->input->post('customer');
+			$barang=$this->input->post('barang');
+                        
+                        $q="SELECT * FROM sales_order WHERE tanggal_transaksi >= '$sd' AND tanggal_transaksi <= '$ed' ";
+                        if($cr){$q.="AND kurensi_id='$cr'";}
+                        if($sp){$q.="AND kontak_id='$sp'";}
+                        
+                        $data['barang']=$barang;
+                        
+			$data['period']=date('d-m-Y',strtotime($sd)).' s/d '.date('d-m-Y',strtotime($ed));
+
+			$data['kolom']=$this->input->post('kolom');
+			$data['q']=$this->db->query($q)->result();
+			$data['kantor']=$this->db->query("SELECT * FROM barang_inventaris WHERE jenis_inventaris_id='1'")->result_array();
+			$data['kendaraan']=$this->db->query("SELECT * FROM barang_inventaris WHERE jenis_inventaris_id='2'")->result_array();
+			$data['gedung']=$this->db->query("SELECT * FROM barang_inventaris WHERE jenis_inventaris_id='3'")->result_array();
+                        $data['content']='finance/aktiva';
+			$this->load->view('layout/main',$data);
+                 // $this->load->view('layout/sales_order',$data);
+>>>>>>> 65beb9b63936de5aa2f1ae3c4a86e387b69f23d1
 
 		$data['kolom']=$this->input->post('kolom');
 		$data['q']=$this->db->query($q)->result();
