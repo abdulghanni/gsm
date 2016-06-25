@@ -14,89 +14,40 @@
         </ol>
     </div>
 </section>
-<div class="col-lg-12">
-    <div class="tabbable">
-        <ul id="myTab2" class="nav nav-tabs nav-justified">
-            <li class="active">
-                <a href="#myTab2_example1" data-toggle="tab">
-                    Pembayaran Hutang
-                </a>
-            </li>
-            <li>
-                <a href="#myTab2_example2" data-toggle="tab">
-                    List Hutang
-                </a>
-            </li>
-        </ul>
-        <div class="tab-content">
-            <div class="tab-pane fade in active" id="myTab2_example1">
-                <div class="container-fluid container-fullw bg-white">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-12 space20">
-                                    <button class="btn btn-green add-row" onclick="add_user()">
-                                        <?= lang('add') ?> <i class="fa fa-plus"></i>
-                                    </button>
-                                </div>
-                            </div>
-                            <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered table-hover table-full-width" id="table" style="width: 100%;">
-                                    <thead>
-                                        <tr>
-                                            <th width="5%" align="center">No.</th>
-                                            <th width="15%"><?php echo 'No. Transaksi';?></th>
-                                            <th width="15%"><?php echo 'No. Invoice';?></th>
-                                            <th width="15%"><?php echo 'No. PO';?></th>
-                                            <th width="10%"><?php echo 'COA';?></th>
-                                            <th width="10%"><?php echo 'Tgl. Pembayaran';?></th>
-                                            <th width="10%"><?php echo 'Tgl. Jatuh Tempo';?></th>
-                                            <th width="10%"><?php echo 'Supplier';?></th>
-                                            <th width="10%"><?php echo 'Dibayar';?></th>
-                                            <th width="10%" class="text-center"><?php echo lang('action');?></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+    <div class="container-fluid container-fullw bg-white">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12 space20">
+                    <button class="btn btn-green add-row" onclick="add_user()">
+                        <?= lang('add') ?> <i class="fa fa-plus"></i>
+                    </button>
                 </div>
             </div>
-            <!-- TAB List -->
-            <div class="tab-pane fade" id="myTab2_example2">
-                <div class="container-fluid container-fullw bg-white">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="table-responsive">
-                                    <table class="table table-striped table-bordered table-hover table-full-width" id="table_list" style="width: 100%;">
-                                        <thead>
-                                            <tr>
-                                                <th width="1%" align="center">No.</th>
-                                                <th width="15%"><?php echo 'No Invoice';?></th>
-                                                <th width="15%"><?php echo 'No PO';?></th>
-                                                <th width="15%"><?php echo 'Supplier';?></th>
-                                                <th width="15%"><?php echo 'Jatuh Tempo';?></th>
-                                                <th width="10%"><?php echo 'Saldo';?></th>
-                                                <th width="10%"><?php echo 'Status';?></th>
-                                                <th width="10%" class="text-center"><?php echo lang('action');?></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>       
+            <div id="MsgGood" class="alert alert-success text-center" style="display:none;"></div>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered table-hover table-full-width" id="table" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th width="5%" align="center">No.</th>
+                            <th width="15%"><?php echo 'No. Transaksi';?></th>
+                            <th width="15%"><?php echo 'No. Invoice';?></th>
+                            <th width="10%"><?php echo 'COA';?></th>
+                            <th width="10%"><?php echo 'Tgl. Pembayaran';?></th>
+                            <th width="10%"><?php echo 'Tgl. Jatuh Tempo';?></th>
+                            <th width="10%"><?php echo 'Costumer';?></th>
+                            <th width="10%"><?php echo 'Saldo';?></th>
+                            <th width="10%" class="text-center"><?php echo lang('action');?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
+
 
 <!-- Bootstrap modal -->
 <div class="modal fade" id="modal_form" role="dialog">
@@ -113,24 +64,17 @@
                 <div class="row">
                 <div class="col-md-6">
                      <div class="form-group">
-                        <label class="control-label col-md-3">No. Invoice</label>
+                        <label class="control-label col-md-3">No. INVOICE</label>
                         <div class="col-md-9">
                             <?php 
-                                $js = 'class="select2" style="width:100%" id="inv"';
-                                echo form_dropdown('inv', $options_po,'',$js); 
+                                $js = 'class="select2" style="width:100%" id="so"';
+                                echo form_dropdown('so', $options_so,'',$js); 
                             ?>
                         </div>
                     </div>
                     <div id="kontak_label" style="display: none">
                     <div class="form-group">
-                        <label class="control-label col-md-3">No PO</label>
-                        <div class="col-md-9">
-                            <input name="po" placeholder="" class="form-control" type="text" readonly="" id="po">
-                            <span class="help-block"></span>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-3">Supplier</label>
+                        <label class="control-label col-md-3">Costumer</label>
                         <div class="col-md-9">
                             <input name="kontak_id" placeholder="" class="form-control" type="text" readonly="" id="kontak">
                             <span class="help-block"></span>
@@ -140,22 +84,17 @@
                     <div id="kurensi_label" style="display: none">
                     <div class="form-group">
                         <label class="control-label col-md-3">Kurensi</label>
-                        <div class="col-md-3">
+                        <div class="col-md-9">
                             <input name="kurensi" placeholder="" class="form-control" type="text" readonly="" id="kurensi">
-                            <span class="help-block"></span>
-                        </div>
-                        <label class="control-label col-md-3">Tgl. Jatuh Tempo</label>
-                        <div class="col-md-3">
-                            <input name="jatuh_tempo" placeholder="" class="form-control" type="text" readonly="" id="jatuh_tempo">
                             <span class="help-block"></span>
                         </div>
                     </div>
                     </div>
                     <div id="jatuh_tempo_label" style="display: none">
                     <div class="form-group">
-                        <label class="control-label col-md-3">Pembayaran Ke</label>
-                        <div class="col-md-2">
-                            <input name="jatuh_tempo" placeholder="" class="form-control text-center" type="text" readonly="" id="pembayaran-ke">
+                        <label class="control-label col-md-3">Tgl. Jatuh Tempo</label>
+                        <div class="col-md-9">
+                            <input name="jatuh_tempo" placeholder="" class="form-control" type="text" readonly="" id="jatuh_tempo">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -168,11 +107,10 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-
                     <div class="form-group">
                         <label class="control-label col-md-3">No Transaksi</label>
                         <div class="col-md-9">
-                            <input name="no" placeholder="" id="no" class="form-control" type="text" value="">
+                            <input name="no" id="no" placeholder="" class="form-control" type="text">
                             <span class="help-block"></span>
                         </div>
                     </div>
@@ -199,9 +137,8 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="form-group">
-                        <label class="control-label col-md-3">Hutang Dibayar</label>
+                        <label class="control-label col-md-3">Piutang Dibayar</label>
                         <div class="col-md-9">
                             <input name="dibayar" id="dibayar" placeholder="" class="form-control money text-right" value="0" type="text" required>
                             <span class="help-block"></span>
@@ -209,7 +146,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3">Hutang Terbayar</label>
+                        <label class="control-label col-md-3">Piutang Terbayar</label>
                         <div class="col-md-9">
                             <input name="terbayar" id="terbayar" placeholder="" class="form-control text-right" type="text" value="0" readonly="readonly">
                             <span class="help-block"></span>
@@ -217,7 +154,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3">Total Hutang</label>
+                        <label class="control-label col-md-3">Total Piutang</label>
                         <div class="col-md-9">
                             <input name="total" id="total" placeholder="" class="form-control text-right" type="text" value="0" readonly="readonly">
                             <span class="help-block"></span>
@@ -225,7 +162,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-md-3">Saldo Hutang</label>
+                        <label class="control-label col-md-3">Saldo Piutang</label>
                         <div class="col-md-9">
                             <input name="saldo" id="saldo" placeholder="" class="form-control text-right" type="text" value="0" readonly="readonly">
                             <span class="help-block"></span>

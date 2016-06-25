@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('sales/'.$file_name)?>"><?=$main_title?></a></span>
+				<span><a href="<?=base_url('purchase/'.$file_name)?>"><?=$main_title?></a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url("sales/$file_name/detail/".$id)?>">detail</a></span>
+				<span><a href="<?=base_url("purchase/$file_name/detail/".$id)?>">detail</a></span>
 			</li>
 		</ol>
 	</div>
@@ -23,14 +23,12 @@
 <div class="container-fluid container-fullw bg-white">
 <!--
 	<div class="row pull-right">
-		<a href="<?=base_url().'sales/piutang/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
+		<a href="<?=base_url().'transaksi/order/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 			 <i class="fa fa-print"></i> <?= lang('print')?>
 		</a>
 	</div>
 -->
-	<?php 
-	foreach ($det->result() as $o) :?>
-	<form role="form" action="<?= base_url('sales/piutang/add')?>" method="post" class="form-horizontal">
+	<form role="form" action="<?= base_url('transaksi/order/add')?>" method="post" class="form-horizontal">
 		<div class="row">
 			<div class="col-md-12">
 				<div class="invoice">
@@ -40,19 +38,19 @@
 						</div>
 						<div class="col-sm-6">
 							<p class="text-dark">
-								#<?=$o->so?> <small class="text-light"></small>
+								#<?=$det->no?> <small class="text-light"></small>
 							</p>
 						</div>
 					</div>
 					<hr>
 					<div class="row">
-						<div class="col-md-5">
+						<div class="col-md-6">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputEmail3">
-									NO. S.O
+									NO. Invoice
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->so?>" class="form-control" disabled="disabled">
+									<input type="text" name="up" value="<?=$det->no?>" class="form-control" disabled="disabled">
 								</div>
 							</div>
 							<div class="form-group">
@@ -60,7 +58,7 @@
 									Supplier
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" disabled="disabled">
+									<input type="text" name="up" value="<?=$det->kontak?>" class="form-control" disabled="disabled">
 								</div>
 							</div>
 							<div class="form-group">
@@ -68,7 +66,7 @@
 									Kurensi
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->kurensi?>" class="form-control" disabled="disabled">
+									<input type="text" name="up" value="<?=$det->kurensi?>" class="form-control" disabled="disabled">
 								</div>
 							</div>
 
@@ -77,67 +75,27 @@
 									Tgl. Jatuh Tempo
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=dateIndo($o->jatuh_tempo)?>" class="form-control" disabled="disabled">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="inputPassword3">
-									Catatan
-								</label>
-								<div class="col-sm-9">
-									<textarea class="form-control" disabled="disabled"><?=$o->catatan?></textarea>
+									<input type="text" name="up" value="<?=dateIndo($det->jatuh_tempo_pembayaran)?>" class="form-control" disabled="disabled">
 								</div>
 							</div>
 	                    </div>
 
-						<div class="col-md-5">
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="inputPassword3">
-									No Transaksi
-								</label>
-								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->no?>" class="form-control" disabled="disabled">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="inputPassword3">
-									Tgl. Pembayaran
-								</label>
-								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->tgl_dibayar?>" class="form-control" disabled="disabled">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="inputPassword3">
-									COA
-								</label>
-								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=getValue('name', 'sv_setup_coa', array('id'=>'where/'.$o->coa_id))?>" class="form-control" disabled="disabled">
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-sm-3 control-label" for="inputPassword3">
-									Dibayar
-								</label>
-								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->dibayar?>" class="form-control" disabled="disabled">
-								</div>
-							</div>
+						<div class="col-md-6">
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputPassword3">
 									Terbayar
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->terbayar?>" class="form-control" disabled="disabled">
+									<input type="text" name="up" value="<?=number_format($det->terbayar,2)?>" class="form-control text-right" disabled="disabled">
 								</div>
 							</div>
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputPassword3">
-									Total Piutang
+									Total Hutang
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->total?>" class="form-control" disabled="disabled">
+									<input type="text" name="up" value="<?=number_format($det->total, 2)?>" class="form-control text-right" disabled="disabled">
 								</div>
 							</div>
 							<div class="form-group">
@@ -145,7 +103,7 @@
 									Saldo
 								</label>
 								<div class="col-sm-9">
-									<input type="text" name="up" value="<?=$o->saldo?>" class="form-control" disabled="disabled">
+									<input type="text" name="up" value="<?=number_format($det->saldo, 2)?>" class="form-control text-right" disabled="disabled">
 								</div>
 							</div>
 						</div>
@@ -153,18 +111,52 @@
 				</div>
 			</div>
 		</div>
-		<hr/>
+
+		<div class="row">
+			<div class="col-sm-12">
+			<div class="table-responsive">
+				<table id="table" class="table table-striped">
+					<thead>
+						<tr>
+							<th width="1%"> No. </th>
+							<th width="5%"> No. Transaksi </th>
+							<th width="5%"> COA </th>
+							<th width="10%"> Tgl. Pembayaran </th>
+							<th width="15%"> Dibayar </th>
+							<th width="10%"> Input By </th>
+						</tr>
+					</thead>
+					<tbody>
+						<?php
+							$i=1;
+							foreach($list->result() as $l):
+						?>
+						<tr>
+							<td width="1%"><?=$i++?></td>
+							<td width="10%"><?=$l->no?></td>
+							<td width="25%"><?=$l->coa?></td>
+							<td width="9%"><?=$l->tgl_dibayar?></td>
+							<td align="right" width="20%"><?=number_format($l->dibayar,2)?></td>
+							<td width="25%"><?=getName($l->created_by)?></td>
+						</tr>
+						<?php endforeach;
+						?>
+					</tbody>
+				</table>
+			</div>
+			</div>
+		</div>
+		<!-- <hr/>
 		<div class="row form-row">
 			<div class="col-md-8 col-md-offset-2">
 				<div class="col-md-4 text-center">
 					<h5 class="margin-bottom-30">Dibuat Oleh,</h5><br/><br/>
-					<h5 class="margin-top-30"><?=getFullName($o->created_by)?></h5>
-					<h5><?=dateIndo($o->created_on)?></h5>
-					<h5>(<?=getUserGroup($o->created_by)?>)</h5>
+					<h5 class="margin-top-30"><?=getFullName($det->created_by)?></h5>
+					<h5><?=dateIndo($det->created_on)?></h5>
+					<h5>(<?=getUserGroup($det->created_by)?>)</h5>
 				</div>
 			</div>
-		</div>
+		</div> -->
 	</form>
-	<?php endforeach;?>
 </div>
 <!-- end: INVOICE -->

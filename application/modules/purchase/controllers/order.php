@@ -121,6 +121,7 @@ class Order extends MX_Controller {
                 'catatan' =>$this->input->post('catatan'),
                 'proyek' =>$this->input->post('proyek'),
                 'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
+                'total' => $this->input->post('total'),
                 'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
                 'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
                 'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),

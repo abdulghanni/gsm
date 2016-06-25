@@ -9,7 +9,8 @@ $(document).ready(function() {
             autoclose: true,
             format: "dd-mm-yyyy"
         });
-    $("#so").change(function(){
+
+    $("#inv").change(function(){
         var id = $(this).val();
         if(id!=0)getDetail(id);
     })
@@ -19,20 +20,21 @@ $(document).ready(function() {
     {
         $.ajax({
             type: 'POST',
-            url: '/gsm/sales/piutang/get_no_detail/',
+            url: '/gsm/sales/piutang/get_piutang_detail/',
             data: {id : id},
             dataType: "JSON",
             success: function(data) {
+                $('#po').val(data.po);
                 $('#kontak').val(data.kontak);
                 $('#kontak_label').show();
                 $('#kurensi').val(data.kurensi);
                 $('#kurensi_label').show();
                 $('#jatuh_tempo').val(data.jatuh_tempo);
                 $('#jatuh_tempo_label').show();
-                 $('#total').val(data.total);
+                $('#total').val(data.total);
                 $('#saldo').val(data.saldo);
                 $('#terbayar').val(data.terbayar);
-                $('#no').val(data.no);
+                $('#pembayaran-ke').val(data.pembayaran_ke);
             }
         });
     }
@@ -58,6 +60,27 @@ $(document).ready(function() {
         { "sClass": "text-center", "aTargets": [-1] }
         ],
     });
+
+    table_list = $('#table_list').DataTable({ 
+
+        "processing": true, //Feature control the processing indicator.
+        "serverSide": true, //Feature control DataTables' server-side processing mode.
+        "order": [], //Initial no order.
+
+        // Load data for the table's content from an Ajax source
+        "ajax": {
+            "url": "piutang/piutang_list",
+            "type": "POST"
+        },
+        //Set column definition initialisation properties.
+        "columnDefs": [
+        { 
+            "targets": [-1], //last column
+            "orderable": false, //set not orderable
+        },
+        { "sClass": "text-center", "aTargets": [-1] }
+        ],
+    });
 });
 
 //Ajax Crud
@@ -68,12 +91,13 @@ function add_user()
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
     $('#modal_form').modal('show'); // show bootstrap modal
-    $('.modal-title').text('Tambah Pembayaran Piutang'); // Set Title to Bootstrap modal title
+    $('.modal-title').text('Tambah Pembayaran piutang'); // Set Title to Bootstrap modal title
 }
 
 function reload_table()
 {
     table.ajax.reload(null,false); //reload datatable ajax 
+    table_list.ajax.reload(null,false); //reload datatable ajax 
 }
 
 function save()

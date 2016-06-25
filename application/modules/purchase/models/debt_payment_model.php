@@ -4,11 +4,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class debt_payment_model extends CI_Model {
 
     var $table = 'purchase_hutang';
+    var $table_list = 'purchase_hutang_list';
+    var $table_pembelian = 'pembelian';
+    var $table_po = 'purchase_order';
     var $table_join1 = 'kontak';
     var $table_join2 = 'kurensi';
     var $table_join3 = 'sv_setup_coa';
    // var $column = array('id', 'po', 'kontak', 'kurensi', 'total', 'dibayar', 'terbayar', 'saldo', 'jatuh_tempo');
-    var $column = array('purchase_hutang.id', 'no', 'po', 'coa', 'tgl_dibayar', 'jatuh_tempo','kontak', 'saldo');
+    var $column = array('purchase_hutang.id', 'no', 'no_invoice', 'po', 'coa', 'tgl_dibayar', 'jatuh_tempo','kontak', 'dibayar');
     var $order = array('id' => 'desc');
 
     public function __construct()
@@ -23,16 +26,22 @@ class debt_payment_model extends CI_Model {
          $this->db->select(
             $this->table.'.id as id,
             '.$this->table.'.no,
-            '.$this->table.'.po,
+            '.$this->table_pembelian.'.no as no_invoice,
+            '.$this->table_po.'.po,
             '.$this->table.'.tgl_dibayar,
-            '.$this->table.'.jatuh_tempo,
-            '.$this->table.'.saldo,
+            '.$this->table.'.dibayar,
+            '.$this->table_pembelian.'.jatuh_tempo_pembayaran as jatuh_tempo,
+            '.$this->table_list.'.id as list_id ,
+            '.$this->table_list.'.saldo,
             '.$this->table_join3.'.name as coa,
-            '.$this->table.'.kontak,
+            '.$this->table_join1.'.title as kontak,
             ');
         $this->db->from($this->table);
+        $this->db->join($this->table_list, $this->table_list.'.id = '.$this->table.'.list_id', 'inner');
+        $this->db->join($this->table_pembelian, $this->table_pembelian.'.id = '.$this->table_list.'.pembelian_id', 'left');
+        $this->db->join($this->table_po, $this->table_po.'.po = '.$this->table_pembelian.'.po', 'left');
         $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.coa_id', 'left');
-        //$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.kontak', 'left');
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table_po.'.kontak_id', 'left');
         $this->db->where($this->table.'.is_deleted', 0);
 
         $i = 0;
@@ -108,11 +117,26 @@ class debt_payment_model extends CI_Model {
 
     function get_detail($id)
     {
-        $q= $this->db->select('*')
-             ->from($this->table)
-             ->where($this->table.'.id', $id)
-             ->get();
-        return $q;
+        $this->db->select(
+            $this->table.'.id as id,
+            '.$this->table.'.no,
+            '.$this->table_pembelian.'.no as no_invoice,
+            '.$this->table_po.'.po,
+            '.$this->table.'.tgl_dibayar,
+            '.$this->table_pembelian.'.jatuh_tempo_pembayaran as jatuh_tempo,
+            '.$this->table.'.dibayar,
+            '.$this->table.'.created_by,
+            '.$this->table_join3.'.name as coa,
+            '.$this->table_join1.'.title as kontak,
+            ');
+        $this->db->from($this->table);
+        $this->db->join($this->table_list, $this->table_list.'.id = '.$this->table.'.list_id', 'inner');
+        $this->db->join($this->table_pembelian, $this->table_pembelian.'.id = '.$this->table_list.'.pembelian_id', 'left');
+        $this->db->join($this->table_po, $this->table_po.'.po = '.$this->table_pembelian.'.po', 'left');
+        $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.coa_id', 'left');
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table_po.'.kontak_id', 'left');
+        $this->db->where($this->table_list.'.id', $id);
+        return $this->db->get();
     }
 
     public function save($data)
@@ -151,6 +175,11 @@ class debt_payment_model extends CI_Model {
 
     public function get_po()
     {   
-        return GetAllSelect('purchase_order', 'po', array('metode_pembayaran_id'=>'where/2','id'=>'order/desc'));
+        //return GetAllSelect('purchase_order', 'po', array('metode_pembayaran_id'=>'where/2','id'=>'order/desc'));
+        return $this->db->select('a.id, a.pembelian_id, b.no')
+                 ->where('a.status_hutang_id !=', 3)
+                 ->from('purchase_hutang_list a')
+                 ->join('pembelian b', 'a.pembelian_id = b.id')
+                 ->get();
     }
 }

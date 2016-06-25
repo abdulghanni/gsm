@@ -27,7 +27,7 @@
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
-								Customer
+								Supplier
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" readonly>
@@ -141,15 +141,9 @@
 									Tempo Pembayaran
 								</label>
 								<div class="col-sm-2">
-									<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
-								</div>
-								<div class="col-sm-6">
-									<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
-									<option value="0">-- Pilih Tempo Pembayaran --</option>
-								    <option value="hari">Hari</option>
-						            <option value="bulan">Bulan</option>
-						            <option value="tahun">Tahun</option>
-		              	            </select>
+									<input type="text" placeholder="" name="" id="lama_angsuran_1" class="form-control text-right" value="<?= $o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" disabled>
+									<input type="hidden" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="<?=$o->lama_angsuran_1?>">
+									<input type="hidden" placeholder="" name="lama_angsuran_2" id="lama_angsuran_2" class="form-control text-right" value="<?=$o->lama_angsuran_2?>">
 								</div>
 							</div>
 						</div>
@@ -158,16 +152,8 @@
 								Komponen Pajak
 							</label>
 							<div class="col-sm-6">
-								<div id="pajak">
-								<?php foreach($pajak_komponen as $p):?>
-								<div class="checkbox clip-check check-primary checkbox-inline">
-									<input type="checkbox" id="kpajak<?=$p->id?>" onchange="hitung()" value="<?=$p->id?>" class="<?=$p->title?>" name="pajak_komponen_id[]">
-									<label for="kpajak<?=$p->id?>">
-										<?=$p->title?>
-									</label>
-								</div>
-								<?php endforeach;?>
-								</div>
+								<?php $c = '<i class="fa fa-square"></i> PPN';
+								echo (!empty($o->pajak_komponen_id)) ? $c : '<label class="form-label">Tidak Termasuk Pajak</label>';?>
 							</div>
 						</div>
 					</div>

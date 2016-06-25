@@ -1,17 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class piutang_model extends CI_Model {
+class Piutang_model extends CI_Model {
 
     var $table = 'sales_piutang';
-    var $table_list = 'sales_piutang_list';
-    var $table_penjualan = 'penjualan';
-    // var $table_po = 'purchase_order';
     var $table_join1 = 'kontak';
     var $table_join2 = 'kurensi';
     var $table_join3 = 'sv_setup_coa';
-   // var $column = array('id', 'po', 'kontak', 'kurensi', 'total', 'dibayar', 'terbayar', 'saldo', 'jatuh_tempo');
-    var $column = array('sales_piutang.id', 'no', 'no_invoice', 'coa', 'tgl_dibayar', 'jatuh_tempo','kontak', 'dibayar');
+    //var $column = array('id', 'so', 'kontak', 'kurensi', 'total', 'dibayar', 'terbayar', 'saldo', 'jatuh_tempo');
+    var $column = array('sales_piutang.id', 'no', 'so', 'coa', 'tgl_dibayar', 'jatuh_tempo','kontak', 'saldo');
     var $order = array('id' => 'desc');
 
     public function __construct()
@@ -23,23 +20,19 @@ class piutang_model extends CI_Model {
     private function _get_datatables_query()
     {
         
-         $this->db->select(
+        $this->db->select(
             $this->table.'.id as id,
             '.$this->table.'.no,
-            '.$this->table_penjualan.'.no as no_invoice,
+            '.$this->table.'.so,
             '.$this->table.'.tgl_dibayar,
-            '.$this->table.'.dibayar,
-            '.$this->table_penjualan.'.jatuh_tempo_pembayaran as jatuh_tempo,
-            '.$this->table_list.'.id as list_id ,
-            '.$this->table_list.'.saldo,
+            '.$this->table.'.jatuh_tempo,
+            '.$this->table.'.saldo,
             '.$this->table_join3.'.name as coa,
-            '.$this->table_join1.'.title as kontak,
+            '.$this->table.'.kontak,
             ');
         $this->db->from($this->table);
-        $this->db->join($this->table_list, $this->table_list.'.id = '.$this->table.'.list_id', 'inner');
-        $this->db->join($this->table_penjualan, $this->table_penjualan.'.id = '.$this->table_list.'.penjualan_id', 'left');
         $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.coa_id', 'left');
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table_penjualan.'.kontak_id', 'left');
+        //$this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.kontak', 'left');
         $this->db->where($this->table.'.is_deleted', 0);
 
         $i = 0;
@@ -50,6 +43,8 @@ class piutang_model extends CI_Model {
             {
                 if($item == 'no'){
                     $item = $this->table.'.no';
+                }elseif($item == 'so'){
+                    $item = $this->table.'.so';
                 }elseif($item == 'coa'){
                     $item = $this->table_join3.'.name';
                 }elseif($item == 'kontak'){
@@ -113,24 +108,11 @@ class piutang_model extends CI_Model {
 
     function get_detail($id)
     {
-        $this->db->select(
-            $this->table.'.id as id,
-            '.$this->table.'.no,
-            '.$this->table_penjualan.'.no as no_invoice,
-            '.$this->table.'.tgl_dibayar,
-            '.$this->table_penjualan.'.jatuh_tempo_pembayaran as jatuh_tempo,
-            '.$this->table.'.dibayar,
-            '.$this->table.'.created_by,
-            '.$this->table_join3.'.name as coa,
-            '.$this->table_join1.'.title as kontak,
-            ');
-        $this->db->from($this->table);
-        $this->db->join($this->table_list, $this->table_list.'.id = '.$this->table.'.list_id', 'inner');
-        $this->db->join($this->table_penjualan, $this->table_penjualan.'.id = '.$this->table_list.'.penjualan_id', 'left');
-        $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.coa_id', 'left');
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table_penjualan.'.kontak_id', 'left');
-        $this->db->where($this->table_list.'.id', $id);
-        return $this->db->get();
+        $q= $this->db->select('*')
+             ->from($this->table)
+             ->where($this->table.'.id', $id)
+             ->get();
+        return $q;
     }
 
     public function save($data)
@@ -167,13 +149,8 @@ class piutang_model extends CI_Model {
         return $this->db->get($this->table_join2);
     }
 
-    public function get_po()
+    public function get_so()
     {   
-        //return GetAllSelect('purchase_order', 'po', array('metode_pembayaran_id'=>'where/2','id'=>'order/desc'));
-        return $this->db->select('a.id, a.penjualan_id, b.no')
-                 ->where('a.status_piutang_id !=', 3)
-                 ->from('sales_piutang_list a')
-                 ->join('penjualan b', 'a.penjualan_id = b.id')
-                 ->get();
+        return GetAllSelect('penjualan', 'no', array('metode_pembayaran_id'=>'where/2','id'=>'order/desc'));
     }
 }

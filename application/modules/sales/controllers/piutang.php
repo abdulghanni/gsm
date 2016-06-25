@@ -1,15 +1,16 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Piutang extends MX_Controller {
+class piutang extends MX_Controller {
     public $data;
     var $module = 'sales';
-    var $title = 'Pembayaran Piutang';
+    var $title = 'Pembayaran piutang';
     var $file_name = 'piutang';
     var $table_name = 'sales_piutang';
     function __construct()
     {
         parent::__construct();
         $this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+        $this->load->model($this->module.'/'.'piutang_list_model', 'main2');
     }
 
     function index()
@@ -17,8 +18,8 @@ class Piutang extends MX_Controller {
         $this->data['title'] = $this->title;
         $this->data['main_title'] = $this->title;
         permissionUser();
-        $this->data['options_so'] = options_row('main','get_so','no','no','-- Pilih No. Invoice --');//print_mz($this->data['options_po']);
         $this->data['coa'] = GetAllSelect('sv_setup_coa', 'id,name')->result();
+        $this->data['options_po'] = options_row('main','get_po','id','no','-- Pilih No. Invoice --');
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
     }
 
@@ -41,7 +42,8 @@ class Piutang extends MX_Controller {
         $this->data['file_name'] = $this->file_name;
         permissionUser();
         $this->data['id'] = $id;
-        $this->data['det'] = $this->main->get_detail($id);
+        $this->data['det'] = $this->main2->get_detail($id);
+        $this->data['list'] = $this->main->get_detail($id);
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
@@ -49,24 +51,33 @@ class Piutang extends MX_Controller {
     public function ajax_add()
     {
         //$this->_validate();
+        $dibayar = str_replace(',', '', $this->input->post('dibayar'));
+        $kurensi = $this->input->post('kurensi');
+        $list_id = $this->input->post('inv');
+        $saldo = str_replace(',', '', $this->input->post('saldo'));
         $data = array(
-                'jatuh_tempo' => $this->input->post('jatuh_tempo'),
-                'so'=>$this->input->post('so'),
+                'list_id' => $list_id,
                 'no'=>$this->input->post('no'),
                 'coa_id'=>$this->input->post('coa_id'),
                 'tgl_dibayar'=> date('Y-m-d',strtotime($this->input->post('tgl_dibayar'))),
-                'kontak'=>$this->input->post('kontak_id'),
-                'kurensi'=>$this->input->post('kurensi'),
-                'total'=>str_replace(",","",$this->input->post('total')),
-                'dibayar'=>str_replace(",","",$this->input->post('dibayar')),
-                'terbayar'=>str_replace(",","",$this->input->post('terbayar')),
-                'saldo'=>str_replace(",","",$this->input->post('saldo')),
+                'dibayar'=> $dibayar,
                 'catatan'=>$this->input->post('catatan'),
                 'created_by'=>sessId(),
                 'created_on'=>dateNow(),
             );
         $insert = $this->main->save($data);
-        rekening('sales_piutang', $insert, $data['coa_id'], 'in', $data['dibayar'], 0, $data['kurensi']);
+        $terbayar = getValue('terbayar', 'sales_piutang_list', array('id'=>'where/'.$list_id));
+        $terbayar = $terbayar + $dibayar;
+        $status = ($saldo>0) ? 2 : 3;
+        $data_list = array(
+            'terbayar'=>$terbayar,
+            'saldo' => $saldo,
+            'status_piutang_id' => $status,
+            'edited_by'=>sessId(),
+            'edited_on'=>dateNow(),
+            );
+        $this->db->where('id', $list_id)->update('sales_piutang_list', $data_list);
+        rekening('sales_piutang', $insert, $data['coa_id'], 'in', $data['dibayar'], 0, $kurensi);
         echo json_encode(array("status" => TRUE));
     }
 
@@ -76,18 +87,18 @@ class Piutang extends MX_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $r) {
-            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->list_id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = "<a href=$detail>#".$r->so.'</a>';
+            $row[] = "<a href=$detail>#".$r->no_invoice.'</a>';
             $row[] = $r->coa;
             $row[] = $r->tgl_dibayar;
             $row[] = $r->jatuh_tempo;
             $row[] = $r->kontak;
-            $row[] = number_format($r->saldo, 2);
+            $row[] = number_format($r->dibayar, 2);
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>";
             //$row[] = $r->kurensi;
             //$row[] = $r->dibayar;
@@ -103,6 +114,36 @@ class Piutang extends MX_Controller {
                         "draw" => $_POST['draw'],
                         "recordsTotal" => $this->main->count_all(),
                         "recordsFiltered" => $this->main->count_filtered(),
+                        "data" => $data,
+                );
+        //output to json format
+        echo json_encode($output);
+    }
+
+    public function piutang_list()
+    {
+        $list = $this->main2->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $r) {
+            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+            $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = $r->kontak;
+            $row[] = $r->jatuh_tempo_pembayaran;
+            $row[] = number_format($r->saldo,2);
+            $row[] = $r->status;
+            $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>";
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->main2->count_all(),
+                        "recordsFiltered" => $this->main2->count_filtered(),
                         "data" => $data,
                 );
         //output to json format
@@ -125,47 +166,20 @@ class Piutang extends MX_Controller {
 
     //FOR JS
 
-    function get_no_detail()
+    function get_piutang_detail()
     {
         $id = $this->input->post('id');
-        $table = 'penjualan';
-        $filter = array('no'=>'where/'.$id);
-
-        $kontak = getWhere('kontak_id', $table, 'no', $id);//lastq();
-        $kontak = getWhere('title', 'kontak', 'id', $kontak);
-
-        $kurensi = getWhere('kurensi_id', $table, 'no', $id);
-        $kurensi = getWhere('title', 'kurensi', 'id', $kurensi);;
-
-        $total_hutang = getWhere('saldo', $table, 'no', $id);
-        $saldo = $this->db->select('id, saldo')->where('so', $id)->order_by('id', 'desc')->get('sales_piutang')->row()->saldo;
-
-        $jatuh_tempo = getWhere('tanggal_transaksi', $table, 'no', $id);
-        $lama_angsuran_1 = getWhere('lama_angsuran_1', $table, 'no', $id);
-        $lama_angsuran_2 = getWhere('lama_angsuran_2', $table, 'no', $id);
-        if($lama_angsuran_2 == 'hari'){
-            $jatuh_tempo = date( "Y-m-d", strtotime( "$jatuh_tempo +$lama_angsuran_1 day" ) );
-        }elseif($lama_angsuran_2 == 'bulan'){
-            $jatuh_tempo = date( "Y-m-d", strtotime( "$jatuh_tempo +$lama_angsuran_1 month" ) );
-        }elseif($lama_angsuran_2 == 'tahun'){
-            $jatuh_tempo = date( "Y-m-d", strtotime( "$jatuh_tempo +$lama_angsuran_1 year" ) );
-        }
-
-        $num_rows = getAll('sales_piutang')->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get('sales_piutang')->last_row()->id : 0;
-        $last_id = ($num_rows>0) ? $last_id+1 : 1; 
-        $no = $last_id.'/PTG-I/GSM/I/'.date('Y');
-        $terbayar = $this->db->select_sum('dibayar')->where('so', $id)->get('sales_piutang')->row()->dibayar;
-
-
-        echo json_encode(array('kontak'=>$kontak,
-                                'kurensi'=>$kurensi,
-                                'jatuh_tempo'=>$jatuh_tempo,
-                                'total'=>number_format($total_hutang,2),
-                                'terbayar'=>number_format($terbayar, 2),
-                                'saldo'=>number_format($saldo, 2),
-                                'no'=>$no
-                              ));
+        $q = $this->main2->get_detail($id);
+        $pembayaran_ke = getAll('sales_piutang', array('list_id'=>'where/'.$id))->num_rows();
+        echo json_encode(array(
+            'kontak'=>$q->kontak,
+            'kurensi'=>$q->kurensi,
+            'jatuh_tempo'=>$q->jatuh_tempo_pembayaran,
+            'total'=>number_format($q->total,2),
+            'terbayar'=>number_format($q->terbayar, 2),
+            'saldo'=>number_format($q->saldo, 2),
+            'pembayaran_ke'=>$pembayaran_ke+1,
+        ));
     }
     
     function _render_page($view, $data=null, $render=false)

@@ -10,7 +10,7 @@ $(document).ready(function() {
             format: "dd-mm-yyyy"
         });
 
-    $("#po").change(function(){
+    $("#inv").change(function(){
         var id = $(this).val();
         if(id!=0)getDetail(id);
     })
@@ -20,10 +20,11 @@ $(document).ready(function() {
     {
         $.ajax({
             type: 'POST',
-            url: '/gsm/purchase/debt_payment/get_po_detail/',
+            url: '/gsm/purchase/debt_payment/get_hutang_detail/',
             data: {id : id},
             dataType: "JSON",
             success: function(data) {
+                $('#po').val(data.po);
                 $('#kontak').val(data.kontak);
                 $('#kontak_label').show();
                 $('#kurensi').val(data.kurensi);
@@ -33,7 +34,7 @@ $(document).ready(function() {
                 $('#total').val(data.total);
                 $('#saldo').val(data.saldo);
                 $('#terbayar').val(data.terbayar);
-                $('#no').val(data.no);
+                $('#pembayaran-ke').val(data.pembayaran_ke);
             }
         });
     }
@@ -96,6 +97,7 @@ function add_user()
 function reload_table()
 {
     table.ajax.reload(null,false); //reload datatable ajax 
+    table_list.ajax.reload(null,false); //reload datatable ajax 
 }
 
 function save()

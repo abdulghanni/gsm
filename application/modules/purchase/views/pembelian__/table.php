@@ -31,7 +31,7 @@
 							?>
 							<tr>
 								<th width="5%"><?php echo $i ?> </th>
-								<td><input type="text" value="<?=$no_ref?>" readonly></td>
+								<td><?=$no_ref?></td>
 								<input type="hidden" name="ref_id[]" value="<?=$penerimaan_id?>">
 								<td><?=$ol->kode_barang?></td>
 								<?php $src = (!empty($ol->photo))?base_url("uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
@@ -39,29 +39,34 @@
 								<input type="hidden" name="kode_barang[]" class=" text-right" value="<?=$ol->barang_id?>">
 								</td>
 								<td>
-									<textarea name="deskripsi[]" class="" placeholder="Isi deskripsi dan catatan kaki perbarang disini"><?=$ol->deskripsi?></textarea>
+									<textarea name="deskripsi[]" class="" placeholder="Isi deskripsi dan catatan kaki perbarang disini" readonly><?=$ol->deskripsi?></textarea>
 								</td>
 								<td>
-									<textarea name="catatan_barang[]" class="" placeholder="Isi catatan kaki perbarang disini"><?=$ol->catatan?></textarea>
+									<textarea name="catatan_barang[]" class="" placeholder="Isi catatan kaki perbarang disini" readonly><?=$ol->catatan?></textarea>
 								</td>
 
-								<td class="text-right"><input type="text" name="jumlah[]" class=" text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>"></td>
+								<td class="text-right">
+									<?=$ol->jumlah?>
+									<input type="hidden" name="jumlah[]" class=" text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>">
+								</td>
 								<td><?=$ol->satuan?></td>
 								<input type="hidden" name="satuan[]" class=" text-right" value="<?=$ol->satuan_id?>">
-								<td class="text-right"><input type="text" name="harga[]" class=" text-right harga" value="<?=number_format($ol->harga, 2)?>" id="harga<?=$i?>"></td>
 								<td class="text-right">
-								<input type="text" name="disc[]" class=" text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>">
-								<input type="hidden" name="subdisc[]" class=" text-right subdisc" value="0" id="subdisc<?=$i?>">
+									<?=number_format($ol->harga, 2)?>
+									<input type="hidden" name="harga[]" class=" text-right harga" value="<?=number_format($ol->harga, 2)?>" id="harga<?=$i?>">
 								</td>
-								<td class="text-right"><input type="text" name="subtotal" class=" text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly>
+								<td class="text-right">
+									<?=$ol->disc?>
+									<input type="hidden" name="disc[]" class=" text-right disc" value="<?=$ol->disc?>" id="disc<?=$i?>">
+									<input type="hidden" name="subdisc[]" class=" text-right subdisc" value="0" id="subdisc<?=$i?>">
+								</td>
+								<td class="text-right">
+									<?=number_format($subtotal, 2)?>
+									<input type="hidden" name="subtotal" class=" text-right subtotal" value="<?=number_format($subtotal, 2)?>" id="subtotal<?=$i?>" readonly>
 								</td>
 								<td>
-								<?php if(!empty($ol->attachment)){?>
-								<a target="_blank" href="<?= base_url("uploads/sale/".$ol->attachment)?>"><?=$ol->attachment?></a></td>
-								<input type="hidden" name="attachment[]" value="<?=$ol->attachment?>">
-								<?php }else{?>
-								<input type="file" name="attachment[]">
-								<?php } ?>
+									<a target="_blank" href="<?= base_url("uploads/sale/".$ol->attachment)?>"><?=$ol->attachment?></a>
+								</td>
 							</tr>
 								<script>
 										$("#pajak<?=$i?>").click(function(){
@@ -176,7 +181,7 @@
 						</div>
 					</div>
 				</li>
-				<li class="list-group-item" id="totalPPH22">
+				<!-- <li class="list-group-item" id="totalPPH22">
 					<div class="row">
 						<div class="col-md-4">
 						PPH 22
@@ -195,7 +200,7 @@
 						<input type="text" id="totalp3" name="total-pph23" value="0" class="form-control text-right" readonly="readonly">
 						</div>
 					</div>
-				</li>
+				</li> -->
 				<li class="list-group-item">
 					<div class="row">
 						<div class="col-md-4">

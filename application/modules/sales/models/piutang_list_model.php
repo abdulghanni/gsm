@@ -1,15 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class hutang_list_model extends CI_Model {
+class piutang_list_model extends CI_Model {
 
-    var $table = 'purchase_hutang_list';
-    var $table_pembelian = 'pembelian';
-    var $table_po = 'purchase_order';
+    var $table = 'sales_piutang_list';
+    var $table_penjualan = 'penjualan';
     var $table_join1 = 'kontak';
     var $table_join2 = 'kurensi';
     var $table_join3 = 'hutang_status';
-    var $column = array('id', 'no', 'po', 'kontak', 'jatuh_tempo_pembayaran', 'saldo', 'status');
+    var $column = array('id', 'no', 'kontak', 'jatuh_tempo_pembayaran', 'saldo', 'status');
     var $order = array('id' => 'desc');
 
     public function __construct()
@@ -23,18 +22,16 @@ class hutang_list_model extends CI_Model {
         
         $this->db->select(
             $this->table.'.id as id,
-            '.$this->table_pembelian.'.no,
-            '.$this->table_pembelian.'.po,
-            '.$this->table_pembelian.'.jatuh_tempo_pembayaran,
+            '.$this->table_penjualan.'.no,
+            '.$this->table_penjualan.'.jatuh_tempo_pembayaran,
             '.$this->table.'.saldo,
             '.$this->table_join1.'.title as kontak,
             '.$this->table_join3.'.title as status,
             ');
         $this->db->from($this->table);
-        $this->db->join($this->table_pembelian, $this->table.'.pembelian_id = '.$this->table_pembelian.'.id', 'inner');
-        $this->db->join($this->table_po, $this->table_pembelian.'.po = '.$this->table_po.'.po', 'inner');
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table_po.'.kontak_id', 'left');
-        $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.status_hutang_id', 'left');
+        $this->db->join($this->table_penjualan, $this->table.'.penjualan_id = '.$this->table_penjualan.'.id', 'inner');
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table_penjualan.'.kontak_id', 'left');
+        $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.status_piutang_id', 'left');
         $this->db->where($this->table.'.is_deleted', 0);
 
         $i = 0;
@@ -107,9 +104,8 @@ class hutang_list_model extends CI_Model {
     {
         $this->db->select(
             $this->table.'.id as id,
-            '.$this->table_pembelian.'.no,
-            '.$this->table_pembelian.'.po,
-            '.$this->table_pembelian.'.jatuh_tempo_pembayaran,
+            '.$this->table_penjualan.'.no,
+            '.$this->table_penjualan.'.jatuh_tempo_pembayaran,
             '.$this->table.'.saldo,
             '.$this->table.'.terbayar,
             '.$this->table.'.total,
@@ -118,11 +114,10 @@ class hutang_list_model extends CI_Model {
             '.$this->table_join3.'.title as status,
             ');
         $this->db->from($this->table);
-        $this->db->join($this->table_pembelian, $this->table.'.pembelian_id = '.$this->table_pembelian.'.id', 'inner');
-        $this->db->join($this->table_po, $this->table_pembelian.'.po = '.$this->table_po.'.po', 'inner');
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table_po.'.kontak_id', 'left');
-        $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_po.'.kurensi_id', 'left');
-        $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.status_hutang_id', 'left');
+        $this->db->join($this->table_penjualan, $this->table.'.penjualan_id = '.$this->table_penjualan.'.id', 'inner');
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table_penjualan.'.kontak_id', 'left');
+        $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_penjualan.'.kurensi_id', 'left');
+        $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.status_piutang_id', 'left');
         $this->db->where($this->table.'.id', $id);
         $q = $this->db->get()->row();
         return $q;
