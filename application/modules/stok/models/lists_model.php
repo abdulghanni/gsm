@@ -31,7 +31,7 @@ class lists_model extends CI_Model {
             '.$this->table_join3.'.title as gudang,
             ');
         $this->db->from($this->table);
-        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.barang_id', 'left');
+        $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->table.'.barang_id', 'inner');
         $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->table_join1.'.satuan', 'left');
         $this->db->join($this->table_join3, $this->table_join3.'.id = '.$this->table.'.gudang_id', 'left');
 
