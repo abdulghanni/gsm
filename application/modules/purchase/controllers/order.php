@@ -177,7 +177,7 @@ class Order extends MX_Controller {
         }
         $this->insert_pr_status($list['request_id'][$i]);
         endfor;
-        if($this->input->post('metode_pembayaran_id') == 2)$this->insert_hutang($insert_id);
+        // if($this->input->post('metode_pembayaran_id') == 2)$this->insert_hutang($insert_id);
         if($type != 1)$this->send_notification($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }

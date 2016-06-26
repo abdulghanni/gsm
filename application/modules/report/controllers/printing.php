@@ -132,6 +132,27 @@ class Printing extends MX_Controller {
 		redirect(base_url()."print/file/index.php?stimulsoft_report_key=piutang_list.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&kontak=$k&kurensi=$kur&status=$st",'refresh');
 	}
 
+	function pembayaran_hutang(){
+        $sd=$this->input->post('start_date');
+		$ed=$this->input->post('end_date');
+		$k=$this->input->post('kontak');
+		$kur=$this->input->post('kurensi');
+		$st=$this->input->post('coa');
+
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=pembayaran_hutang.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&kontak=$k&kurensi=$kur&coa=$st",'refresh');
+	}
+
+	function pembayaran_piutang(){
+        $sd=$this->input->post('start_date');
+		$ed=$this->input->post('end_date');
+		$k=$this->input->post('kontak');
+		$kur=$this->input->post('kurensi');
+		$st=$this->input->post('coa');
+
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=pembayaran_piutang.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&kontak=$k&kurensi=$kur&coa=$st",'refresh');
+	}
+
+
 	function penjualan(){
         $sd=$this->input->post('start_date');
 		$ed=$this->input->post('end_date');
