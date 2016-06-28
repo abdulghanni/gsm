@@ -197,12 +197,7 @@ class produksi extends MX_Controller {
                 'satuan_id' => $list['satuan'][$i]
                 );
         $this->db->insert($this->file_name.'_list', $data2);
-		//$sisaan=+$sisa;
-		//masukstok($this->input->post('gudang_id'),$list['kode_barang'][$i],str_replace(',', '', $list['jumlah'][$i]));
-        //$this->send_notification($insert_id);
 		endfor;
-		//echo $sisaan;
-		//if($sisaan==0){$this->db->query("UPDATE purchase_order SET is_closed=1 WHERE id='".$this->input->post('ref_id')."'");}
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
 	function send_notification($id)

@@ -169,9 +169,6 @@ class Assembly extends MX_Controller {
 		$this->data['assembly']=GetAll('stok_assembly',array('id'=>'where/'.$id))->row();
 		$this->data['list']=GetAll('stok_assembly_list',array('assembly_id'=>'where/'.$id));
 		$this->data['refid']=GetAll($this->data['assembly']->ref_type,array('id'=>'where/'.$this->data['assembly']->ref_id))->row_array();
-	// $this->data[$this->file_name] = $this->main->get_detail($id);
-		// $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-		
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
 	
@@ -180,12 +177,11 @@ class Assembly extends MX_Controller {
     {
         permissionUser();
         $id=$this->input->post('id');
-		//print_mz($this->input->post());
         $list = array(
-                        'kode_barang'=>$this->input->post('kode_barang'),
-                        'jumlah'=>$this->input->post('jumlah'),
-                        'satuan'=>$this->input->post('satuan')
-                        );
+                    'kode_barang'=>$this->input->post('kode_barang'),
+                    'jumlah'=>$this->input->post('jumlah'),
+                    'satuan'=>$this->input->post('satuan')
+                );
 
         $data = array(
                 'title'=>$this->input->post('title'),
@@ -216,6 +212,7 @@ class Assembly extends MX_Controller {
         
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
+
 	function send_notification($id)
     {
         permissionUser();

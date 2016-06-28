@@ -442,13 +442,14 @@ class Order extends MX_Controller {
         $p = getValue('photo', 'barang', array('id'=>'where/'.$id));
         $sl = getValue('satuan_laporan', 'barang', array('id'=>'where/'.$id));
         $s = getValue('satuan', 'barang', array('id'=>'where/'.$id));
+        $sisa = getValue('dalam_stok', 'stok', array('barang_id'=>'where/'.$id));
         $satuan = (!empty($sl)) ? $sl : $s;
         $filter = array('kode_barang'=>'where/'.$id);
         $harga_terakhir_num = getAll('purchase_order_list', $filter)->num_rows();
         $harga_terakhir = ($harga_terakhir_num>0)?GetAllSelect('purchase_order_list', 'id,harga', $filter)->last_row()->harga:'';
         $harga_jual = getValue('harga_jual', 'stok', array('barang_id'=>'where/'.$id));
         $harga = (!empty($harga_terakhir)) ? $harga_terakhir : $harga_jual;
-        echo json_encode(array('nama_barang'=>$q, 'photo'=>$p, 'harga'=>$harga, 'satuan' => $satuan));
+        echo json_encode(array('nama_barang'=>$q, 'photo'=>$p, 'harga'=>$harga, 'satuan' => $satuan, 'sisa_stok'=>$sisa, 'satuan_title' => getValue('title', 'satuan', array('id'=>'where/'.$satuan))));
     }
 
     function approve()
