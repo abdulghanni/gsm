@@ -84,11 +84,11 @@
 						<table id="table" class="table table-striped">
 							<thead>
 								<tr>
-									<th width="5%"> # </th
-									<th width="10%"> Kode Barang </th>
+									<th width="1%"> # </th>
+									<th width="50%"> Kode Barang </th>
 									<!--th width="20%"> Deskripsi </th-->
-									<th width="5%">Quantity</th>
-									<th width="10%"> Satuan </th>
+									<th width="20%">Quantity</th>
+									<th width="30%"> Satuan </th>
 								</tr>
 							</thead>
 							<tbody>
@@ -124,7 +124,7 @@
 					
 					<div class="row">
 						<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="margin-right:15px;">
-							Submit Order <i class="fa fa-check"></i>
+							Submit <i class="fa fa-check"></i>
 						</button>
 					</div>
 				</div>
@@ -137,7 +137,6 @@
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
     $(document).ready(function(e){
-        
 		var rowCount=table.rows.length;
     });
 	function addRow(tableID){
@@ -151,73 +150,34 @@
 		element1.name="chkbox[]";
 		element1.className="checkbox1";
 		cell1.appendChild(element1);
-		
-//		var cell2=row.insertCell(1);
-//		cell2.innerHTML=rowCount+1-1;
-		
+
 		var cell2=row.insertCell(1);
 		<?php $s = array('"', "'");$r=array('&quot;','&#39;');?>
-		cell2.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>";  
-		
-		/* var cell4=row.insertCell(3);
-		cell4.innerHTML = '<input name="deskripsi[]" value="0" type="text" class="form-control" required="required" id="deskripsi'+rowCount+'">'; */
-		
+		cell2.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>"; 
+
 		var cell3=row.insertCell(2);
 		cell3.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
 		
 		var cell4=row.insertCell(3);
 		cell4.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 		
-		
-		/* $("#barang_id"+rowCount).change(function(){
-			var id = $(this).val();
-			$.ajax({
-				type: "GET",
-				dataType: "JSON",
-				url: 'get_nama_barang/'+id,
-				success: function(data) {
-					$('#deskripsi'+rowCount).val(data);
-				}
-			});
-		})
-		.change(); */
-		
-		$("#subTotalPajak").append('<input name="subpajak[]" value="0" type="hidden" class="subpajak" id="subpajak'+rowCount+'">')
-		$("#harga"+rowCount).add("#jumlah"+rowCount).add("#disc"+rowCount).add("#pajak"+rowCount).keyup(function() {
-			hitung();
-		});
-		
-		$('.harga').maskMoney({allowZero:true});
-		
-		
-		function addCommas(nStr)
-		{
-			nStr += '';
-			x = nStr.split('.');
-			x1 = x[0];
-			x2 = x.length > 1 ? '.' + x[1] : '';
-			var rgx = /(\d+)(\d{3})/;
-			while (rgx.test(x1)) {
-				x1 = x1.replace(rgx, '$1' + ',' + '$2');
-			}
-			return x1 + x2;
-		}
+		$(document).find("select.select2").select2();
 	}
 	function deleteRow(tableID){
-        try{
-            var table=document.getElementById(tableID);
-            var rowCount=table.rows.length;
-            for(var i=0;i<rowCount;i++){
-                var row=table.rows[i];
-                var chkbox=row.cells[0].childNodes[0];
-                //alert(chkbox);
-                //console.log(chkbox)
-                if(null!=chkbox&&true==chkbox.checked){
-                //alert('yes');    
-                table.deleteRow(i);rowCount--;i--;}
-            }
-        }catch(e){
-            alert(e);
-            //alert('no');
-            }}
+	    try{
+	        var table=document.getElementById(tableID);
+	        var rowCount=table.rows.length;
+	        for(var i=0;i<rowCount;i++){
+	            var row=table.rows[i];
+	            var chkbox=row.cells[0].childNodes[0];
+	            //alert(chkbox);
+	            //console.log(chkbox)
+	            if(null!=chkbox&&true==chkbox.checked){
+	            //alert('yes');    
+	            table.deleteRow(i);rowCount--;i--;}
+	        }
+	    }catch(e){
+	        alert(e);
+	        //alert('no');
+	 }}
 </script>
