@@ -550,7 +550,7 @@ function addRow(tableID){
             url: '/gsm/sales/order/add_row/'+rowCount,
             success: function(response){
 	         	$("#"+tableID).find('tbody').append(response);
-	         	$("#btnAdd").attr('disabled',false);;
+	         	$("#btnAdd").attr('disabled',false);
 	         },
 	         dataType:"html"
         });

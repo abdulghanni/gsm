@@ -311,10 +311,12 @@
 function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
+	$("#btnAdd").attr('disabled',true);;
 	$.ajax({
             url: '/gsm/purchase/request/add_row/'+rowCount,
             success: function(response){
 	         	$("#"+tableID).find('tbody').append(response);
+	         	$("#btnAdd").attr('disabled',false);
 	         },
 	         dataType:"html"
         });
