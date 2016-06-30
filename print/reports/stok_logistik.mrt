@@ -29,7 +29,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Parameters isList="true" count="0"/>
         <SqlCommand>SELECT DISTINCT `stok`.`id` as `id`, `stok`.`dalam_stok` as `dalam_stok`, `stok`.`minimum_stok`, `barang`.`kode` as `kode`, `barang`.`title` as `barang`, `satuan`.`title` as `satuan`, `gudang`.`title` as `gudang`
 FROM `stok`
-LEFT JOIN `barang` ON `barang`.`id` = `stok`.`barang_id`
+INNER JOIN `barang` ON `barang`.`id` = `stok`.`barang_id`
 LEFT JOIN `satuan` ON `satuan`.`id` = `barang`.`satuan`
 LEFT JOIN `gudang` ON `gudang`.`id` = `stok`.`gudang_id`
 WHERE `barang`.`title` LIKE '%{barang}%' AND `gudang`.`title` like '%{gudang}%'  ORDER BY `barang` ASC</SqlCommand>

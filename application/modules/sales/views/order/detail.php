@@ -50,7 +50,7 @@
 								Kepada
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="form-group">
@@ -58,7 +58,7 @@
 								Up.
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->up?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->up?>" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="form-group">
@@ -66,7 +66,7 @@
 								Alamat
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->alamat?>" class="form-control" disabled="disabled">
+								<textarea class="form-control" name="catatan" readonly><?=$o->alamat?></textarea>
 							</div>
 						</div>
 
@@ -75,7 +75,7 @@
 								Mata Uang
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->kurensi?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->kurensi?>" class="form-control" readonly>
 							</div>
 						</div>
 
@@ -85,7 +85,7 @@
 								Catatan
 							</label>
 							<div class="col-sm-8">
-								<textarea class="form-control" name="catatan" disabled="disabled"><?=$o->catatan?></textarea>
+								<textarea class="form-control" name="catatan" readonly><?=$o->catatan?></textarea>
 							</div>
 						</div>
 						<?php endif;?>
@@ -98,7 +98,7 @@
 								No. SO
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->so?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->so?>" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="form-group">
@@ -106,7 +106,7 @@
 								Tanggal SO
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=dateIndo($o->tanggal_transaksi)?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=dateIndo($o->tanggal_transaksi)?>" class="form-control" readonly>
 							</div>
 						</div>
 						<div class="form-group">
@@ -114,7 +114,7 @@
 								Dikirim dari
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" readonly>
 							</div>
 						</div>
 
@@ -123,7 +123,7 @@
 								Project
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->project?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->project?>" class="form-control" readonly>
 							</div>
 						</div>
 
@@ -132,7 +132,7 @@
 								Term
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control" readonly>
 							</div>
 						</div>
 						<?php if($o->metode_pembayaran_id == 2):?>
@@ -141,7 +141,7 @@
 								Tempo Pembayaran
 							</label>
 							<div class="col-sm-4">
-								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" disabled="disabled">
+								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" readonly>
 							</div>
 						</div>
 						<?php endif ?>
