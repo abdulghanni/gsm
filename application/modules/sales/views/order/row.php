@@ -12,7 +12,7 @@
 	<?php $src = (!empty($ol->photo))?assets_url("gsm/uploads/barang/$ol->barang_id/$ol->photo") : assets_url('assets/images/no-image-mid.png') ?>
 
 	<td>
-		<select name='kode_barang[]' class='select2' id="barang_id<?=$id?>" style='width:100%'>		<option value="0">-- Pilih Barang --</option>
+		<select name='kode_barang[]' class='barang' id="barang_id<?=$id?>" style='width:100%'>		<option value="0">-- Pilih Barang --</option>
 		<?php foreach($barang as $value=>$b):?>
 		<option value='<?php echo $b['id']?>'><?php echo $b['kode'].' - '.$b['title']?></option><?php endforeach;?></select>
 	</td>
@@ -37,7 +37,7 @@
 	</td>
 
 	<td>
-		<select id="satuanlist<?=$id?>" name='satuan[]' class='satuan' style='width:100%'><?php foreach($satuan as $s):?><option value='<?php echo $s['id']?>'><?php echo $s['title']?></option><?php endforeach;?></select><input type='hidden' value='0' id="satuanlist_num<?=$id?>">
+		<select id="satuanlist<?=$id?>" name='satuan[]' class='select2' style='width:100%'><?php foreach($satuan as $s):?><option value='<?php echo $s['id']?>'><?php echo $s['title']?></option><?php endforeach;?></select><input type='hidden' value='0' id="satuanlist_num<?=$id?>">
 	</td>
 
 	<td>
@@ -63,11 +63,15 @@
 	<td><input type="file" name="attachment[]"></td>
 
 </tr>
-<script type="text/javascript"> $(document).find("select.select2").select2({
+<script type="text/javascript"> $(document).find("select.barang").select2({
         dropdownAutoWidth : true,
         placeholder: "Cari Barang",
         minimumInputLength: 3,
-    });</script>
+    });
+    $(document).find("select.select2").select2({
+        dropdownAutoWidth : true
+    });
+    </script>
 <script type="text/javascript">
 $('.harga').maskMoney({allowZero:true});
 	$("#pajak<?=$id?>").click(function(){
