@@ -9,9 +9,7 @@ class Assembly extends MX_Controller {
     function __construct()
     {
         parent::__construct();
-		$this->load->library('flexigrid');
-        $this->load->helper('flexigrid');
-        //$this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+        $this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
     }
 
     function index()
@@ -20,115 +18,41 @@ class Assembly extends MX_Controller {
         $this->data['modul'] = $this->module;
         $this->data['filename'] = $this->file_name;
         $this->data['main_title'] = $this->module.'';
-		$this->data['js_grid']=$this->get_column();
+       
         permissionUser();
-        $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
-		}
-	function get_column(){
-		
-		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
-		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
-		$colModel['title'] = array('Title',150,TRUE,'left',2);
-		$colModel['output'] = array('Barang Hasil',110,TRUE,'left',2);
-                //$colModel['action'] = array('Action',110,TRUE,'left',2);
+        $this->_render_page($this->module.'/'.$this->file_name, $this->data);
+	}
+	
+    public function ajax_list()
+    {
+        permissionUser();
+        $list = $this->main->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $r) {
+            $edit = base_url("master/assembly/input/".$r->id);
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = $this->view_row($r->id);;
 
-        
-		$gridParams = array(
-		'rp' => 25,
-		'rpOptions' => '[10,20,30,40]',
-		'pagestat' => 'Displaying: {from} to {to} of {total} items.',
-		'blockOpacity' => 0.5,
-		'title' => '',
-		'showTableToggleBtn' => TRUE
-		);
-        
-		$buttons[] = array('edit','edit','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('delete','delete','btn');
-		/* $buttons[] = array('select','check','btn');
-		$buttons[] = array('deselect','uncheck','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('add','add','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('edit','edit','btn');
-		$buttons[] = array('delete','delete','btn');
-		$buttons[] = array('separator');
-		 */
-		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','asc',$gridParams,$buttons);
-	}
-	
-	function get_flexigrid()
-	{
-		
-		//Build contents query
-		$this->db->select("a.id as id,a.title as title,b.title as output")->from('assembly a');
-		$this->db->join('barang b','b.id=a.output','left');
-		//$this->db->join('gudang c','c.id=a.gudang_to','left');
-		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
-		$this->flexigrid->build_query();
-		
-		//Get contents
-		$return['records'] = $this->db->get();
-		/* 
-		//Build count query
-		$this->db->select("count(id) as record_count")->from($this->file_name);
-		$this->flexigrid->build_query(FALSE);
-		$record_count = $this->db->get();
-		$row = $record_count->row();
-		
-		//Get Record Count
-		$return['record_count'] = $row->record_count; */
-		$return['record_count'] = $return['records']->num_rows();
-		//Return all
-		return $return;
-	}
-	
-	function get_record(){
-		
-		$valid_fields = array('id','name','code','origin');
-		
-		$this->flexigrid->validate_post('id','DESC',$valid_fields);
-		$records = $this->get_flexigrid();
-		
-		$this->output->set_header($this->config->item('json_header'));
-		
-		$record_items = array();
-		
-		foreach ($records['records']->result() as $row)
-		{/*
-			if($row->status=='y'){$status='Aktif';}
-			elseif($row->status=='n'){$status='Tidak Aktif';}
-			elseif($row->status=='s'){$status='Suspended';}*/
-			
-			$record_items[] = array(
-			$row->id,
-			$row->id,
-			$row->id,
-			$row->title,
-			$row->output,
-                        "<a href='".base_url()."/master/assembly/input/".$row->id."'>Edit</a>"
 
-			);
-		}
-		
-		return $this->output->set_output($this->flexigrid->json_build($records['record_count'],$record_items));;
-	}  
-	
-	function deletec()
-	{		
-		//return true;
-		$countries_ids_post_array = explode(",",$this->input->post('items'));
-		array_pop($countries_ids_post_array);
-		foreach($countries_ids_post_array as $index => $country_id){
-			/*if (is_numeric($country_id) && $country_id > 0) {
-			$this->delete($country_id);}*/
-			$this->db->delete($this->file_name,array('id'=>$country_id));
-                        $this->db->delete($this->file_name.'_list',array($this->file_name.'_id'=>$country_id));				
-				
-		}
-		//$error = "Selected countries (id's: ".$this->input->post('items').") deleted with success. Disabled for demo";
-		//echo "Sukses!";
-	}
+            //add html for action
+            $row[] = '<a href="'.$edit.'" target="_blank" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
+        
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->main->count_all(),
+                        "recordsFiltered" => $this->main->count_filtered(),
+                        "data" => $data,
+                );
+        //output to json format
+        echo json_encode($output);
+    }
 
     function input($id=NULL)
     {
@@ -142,36 +66,14 @@ class Assembly extends MX_Controller {
         permissionUser();
 		$this->data['module']=$this->module;
 		$this->data['file_name']=$this->file_name;
-        $num_rows = getAll($this->file_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->file_name)->last_row()->id : 0;
-        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-		
+        $this->data['r'] = $this->main->get_detail($id);
         $this->data['opt_barang'] = GetOptAll('barang');
-        $this->data['opt_satuan'] = GetOptAll('satuan');
-
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
-        $this->data['kurensi'] = getAll('kurensi')->result();
-        $this->data['metode'] = getAll('metode_pembayaran')->result();
-        //$this->data['gudang'] = getAll('gudang')->result();
-        $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-       // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
+        $this->data['opt_satuan'] = GetOptAll('satuan');
         
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
-
-   
-    function detail($id)
-    {
-        $this->data['title'] = $this->title.' - Detail';
-        permissionUser();
-        $this->data['id'] = $id;
-		$this->data['assembly']=GetAll('stok_assembly',array('id'=>'where/'.$id))->row();
-		$this->data['list']=GetAll('stok_assembly_list',array('assembly_id'=>'where/'.$id));
-		$this->data['refid']=GetAll($this->data['assembly']->ref_type,array('id'=>'where/'.$this->data['assembly']->ref_id))->row_array();
-        $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
-    }
-	
 
     function add()
     {
@@ -184,9 +86,7 @@ class Assembly extends MX_Controller {
                 );
 
         $data = array(
-                'title'=>$this->input->post('title'),
-                'output'=>$this->input->post('output'),
-                'jumlah'=>'1',
+                'barang_id'=>$this->input->post('output'),
                 'created_on' =>date("Y-m-d"),
                 'created_by' =>sessId()
             );
@@ -213,128 +113,6 @@ class Assembly extends MX_Controller {
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }  
 
-	function send_notification($id)
-    {
-        permissionUser();
-        $url = base_url().'purchase/order/INV/'.$id;
-        $isi = getName(sessId())." Melakukan Transaksi assembly Barang <a href=$url> KLIK DISINI </a> ";
-        $approver = getAll('approver');
-        foreach($approver->result() as $r):
-		$data = array('sender_id' => sessId(),
-		'receiver_id' => $r->user_id,
-		'sent_on' => dateNow(),
-		'judul' => 'assembly Order',
-		'isi' => $isi,
-		'url' => $url,
-		);
-        $this->db->insert('notifikasi', $data);
-        endforeach;
-        return TRUE;
-    }
-	function cariref(){
-			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
-			if($cariref->num_rows()>0){
-					
-					$data['refid']=$cariref->row_array();
-				if($data['refid']['is_app_lv1']==1){
-					if($data['refid']['is_closed']==0){
-						$data['reftype']='purchase_order';
-						$cekparsial=$this->db->query("SELECT * FROM stok_assembly WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
-						if($cekparsial->num_rows()>0){
-							$data['part']=TRUE;	
-							$data['partno']=$cekparsial->num_rows()+1;	
-						}
-						
-						$this->load->view('stok/assembly/input_id',$data);
-						
-						}
-					else{
-							$data['message']="Transaksi sudah CLOSED";
-							$this->load->view('stok/assembly/error',$data);
-						}
-				}
-				else{
-					$data['message']="P.O BELUM di APPROVE";
-				$this->load->view('stok/assembly/error',$data);}
-			}
-			else{
-				$data['message']="Transaksi TIDAK DITEMUKAN";
-				$this->load->view('stok/assembly/error',$data);
-			}
-	}
-	function carilist(){
-			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
-			if($cariref->num_rows()>0){
-				$data['refid']=$cariref->row_array();
-				if($data['refid']['is_app_lv1']==1){
-					if($data['refid']['is_closed']==0){
-					
-					$data['reftype']='purchase_order';
-					$cekparsial=$this->db->query("SELECT * FROM stok_assembly WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."' ORDER BY id DESC LIMIT 1");
-					if($cekparsial->num_rows()>0){
-						$data['part']=TRUE;	
-						$data['partno']=$cekparsial->num_rows()+1;
-							$data['partdata']=$cekparsial->row_array();
-						
-					}
-						
-						$data['list']=GetAll('purchase_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
-						$this->load->view('stok/assembly/input_list',$data);
-					}
-				}
-			}
-	}
-   
-    function print_pdf($id)
-    {
-        permissionUser();
-        $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-        
-        $this->load->library('mpdf60/mpdf');
-        $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
-    }
-    function bast($id)
-    {
-        permissionUser();
-        $this->data['id'] = $id;/* 
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id); */
-        
-        $this->load->library('mpdf60/mpdf');
-        $html = $this->load->view($this->module.'/'.$this->file_name.'/bast', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
-    }
-
-    //FOR JS
-
-    function get_kontak_detail($id)
-    {
-        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
-
-        echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
-
-    }
-
-    function get_nama_barang($id)
-    {
-        $q = getValue('title', 'barang', array('id'=>'where/'.$id));
-
-        echo json_encode($q);
-
-    }
-    
     function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;
@@ -342,37 +120,33 @@ class Assembly extends MX_Controller {
         {
             $this->load->library('template');
 
-                if(in_array($view, array($this->module.'/'.$this->file_name.'/index')))
-                {
-                    $this->template->set_layout('default');
+            if(in_array($view, array($this->module.'/'.$this->file_name)))
+            {
+               $this->template->set_layout('default');
 
-                    $this->template->add_css('flexigrid/css/flexigrid.css');
-                    $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
-                    $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
-                    $this->template->add_js('flexigrid/js/flexigrid.pack.js');
-                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
-                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
-                {
-                    $this->template->set_layout('default');
+                $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
+                $this->template->add_css('vendor/select2/select2.css');
 
-                    $this->template->add_css('vendor/select2/select2.css');
-                    $this->template->add_css('vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css');
+                $this->template->add_js('vendor/jquery-validation/jquery.validate.min.js');
+                $this->template->add_js('assets/js/form-validation.js');
+                $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
+                $this->template->add_js('vendor/select2/select2.min.js');
+                $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'.js');
+            }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input'))){
+                $this->template->set_layout('default');
 
-                    $this->template->add_js('vendor/jquery-validation/jquery.validate.min.js');
-                    $this->template->add_js('vendor/jquery-mask-money/jquery.MaskMoney.js');
-                    $this->template->add_js('assets/js/form-validation.js');
-                    $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
-                    $this->template->add_js('vendor/select2/select2.min.js');
-                    $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
-                    $this->template->add_js('assets/js/form-elements.js');
-                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/input.js');
-                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/detail')))
-                {
-                    $this->template->set_layout('default');
+                $this->template->add_css('vendor/select2/select2.css');
+                $this->template->add_css('vendor/bootstrap-datepicker/bootstrap-datepicker3.standalone.min.css');
 
-                    $this->template->add_js('vendor/jquery-mask-money/jquery.MaskMoney.js');
-                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/detail.js');
-                }
+                $this->template->add_js('vendor/jquery-validation/jquery.validate.min.js');
+                $this->template->add_js('vendor/jquery-mask-money/jquery.MaskMoney.js');
+                $this->template->add_js('assets/js/form-validation.js');
+                $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
+                $this->template->add_js('vendor/select2/select2.min.js');
+                $this->template->add_js('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js');
+                $this->template->add_js('assets/js/form-elements.js');
+                $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/input.js');
+            }
 
             if ( ! empty($data['title']))
             {
@@ -385,5 +159,62 @@ class Assembly extends MX_Controller {
         {
             return $this->load->view($view, $data, TRUE);
         }
+    }
+
+    function view_row($id){
+        $r = $this->main->get_detail($id);
+        $row = 
+       '<div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#'.$id.'">
+                            '.$r->kode.'-'.$r->title.'
+                        </a>
+                    </h4>
+                </div>
+                <div id="'.$id.'" class="panel-collapse collapse out">
+                    <div class="panel-body">
+                        <h4>Komposisi</h4>
+                        <table class="table table-bordered table-hover" id="table_id">
+                          <thead>
+                              <tr>
+                                  <th>Kode Barang</th>
+                                  <th>Nama Barang</th>
+                                  <th>Qty</th>
+                                  <th>Satuan</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                            '.$this->get_row_list($id).'
+                          </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>';
+        return $row;
+    }
+
+    function get_row_list($id){
+        $lx ='';
+        $list = $this->main->get_list_detail($id);
+         foreach ($list as $l) {
+             $lx .= '<tr>
+                                  <td>'.$l->kode.'</td>
+                                  <td>'.$l->nama_barang.'</td>
+                                  <td>'.$l->jumlah.'</td>
+                                  <td>'.$l->satuan.'</td>
+                              </tr> ';
+         }
+         return $lx;
+    }
+
+    public function ajax_delete($id)
+    {
+        $this->main->delete_by_id($id);
+        $this->db->where('assembly_id', $id);
+        $this->db->delete('assembly_list');
+        echo json_encode(array("status" => TRUE));
     }
 }

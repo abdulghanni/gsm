@@ -218,6 +218,7 @@
 									<th width="20%"> Deskripsi </th>
 									<th width="20%"> Catatan </th>
 									<th width="5%">Quantity</th>
+									<th width="15%">Sisa Stok</th>
 									<th width="10%"> Satuan </th>
 									<th width="15%"> Harga </th>
 									<th width="5%">Disc(%)</th>
@@ -544,8 +545,7 @@
 function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
-	$("#btnAdd").attr('disabled',true);;
-	//$("#table").html('<img src="/gsm/assets/images/loading.gif"> loading...');
+	$("#btnAdd").attr('disabled',true);
 	$.ajax({
             url: '/gsm/sales/order/add_row/'+rowCount,
             success: function(response){

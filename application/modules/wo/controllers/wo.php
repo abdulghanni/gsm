@@ -92,6 +92,14 @@ class wo extends MX_Controller {
             $this->db->insert($this->table_name.'_list', $data2);
             }
         endfor;
+        $produksi_ref = array(
+            'ref_id' => $insert_id,
+            'ref_type' => 'wo',
+            'status' => 1,
+            'created_by' => sessId(),
+            'created_on' => dateNow(),
+            );
+        $this->db->insert('produksi_ref', $produksi_ref);
         $this->send_notification($insert_id);
         redirect($this->file_name, 'refresh');
     }

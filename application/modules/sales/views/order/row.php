@@ -30,7 +30,10 @@
 	</td>
 
 	<td>
-		<input name="jumlah[]" value="0" type="text" class=" jumlah text-right" required="required" id="jumlah<?=$id?>">
+		<input name="jumlah[]" value="0" type="text" class="jumlah text-right" style="width:100%" required="required" id="jumlah<?=$id?>">
+	</td>
+
+	<td id="sisa_stok<?=$id?>">
 	</td>
 
 	<td>
@@ -42,7 +45,7 @@
 	</td>
 
 	<td class="text-right">
-		<input type="text" name="disc[]" class=" text-right disc" value="0" id="disc<?=$id?>">
+		<input type="text" name="disc[]" class=" text-right disc" style="width:100%" value="0" id="disc<?=$id?>">
 		<input type="hidden" name="subdisc[]" class=" text-right subdisc" value="0" id="subdisc<?=$id?>">
 	</td>
 
@@ -61,7 +64,9 @@
 
 </tr>
 <script type="text/javascript"> $(document).find("select.select2").select2({
-        dropdownAutoWidth : true
+        dropdownAutoWidth : true,
+        placeholder: "Cari Barang",
+        minimumInputLength: 3,
     });</script>
 <script type="text/javascript">
 $('.harga').maskMoney({allowZero:true});
@@ -89,6 +94,7 @@ $('.harga').maskMoney({allowZero:true});
 	            	if(id != '0'){
 	            		cekStok(id);
 	            		$('#deskripsi<?=$id?>').val(data.nama_barang);
+	            		$('#sisa_stok<?=$id?>').text(data.sisa_stok+' '+data.satuan_title);
 	            		if(data.photo != ''){
 				            $("#photo<?=$id?>").attr("src", "http://"+window.location.host+"/gsm/uploads/barang/"+id+"/"+data.photo);
 				        }else{

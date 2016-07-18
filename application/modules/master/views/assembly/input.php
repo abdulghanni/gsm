@@ -31,51 +31,42 @@
 					</div>
 					<div class="col-sm-6">
 						<p class="text-dark">
-							#<?=date('Ymd',strtotime('now')).'-'.$last_id?> / <?=dateIndo(date('Y-m-d',strtotime('now')))?> <small class="text-light"></small>
-							<input type="hidden" name="no" value="<?=date('Ymd',strtotime('now')).$last_id?>">
+							#<?php if(!empty($r->kode))echo $r->kode; ?> <small class="text-light"></small>
 						</p>
 					</div>
 				</div>
 				<hr>
 				<div class="row">
-					<div class="col-md-6">
+					<div class="col-md-8">
+                        <?php echo form_hidden('id',isset($val['id'])?$val['id'] : 0) ?>
 						<div class="form-group">
-                                                    <?php echo form_hidden('id',isset($val['id'])?$val['id'] : 0) ?>
-							<label class="col-sm-4 control-label" for="inputEmail3">
-								Judul
+							<label class="col-sm-2 control-label" for="inputEmail3">
+								Output Barang
 							</label>
-							<div class="col-sm-8">
+							<div class="col-sm-10">
 								<?php 
-			                    	$js = 'class="" style="width:100%" id="kontak_id"';
-                                                $nmf='title';
-			                    	echo form_input($nmf,isset($val[$nmf])?$val[$nmf] : '',$js); 
+									$nmf='output';
+									if(isset($val['id'])){ 
+								?>
+								<textarea type="text" class="form-control" style="width:100%" readonly><?=$r->title?></textarea>
+								<input type="hidden" name="output" class="form-control" value="<?=$r->barang_id?>" readonly>
+								<?php
+									}else{
+				                    	$js = 'class="select2" style="width:100%" id="output"';
+				                    	echo form_dropdown($nmf,$opt_barang,isset($val[$nmf])?$val[$nmf] : '',$js); 
+			                    	}
 			                  	?>
 							</div>
 						</div>
-						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputEmail3">
-								Output
-							</label>
-							<div class="col-sm-8">
-								<?php 
-                                                $nmf='output';
-			                    	$js = 'class="select2" style="width:100%" id="output"';
-			                    	echo form_dropdown($nmf,$opt_barang,isset($val[$nmf])?$val[$nmf] : '',$js); 
-			                  	?>
-							</div>
-						</div>
-						
-
                     </div>
-
-                    <div class="col-md-6">
-                    	
-                    </div>
+                    <div class="col-md-8"></div>
 				</div>
+				<hr/>
+				<h4>Komposisi</h4>
 				<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">
                     <?= lang('add').' '.lang('item') ?> <i class="fa fa-plus"></i>
                 </button>
-                <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" style="display:<?php echo isset($val[$nmf])?'' : 'none' ?>">
+                <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" >
                     <?= 'Remove' ?> <i class="fa fa-remove"></i>
                 </button>
 				<div class="row">
@@ -124,7 +115,7 @@
 					
 					<div class="row">
 						<button type="submit" id="btnSubmit" class="btn btn-lg btn-primary hidden-print pull-right" style="margin-right:15px;">
-							Submit <i class="fa fa-check"></i>
+							Save <i class="fa fa-check"></i>
 						</button>
 					</div>
 				</div>

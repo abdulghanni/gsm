@@ -65,7 +65,6 @@ class Order extends MX_Controller {
                                               ->where('order_id', $id)
                                               ->where('pajak !=', "0")
                                               ->get($this->table_list)->num_rows();
-        //$q = $this->db->select('pajak')->where('order_id', $id)->get($this->table_list);print_mz($q->result());
 
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
@@ -82,7 +81,7 @@ class Order extends MX_Controller {
                         'harga'=>$this->input->post('harga'),
                         'disc'=>$this->input->post('disc'),
                         'pajak'=>$this->input->post('pajak'),
-                        );//print_mz($list);
+                        );
         $data = array(
                 'no' => $this->input->post('no'),
                 'kontak_id'=>$this->input->post('kontak_id'),
@@ -140,11 +139,41 @@ class Order extends MX_Controller {
         echo json_encode(array('status'=>true));
     }
 
+    function insert_produksi_ref($id){
+        $data = array(
+            'ref_id' => $id,
+            'ref_type'=> 'so',
+            'status' => 1,
+            );
+
+        $this->db->insert('produksi_ref', $data);
+        $url = base_url().'stok/produksi/input/'.$id;
+        $subject = 'Permintan Produksi dari Sales Order';
+        $isi = getName(sessId())." membuat Sales Order dan stok barang kurang, Untuk melakkukan produksi silakan <a href=$url> KLIK DISINI </a>.";
+        $no = getValue('no', $this->table_name, array('id'=>'where/'.$id));
+
+        //SEND NOTIFICATION TO PRODUCTION
+        $group_id = array('8');
+        $user_id = $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result();
+        foreach($user_id as $u):
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $u->user_id,
+                          'sent_on' => dateNow(),
+                          'judul' => $subject,
+                          'isi' => $isi,
+                          'no' => $no,
+                          'url' => $url,
+             );
+            $this->db->insert('notifikasi', $data);
+            $this->send_email(getEmail($u->user_id), $subject, $isi);
+        endforeach;
+        return TRUE;
+    }
+
     function add()
     {
         $po = $this->input->post('so');
         $btn = $this->input->post('btnDraft');
-        //print_mz($btn);
         if($btn == "Submit"){
             $type = 0;
         }else{
@@ -238,13 +267,22 @@ class Order extends MX_Controller {
             $attx = (!empty($att[$i])) ? $att[$i] : '';
             $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
         }
+        $data_wo = array(
+            'id' => $insert_id ,
+            'barang_id' => $list['kode_barang'][$i],
+            'satuan_id' => $list['satuan'][$i],
+            'qty'   => $list['jumlah'][$i]
+             );
+        $this->cek_selisih_stok($data_wo);
         endfor;
         $this->send_notif($insert_id);
+        $num = getAll('produksi_ref_list', array('ref_id'=>'where/'.$insert_id))->num_rows();
+        if($num > 1)$this->insert_produksi_ref($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
     private function set_upload_options()
-    {   
+    {
         if(!is_dir('./'.'uploads')){
         mkdir('./'.'uploads/', 0777);
         }
@@ -259,7 +297,7 @@ class Order extends MX_Controller {
           'upload_path'     => './uploads/sale/',
           'allowed_types'   => '*',
           'overwrite'       => TRUE,
-        );    
+        );
 
         return $config;
     }
@@ -360,7 +398,6 @@ class Order extends MX_Controller {
             }
         endforeach;
 
-        //print_mz($exc);
         $total_ppn = getSum('total_ppn', 'sales_order', 'id', $id);
         $total_pph22 = getSum('total_pph22', 'sales_order', 'id', $id);
         $total_pph23 = getSum('total_pph23', 'sales_order', 'id', $id);
@@ -370,13 +407,13 @@ class Order extends MX_Controller {
 
         //Total Field
         $this->data['total_diskon'] = getSum('disc', 'sales_order_list', 'order_id', $id);
-        $this->data['total_pajak'] = $total_pajak = $total_ppn + $total_pph22 + $total_pph23;//print_mz($total_pajak);
+        $this->data['total_pajak'] = $total_pajak = $total_ppn + $total_pph22 + $total_pph23;
         $this->data['total'] = $sub_total = $total+$biaya_pengiriman-$total_pajak+$exc;
         $this->data['totalpluspajak'] = $totalpluspajak = $sub_total + $total_pajak;
         $this->data['dp'] = $dp = $totalpluspajak * ($dibayar/100);
         $this->data['saldo'] = $totalpluspajak - $dp - $dibayar_nominal;
         $this->load->library('mpdf60/mpdf');
-        $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
+        $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true);
         $this->mpdf = new mPDF();
         $footer = $this->load->view('sales'.'/'.'order'.'/pdf_footer', $this->data, true);
         $this->mpdf->AddPage('p', // L - landscape, P - portrait
@@ -396,7 +433,15 @@ class Order extends MX_Controller {
     {
         $group_id = array('3','4','8','9','10');
         $user_id = $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result();
-        $subject = 'Pembuatan Sales Order'; 
+        $r =[];
+        $receiver =  $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result_array();
+        foreach ($receiver as $key => $value) {
+            $r[] = getEmail($value['user_id']);
+            //$r[] = 'abdul.ghanni@yahoo.co.id';
+        }
+        $r = implode(',', $r);
+        $subject = 'Pembuatan Sales Order';
+        $no = getValue('no', $this->table_name, array('id'=>'where/'.$id));
         $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
         $isi = $isi = getName(sessId())." membuat sales Order, Untuk melihat detail silakan <a href=$url> KLIK DISINI </a>.";
         foreach($user_id as $u):
@@ -404,12 +449,13 @@ class Order extends MX_Controller {
                           'receiver_id' => $u->user_id,
                           'sent_on' => dateNow(),
                           'judul' => $subject,
+                          'no'=>$no,
                           'isi' => $isi,
                           'url' => $url,
              );
             $this->db->insert('notifikasi', $data);
-            $this->send_email(getEmail($u->user_id), $subject, $isi);
         endforeach;
+        $this->send_email($r, $subject, $isi);
     }
 
     //FOR JS
@@ -445,7 +491,7 @@ class Order extends MX_Controller {
 
         $this->load->view('master/kontak/load_kontak', $this->data);
     }
-    
+
 	function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;
@@ -516,5 +562,19 @@ class Order extends MX_Controller {
     function cek_stok($id){
         $s = getValue('dalam_stok', 'stok', array('barang_id'=>'where/'.$id));
         echo json_encode($s);
+    }
+
+    function cek_selisih_stok($data){
+        $sisa = getValue('dalam_stok', 'stok', array('barang_id'=>'where/'.$data['barang_id']));
+        $jumlah = $data['qty'] - $sisa;
+        if($data['qty'] > $sisa){
+            $data2 = array(
+                'ref_id' => $data['id'],
+                'barang_id' => $data['barang_id'],
+                'satuan_id' => $data['satuan_id'],
+                'qty'       => $jumlah
+                 );
+            $this->db->insert('produksi_ref_list', $data2);
+        }
     }
 }

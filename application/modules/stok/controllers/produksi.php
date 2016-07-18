@@ -5,13 +5,11 @@ class produksi extends MX_Controller {
     var $module = 'stok';
     var $title = 'produksi';
     var $file_name = 'produksi';
-    
+
     function __construct()
     {
         parent::__construct();
-		$this->load->library('flexigrid');
-        $this->load->helper('flexigrid');
-        //$this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+        $this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
     }
 
     function index()
@@ -20,112 +18,46 @@ class produksi extends MX_Controller {
         $this->data['modul'] = $this->module;
         $this->data['filename'] = $this->file_name;
         $this->data['main_title'] = $this->module.'';
-		$this->data['js_grid']=$this->get_column();
         permissionUser();
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
-		}
-	function get_column(){
-		
-		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
-		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
-		$colModel['title'] = array('Title',150,TRUE,'left',2);
-		$colModel['output'] = array('Barang Hasil',250,TRUE,'left',2);
-		$colModel['jumlah'] = array('Jumlah Produksi',110,TRUE,'left',2);
-		$colModel['tgl'] = array('Tanggal Produksi',110,TRUE,'left',2);
-        
-		$gridParams = array(
-		'rp' => 25,
-		'rpOptions' => '[10,20,30,40]',
-		'pagestat' => 'Displaying: {from} to {to} of {total} items.',
-		'blockOpacity' => 0.5,
-		'title' => '',
-		'showTableToggleBtn' => TRUE
-		);
-        
-		$buttons[] = array('separator');
-		/* $buttons[] = array('select','check','btn');
-		$buttons[] = array('deselect','uncheck','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('add','add','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('edit','edit','btn');
-		$buttons[] = array('delete','delete','btn');
-		$buttons[] = array('separator');
-		 */
-		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','asc',$gridParams,$buttons);
 	}
-	
-	function get_flexigrid()
-	{
-		
-		//Build contents query
-		$this->db->select("a.id as id,a.tgl as tgl,a.jumlah as jumlah,c.title as title,b.title as output")->from('produksi a');
-		$this->db->join('barang b','b.id=a.output','left');
-		$this->db->join('assembly c','c.id=a.title','left');
-		//$this->db->join('gudang c','c.id=a.gudang_to','left');
-		//$this->db->join('rb_customer', "$this->tabel.id_customer=rb_customer.id", 'left');
-		$this->flexigrid->build_query();
-		
-		//Get contents
-		$return['records'] = $this->db->get();
-		/* 
-		//Build count query
-		$this->db->select("count(id) as record_count")->from($this->file_name);
-		$this->flexigrid->build_query(FALSE);
-		$record_count = $this->db->get();
-		$row = $record_count->row();
-		
-		//Get Record Count
-		$return['record_count'] = $row->record_count; */
-		$return['record_count'] = $return['records']->num_rows();
-		//Return all
-		return $return;
-	}
-	
-	function get_record(){
-		
-		$valid_fields = array('id','name','code','origin');
-		
-		$this->flexigrid->validate_post('id','DESC',$valid_fields);
-		$records = $this->get_flexigrid();
-		
-		$this->output->set_header($this->config->item('json_header'));
-		
-		$record_items = array();
-		
-		foreach ($records['records']->result() as $row)
-		{/*
-			if($row->status=='y'){$status='Aktif';}
-			elseif($row->status=='n'){$status='Tidak Aktif';}
-			elseif($row->status=='s'){$status='Suspended';}*/
-			
-			$record_items[] = array(
-			$row->id,
-			$row->id,
-			$row->id,
-			$row->title,
-			$row->output,
-			$row->jumlah,
-			$row->tgl
-			);
-		}
-		
-		return $this->output->set_output($this->flexigrid->json_build($records['record_count'],$record_items));;
-	}  
-	
-	function deletec()
-	{		
-		//return true;
-		$countries_ids_post_array = explode(",",$this->input->post('items'));
-		array_pop($countries_ids_post_array);
-		foreach($countries_ids_post_array as $index => $country_id){
-			/*if (is_numeric($country_id) && $country_id > 0) {
-			$this->delete($country_id);}*/
-			$this->db->delete($this->module.'_'.$this->file_name,array('id'=>$country_id));				
-		}
-		//$error = "Selected countries (id's: ".$this->input->post('items').") deleted with success. Disabled for demo";
-		//echo "Sukses!";
-	}
+
+	public function ajax_list()
+    {
+        $list = $this->main->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        foreach ($list as $r) {
+            $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
+            //$print = base_url().$this->file_name.'/print_pdf/'.$r->id;
+            $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
+            $ref_id = ($r->ref_type == 'wo') ? getValue('no', 'wo', array('id'=>'where/'.$r->ref_id)) : getValue('so', 'sales_order', array('id'=>'where/'.$r->ref_id));
+            $kontak_id = ($r->ref_type == 'wo') ? getValue('kontak_id', 'wo', array('id'=>'where/'.$r->ref_id)) : getValue('kontak_id', 'sales_order', array('id'=>'where/'.$r->ref_id));
+            $project = ($r->ref_type == 'wo') ? getValue('project', 'wo', array('id'=>'where/'.$r->ref_id)) : getValue('project', 'sales_order', array('id'=>'where/'.$r->ref_id));
+            $no++;
+            $row = array();
+            $row[] = $no;
+            $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = $r->tgl;
+            $row[] = $ref_id;
+            $row[] = $r->ref_type;
+            $row[] = getValue('title', 'kontak', array('id'=>'where/'.$kontak_id));
+            $row[] = $project;
+            $row[] = $r->creator;
+            $row[] = $r->status;
+            $row[] = "<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
+                      $delete";
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->main->count_all(),
+                        "recordsFiltered" => $this->main->count_filtered(),
+                        "data" => $data,
+                );
+        echo json_encode($output);
+    }
 
     function input()
     {
@@ -136,197 +68,152 @@ class produksi extends MX_Controller {
         $num_rows = getAll($this->file_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->file_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-		
-        $this->data['opt_barang'] = GetOptAll('barang');
-        $this->data['opt_produksi'] = GetOptAll('assembly','--Produksi--');
-        $this->data['barang'] = getAll('barang')->result_array();
-        $this->data['satuan'] = getAll('satuan')->result_array();
-        $this->data['kurensi'] = getAll('kurensi')->result();
-        $this->data['metode'] = getAll('metode_pembayaran')->result();
-        //$this->data['gudang'] = getAll('gudang')->result();
-        $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
-       // $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
-        
+
+        $this->data['ref'] = getAll('produksi_ref', array('id'=>'order/desc'),array('!=status'=>'2'))->result();
+
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
-   
+
     function detail($id)
     {
         $this->data['title'] = $this->title.' - Detail';
+        $this->data['file_name'] = $this->file_name;
+        $this->data['main_title'] = 'Produksi Detail';
+        $this->data['module'] = $this->module.'';
         permissionUser();
         $this->data['id'] = $id;
-		$this->data['produksi']=GetAll('stok_produksi',array('id'=>'where/'.$id))->row();
-		$this->data['list']=GetAll('stok_produksi_list',array('produksi_id'=>'where/'.$id));
-		$this->data['refid']=GetAll($this->data['produksi']->ref_type,array('id'=>'where/'.$this->data['produksi']->ref_id))->row_array();
-	// $this->data[$this->file_name] = $this->main->get_detail($id);
-		// $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-		
+		    $this->data['d']=$this->main->get_detail($id)->row();
+		    $this->data['l']=$this->main->get_list_detail($id)->result();
+
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
     }
-	
+
 
     function add()
     {
-        permissionUser();
-		//print_mz($this->input->post());
-        $list = array(
-						'kode_barang'=>$this->input->post('barang_komposisi'),
-                        'jumlah'=>$this->input->post('jumlah_komposisi'),
-                        'satuan'=>$this->input->post('satuan')
-                        );
+      // $this->insert_status(2,1, 5, 'wo_list', 'wo_id');lastq();
+      permissionUser();
+      $list = array(
+			  'kode_barang'=>$this->input->post('kode_barang'),
+        'jumlah'=>$this->input->post('jumlah'),
+        'satuan_id'=>$this->input->post('satuan_id')
+      );
 
-        $data = array(
-                'po'=>$this->input->post('po'),
-                'title'=>$this->input->post('title'),
-                'tgl'=>$this->input->post('tgl'),
-                'output'=>$this->input->post('output'),
-                'jumlah'=>$this->input->post('jumlah'),
-                'created_on' =>date("Y-m-d"),
-                'created_by' =>sessId()
-            );
+      $data = array(
+          'no'=>$this->input->post('no'),
+          'tgl'=> date('Y-m-d', strtotime($this->input->post('tgl'))),
+          'ref_id' => $this->input->post('ref_id'),
+          'catatan' => $this->input->post('catatan'),
+          'created_on' =>date("Y-m-d"),
+          'created_by' =>sessId()
+      );
 
-        $this->db->insert($this->file_name, $data);
-        $insert_id = $this->db->insert_id();
-		$sisaan=0;
-        for($i=0;$i<sizeof($list['kode_barang']);$i++):
-            $data2 = array(
-                'produksi_id' => $insert_id,
-                'kode_barang' => $list['kode_barang'][$i],
-                'jumlah' => str_replace(',', '.', $list['jumlah'][$i]),
-                'satuan_id' => $list['satuan'][$i]
-                );
-        $this->db->insert($this->file_name.'_list', $data2);
-		endfor;
+      $this->db->insert($this->file_name, $data);
+      $insert_id = $this->db->insert_id();
+      for($i=0;$i<sizeof($list['kode_barang']);$i++):
+          $data2 = array(
+              'produksi_id' => $insert_id,
+              'kode_barang' => $list['kode_barang'][$i],
+              'jumlah' => str_replace(',', '.', $list['jumlah'][$i]),
+              'satuan_id' => $list['satuan_id'][$i]
+              );
+          $this->db->insert($this->file_name.'_list', $data2);
+          $list_id = $this->db->insert_id();
+
+          if($this->input->post('is_have_komposisi') > 0){
+            $assembly_id = getValue('id', 'assembly', array('barang_id'=>'where/'.$list['kode_barang'][$i]));
+            $komposisi = getAll('assembly_list', array('assembly_id'=>'where/'.$assembly_id));
+            foreach($komposisi->result() as $l):
+              $sisa = getValue('dalam_stok', 'stok', array('barang_id'=>'where/'.$l->kode_barang));
+              $sisa_stok = $sisa - ($l->jumlah * $list['jumlah'][$i]);
+              $this->db->where('barang_id', $l->kode_barang)->update('stok', array('dalam_stok'=> $sisa_stok));
+            endforeach;
+          }
+          $sisa2 = getValue('dalam_stok', 'stok', array('barang_id'=>'where/'.$list['kode_barang'][$i]));
+          $sisa_stok2 = $sisa2 + $list['jumlah'][$i];
+            $this->db->where('barang_id', $list['kode_barang'][$i])->update('stok', array('dalam_stok'=> $sisa_stok2));
+          $ref_id = $this->input->post('ref_id');
+          $produksi_ref = getValue('ref_id', 'produksi_ref', array('id'=>'where/'.$ref_id));
+          $ref_type = getValue('ref_type', 'produksi_ref', array('id'=>'where/'.$ref_id));
+          $ref = ($ref_type == 'wo') ? 'wo_list' : 'produksi_ref_list';
+          $field = ($ref_type == 'wo') ? 'wo_id' : 'ref_id';
+	      endfor;
+        $this->insert_status($insert_id,$ref_id, $produksi_ref, $ref, $field);
+        // lastq();
+        $status_id = getValue('status_id', 'produksi', array('id'=>'where/'.$insert_id));
+        if($status_id == 2)$this->send_notif($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
-    }  
-	function send_notification($id)
+    }
+
+    function insert_status($produksi_id, $ref_id, $produksi_ref, $ref, $field){
+        $num = GetAllSelect('produksi_list', 'produksi_id',  array('produksi_id'=>'where/'.$produksi_id))->num_rows();
+        $num_in_ref = $this->db->select_sum('qty')->where($field, $produksi_ref)->get($ref)->row()->qty;
+        $produksi_id_list = GetAllSelect('produksi', 'id', array('ref_id'=>'where/'.$ref_id))->result_array();//print_mz($produksi_id);
+        $produksi_id = array();
+        foreach ($produksi_id_list as $key => $value) {
+          $produksi_id[] = $value['id'];
+        }
+        $num_in_list = $this->db->select_sum('jumlah')->where_in('produksi_id', $produksi_id)->get('produksi_list')->row()->jumlah;//lastq();
+        //print_mz($num_in_ref.'-'.$num_in_list);
+        if($num_in_list >= $num_in_ref){
+            $this->db->where('ref_id', $ref_id)->update('produksi', array('status_id'=>2));
+            $this->db->where('id', $ref_id)->update('produksi_ref', array('status'=>2));
+        }elseif($num_in_list <= $num_in_ref && $num > 0){
+            $this->db->where('id', $ref_id)->update('produksi', array('status_id'=>3));
+            $this->db->where('id', $ref_id)->update('produksi_ref', array('status'=>3));
+        }elseif($num < 1){
+            $this->db->where('ref_id', $ref_id)->update('produksi', array('status_id'=>1));
+            $this->db->where('id', $ref_id)->update('produksi_ref', array('status'=>1));
+        }else{
+            return true;
+        }
+    }
+
+	function send_notif($id)
     {
         permissionUser();
-        $url = base_url().'purchase/order/INV/'.$id;
-        $isi = getName(sessId())." Melakukan Transaksi produksi Barang <a href=$url> KLIK DISINI </a> ";
-        $approver = getAll('approver');
-        foreach($approver->result() as $r):
-		$data = array('sender_id' => sessId(),
-		'receiver_id' => $r->user_id,
-		'sent_on' => dateNow(),
-		'judul' => 'produksi Order',
-		'isi' => $isi,
-		'url' => $url,
-		);
-        $this->db->insert('notifikasi', $data);
+        $group_id = array('5','9','10');
+        $user_id = $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result();
+        $r =[];
+        $receiver =  $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result_array();
+        foreach ($receiver as $key => $value) {
+            $r[] = getEmail($value['user_id']);
+            //$r[] = 'abdul.ghanni@yahoo.co.id';
+        }
+        $r = implode(',', $r);
+        $subject = 'Produksi Barang';
+        $no = getValue('no', 'produksi', array('id'=>'where/'.$id));
+        $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
+        $isi = $isi = getName(sessId())." telah melakukan produksi barang yang direquest, untuk melihat detail <a href=$url> KLIK DISINI </a>.";
+        foreach($user_id as $u):
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $u->user_id,
+                          'sent_on' => dateNow(),
+                          'judul' => $subject,
+                          'no'=>$no,
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+            $this->db->insert('notifikasi', $data);
         endforeach;
-        return TRUE;
-    }
-	function cariref(){
-			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
-			if($cariref->num_rows()>0){
-					
-					$data['refid']=$cariref->row_array();
-				if($data['refid']['is_app_lv1']==1){
-					if($data['refid']['is_closed']==0){
-						$data['reftype']='purchase_order';
-						$cekparsial=$this->db->query("SELECT * FROM stok_produksi WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
-						if($cekparsial->num_rows()>0){
-							$data['part']=TRUE;	
-							$data['partno']=$cekparsial->num_rows()+1;	
-						}
-						
-						$this->load->view('stok/produksi/input_id',$data);
-						
-						}
-					else{
-							$data['message']="Transaksi sudah CLOSED";
-							$this->load->view('stok/produksi/error',$data);
-						}
-				}
-				else{
-					$data['message']="P.O BELUM di APPROVE";
-				$this->load->view('stok/produksi/error',$data);}
-			}
-			else{
-				$data['message']="Transaksi TIDAK DITEMUKAN";
-				$this->load->view('stok/produksi/error',$data);
-			}
-	}
-	function carilist(){
-			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM purchase_order WHERE (no='$v' OR po='$v') ");
-			if($cariref->num_rows()>0){
-				$data['refid']=$cariref->row_array();
-				if($data['refid']['is_app_lv1']==1){
-					if($data['refid']['is_closed']==0){
-					
-					$data['reftype']='purchase_order';
-					$cekparsial=$this->db->query("SELECT * FROM stok_produksi WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."' ORDER BY id DESC LIMIT 1");
-					if($cekparsial->num_rows()>0){
-						$data['part']=TRUE;	
-						$data['partno']=$cekparsial->num_rows()+1;
-							$data['partdata']=$cekparsial->row_array();
-						
-					}
-						
-						$data['list']=GetAll('purchase_order_list',array('order_id'=>'where/'.$data['refid']['id']))->result_array();
-						$this->load->view('stok/produksi/input_list',$data);
-					}
-				}
-			}
-	}
-   
-    function print_pdf($id)
-    {
-        permissionUser();
-        $this->data['id'] = $id;
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
-        
-        $this->load->library('mpdf60/mpdf');
-        $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
-    }
-    function bast($id)
-    {
-        permissionUser();
-        $this->data['id'] = $id;/* 
-        $this->data[$this->file_name] = $this->main->get_detail($id);
-        $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id); */
-        
-        $this->load->library('mpdf60/mpdf');
-        $html = $this->load->view($this->module.'/'.$this->file_name.'/bast', $this->data, true); 
-        $mpdf = new mPDF();
-        $mpdf = new mPDF('A4');
-        $mpdf->WriteHTML($html);
-        $mpdf->Output($id.'-'.$title.'.pdf', 'I');
+        $this->send_email($r, $subject, $isi);
     }
 
-    //FOR JS
-
-    function get_kontak_detail($id)
-    {
-        $up = getValue('up', 'kontak', array('id'=>'where/'.$id));
-        $alamat = getValue('alamat', 'kontak', array('id'=>'where/'.$id));
-
-        echo json_encode(array('up'=>$up, 'alamat'=>$alamat));
-
+    function isi(){
+            $id=$_POST['v'];
+            $ref = getAll('produksi_ref', array('id'=>'where/'.$id))->row();
+            if($ref->ref_type == 'wo'){
+                $data['ref'] = getAll('wo_list', array('wo_id'=>'where/'.$ref->ref_id))->result();
+            }else{
+                 $data['ref'] = getAll('produksi_ref_list', array('ref_id'=>'where/'.$ref->ref_id))->result();
+            }
+            $this->data['satuan'] = getAll('satuan')->result_array();
+            $data['list']=GetAll('assembly_list',array('assembly_id'=>'where/'.$id));
+            $data['barang']=GetAll('assembly',array('id'=>'where/'.$id))->row_array();
+            $this->load->view('produksi/isi',$data);
     }
 
-    function get_nama_barang($id)
-    {
-        $q = getValue('title', 'barang', array('id'=>'where/'.$id));
-
-        echo json_encode($q);
-
-    }
-    function mentahlist(){
-			$barangproduksi=$_POST['v'];
-			$data['list']=GetAll('assembly_list',array('assembly_id'=>'where/'.$barangproduksi));
-			$data['barang']=GetAll('assembly',array('id'=>'where/'.$barangproduksi))->row_array();
-			$this->load->view('produksi/input_list',$data);
-	}
     function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;

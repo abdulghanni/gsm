@@ -596,3 +596,9 @@ function getwords($workval)
 
 	return $retstr;
 }
+
+function getSatuan($id){
+	$satuan = getValue('satuan', 'barang', array('id'=>'where/'.$id));
+	$satuan = getValue('title', 'satuan', array('id'=>'where/'.$satuan));
+	return $satuan;
+}

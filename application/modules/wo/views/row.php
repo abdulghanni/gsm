@@ -28,7 +28,9 @@
 	</td>
 </tr>
 <script type="text/javascript"> $(document).find("select.select2").select2({
-        dropdownAutoWidth : true
+        dropdownAutoWidth : true,
+        placeholder: "Cari Barang",
+        minimumInputLength: 3,
     });</script>
 <script type="text/javascript">
 	$("#barang_id<?=$id?>").change(function(){
