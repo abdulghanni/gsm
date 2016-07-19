@@ -1,4 +1,4 @@
-/* ---------------------------------------------------------------------- 
+/* ----------------------------------------------------------------------
 >>> TABLE OF CONTENT
 -------------------------------------------------------------------------
 1 - Basic Elements & Classes
@@ -9860,7 +9860,7 @@ div.timeline .column_center .timeline_element:before, div.timeline .column_cente
 
 .table-bordered.table > thead > tr > th {
   border-bottom: 1px solid #fff;
-  background-color: #5F8295; 
+  background-color: #5F8295;
   color : #fff;
 }
 
@@ -11585,4 +11585,8 @@ background-color: #FFFFFF;
     .custom-modal {
         width: 80%; /* either % (e.g. 60%) or px (400px) */
     }
+}
+
+.full-width{
+  width:100%;
 }

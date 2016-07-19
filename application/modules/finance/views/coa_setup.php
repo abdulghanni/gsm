@@ -32,11 +32,12 @@
                 <table class="table table-striped table-bordered table-hover table-full-width" id="table" style="width: 100%;">
                     <thead>
                         <tr>
-                            <th width="5%" align="center">No.</th>
+                            <th width="1%" align="center">No.</th>
                             <th width="10%"><?php echo lang('code');?></th>
-                            <th width="70%"><?php echo lang('description');?></th>
-                            <th width="70%"><?php echo 'Type';?></th>
-                            <th width="15%"><?php echo "action";?></th>
+                            <th width="30%"><?php echo lang('description');?></th>
+                            <th width="20%"><?php echo 'Klasifikasi';?></th>
+                            <th width="20%"><?php echo 'Type';?></th>
+                            <th width="19%"><?php echo "action";?></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -58,8 +59,19 @@
             </div>
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
-                    <input type="hidden" value="" name="id"/> 
+                    <input type="hidden" value="" name="id"/>
                     <div class="form-body">
+                        <div class="form-group">
+                            <label class="control-label col-md-3"><?php echo 'Sub Klasifikasi';?></label>
+                            <div class="col-md-9">
+                                <select name="ref" class="select2 full-width">
+                                  <?php foreach($ref as $r):?>
+                                    <option value="<?=$r->id?>"><?=$r->name?></option>
+                                  <?php endforeach;?>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="control-label col-md-3"><?= lang('code')?></label>
                             <div class="col-md-9">

@@ -4,8 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class coa_setup_model extends CI_Model {
 
 	var $table = 'sv_setup_coa';
-	var $column = array('id', 'code', 'name', 'type'); //set column field database for order and search
-	var $order = array('code' => 'asc'); // default order 
+	var $table_ref = 'sv_ref_coa';
+	var $column = array('sv_setup_coa.id', 'sv_setup_coa.code', 'sv_setup_coa.name', 'ref', 'sv_setup_coa.type'); //set column field database for order and search
+	var $order = array('code' => 'asc'); // default order
 
 	public function __construct()
 	{
@@ -15,36 +16,39 @@ class coa_setup_model extends CI_Model {
 
 	private function _get_datatables_query()
 	{
+		$this->db->select(
+				$this->table.".*,
+				r.name as ref"
+		);
 		$this->db->from($this->table);
-
+		$this->db->join("$this->table_ref as r", $this->table.'.ref_id = r.id', 'left');
 		$i = 0;
-	
-		foreach ($this->column as $item) // loop column 
+
+		foreach ($this->column as $item) // loop column
 		{
-			if($_POST['search']['value']) // if datatable send POST for search
-			{
-				
-				if($i===0) // first loop
+				if($_POST['search']['value'])
 				{
-					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND. 
-					$this->db->like($item, $_POST['search']['value']);
-				}
-				else
-				{
-					$this->db->or_like($item, $_POST['search']['value']);
+						if($item == 'code'){
+								$item = $this->table.'.code';
+						}elseif($item == 'name'){
+								$item = $this->table.'.name';
+						}elseif($item == 'ref'){
+								$item = 'r.name';
+						}elseif($item == 'type'){
+								$item = $this->table.'.type';
+						}
+
+						($i===0) ? $this->db->like($item, $_POST['search']['value']) : $this->db->or_like($item, $_POST['search']['value']);
 				}
 
-				if(count($this->column) - 1 == $i) //last loop
-					$this->db->group_end(); //close bracket
-			}
-			$column[$i] = $item; // set column array variable to order processing
-			$i++;
+				$column[$i] = $item;
+				$i++;
 		}
-		
+
 		if(isset($_POST['order'])) // here order processing
 		{
 			$this->db->order_by($column[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-		} 
+		}
 		else if(isset($this->order))
 		{
 			$order = $this->order;

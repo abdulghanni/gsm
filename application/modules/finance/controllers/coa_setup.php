@@ -15,8 +15,9 @@ class coa_setup extends MX_Controller {
 	// redirect if needed, otherwise display the user list
 	function index()
 	{
-        permissionUser();
-		$this->_render_page($this->module.'/'.$this->file_name, $this->data);
+      permissionUser();
+      $this->data['ref'] = getAll('sv_ref_coa')->result();
+		  $this->_render_page($this->module.'/'.$this->file_name, $this->data);
 	}
 
     public function ajax_list()
@@ -31,13 +32,14 @@ class coa_setup extends MX_Controller {
             $row[] = $no;
             $row[] = $coa_setup->code;
             $row[] = $coa_setup->name;
+            $row[] = $coa_setup->ref;
             $row[] = $coa_setup->type;
 
 
             //add html for action
             $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$coa_setup->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
                   <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$coa_setup->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>';
-        
+
             $data[] = $row;
         }
 
@@ -64,6 +66,7 @@ class coa_setup extends MX_Controller {
                 'code' => $this->input->post('kode'),
                 'name' => $this->input->post('title'),
                 'type' => $this->input->post('type'),
+                'ref_id' => $this->input->post('ref'),
                 'create_user_id' => sessId(),
                 'create_date' => dateNow(),
             );
@@ -78,8 +81,9 @@ class coa_setup extends MX_Controller {
                 'code' => $this->input->post('kode'),
                 'name' => $this->input->post('title'),
                 'type' => $this->input->post('type'),
-                'create_user_id' => sessId(),
-                'create_date' => dateNow(),
+                'ref_id' => $this->input->post('ref'),
+                'modify_user_id' => sessId(),
+                'modify_date' => dateNow(),
             );
         $this->coa_setup->update(array('id' => $this->input->post('id')), $data);
         echo json_encode(array("status" => TRUE));
@@ -90,7 +94,7 @@ class coa_setup extends MX_Controller {
         $this->coa_setup->delete_by_id($id);
         echo json_encode(array("status" => TRUE));
     }
-    
+
 	function _render_page($view, $data=null, $render=false)
     {
         $data = (empty($data)) ? $this->data : $data;
