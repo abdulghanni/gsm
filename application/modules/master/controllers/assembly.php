@@ -67,7 +67,7 @@ class Assembly extends MX_Controller {
 		$this->data['module']=$this->module;
 		$this->data['file_name']=$this->file_name;
         $this->data['r'] = $this->main->get_detail($id);
-        $this->data['opt_barang'] = GetOptAll('barang');
+        $this->data['opt_barang'] = GetAll('barang');
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['opt_satuan'] = GetOptAll('satuan');

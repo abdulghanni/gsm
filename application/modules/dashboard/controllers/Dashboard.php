@@ -19,8 +19,14 @@ class Dashboard extends MX_Controller {
         $this->data['num_data_penerimaan'] = getAll('stok_penerimaan', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
         $this->data['num_data_pengeluaran'] = getAll('stok_pengeluaran', array('created_on'=>'where/'.date('Y-m-d')))->num_rows();
         $this->data['num_stok'] = getAll('stok')->num_rows();
+        $this->data['num_barang'] = getAll('barang')->num_rows();
         $this->data['num_stok_tersedia'] = getAll('stok', array(), array('!=dalam_stok'=>'0'))->num_rows();
         $this->data['num_stok_minimum'] = $this->db->where('dalam_stok < minimum_stok')->get('stok')->num_rows();
+        $this->data['num_stok_minimum'] = $this->db->where('dalam_stok < minimum_stok')->get('stok')->num_rows();
+        $this->data['num_barang_jadi'] = getAll('barang', array('jenis_barang_id'=>'where/1'))->num_rows();
+        $this->data['num_barang_mentah'] = getAll('barang', array('jenis_barang_id'=>'where/2'))->num_rows();
+        $this->data['persen_barang_jadi'] = ($this->data['num_barang_jadi']/$this->data['num_barang'])*100;
+        $this->data['persen_barang_mentah'] = ($this->data['num_barang_mentah']/$this->data['num_barang'])*100;
 		$this->_render_page('dashboard/index', $this->data);
 	}
 

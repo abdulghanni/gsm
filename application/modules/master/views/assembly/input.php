@@ -51,10 +51,13 @@
 								<textarea type="text" class="form-control" style="width:100%" readonly><?=$r->title?></textarea>
 								<input type="hidden" name="output" class="form-control" value="<?=$r->barang_id?>" readonly>
 								<?php
-									}else{
-				                    	$js = 'class="select2" style="width:100%" id="output"';
-				                    	echo form_dropdown($nmf,$opt_barang,isset($val[$nmf])?$val[$nmf] : '',$js); 
-			                    	}
+									}else{ ?>
+				                    	<select name="output" class="select2" style="width:100%" id="output">
+				                    	<?php foreach($opt_barang->result() as $b):?>
+											<option value="<?=$b->id?>"><?= $b->kode.' - '.$b->title ?></option>
+										<?php endforeach; ?> 
+										</select>
+			                    	<?php }
 			                  	?>
 							</div>
 						</div>

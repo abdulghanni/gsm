@@ -75,23 +75,17 @@
 												</div>
 											</div>
 											<div class="row margin-top-30">
-												<div class="col-xs-4 text-center">
+												<div class="col-xs-6 text-center">
 													<div class="rate">
-														<span class="value">26</span><span class="percentage">%</span>
+														<span class="value"><?=number_format($persen_barang_jadi, 2)?></span><span class="percentage">%</span>
 													</div>
 													Barang Jadi
 												</div>
-												<div class="col-xs-4 text-center">
+												<div class="col-xs-6 text-center">
 													<div class="rate">
-														<span class="value">62</span><span class="percentage">%</span>
+														<span class="value"><?=number_format($persen_barang_mentah, 2)?></span><span class="percentage">%</span>
 													</div>
 													Barang Mentah
-												</div>
-												<div class="col-xs-4 text-center">
-													<div class="rate">
-														<span class="value">12</span><span class="percentage">%</span>
-													</div>
-													Barang Inventaris
 												</div>
 											</div>
 											<div class="margin-top-10">
@@ -190,23 +184,25 @@
 												</div>
 											</div>
 											<div class="row margin-top-30">
-												<div class="col-xs-4 text-center">
+												<div class="col-xs-6 text-center">
 													<div class="rate">
-														<span class="value">26</span><span class="percentage">%</span>
+														<span class="value"><?=number_format($persen_barang_jadi, 2)?></span><span class="percentage">%</span>
 													</div>
 													Barang Jadi
 												</div>
-												<div class="col-xs-4 text-center">
+												<div class="col-xs-6 text-center">
 													<div class="rate">
-														<span class="value">62</span><span class="percentage">%</span>
+														<span class="value"><?=number_format($persen_barang_mentah, 2)?></span><span class="percentage">%</span>
 													</div>
 													Barang Mentah
 												</div>
-												<div class="col-xs-4 text-center">
-													<div class="rate">
-														<span class="value">12</span><span class="percentage">%</span>
+											</div>
+											<div class="margin-top-10">
+												<div class="height-180">
+													<canvas id="chart2" class="full-width"></canvas>
+													<div class="inline pull-left legend-xs">
+														<div id="chart2Legend" class="chart-legend"></div>
 													</div>
-													Barang Inventaris
 												</div>
 											</div>
 											<div class="margin-top-10">
@@ -299,23 +295,17 @@
 												</div>
 											</div>
 											<div class="row margin-top-30">
-												<div class="col-xs-4 text-center">
+												<div class="col-xs-6 text-center">
 													<div class="rate">
-														<span class="value">26</span><span class="percentage">%</span>
+														<span class="value"><?=number_format($persen_barang_jadi, 2)?></span><span class="percentage">%</span>
 													</div>
 													Barang Jadi
 												</div>
-												<div class="col-xs-4 text-center">
+												<div class="col-xs-6 text-center">
 													<div class="rate">
-														<span class="value">62</span><span class="percentage">%</span>
+														<span class="value"><?=number_format($persen_barang_mentah, 2)?></span><span class="percentage">%</span>
 													</div>
 													Barang Mentah
-												</div>
-												<div class="col-xs-4 text-center">
-													<div class="rate">
-														<span class="value">12</span><span class="percentage">%</span>
-													</div>
-													Barang Inventaris
 												</div>
 											</div>
 											<div class="margin-top-10">
@@ -357,7 +347,3 @@
 	</div>
 </div>
 <!-- end: FIRST SECTION -->
-
-						
-						
-						
