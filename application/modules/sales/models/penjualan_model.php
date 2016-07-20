@@ -144,6 +144,7 @@ class penjualan_model extends CI_Model {
                                 metode_pembayaran_id, 
                                 metode_pembayaran.title as metode_pembayaran, 
                                 tanggal_transaksi, 
+                                tanggal_faktur, 
                                 tanggal_pengantaran, 
                                 so, 
                                 no_sj, 

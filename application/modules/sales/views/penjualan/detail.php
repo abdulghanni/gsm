@@ -77,6 +77,7 @@
 								<input type="text" placeholder="Tgl. Faktur" name="no" class="form-control" value="<?=$o->tanggal_transaksi?>" disabled>
 							</div>
 						</div>
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
 								Supplier
@@ -136,6 +137,14 @@
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->no_faktur?>" class="form-control" disabled="disabled">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tgl. Faktur
+							</label>
+							<div class="col-sm-8">
+								<input type="text" placeholder="Tgl. Faktur" name="no" class="form-control" value="<?=$o->tanggal_faktur?>" disabled>
 							</div>
 						</div>
 						<div class="form-group">

@@ -52,8 +52,9 @@
 								<input type="hidden" name="output" class="form-control" value="<?=$r->barang_id?>" readonly>
 								<?php
 									}else{ ?>
-				                    	<select name="output" class="select2" style="width:100%" id="output">
+				                    	<select name="output" class="barang" style="width:100%" id="output">
 				                    	<?php foreach($opt_barang->result() as $b):?>
+											<option value="0">-- Pilih Barang --</option>
 											<option value="<?=$b->id?>"><?= $b->kode.' - '.$b->title ?></option>
 										<?php endforeach; ?> 
 										</select>
@@ -147,7 +148,7 @@
 
 		var cell2=row.insertCell(1);
 		<?php $s = array('"', "'");$r=array('&quot;','&#39;');?>
-		cell2.innerHTML = "<select name='kode_barang[]' class='select2' id="+'barang_id'+rowCount+" style='width:100%'><?php for($i=0;$i<sizeof($barang);$i++):?><option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>"; 
+		cell2.innerHTML = "<select name='kode_barang[]' class='barang' id="+'barang_id'+rowCount+" style='width:100%'><option value='0'>-- Pilih Barang --</option><?php for($i=0;$i<sizeof($barang);$i++):?><<option value='<?php echo $barang[$i]['id']?>'><?php echo $barang[$i]['kode'].' - '.str_replace($s,$r,$barang[$i]['title'])?></option><?php endfor;?></select>"; 
 
 		var cell3=row.insertCell(2);
 		cell3.innerHTML = '<input name="jumlah[]" value="0" type="text" class="form-control jumlah text-right" required="required" id="jumlah'+rowCount+'">';
@@ -156,6 +157,11 @@
 		cell4.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 		
 		$(document).find("select.select2").select2();
+		$(document).find("select.barang").select2({
+	        dropdownAutoWidth : true,
+	        placeholder: "Cari Barang",
+	        minimumInputLength: 3,
+	    });
 	}
 	function deleteRow(tableID){
 	    try{

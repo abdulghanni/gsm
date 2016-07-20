@@ -1,5 +1,8 @@
 $(document).ready(function() {
-    $(".select2").select2({
-        dropdownAutoWidth : true
-    	});
+    
+    $(".barang").select2({
+        dropdownAutoWidth : true,
+        minimumInputLength: 3,
+        placeholder: "Cari Barang",
+    });
 });

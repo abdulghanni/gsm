@@ -36,7 +36,7 @@ td{ height:30px;}
       <td width="30"></td>
       <td>Invoice Date</td>
       <td>:</td>
-      <td><?=dateIndo($o->tanggal_transaksi)?></td>
+      <td><?=date('d F Y', strtotime($o->tanggal_transaksi))?></td>
     </tr>
 
     <tr>
@@ -46,7 +46,7 @@ td{ height:30px;}
       <td width="10"></td>
       <td>Due Date</td>
       <td>:</td>
-      <td><?=dateIndo($o->tanggal_pengantaran)?></td>
+      <td><?=date('d F Y', strtotime($o->tanggal_pengantaran))?></td>
     </tr>
     <tr>
       <td>Email</td>
@@ -84,6 +84,15 @@ td{ height:30px;}
       <td>VAT No.</td>
       <td>:</td>
       <td><?=$o->no_faktur?></td>
+    </tr>
+    <tr>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td>&nbsp;</td>
+      <td width="10"></td>
+      <td>VAT Date.</td>
+      <td>:</td>
+      <td><?= date('d F Y', strtotime($o->tanggal_faktur))?></td>
     </tr>
   </tbody>
 </table>

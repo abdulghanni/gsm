@@ -65,16 +65,16 @@
 </div>
 <div style="float: right; width: 30%; font-size: 10px; ">&nbsp;</div>
 <div style="float: left; width: 70%; font-size: 10px; ">&nbsp;</div>
-<div style="float: right; width: 25%">
-	<br/>
-	<br/>
-	<br/>
+<div style="float: right; width: 25%;">
 	<table width="250">
 	<tr>
 		<td align="center">Jakarta, <?= date("d M Y", strtotime($o->tanggal_transaksi))?></td>
 	</tr>
 	<tr>
 		<td align="center">PT. Gramaselindo Utama</td>
+	</tr>
+	<tr>
+		<td align="center"></td>
 	</tr>
 	<tr>
 		<td align="center"></td>
