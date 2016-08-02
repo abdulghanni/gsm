@@ -24,6 +24,7 @@
 					<?php 
 						$totalpluspajak = $totalpajak = $total = $saldo = $totaldiskon = 0;
 						$i=1;foreach($order_list->result() as $ol): 
+						$i++; 
 						$subtotal = $ol->jumlah*$ol->harga;
 						$totaldiskon = $totaldiskon + ($subtotal * ($ol->disc/100));
 						$total = $total + $subtotal;

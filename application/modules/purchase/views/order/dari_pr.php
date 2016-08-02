@@ -174,12 +174,12 @@
                 <div class="col-sm-8">
                     <select name="opsi_desimal" id="opsi_desimal">
                     <?php for($i=0;$i<9;$i++):
-                    $selected = ($i==2) ? "" : '';
+                    $selected = ($i==2) ? "selected='selected'" : '';
                     ?>
                         <option value="<?=$i?>" <?= $selected ?>><?=$i?></option>
                     <?php endfor;?>
                     </select>
-                    <input type="hidden" id="opsi_desimal_val" value="0">
+                    <input type="hidden" id="opsi_desimal_val" value="2">
                 </div>
             </div>
         </div>
