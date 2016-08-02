@@ -73,7 +73,10 @@
     });
     </script>
 <script type="text/javascript">
-$('.harga').maskMoney({allowZero:true});
+var dec = 2;
+var dec = $("#opsi_desimal_val").val();
+var dec = parseInt(dec);
+$('.harga').maskMoney({allowZero:true, precision: dec});
 	$("#pajak<?=$id?>").click(function(){
 	    hitung<?=$id?>();
 	});
@@ -147,9 +150,9 @@ function hitung<?=$id?>()
 			$('#dibayar').val(parseFloat(0));
 		}
     	var a = parseFloat($('#jumlah'+<?=$id?>).val()),
-        	b = parseFloat($('#harga'+<?=$id?>).val().replace(/,/g,"")).toFixed(2),
+        	b = parseFloat($('#harga'+<?=$id?>).val().replace(/,/g,"")).toFixed(dec),
         	c = parseFloat($('#disc'+<?=$id?>).val()),
-        	p = parseFloat($("#subpajak<?=$id?>").val()).toFixed(2),
+        	p = parseFloat($("#subpajak<?=$id?>").val()).toFixed(dec),
 			
         	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
         	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
@@ -168,8 +171,8 @@ function hitung<?=$id?>()
         	total = 0;
         	exc= 0;
 
-        $('#subtotal'+<?=$id?>).val(addCommas(parseFloat(val).toFixed(2)));
-        $("#subdisc"+<?=$id?>).val(addCommas(parseFloat(disc).toFixed(2)));
+        $('#subtotal'+<?=$id?>).val(addCommas(parseFloat(val).toFixed(dec)));
+        $("#subdisc"+<?=$id?>).val(addCommas(parseFloat(disc).toFixed(dec)));
         $('.subtotal').each(function (index, element) {
             total = total + parseFloat($(element).val().replace(/,/g,""));
         });
@@ -221,13 +224,13 @@ function hitung<?=$id?>()
         totalpluspajak = total+p1+p2+p3;
         totalminuspajak = total-p1-p2-p3;
         diBayar = totalpluspajak * (diBayar/100);
-        $('#totalPajak').val(addCommas(parseFloat(totalPajak).toFixed(2)));
-        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-        $('#total').val(addCommas(parseFloat(totalminuspajak).toFixed(2)));
+        $('#totalPajak').val(addCommas(parseFloat(totalPajak).toFixed(dec)));
+        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(dec)));
+        $('#total').val(addCommas(parseFloat(totalminuspajak).toFixed(dec)));
         
-        $('#totalpluspajak').val(addCommas(parseFloat(total).toFixed(2)));
+        $('#totalpluspajak').val(addCommas(parseFloat(total).toFixed(dec)));
         var saldo = total-diBayar-diBayarNominal;
-        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
+        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(dec)));	
    	}
 
    	

@@ -93,7 +93,39 @@
 								</div>
 							</div>
 						</div>
-
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Term
+							</label>
+							<div class="col-sm-8">
+								<div class="clip-radio radio-primary">
+									<?php foreach($metode as $m):?>
+									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>" <?= ($m->title == 'Cash')?'checked':'';?>>
+									<label for="metode<?=$m->id?>">
+										<?=$m->title?>
+									</label>
+									<?php endforeach;?>
+								</div>
+							</div>
+						</div>
+						<div id="kredit" style="display:none">
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputPassword3">
+									Tempo Pembayaran
+								</label>
+								<div class="col-sm-2">
+									<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
+								</div>
+								<div class="col-sm-6">
+									<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
+									<option value="0">-- Pilih Lama Angsuran --</option>
+									<option value="hari">Hari</option>
+									<option value="bulan">Bulan</option>
+									<option value="tahun">Tahun</option>
+	                              	</select>
+								</div>
+							</div>
+						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Catatan
@@ -102,7 +134,6 @@
 								<textarea class="form-control" name="catatan"></textarea>
 							</div>
 						</div>
-
                     </div>
 
                     <div class="col-md-6">
@@ -147,39 +178,23 @@
 								<input type="text" placeholder="Project" name="project" class="form-control" value="">
 							</div>
 						</div>
+						
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Term
-							</label>
-							<div class="col-sm-8">
-								<div class="clip-radio radio-primary">
-									<?php foreach($metode as $m):?>
-									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>" <?= ($m->title == 'Cash')?'checked':'';?>>
-									<label for="metode<?=$m->id?>">
-										<?=$m->title?>
-									</label>
-									<?php endforeach;?>
-								</div>
-							</div>
-						</div>
-						<div id="kredit" style="display:none">
-							<div class="form-group">
-								<label class="col-sm-4 control-label" for="inputPassword3">
-									Tempo Pembayaran
-								</label>
-								<div class="col-sm-2">
-									<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
-								</div>
-								<div class="col-sm-6">
-									<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
-									<option value="0">-- Pilih Lama Angsuran --</option>
-									<option value="hari">Hari</option>
-									<option value="bulan">Bulan</option>
-									<option value="tahun">Tahun</option>
-	                              	</select>
-								</div>
-							</div>
-						</div>
+			                <label class="col-sm-4 control-label" for="inputEmail3">
+			                    Opsi Desimal
+			                </label>
+			                <div class="col-sm-8">
+			                    <select name="opsi_desimal" id="opsi_desimal">
+			                    <?php for($i=0;$i<9;$i++):
+			                    $selected = ($i==2) ? "selected='selected'" : '';
+			                    ?>
+			                        <option value="<?=$i?>" <?= $selected ?>><?=$i?></option>
+			                    <?php endfor;?>
+			                    </select>
+			                    <input type="hidden" id="opsi_desimal_val" value="2">
+			                </div>
+			            </div>
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Komponen Pajak
@@ -542,6 +557,10 @@
 
 <script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
 <script type="text/javascript">
+$('select[name=opsi_desimal]').change(function(){ console.log($(this).val());$("#opsi_desimal_val").val($(this).val()); });
+var dec = 2;
+var dec = $("#opsi_desimal_val").val();
+var dec = parseInt(dec);
 function addRow(tableID){
 	var table=document.getElementById(tableID);
 	var rowCount=table.rows.length;
@@ -632,12 +651,12 @@ function hitungTotal()
     totalpluspajak = total+p1+p2+p3;
     totalminuspajak = total-p1-p2-p3;
     diBayar = totalpluspajak * (diBayar/100);
-    $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-    $('#total').val(addCommas(parseFloat(totalminuspajak).toFixed(2)));
+    $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(dec)));
+    $('#total').val(addCommas(parseFloat(totalminuspajak).toFixed(dec)));
     
-    $('#totalpluspajak').val(addCommas(parseFloat(total).toFixed(2)));
+    $('#totalpluspajak').val(addCommas(parseFloat(total).toFixed(dec)));
     var saldo = total-diBayar-diBayarNominal;
-    $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
+    $('#saldo').val(addCommas(parseFloat(saldo).toFixed(dec)));	
 }
 
     function addCommas(nStr)

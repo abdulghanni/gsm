@@ -145,6 +145,14 @@
 							</div>
 						</div>
 						<?php endif ?>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Opsi Desimal
+							</label>
+							<div class="col-sm-4">
+								<input type="text" value="<?=$o->opsi_desimal?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" readonly>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="row">
@@ -189,9 +197,9 @@
 									<td><textarea readonly="readonly"><?=$ol->catatan?></textarea></td>
 									<td class="text-right"><?=$ol->jumlah?></td>
 									<td><?=$ol->satuan?></td>
-									<td class="text-right"><?= number_format($ol->harga, 2)?></td>
+									<td class="text-right"><?= number_format($ol->harga, $o->opsi_desimal)?></td>
 									<td class="text-right"><?=$ol->disc?></td>
-									<td class="text-right"><?= number_format($subtotal, 2)?></td>
+									<td class="text-right"><?= number_format($subtotal, $o->opsi_desimal)?></td>
 									<td class="text-center"><?= ($ol->inc_ppn != 0)? '<i class="fa fa-check"></i>' : '<i class="fa fa-remove"></i>'?></td>
 									<td class=""><a target="_blank" href="<?= base_url("uploads/sale/".$ol->attachment)?>"><?=$ol->attachment?></a></td>
 								</tr>
@@ -219,7 +227,7 @@
 									PPN
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" id="totalPajak" value="<?= number_format($o->total_ppn, 2)?>" class="form-control text-right" readonly="readonly">
+									<input type="text" id="totalPajak" value="<?= number_format($o->total_ppn, $o->opsi_desimal)?>" class="form-control text-right" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -231,7 +239,7 @@
 									PPH 22%
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" id="totalp2" name="total-pph22" value="<?= number_format($o->total_pph22, 2)?>" class="form-control text-right" readonly="readonly">
+									<input type="text" id="totalp2" name="total-pph22" value="<?= number_format($o->total_pph22, $o->opsi_desimal)?>" class="form-control text-right" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -243,7 +251,7 @@
 									PPH 23%
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" id="totalp3" name="total-pph23" value="<?= number_format($o->total_pph23, 2)?>" class="form-control text-right" readonly="readonly">
+									<input type="text" id="totalp3" name="total-pph23" value="<?= number_format($o->total_pph23, $o->opsi_desimal)?>" class="form-control text-right" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -254,7 +262,7 @@
 									Biaya Pengiriman
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="<?= number_format($o->biaya_pengiriman, 2)?>" readonly="readonly">
+									<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="<?= number_format($o->biaya_pengiriman, $o->opsi_desimal)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -264,7 +272,7 @@
 									Diskon
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" class="form-control text-right" id="diskon" value="<?=number_format($total_diskon, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="diskon" value="<?=number_format($total_diskon, $o->opsi_desimal)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -274,7 +282,7 @@
 									Total
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($total, $o->opsi_desimal)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -284,7 +292,7 @@
 									Total + Pajak
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($totalpluspajak, 2)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="total" value="<?=number_format($totalpluspajak, $o->opsi_desimal)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -306,7 +314,7 @@
 											<?php }else{?>
 											<div id="dp-nominal">
 												<div class="col-md-6">
-													<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="<?=number_format($o->dibayar_nominal, 2)?>" readonly>
+													<input type="text" name="dibayar-nominal" id="dibayar-nominal" class="form-control text-right" value="<?=number_format($o->dibayar_nominal, $o->opsi_desimal)?>" readonly>
 												</div>
 											</div>
 											<?php  } ?>
@@ -318,7 +326,7 @@
 									Saldo
 									</div>
 									<div class="col-md-6 pull-right">
-									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($saldo, 2)?>" readonly="readonly">
+									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($saldo, $o->opsi_desimal)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
