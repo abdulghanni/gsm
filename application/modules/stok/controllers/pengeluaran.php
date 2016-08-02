@@ -294,7 +294,7 @@ class Pengeluaran extends MX_Controller {
         permissionUser();
         $url = base_url().'stok/pengeluaran/detail/'.$id;
         $isi = getName(sessId())." Melakukan Transaksi pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
-        $approver = getAll('approver');
+        $approver = getAll('approver');print_mz($approver->result());
         foreach($approver->result() as $r):
 		$data = array('sender_id' => sessId(),
 		'receiver_id' => $r->user_id,

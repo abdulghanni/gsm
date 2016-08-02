@@ -146,6 +146,7 @@ class order_model extends CI_Model {
                                 kurensi.title as kurensi, 
                                 kurensi_id,
                                 biaya_pengiriman, 
+                                opsi_desimal, 
                                 dibayar, 
                                 dibayar_nominal,
                                 lama_angsuran_2, 

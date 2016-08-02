@@ -75,12 +75,15 @@
 						<?php } ?>
 					</tr>
 					<script>
-					$("#harga<?=$i?>").maskMoney({allowZero:true});
+					var dec = 2;
+					$('select[name=opsi_desimal]').change(function(){ console.log($(this).val());$("#opsi_desimal_val").val($(this).val()); });
 					$("#disc<?=$i?>").add('#diskon-tambahan').add("#diskon_tambahan_persen_val").add("#harga<?=$i?>").add("#jumlah<?=$i?>").add("#dibayar").add("#dibayar-nominal").add("#biaya_pengiriman").keyup(function() {
-						
-						
+
+					var dec = $("#opsi_desimal_val").val();
+					var dec = parseInt(dec);
+					$("#harga<?=$i?>").maskMoney({allowZero:true, precision: dec});
 						var a = parseFloat($("#jumlah<?=$i?>").val()),
-				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(2),
+				        	b = parseFloat($("#harga<?=$i?>").val().replace(/,/g,"")).toFixed(dec),
 				        	c = parseFloat($("#disc<?=$i?>").val()),
 				        	diBayar = parseFloat($('#dibayar').val().replace(/,/g,"")),
 				        	diBayarNominal = parseFloat($('#dibayar-nominal').val().replace(/,/g,"")),
@@ -92,8 +95,8 @@
 				       		disc = (a*b)*(c/100),
 				        	jmlDisc = 0,
 				        	total = 0;
-				        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(2)));
-				        $("#subdisc<?=$i?>").val(addCommas(parseFloat(disc).toFixed(2)));
+				        $("#subtotal<?=$i?>").val(addCommas(parseFloat(val).toFixed(dec)));
+				        $("#subdisc<?=$i?>").val(addCommas(parseFloat(disc).toFixed(dec)));
 				        $('.subdisc').each(function (index, element) {
 				            jmlDisc = jmlDisc + parseFloat($(element).val().replace(/,/g,""));
 				        });
@@ -128,16 +131,16 @@
 				        totalpluspajak = total+p1+p2+p3;
 				        diBayar = totalpluspajak * (diBayar/100);
 				        
-				        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+				        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(dec)));
+				        $('#total').val(addCommas(parseFloat(total).toFixed(dec)));
 				        
-				        //$('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
-				        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-				        $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+				        //$('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(dec)));
+				        $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(dec)));
+				        $('#total').val(addCommas(parseFloat(total).toFixed(dec)));
 				        
-				        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
+				        $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(dec)));
 				        var saldo = totalpluspajak-diBayar-diBayarNominal;
-				        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
+				        $('#saldo').val(addCommas(parseFloat(saldo).toFixed(dec)));	
 				    });
 					</script>
 					<?php 
@@ -392,15 +395,15 @@ function hitung()
     diBayar = totalpluspajak * (diBayar/100);
     
     var saldo = totalpluspajak-diBayar-diBayarNominal;
-    $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-    $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+    $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(dec)));
+    $('#total').val(addCommas(parseFloat(total).toFixed(dec)));
     
-    //$('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(2)));
-    $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(2)));
-    $('#total').val(addCommas(parseFloat(total).toFixed(2)));
+    //$('#totalPajak').val(addCommas(parseFloat(jmlPajak).toFixed(dec)));
+    $('#total-diskon').val(addCommas(parseFloat(jmlDisc).toFixed(dec)));
+    $('#total').val(addCommas(parseFloat(total).toFixed(dec)));
     
-    $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(2)));
-    $('#saldo').val(addCommas(parseFloat(saldo).toFixed(2)));	
+    $('#totalpluspajak').val(addCommas(parseFloat(total+p1+p2+p3).toFixed(dec)));
+    $('#saldo').val(addCommas(parseFloat(saldo).toFixed(dec)));	
 }
 $(document).ready(function() {
 	$("input:checkbox:not(:checked)").each(function() {
@@ -472,9 +475,9 @@ $(document).ready(function() {
     })
     .change();
 
-    $('#dibayar').maskMoney({allowZero:true}).attr('maxlength', 6);
-    $('#dibayar-nominal').maskMoney({allowZero:true});
-    $('#biaya_pengiriman').maskMoney({allowZero:true});
+    $('#dibayar').maskMoney({allowZero:true, precision: dec}).attr('maxlength', 6);
+    $('#dibayar-nominal').maskMoney({allowZero:true, precision: dec});
+    $('#biaya_pengiriman').maskMoney({allowZero:true, precision: dec});
 });
 
 

@@ -79,6 +79,7 @@ class Order extends MX_Controller {
 
     function add()
     {
+
         $po = $this->input->post('po');
         $btn = $this->input->post('btnDraft');
         if($btn == "Submit"){
@@ -110,6 +111,7 @@ class Order extends MX_Controller {
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
                 'kurensi_id'=>$this->input->post('kurensi_id'),
+                'opsi_desimal'=>$this->input->post('opsi_desimal'),
                 'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
                 'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
                 'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),

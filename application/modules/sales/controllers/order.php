@@ -415,6 +415,8 @@ class Order extends MX_Controller {
         $this->load->library('mpdf60/mpdf');
         $html = $this->load->view($this->module.'/'.$this->file_name.'/pdf', $this->data, true);
         $this->mpdf = new mPDF();
+        $this->mpdf->setAutoTopMargin = 'stretch';
+        $this->mpdf->setAutoBottomMargin = 'stretch';
         $footer = $this->load->view('sales'.'/'.'order'.'/pdf_footer', $this->data, true);
         $this->mpdf->AddPage('p', // L - landscape, P - portrait
             '', '', '', '',
@@ -424,8 +426,9 @@ class Order extends MX_Controller {
             0, // margin bottom
             0, // margin header
             5); // margin footer
-        $this->mpdf->setFooter($footer);
     $this->mpdf->WriteHTML($html);
+
+        //$this->mpdf->SetHTMLFooter($footer);
     $this->mpdf->Output($id.'-'.'.pdf', 'I');
     }
 

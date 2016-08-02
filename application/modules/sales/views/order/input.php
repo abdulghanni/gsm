@@ -136,7 +136,7 @@
 								No. SO
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="No. SO" name="so" class="form-control" value="<?=$last_id.'/SO-I/GSM/'.monthRomawi(date('m')).'/'.date('Y')?>" required="required">
+								<input type="text" placeholder="No. SO" name="so" class="form-control" value="<?=$last_id.'/SO/GSM/'.monthRomawi(date('m')).'/'.date('Y')?>" required="required">
 							</div>
 						</div>
 						<div class="form-group">

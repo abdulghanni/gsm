@@ -58,7 +58,7 @@
 								No. Purchase Request
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="No. Purchase Request" name="no" value="<?=$last_id.'/PR-I/GSM/I/'.date('Y')?>" class="form-control" required="required">
+								<input type="text" placeholder="No. Purchase Request" name="no" value="<?=$last_id.'/PR/GSM/I/'.date('Y')?>" class="form-control" required="required">
 							</div>
 						</div>
 
