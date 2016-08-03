@@ -9,56 +9,60 @@ class Pengeluaran extends MX_Controller {
     function __construct()
     {
         parent::__construct();
-		$this->load->library('flexigrid');
-        $this->load->helper('flexigrid');
-        //$this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
+        $this->load->model($this->module.'/'.$this->file_name.'_model', 'main');
     }
 
     function index()
     {
         $this->data['title'] = $this->title;
-        $this->data['modul'] = $this->module;
-        $this->data['filename'] = $this->file_name;
+        $this->data['module'] = $this->module;
+        $this->data['file_name'] = $this->file_name;
         $this->data['main_title'] = $this->module.'';
-		$this->data['js_grid']=$this->get_column();
         permissionUser();
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
-		}
-	function get_column(){
-		
-		$colModel['idnya'] = array('ID',50,TRUE,'left',2,TRUE);
-		$colModel['id'] = array('ID',100,TRUE,'left',2,TRUE);
-		$colModel['suratjalan'] = array('No surat jalan',140,TRUE,'left',2);
-		$colModel['ref'] = array('Ref',140,TRUE,'left',2);
-		
-		$colModel['gudang_to'] = array('Tujuan',110,TRUE,'left',2);
-		$colModel['tgl'] = array('Tanggal',110,TRUE,'left',2);
-		$colModel['surat_jalan'] = array('Surat Jalan',110,TRUE,'left',2);
-		$colModel['delivered'] = array('Is Delivered',110,TRUE,'left',2);
-		$colModel['created_by'] = array('Input Oleh',110,TRUE,'left',2);
-		$colModel['created_on'] = array('Input Tanggal',110,TRUE,'left',2);
-        
-		$gridParams = array(
-		'rp' => 25,
-		'rpOptions' => '[10,20,30,40]',
-		'pagestat' => 'Displaying: {from} to {to} of {total} items.',
-		'blockOpacity' => 0.5,
-		'title' => '',
-		'showTableToggleBtn' => TRUE
-		);
-        
-		$buttons[] = array('separator');
-		/* $buttons[] = array('select','check','btn');
-		$buttons[] = array('deselect','uncheck','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('add','add','btn');
-		$buttons[] = array('separator');
-		$buttons[] = array('edit','edit','btn');
-		$buttons[] = array('delete','delete','btn');
-		$buttons[] = array('separator');
-		 */
-		return $grid_js = build_grid_js('flex1',site_url($this->module.'/'.$this->file_name."/get_record"),$colModel,'id','desc',$gridParams,$buttons);
 	}
+
+	public function ajax_list()
+    {
+        permissionUser();
+        $list = $this->main->get_datatables();
+        $data = array();
+        $no = $_POST['start'];
+        $sj = '';
+
+        foreach ($list as $r) {
+        	$no_sj = (!empty($r->no)) ? $r->no : date('Ymd', strtotime($r->created_on)).sprintf('%04d',$r->id);
+        	$deliver="<a href='".base_url()."stok/pengeluaran/deliver/".$r->id."'>".$r->is_delivered."</a>";
+        	$print = "<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan/".$r->id."' target='_blank' title='print'><i class='fa fa-print'></i></a>";
+            $no++;
+            $row = array();
+            //$row[] = $no;
+            $row[] = $no_sj;
+            $row[] = $r->ref;
+            $row[] = $r->gudang;
+            $row[] = $r->tgl;
+            $row[] = $r->creator;
+            $row[] = $r->created_on;
+            $row[] = $deliver;
+
+
+            //add html for action
+            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  '.$print;
+        
+            $data[] = $row;
+        }
+
+        $output = array(
+                        "draw" => $_POST['draw'],
+                        "recordsTotal" => $this->main->count_all(),
+                        "recordsFiltered" => $this->main->count_filtered(),
+                        "data" => $data,
+                );
+        //output to json format
+        echo json_encode($output);
+    }
+
 	
 	function get_flexigrid()
 	{
@@ -214,7 +218,6 @@ class Pengeluaran extends MX_Controller {
     function add()
     {
         permissionUser();
-		//print_mz($this->input->post());
         $list = array(
 	                'list_id'=>$this->input->post('list'),
 	                'jumlah'=>$this->input->post('jumlah'),
@@ -294,7 +297,7 @@ class Pengeluaran extends MX_Controller {
         permissionUser();
         $url = base_url().'stok/pengeluaran/detail/'.$id;
         $isi = getName(sessId())." Melakukan Transaksi pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
-        $approver = getAll('approver');print_mz($approver->result());
+        $approver = getAll('approver');
         foreach($approver->result() as $r):
 		$data = array('sender_id' => sessId(),
 		'receiver_id' => $r->user_id,
@@ -311,12 +314,11 @@ class Pengeluaran extends MX_Controller {
 		$num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
         $data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-        $this->load->model('sales/order_model', 'main');
-        $data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
+        $this->load->model('sales/order_model', 'so');
+        $data['options_kontak'] = options_row('so','get_kontak','id','title','-- Pilih Supplier --');
 			$v=$_POST['v'];
 			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (id='$v' OR so='$v') ");
 			if($cariref->num_rows()>0){
-					
 					$data['refid']=$cariref->row_array();
 				//if($data['refid']['is_app_lv1']==1){
 					if($data['refid']['is_closed']==0){
@@ -344,6 +346,7 @@ class Pengeluaran extends MX_Controller {
 				$this->load->view('stok/pengeluaran/error',$data);
 			}
 	}
+
 	function carilist(){
 			$v=$_POST['v'];
 			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (id='$v' OR so='$v') ");
@@ -355,7 +358,7 @@ class Pengeluaran extends MX_Controller {
 					$data['reftype']='sales_order';
 					$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran_list WHERE ref_type='".$data['reftype']."' AND order_id='".$data['refid']['id']."' GROUP BY pengeluaran_id ORDER BY id DESC ");
 					$so = getValue('so', 'sales_order', array('id'=>'where/'.$v));
-					$pengiriman_ke = getAll('stok_pengeluaran', array('ref'=>'where/'.$so));//print_mz($pengiriman_ke);
+					$pengiriman_ke = getAll('stok_pengeluaran', array('ref'=>'where/'.$so));
                                         // lastq();
 					if($cekparsial->num_rows()>0){
 						$data['part']=TRUE;	
@@ -416,11 +419,12 @@ class Pengeluaran extends MX_Controller {
                 {
                     $this->template->set_layout('default');
 
-                    $this->template->add_css('flexigrid/css/flexigrid.css');
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
+                    $this->template->add_css('vendor/select2/select2.css');
+
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
-                    $this->template->add_js('flexigrid/js/flexigrid.pack.js');
-                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
+                    $this->template->add_js('vendor/select2/select2.min.js');
+                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/'.'index.js');
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
                 {
                     $this->template->set_layout('default');
