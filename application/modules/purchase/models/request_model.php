@@ -188,6 +188,7 @@ class request_model extends CI_Model {
     public function delete_by_id($id)
     {
         $data = array('is_deleted'=>1,
+                      'catatan' => $this->input->post('catatan'),
                       'deleted_by' => sessId(),
                       'deleted_on' => dateNow()
             );

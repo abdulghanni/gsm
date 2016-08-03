@@ -22,12 +22,15 @@
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
 
+<?php
+if($is_deleted == 0){?>
 <div class="row pull-right">
 	<a href="<?=base_url().'print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=pr.mrt&param1='.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 		 <i class="fa fa-print"></i> <?= lang('print')?>
 	</a>
 </div>
-<?php foreach ($request->result() as $o) :?>
+<?php
+foreach ($request->result() as $o) :?>
 <form role="form" action="<?= base_url($module.'/'.$file_name.'/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
@@ -338,7 +341,6 @@
 </div>
 </form>
 <!-- end: INVOICE -->
-
 <?php for($i=1;$i<5;$i++):?>
 <!--approval Modal -->
 <div class="modal fade" id="approval-modal<?= $i ?>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -402,3 +404,13 @@
 <?php endfor; ?>
 
 <?php endforeach;?>
+
+<?php }else{ ?>
+	<h3> Purchase Request Dibatalkan </h3><hr/>
+	<div class="form-group">
+      <label class="control-label col-md-1">Catatan</label>
+      <div class="col-md-6">
+          <textarea class="form-control" name="catatan" readonly><?= $catatan ?></textarea>
+      </div>
+    </div>
+<?php } ?>

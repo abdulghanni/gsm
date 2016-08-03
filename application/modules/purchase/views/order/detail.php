@@ -21,7 +21,8 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-
+<?php
+if($is_deleted == 0){?>
 <?php foreach ($order->result() as $o) :
 
 $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$o->no));
@@ -597,3 +598,12 @@ if(($has_approve == 'direktur' && $o->app_status_id_lv4 != 1) || ($has_approve =
 <?php endfor; ?>
 
 <?php endforeach;?>
+<?php }else{ ?>
+	<h3> Purchase Order Dibatalkan </h3><hr/>
+	<div class="form-group">
+      <label class="control-label col-md-1">Catatan</label>
+      <div class="col-md-6">
+          <textarea class="form-control" name="catatan" readonly><?= $catatan ?></textarea>
+      </div>
+    </div>
+<?php } ?>

@@ -59,6 +59,8 @@ class Order extends MX_Controller {
         $this->data['main_title'] = $this->main_title;
         permissionUser();
         $this->data['id'] = $id;
+        $this->data['is_deleted'] = getValue('is_deleted', 'sales_order', array('id'=>'where/'.$id));
+        $this->data['catatan'] = getValue('catatan', 'sales_order', array('id'=>'where/'.$id));
         $this->data['order'] = $this->order->get_detail($id);
         $this->data['order_list'] = $this->order->get_list_detail($id);
         $this->data['is_ex_tax'] = $this->db->select('pajak')
@@ -335,7 +337,7 @@ class Order extends MX_Controller {
                 $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
                 $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
                 $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
-                $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
+                $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="showModal('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
                 $no++;
                 $row = array();
                 $row[] = $no;
@@ -373,10 +375,41 @@ class Order extends MX_Controller {
         echo json_encode($output);
     }
 
-    public function ajax_delete($id)
+    public function ajax_delete()
     {
+        $id = $this->input->post('id');
         $this->order->delete_by_id($id);
+        $this->send_notif_batal($id);
         echo json_encode(array("status" => TRUE));
+    }
+
+    function send_notif_batal($id)
+    {
+        $group_id = array('3','4','8','9','10');
+        $user_id = $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result();
+        $r =[];
+        $receiver =  $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result_array();
+        foreach ($receiver as $key => $value) {
+            $r[] = getEmail($value['user_id']);
+            //$r[] = 'abdul.ghanni@yahoo.co.id';
+        }
+        $r = implode(',', $r);
+        $subject = 'Pembatalan Sales Order';
+        $no = getValue('no', $this->table_name, array('id'=>'where/'.$id));
+        $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
+        $isi = $isi = getName(sessId())." membatalkan sales Order, Untuk melihat detail silakan <a href=$url> KLIK DISINI </a>.";
+        foreach($user_id as $u):
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $u->user_id,
+                          'sent_on' => dateNow(),
+                          'judul' => $subject,
+                          'no'=>$no,
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+            $this->db->insert('notifikasi', $data);
+        endforeach;
+        $this->send_email($r, $subject, $isi);
     }
 
     function print_pdf($id)

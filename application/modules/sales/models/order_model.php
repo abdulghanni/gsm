@@ -154,8 +154,9 @@ class order_model extends CI_Model {
     public function delete_by_id($id)
     {
          $data = array('is_deleted'=>1,
-                      'deleted_by' => sessId(),
-                      'deleted_on' => dateNow()
+                        'catatan' => $this->input->post('catatan'),
+                        'deleted_by' => sessId(),
+                        'deleted_on' => dateNow()
             );
         $this->db->where('id', $id);
         $this->db->update($this->table, $data);

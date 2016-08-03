@@ -63,6 +63,8 @@ class Order extends MX_Controller {
         $this->data['title'] = $this->title.' - Detail';
         permissionUser();
         $this->data['id'] = $id;
+        $this->data['is_deleted'] = getValue('is_deleted', 'purchase_order', array('id'=>'where/'.$id));
+        $this->data['catatan'] = getValue('catatan', 'purchase_order', array('id'=>'where/'.$id));
         $this->data[$this->file_name] = $this->main->get_detail($id);
         $this->data[$this->file_name.'_list'] = $this->main->get_list_detail($id);
         $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$id));
@@ -304,7 +306,7 @@ class Order extends MX_Controller {
                 $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
                 //$print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=po.mrt&param1=".$r->id;
                 $draft = base_url().$this->module.'/'.$this->file_name.'/draft/'.$r->id;
-                $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
+                $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="showModal('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
                 $status1 = ($r->app_status_id_lv1==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv1 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv1 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
                 $status2 = ($r->app_status_id_lv2==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv2 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv2 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i class="fa fa-question"></i>'));
                 $status3 = ($r->app_status_id_lv3==1) ? '<i title="Approved" class="fa fa-check" style="color:green"></i>' : (($r->app_status_id_lv3 == 2) ? '<i title="rejected" class="fa fa-remove" style="color:red"></i>' : (($r->app_status_id_lv3 == 3) ? '<i title="Pending" class="fa fa-info" style="color:orange"></i>'  : '<i title="No Respond" class="fa fa-question"></i>'));
@@ -387,10 +389,87 @@ class Order extends MX_Controller {
         echo json_encode($output);
     }
 
-    public function ajax_delete($id)
+    public function ajax_delete()
     {
+        $id = $this->input->post('id');
         $this->main->delete_by_id($id);
+        $this->send_notif_batal($id);
         echo json_encode(array("status" => TRUE));
+    }
+
+    function send_notif_batal($id)
+    { 
+        permissionUser();
+        $url = base_url().$this->module.'/'.$this->file_name.'/detail/'.$id;
+        $subject = 'Pembatalan Purchase Order';
+        $isi = getName(sessId())." membatalkan Purchase Order, Untuk melihat detail silakan <a href=$url> KLIK DISINI </a>.";
+        $approver = getAll('approver');
+        $no_pr = getValue('no', 'purchase_order', array('id'=>'where/'.$id));
+        $no = getValue('po', $this->table_name, array('id'=>'where/'.$id));
+        $creator_pr = getValue('created_by', 'purchase_request', array('id'=>'where/'.$no_pr));
+        $jenis = getValue('jenis_barang_id', 'purchase_request', array('id'=>'where/'.$no_pr));
+        $gtotal = getValue('gtotal', 'purchase_order', array('id'=>'where/'.$id));
+        $data = array('sender_id' => sessId(),
+                          'receiver_id' => $creator_pr,
+                          'sent_on' => dateNow(),
+                          'judul' => $subject,
+                          'no' => $no,
+                          'isi' => $isi,
+                          'url' => $url
+             );
+        $this->db->insert('notifikasi', $data);
+        $this->send_email(getEmail($creator_pr), $subject, $isi);
+
+        //SEND NOTIFICATION TO LOGISTIK
+        $group_id = array('3');
+        $user_id = $this->db->select('user_id')->where_in('group_id', $group_id)->get('users_groups')->result();
+        foreach($user_id as $u):
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $u->user_id,
+                          'sent_on' => dateNow(),
+                          'judul' => $subject,
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+            $this->db->insert('notifikasi', $data);
+            $this->send_email(getEmail($u->user_id), $subject, $isi);
+        endforeach;
+
+        if($jenis == 3):
+            if($gtotal > 1000000){
+            $level = array('level' => 'where/3',
+                       'level' => 'where/2',
+                       'level' => 'where/1'
+                       );
+            $list = array(1,2,3);
+            $approver = $this->db->where_in('level', $list)->get('approver');
+            }else{
+                $level = array(
+                       'level' => 'where/1'
+                       );
+                 $list = array(1);
+            $approver = $this->db->where_in('level', $list)->get('approver');
+            }
+        else:
+            $level = array('level' => 'where/3',
+                       'level' => 'where/2',
+                       );
+         $list = array(2,3);
+            $approver = $this->db->where_in('level', $list)->get('approver');
+        endif;
+        foreach($approver->result() as $r):
+            $data = array('sender_id' => sessId(),
+                          'receiver_id' => $r->user_id,
+                          'sent_on' => dateNow(),
+                          'judul' => $subject,
+                          'no' => $no,
+                          'isi' => $isi,
+                          'url' => $url,
+             );
+        $this->db->insert('notifikasi', $data);
+        $this->send_email(getEmail($r->user_id), $subject.'-'.$id, $isi);
+        endforeach;
+        return TRUE;
     }
 
     function print_pdf($id)

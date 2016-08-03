@@ -28,28 +28,57 @@ $(document).ready(function() {
 
 
 
-    function delete_user(id)
-    {
-        if(confirm('Are you sure delete this data?'))
+    function showModal(id)
+{
+    $('#form-delete')[0].reset();
+    $('[name="id"]').val(id);
+    $('#modal_form').modal('show'); // show bootstrap modal
+    $('.modal-title').text('Batalkan order'); // Set Title to Bootstrap modal title
+
+}
+
+function del()
+{
+    $('#btnSave').text('Deleting'); //change button text
+    $('#btnSave').attr('disabled',true); //set button disable 
+    var url = "/gsm/sales/order/ajax_delete/";;
+
+    // ajax adding data to database
+    $.ajax({
+        url : url,
+        type: "POST",
+        data: $('#form-delete').serialize(),
+        dataType: "JSON",
+        success: function(data)
         {
-            // ajax delete data to database
-            $.ajax({
-                url : "/gsm/sales/order/ajax_delete/"+id,
-                type: "POST",
-                dataType: "JSON",
-                success: function(data)
+
+            if(data.status) //if success close modal and reload ajax table
+            {
+                $('#modal_form').modal('hide');
+                reload_table();
+            }
+            else
+            {
+                for (var i = 0; i < data.inputerror.length; i++) 
                 {
-                    //if success reload ajax table
-                    reload_table();
-                },
-                error: function (jqXHR, textStatus, errorThrown)
-                {
-                    alert('Error deleting data');
+                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
                 }
-            });
+            }
+            $('#btnSave').text('save'); //change button text
+            $('#btnSave').attr('disabled',false); //set button enable 
+
+
+        },
+        error: function (jqXHR, textStatus, errorThrown)
+        {
+            alert('Error adding / update data');
+            $('#btnSave').text('save'); //change button text
+            $('#btnSave').attr('disabled',false); //set button enable 
 
         }
-    }
+    });
+}
     function reload_table()
     {
         table.ajax.reload(null,false); //reload datatable ajax 

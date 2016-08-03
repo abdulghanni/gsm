@@ -21,7 +21,8 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-
+<?php
+if($is_deleted == 0){?>
 <div class="row pull-right">
 	<a href="<?=base_url().'sales/order/print_pdf/'.$id;?>" target='_blank' class="btn btn-lg btn-primary hidden-print">
 		 <i class="fa fa-print"></i> <?= lang('print')?>
@@ -342,3 +343,12 @@
 </form>
 <?php endforeach;?>
 <!-- end: INVOICE -->
+<?php }else{ ?>
+	<h3> Sales Order Dibatalkan </h3><hr/>
+	<div class="form-group">
+      <label class="control-label col-md-1">Catatan</label>
+      <div class="col-md-6">
+          <textarea class="form-control" name="catatan" readonly><?= $catatan ?></textarea>
+      </div>
+    </div>
+<?php } ?>
