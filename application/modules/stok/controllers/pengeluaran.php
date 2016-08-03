@@ -37,7 +37,7 @@ class Pengeluaran extends MX_Controller {
             $no++;
             $row = array();
             //$row[] = $no;
-            $row[] = $no_sj;
+            $row[] = "<a href='".base_url()."stok/pengeluaran/detail/".$r->id."'>".$no_sj."</a>";
             $row[] = $r->ref;
             $row[] = $r->gudang;
             $row[] = $r->tgl;
@@ -443,9 +443,6 @@ class Pengeluaran extends MX_Controller {
                 }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/detail')))
                 {
                     $this->template->set_layout('default');
-
-                    $this->template->add_js('vendor/jquery-mask-money/jquery.MaskMoney.js');
-                    $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/detail.js');
                 }
 
             if ( ! empty($data['title']))
