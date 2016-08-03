@@ -31,6 +31,16 @@ class Pengeluaran extends MX_Controller {
         $sj = '';
 
         foreach ($list as $r) {
+            if(!empty($r->ref_id)){
+                $refid = explode(',', $r->ref_id);
+                $ref = '';
+                foreach($refid as $row=>$v):
+                    $ref .="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$r->id."' target='_blank' title='detail'>".getValue('so','sales_order', array('id'=>'where/'.$v))."</i></a><br/>";
+                endforeach;
+            }else{
+                $ref="<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/detail/".$r->id."' target='_blank' title='detail'>".$r->ref."</i></a>";
+            }
+
         	$no_sj = (!empty($r->no)) ? $r->no : date('Ymd', strtotime($r->created_on)).sprintf('%04d',$r->id);
         	$deliver="<a href='".base_url()."stok/pengeluaran/deliver/".$r->id."'>".$r->is_delivered."</a>";
         	$print = "<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan/".$r->id."' target='_blank' title='print'><i class='fa fa-print'></i></a>";
@@ -38,7 +48,7 @@ class Pengeluaran extends MX_Controller {
             $row = array();
             //$row[] = $no;
             $row[] = "<a href='".base_url()."stok/pengeluaran/detail/".$r->id."'>".$no_sj."</a>";
-            $row[] = $r->ref;
+            $row[] = $ref;
             $row[] = $r->gudang;
             $row[] = $r->tgl;
             $row[] = $r->creator;
