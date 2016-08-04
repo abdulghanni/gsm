@@ -72,7 +72,7 @@
 									Up.
 								</label>
 								<div class="col-sm-8">
-									<div id="up">
+									<div id="">
 										<input type="text" placeholder="Up" name="up" id="" class="form-control" value="<?=$o->up?>">
 									</div>
 								</div>
@@ -146,7 +146,7 @@
 									<option value="0">-- Pilih Gudang Pengiriman --</option>
 									<?php 
 	                                	foreach($gudang as $g):
-	                                		$selected = ($o->gudang_id == $g->id) ? 'selected="selected' : '';
+	                                		$selected = ($o->gudang_id == $g->id) ? 'selected="selected"' : '';
 	                                ?>
 	                                	<option value="<?=$g->id?>" <?=$selected?>><?=$g->title?></option>
 	                              	<?php endforeach;?>
