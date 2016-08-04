@@ -49,10 +49,6 @@
 					</th>
 					<th width="5%"><?php echo $daftar['jumlah'] ?> <?php if(isset($part)){echo "(SISA ".$carisisa['sisa'].")";} ?></th>
 					<th width="10%"><?php echo GetValue('title','satuan',array('id'=>'where/'. $daftar['satuan_id']))?> </th>
-					<!--th width="20%"> <?php echo $daftar['harga'] ?> </th>
-					<th width="5%"><?php echo $daftar['disc'] ?></th>
-					<th width="15%"> Sub Total </th>
-					<th width="5%"><?php echo $daftar['pajak'] ?></th-->
 					<th width="5%"><?php echo form_input("jumlah[]",isset($part)?$carisisa['sisa'] : $daftar['jumlah'],'max="'.(isset($part)?$carisisa['sisa'] : $daftar['jumlah']).'"') ?></th>
 					<th width="5%"><?php echo form_dropdown("satuan[]",GetOptAll('satuan'),$daftar['satuan_id']) ?></th>
 					<th>

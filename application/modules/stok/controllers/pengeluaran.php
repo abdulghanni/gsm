@@ -43,7 +43,8 @@ class Pengeluaran extends MX_Controller {
 
         	$no_sj = (!empty($r->no)) ? $r->no : date('Ymd', strtotime($r->created_on)).sprintf('%04d',$r->id);
         	$deliver="<a href='".base_url()."stok/pengeluaran/deliver/".$r->id."'>".$r->is_delivered."</a>";
-        	$print = "<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan/".$r->id."' target='_blank' title='print'><i class='fa fa-print'></i></a>";
+            $print = "<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/surat_jalan/".$r->id."' target='_blank' title='print'><i class='fa fa-print'></i></a>";
+        	$edit = "<a class='btn btn-sm btn-light-azure' href='".base_url()."stok/pengeluaran/input/".$r->id."' target='_blank' title='Edit'><i class='fa fa-pencil'></i></a>";
             $no++;
             $row = array();
             //$row[] = $no;
@@ -57,8 +58,7 @@ class Pengeluaran extends MX_Controller {
 
 
             //add html for action
-            $row[] = '<a class="btn btn-sm btn-primary" href="javascript:void(0);" title="Edit" onclick="edit_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-                  '.$print;
+            $row[] = $edit.$print;
         
             $data[] = $row;
         }
@@ -194,20 +194,26 @@ class Pengeluaran extends MX_Controller {
 		//echo "Sukses!";
 	}
 
-    function input()
+    function input($id=null)
     {
         $this->data['title'] = $this->title.' - Input';
         permissionUser();
         $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-		
+		$this->data['id'] = $id;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
         $this->data['gudang'] = GetOptAll('gudang','-Pilih Gudang-');
         $this->data['opt_po'] = GetOptAll('sales_order','-Sales Order-',array('is_draft'=>'where/0','is_deleted'=>'where/0','id'=>'order/desc'),'so','','',array('!=status_id'=>'2'));
+        if($id != null){
+            $this->data['id'] = $id;
+        $this->data['pengeluaran']=GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row();
+        $this->data['list']=GetAll('stok_pengeluaran_list',array('pengeluaran_id'=>'where/'.$id));
+        $this->data['refid']=GetAll($this->data['pengeluaran']->ref_type,array('id'=>'where/'.$this->data['pengeluaran']->ref_id))->row_array();
+        }
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -228,6 +234,8 @@ class Pengeluaran extends MX_Controller {
     function add()
     {
         permissionUser();
+        $id = $this->input->post('id');
+        $is_update = $this->input->post('is_update');
         $list = array(
 	                'list_id'=>$this->input->post('list'),
 	                'jumlah'=>$this->input->post('jumlah'),
@@ -245,7 +253,7 @@ class Pengeluaran extends MX_Controller {
                	'ref_type'=>'sales_order',
                 'kontak_id'=>$this->input->post('kontak_id'),
                 'alamat'=>$this->input->post('alamat'),
-                'ref_id'=>implode(',',$this->input->post('ref_id')),
+                'ref_id'=>($is_update == 0) ? implode(',',$this->input->post('ref_id')) : $this->input->post('ref_id'),
                 'tgl'=>date('Y-m-d',strtotime($this->input->post('tgl'))),
                 'gudang_to'=>$this->input->post('gudang_id'),
                 'driver'=>$this->input->post('driver'),
@@ -255,13 +263,17 @@ class Pengeluaran extends MX_Controller {
                 'created_on' =>date("Y-m-d"),
                 'created_by' =>sessId(),
             );
-
-        $this->db->insert($this->module.'_'.$this->file_name, $data);
-        $insert_id = $this->db->insert_id();
+        if($is_update == 0){
+            $this->db->insert($this->module.'_'.$this->file_name, $data);
+            $insert_id = $this->db->insert_id();
+        }else{
+            $this->db->where('id', $id)->update($this->module.'_'.$this->file_name, $data);
+            $insert_id = $id;
+            $this->db->delete($this->module.'_'.$this->file_name.'_list', array('pengeluaran_id'=>$id));
+        }
 		$sisaan=0;
                 $ref='';
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
-            
             $qtysisa=konversi($list['kode_barang'][$i],$list['jumlah'][$i],$list['satuan'][$i]);
             
             

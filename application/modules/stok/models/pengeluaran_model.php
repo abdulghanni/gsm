@@ -104,7 +104,7 @@ class pengeluaran_model extends CI_Model {
 
     function get_detail($id)
     {
-        $q = $this->db->select('no, kontak.title as kontak,kontak.email as email,kontak_id,kurensi_id,opsi_desimal, gudang_id,project,pajak_komponen_id, total_ppn, total_pph22, total_pph23, stok_pengeluaran.up,stok_pengeluaran.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar,dibayar_nominal, lama_angsuran_2, lama_angsuran_1, stok_pengeluaran.created_by, stok_pengeluaran.created_on')
+        $q = $this->db->select('no, ref_id, kontak.title as kontak,kontak.email as email,kontak_id,kurensi_id,opsi_desimal, gudang_id,project,pajak_komponen_id, total_ppn, total_pph22, total_pph23, stok_pengeluaran.up,stok_pengeluaran.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar,dibayar_nominal, lama_angsuran_2, lama_angsuran_1, stok_pengeluaran.created_by, stok_pengeluaran.created_on')
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.kontak_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
