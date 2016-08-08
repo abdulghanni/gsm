@@ -203,6 +203,8 @@ class produksi extends MX_Controller {
     function isi(){
             $id=$_POST['v'];
             $ref = getAll('produksi_ref', array('id'=>'where/'.$id))->row();
+            $this->load->model('wo/wo_model', 'wo');
+            $data['det'] = $this->wo->get_detail($id)->row();
             if($ref->ref_type == 'wo'){
                 $data['ref'] = getAll('wo_list', array('wo_id'=>'where/'.$ref->ref_id))->result();
             }else{

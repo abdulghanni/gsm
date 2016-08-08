@@ -67,7 +67,7 @@ $('input[type="text"]')
         $(document).find("select.select2").select2({
     dropdownAutoWidth : true
 });
-        $('#btnRemove').show("slow");
+        //$('#remove').show("slow");
         $('#btnSubmit').show("slow");
         $('#panel-total').show("slow");
     });

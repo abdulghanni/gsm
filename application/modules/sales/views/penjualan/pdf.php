@@ -53,7 +53,7 @@ td{ height:30px;}
       <td>:</td>
       <td><?=$o->email?></td>
       <td width="10"></td>
-      <td>PO No.</td>
+      <td>SO No.</td>
       <td>:</td>
       <td><?=$o->so?></td>
     </tr>
@@ -106,6 +106,8 @@ td{ height:30px;}
 	      <th>Barcode</th>
 			<hr style="width:100%">
 		   <th>Description</th>
+      <hr style="width:100%">
+       <th>Note</th>
 			<hr style="width:100%">
 			<th>Quantity</th>
 			<hr style="width:100%">
@@ -131,7 +133,8 @@ td{ height:30px;}
 	<tr>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang?></td>
-		<td width="20%"><?=$ol->deskripsi?></td>
+    <td width="20%"><?=$ol->deskripsi?></td>
+		<td width="20%"><?=$ol->catatan?></td>
 		<td width="5%" align="right"><?=$ol->diterima?> <?=$ol->satuan?></td>
 		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
 		<?php if($total_diskon > 0):?><td width="5%" align="right"><?=$ol->disc?></td><?php endif;?>

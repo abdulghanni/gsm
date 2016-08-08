@@ -194,7 +194,7 @@ td{ height:30px;}
   <br/>
   <table width="250">
   <tr>
-    <td align="center">Jakarta, <?= date("d M Y", strtotime($o->created_on))?></td>
+    <td align="center">Jakarta, <?= date("d F Y", strtotime($o->created_on))?></td>
   </tr>
   <tr>
     <td align="center">PT. Gramaselindo Utama</td>

@@ -38,7 +38,7 @@
 				</div>
 				<hr>
 				<div class="row so" id="so">
-                	<div class="col-md-7">
+                	<div class="col-md-6">
 						<div class="form-group">
                             <label class="col-sm-3 control-label" for="inputEmail3">No. Referensi</label>
 	                        <div class="col-sm-6">

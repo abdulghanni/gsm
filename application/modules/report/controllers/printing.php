@@ -435,20 +435,19 @@ class Printing extends MX_Controller {
 	}
         
 	function liststok(){
-        $k=$this->input->post('kontak');
 		$b=$this->input->post('barang');
 		$g=$this->input->post('gudang');
+		$gt = $this->input->post('gt0');
 
-		redirect(base_url()."print/file/index.php?stimulsoft_report_key=stok_full.mrt&stimulsoft_client_key=ViewerFx&barang=$b&gudang=$g",'refresh');
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=stok_full.mrt&stimulsoft_client_key=ViewerFx&barang=$b&gudang=$g&gt0=$gt",'refresh');
 
 	}
 
 	function liststok_logistik(){
-        $k=$this->input->post('kontak');
 		$b=$this->input->post('barang');
 		$g=$this->input->post('gudang');
-
-		redirect(base_url()."print/file/index.php?stimulsoft_report_key=stok_logistik.mrt&stimulsoft_client_key=ViewerFx&barang=$b&gudang=$g",'refresh');
+		$gt = $this->input->post('gt0');
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=stok_logistik.mrt&stimulsoft_client_key=ViewerFx&barang=$b&gudang=$g&gt0=$gt",'refresh');
 
 	}
         

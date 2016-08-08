@@ -9,7 +9,7 @@ class Stok_model extends CI_Model {
 	var $table_join3 = 'gudang';
 	var $table_join4 = 'lokasi_gudang';
 	var $table_join5 = 'kurensi';
-	var $column = array('stok.id', 'kode', 'barang', 'dalam_stok','minimum_stok', 'satuan', 'harga_beli','harga_jual', 'gudang'); //set column field database for order and search
+	var $column = array('stok.id', 'kode', 'barang', 'merk', 'dalam_stok','minimum_stok', 'satuan', 'harga_beli','harga_jual', 'gudang'); //set column field database for order and search
 	var $order = array('barang' => 'asc'); // default order 
 
 	public function __construct()
@@ -30,6 +30,7 @@ class Stok_model extends CI_Model {
 			'.$this->table.'.lokasi_detail as lokasi_detail,
 			'.$this->table_join1.'.kode as kode,
 			'.$this->table_join1.'.title as barang,
+			'.$this->table_join1.'.merk as merk,
 			'.$this->table_join2.'.title as satuan,
 			'.$this->table_join3.'.title as gudang,
 			'.$this->table_join4.'.title as lokasi_gudang,

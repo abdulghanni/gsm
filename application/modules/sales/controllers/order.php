@@ -270,13 +270,13 @@ class Order extends MX_Controller {
             $attx = (!empty($att[$i])) ? $att[$i] : '';
             $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
         }
-        $data_wo = array(
-            'id' => $insert_id ,
-            'barang_id' => $list['kode_barang'][$i],
-            'satuan_id' => $list['satuan'][$i],
-            'qty'   => $list['jumlah'][$i]
-             );
-        $this->cek_selisih_stok($data_wo);
+        // $data_wo = array(
+        //     'id' => $insert_id ,
+        //     'barang_id' => $list['kode_barang'][$i],
+        //     'satuan_id' => $list['satuan'][$i],
+        //     'qty'   => $list['jumlah'][$i]
+        //      );
+        // $this->cek_selisih_stok($data_wo);
         endfor;
         $this->send_notif($insert_id);
         $num = getAll('produksi_ref_list', array('ref_id'=>'where/'.$insert_id))->num_rows();

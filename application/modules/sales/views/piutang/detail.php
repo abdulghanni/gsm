@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/'.$file_name)?>"><?=$main_title?></a></span>
+				<span><a href="<?=base_url('sales/'.$file_name)?>"><?=$main_title?></a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url("purchase/$file_name/detail/".$id)?>">detail</a></span>
+				<span><a href="<?=base_url("sales/$file_name/detail/".$id)?>">detail</a></span>
 			</li>
 		</ol>
 	</div>
@@ -63,7 +63,7 @@
 							</div>
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputPassword3">
-									Kurensi
+									Mata Uang
 								</label>
 								<div class="col-sm-9">
 									<input type="text" name="up" value="<?=$det->kurensi?>" class="form-control" disabled="disabled">
@@ -92,7 +92,7 @@
 
 							<div class="form-group">
 								<label class="col-sm-3 control-label" for="inputPassword3">
-									Total Hutang
+									Total Piutang
 								</label>
 								<div class="col-sm-9">
 									<input type="text" name="up" value="<?=number_format($det->total, 2)?>" class="form-control text-right" disabled="disabled">

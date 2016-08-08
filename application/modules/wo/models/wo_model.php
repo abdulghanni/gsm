@@ -148,7 +148,7 @@ class Wo_model extends CI_Model {
                     barang.kode as kode_barang,
                     barang.title as nama_barang,
                     wo_list.deskripsi,
-                    jumlah, 
+                    qty, 
                     sisa_stok,
                     satuan.title as satuan, 
                     wo_list.catatan')

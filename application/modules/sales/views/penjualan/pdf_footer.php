@@ -68,7 +68,7 @@
 <div style="float: right; width: 25%;">
 	<table width="250">
 	<tr>
-		<td align="center">Jakarta, <?= date("d M Y", strtotime($o->tanggal_transaksi))?></td>
+		<td align="center">Jakarta, <?= date("d F Y", strtotime($o->tanggal_transaksi))?></td>
 	</tr>
 	<tr>
 		<td align="center">PT. Gramaselindo Utama</td>

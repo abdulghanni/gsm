@@ -176,7 +176,7 @@ class wo extends MX_Controller {
     function add_row($id)
     {
         $data['id'] = $id;
-        $data['barang'] = getAll('barang')->result_array();
+        $data['barang'] = getAll('barang', array('jenis_barang_id'=>'where/1'))->result_array();
         $data['satuan'] = getAll('satuan')->result_array();
         $this->load->view('wo/row', $data);
     }

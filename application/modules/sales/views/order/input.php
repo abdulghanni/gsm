@@ -217,8 +217,7 @@
 				<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">
                     <?= lang('add').' '.lang('item') ?> <i class="fa fa-plus"></i>
                 </button>
-                <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" style="display:none">
-                    <?= 'Remove' ?> <i class="fa fa-remove"></i>
+                <button id="remove" class="btn btn-danger" type="button" style="display:none">Hapus <i class="fa fa-remove"></i></button>
                 </button>
 				<div class="row">
 					<div class="col-sm-12">
@@ -575,7 +574,16 @@ function addRow(tableID){
         });
 }
 
-function deleteRow(tableID){try{var table=document.getElementById(tableID);var rowCount=table.rows.length;for(var i=0;i<rowCount;i++){var row=table.rows[i];var chkbox=row.cells[0].childNodes[0];if(null!=chkbox&&true==chkbox.checked){table.deleteRow(i);rowCount--;i--;}}}catch(e){alert(e);}}
+function deleteRow(tableID){
+	try{
+		var table=document.getElementById(tableID);
+		var rowCount=table.rows.length;
+		for(var i=0;i<rowCount;i++){
+			var row=table.rows[i];
+			var chkbox=row.cells[0].childNodes[0];
+			if(null!=chkbox&&true==chkbox.checked){
+				table.deleteRow(i);rowCount--;i--;}}}
+	catch(e){alert(e);}}
 
 $('#dibayar, #biaya_pengiriman, #dibayar-nominal').keyup(function(){
     	hitungTotal();

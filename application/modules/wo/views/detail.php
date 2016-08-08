@@ -2,7 +2,7 @@
 <section id="page-title">
 	<div class="row">
 		<div class="col-sm-8">
-			<h1 class="mainTitle">Purchase Order</h1>
+			<h1 class="mainTitle">Work Order</h1>
 			<span class="mainDescription"></span>
 		</div>
 		<ol class="breadcrumb">
@@ -10,10 +10,10 @@
 				<span>Pages</span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/order')?>">order</a></span>
+				<span><a href="<?=base_url('wo')?>">order</a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url('purchase/order/detail/'.$id)?>">detail</a></span>
+				<span><a href="<?=base_url('wo/detail/'.$id)?>">detail</a></span>
 			</li>
 		</ol>
 	</div>
@@ -117,7 +117,7 @@
 									<td><?=$l->nama_barang?></td>
 									<td><?=$l->deskripsi?></td>
 									<td><?=$l->catatan?></td>
-									<td><?=$l->jumlah?></td>
+									<td><?=$l->qty?></td>
 									<td><?=$l->satuan?></td>
 									<td><?=$l->sisa_stok.' '.getValue('title', 'satuan', array('id'=>'where/'.$l->satuan_barang))?></td>
 								</tr>

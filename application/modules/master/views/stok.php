@@ -39,6 +39,7 @@
                             <th width="1%" align="center">No.</th>
                             <th width="5%"><?php echo lang('code');?></th>
                             <th width="15%"><?php echo lang('description');?></th>
+                            <th width="15%">Merk</th>
                             <th width="5%"><?php echo 'Stok'?> Tersedia</th>
                             <th width="5%"><?php echo 'Stok'?> Minimum</th>
                             <th width="5%"><?php echo lang('unit');?></th>

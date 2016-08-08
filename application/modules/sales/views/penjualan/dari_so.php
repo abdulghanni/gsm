@@ -63,10 +63,10 @@
                     <div class="col-md-6">
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. PO
+								No. SO
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="so" value="" class="form-control">
+								<input type="text" name="so" value="<?=$o->so?>" class="form-control">
 							</div>
 						</div>
 						<div class="form-group">

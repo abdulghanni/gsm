@@ -53,8 +53,8 @@
 								<?php
 									}else{ ?>
 				                    	<select name="output" class="barang" style="width:100%" id="output">
+				                    		<option value="0">-- Pilih Barang --</option>
 				                    	<?php foreach($opt_barang->result() as $b):?>
-											<option value="0">-- Pilih Barang --</option>
 											<option value="<?=$b->id?>"><?= $b->kode.' - '.$b->title ?></option>
 										<?php endforeach; ?> 
 										</select>
@@ -156,12 +156,52 @@
 		var cell4=row.insertCell(3);
 		cell4.innerHTML = "<select name='satuan[]' class='select2' style='width:100%'><?php for($i=0;$i<sizeof($satuan);$i++):?><option value='<?php echo $satuan[$i]['id']?>'><?php echo $satuan[$i]['title']?></option><?php endfor;?></select>";
 		
-		$(document).find("select.select2").select2();
+		$(document).find("select.select2").select2().on('select2-open', function() {
+
+        // however much room you determine you need to prevent jumping
+        var requireHeight = 600;
+        var viewportBottom = $(window).scrollTop() + $(window).height();
+
+        // figure out if we need to make changes
+        if (viewportBottom < requireHeight) 
+        {           
+            // determine how much padding we should add (via marginBottom)
+            var marginBottom = requireHeight - viewportBottom;
+
+            // adding padding so we can scroll down
+            $(".aLwrElmntOrCntntWrppr").css("marginBottom", marginBottom + "px");
+
+            // animate to just above the select2, now with plenty of room below
+            $('html, body').animate({
+                scrollTop: $("#mySelect2").offset().top - 10
+            }, 1000);
+        }
+    });;
 		$(document).find("select.barang").select2({
 	        dropdownAutoWidth : true,
 	        placeholder: "Cari Barang",
 	        minimumInputLength: 3,
-	    });
+	    }).on('select2-open', function() {
+
+        // however much room you determine you need to prevent jumping
+        var requireHeight = 600;
+        var viewportBottom = $(window).scrollTop() + $(window).height();
+
+        // figure out if we need to make changes
+        if (viewportBottom < requireHeight) 
+        {           
+            // determine how much padding we should add (via marginBottom)
+            var marginBottom = requireHeight - viewportBottom;
+
+            // adding padding so we can scroll down
+            $(".aLwrElmntOrCntntWrppr").css("marginBottom", marginBottom + "px");
+
+            // animate to just above the select2, now with plenty of room below
+            $('html, body').animate({
+                scrollTop: $("#mySelect2").offset().top - 10
+            }, 1000);
+        }
+    });
 	}
 	function deleteRow(tableID){
 	    try{

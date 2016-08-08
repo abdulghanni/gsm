@@ -1,5 +1,60 @@
+<fieldset>
+<legend>Info Work Order</legend>
 <div class="row">
-  <div class="col-md-7">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="inputPassword3">
+        No. Work Order
+      </label>
+      <div class="col-sm-8">
+        <input type="text" placeholder="No. Work Order" name="no" value="<?=$det->no?>" class="form-control" readonly>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="inputPassword3">
+        Catatan
+      </label>
+      <div class="col-sm-8">
+        <textarea class="form-control" name="catatan"><?=$det->catatan?></textarea>
+      </div>
+    </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="form-group">
+      <label class="col-sm-3 control-label" for="inputPassword3">
+        Customer
+      </label>
+      <div class="col-sm-8">
+        <input type="text" placeholder="No. Work Order" name="no" value="<?=$det->kontak?>" class="form-control" readonly>
+      </div>
+    </div>
+    
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="inputPassword3">
+        Project
+      </label>
+      <div class="col-sm-8">
+        <input type="text" placeholder="Project" name="project" value="<?=$det->project?>" class="form-control" readonly>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="col-sm-3 control-label" for="inputEmail3">
+        Tgl. Dibutuhkan
+      </label>
+      <div class="col-sm-8">
+        <input type="text" placeholder="No. Work Order" name="no" value="<?=dateIndo($det->tgl)?>" class="form-control" readonly>
+      </div>
+    </div>
+   </div>
+</div>
+</fieldset>
+<fieldset>
+<legend>Info Produksi</legend>
+<div class="row">
+  <div class="col-md-6">
     <div class="form-group">
       <label class="col-sm-3 control-label" for="inputPassword3">
         No. Produksi
@@ -29,6 +84,7 @@
     </div>
   </div>
 </div>
+</fieldset>
 <div class="panel-group" id="accordion">
   <div class="panel panel-default">
       <?php $i=1;foreach($ref as $r){?>

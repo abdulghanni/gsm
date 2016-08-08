@@ -125,7 +125,7 @@
 						<?php endforeach; ?>
                     	<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. PO
+								No. SO
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->so?>" class="form-control" disabled="disabled">

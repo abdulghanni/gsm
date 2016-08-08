@@ -42,7 +42,7 @@ $(document).ready(function() {
             "orderable": false, //set not orderable
         },
         { "sClass": "text-center", "aTargets": [-1] },
-        { "sClass": "text-right", "aTargets": [3,4,6,7] }
+        { "sClass": "text-right", "aTargets": [4,5,7,8] }
         ],
 
     });
