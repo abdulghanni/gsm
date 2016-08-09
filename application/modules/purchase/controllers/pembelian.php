@@ -83,6 +83,8 @@ class Pembelian extends MX_Controller {
                 'tanggal_pengiriman'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
                 'po'=>$this->input->post('po'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('jatuh_tempo'))),
+                'no_faktur'=>$this->input->post("no_faktur"),
+                'tanggal_faktur'=>date('Y-m-d',strtotime($this->input->post('tanggal_faktur'))),
                 'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),

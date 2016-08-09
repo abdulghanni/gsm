@@ -110,7 +110,7 @@ class pembelian_model extends CI_Model {
 
     function get_detail($id)
     {
-        $q = $this->db->select('pembelian.no, 
+        $q = $this->db->select('pembelian.*, 
                                 kontak.title as kontak,
                                 kontak.email as email,
                                 kontak_id,

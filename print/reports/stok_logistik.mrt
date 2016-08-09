@@ -33,7 +33,7 @@ FROM `stok`
 INNER JOIN `barang` ON `barang`.`id` = `stok`.`barang_id`
 LEFT JOIN `satuan` ON `satuan`.`id` = `barang`.`satuan`
 LEFT JOIN `gudang` ON `gudang`.`id` = `stok`.`gudang_id`
-WHERE `barang`.`title` LIKE '%{barang}%' AND `gudang`.`title` like '%{gudang}%' AND `dalam_stok` !=  {gt0}  ORDER BY `barang` ASC</SqlCommand>
+WHERE `barang`.`title` LIKE '%{barang}%' AND `gudang`.`title` like '%{gudang}%' AND AND `barang`.`jenis_barang_id` like '%{jenis_barang}%' `dalam_stok` !=  {gt0}  ORDER BY `barang` ASC</SqlCommand>
       </list>
     </DataSources>
     <Relations isList="true" count="0"/>
@@ -42,6 +42,7 @@ WHERE `barang`.`title` LIKE '%{barang}%' AND `gudang`.`title` like '%{gudang}%' 
       <value>,barang,Nama_x0020_Barang,,System.String,,False,False,True</value>
       <value>,gudang,Gudang,,System.String,,False,False,True</value>
       <value>,gt0,Lebih_x0020_dari_x0020_0,System.Int32,,False,False</value>
+      <value>,jenis_barang,Jenis_x0020_Barang,System.Int32,,False,False</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>

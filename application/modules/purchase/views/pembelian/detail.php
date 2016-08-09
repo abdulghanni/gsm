@@ -38,7 +38,7 @@
 					</div>
 					<div class="col-sm-6">
 						<p class="text-dark">
-							#<?=$o->no?> / <?=$o->tanggal_transaksi?> <small class="text-light"></small>
+							#<?=$o->no?><small class="text-light"></small>
 						</p>
 					</div>
 				</div>
@@ -123,6 +123,25 @@
 							</label>
 							<div class="col-sm-8">
 								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control" disabled="disabled">
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								No. Faktur
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="no_faktur" value="<?=$o->no_faktur?>" class="form-control" readonly>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tgl. Faktur
+							</label>
+							<div class="col-sm-8">
+								<div id="tanggal_faktur" class="input-append date success no-padding">
+                                 <input type="text" name="no_faktur" value="<?=$o->tanggal_faktur?>" class="form-control" readonly>
+                                </div>
 							</div>
 						</div>
 						<?php if($o->metode_pembayaran_id == 2):?>

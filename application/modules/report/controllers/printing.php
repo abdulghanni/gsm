@@ -438,8 +438,9 @@ class Printing extends MX_Controller {
 		$b=$this->input->post('barang');
 		$g=$this->input->post('gudang');
 		$gt = $this->input->post('gt0');
+		$jb = $this->input->post('jenis_barang');
 
-		redirect(base_url()."print/file/index.php?stimulsoft_report_key=stok_full.mrt&stimulsoft_client_key=ViewerFx&barang=$b&gudang=$g&gt0=$gt",'refresh');
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=stok_full.mrt&stimulsoft_client_key=ViewerFx&barang=$b&gudang=$g&jenis_barang=$jb&gt0=$gt",'refresh');
 
 	}
 

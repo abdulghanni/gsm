@@ -88,6 +88,26 @@
 								<input type="hidden" name="metode_pembayaran_id" value="<?=$o->metode_pembayaran_id?>" class="form-control" readonly>
 							</div>
 						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								No. Faktur
+							</label>
+							<div class="col-sm-8">
+								<input type="text" name="no_faktur" value="" class="form-control" required="required">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tgl. Faktur
+							</label>
+							<div class="col-sm-8">
+								<div id="tanggal_faktur" class="input-append date success no-padding">
+                                  <input type="text" class="form-control" name="tanggal_faktur" required>
+                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
+                                </div>
+							</div>
+						</div>
 						<?php $d = "display:none";?>
 						<div id="kredit" style="<?=($o->metode_pembayaran_id == 1) ? $d : ''?>">
 						<div class="form-group">
@@ -106,7 +126,7 @@
 							</label>
 							<div class="col-sm-8">
 								<div id="jatuh_tempo" class="input-append date success no-padding">
-                                  <input type="text" class="form-control" name="jatuh_tempo" required>
+                                  <input type="text" class="form-control" name="jatuh_tempo">
                                   <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
                                 </div>
 							</div>
