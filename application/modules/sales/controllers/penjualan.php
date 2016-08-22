@@ -23,7 +23,7 @@ class Penjualan extends MX_Controller {
 		$this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
 	}
 
-    function input()
+    function input($id = null)
     {
         $this->data['title'] = $this->title.' - Input';
         $this->data['module'] = $this->module;
@@ -44,7 +44,14 @@ class Penjualan extends MX_Controller {
         $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
         //$this->data['so'] = GetAllSelect('sales_order', array('id','so'), array('id'=>'order/desc'))->result();
         $this->data['so'] = GetAllSelect('stok_pengeluaran', array('id','no', 'created_on'), array('id'=>'order/desc'))->result();
-        $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
+       if($id == null){
+            $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
+        }else{
+            $this->data['id'] = $id;
+            $this->data['o'] = $this->main->get_detail($id)->row();
+            $this->data['penjualan_list'] = $this->main->get_list_detail($id);
+            $this->_render_page($this->module.'/'.$this->file_name.'/edit', $this->data);
+        }
     }
 
     function detail($id)
@@ -57,12 +64,16 @@ class Penjualan extends MX_Controller {
         $this->data['id'] = $id;
         $this->data['penjualan'] = $this->main->get_detail($id);
         $this->data['penjualan_list'] = $this->main->get_list_detail($id);
-
         $this->_render_page($this->module.'/'.$this->file_name.'/detail', $this->data);
+    }
+
+    function edit($id){
+
     }
 
     function add()
     {
+        //print_mz(str_replace(',', '', $this->input->post('total-ppn')));
         permissionUser();
         $list = array(
                         'kode_barang'=>$this->input->post('kode_barang'),
@@ -91,6 +102,7 @@ class Penjualan extends MX_Controller {
                 'tanggal_faktur'=>date('Y-m-d',strtotime($this->input->post('tanggal_faktur'))),
                 'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
                 'so'=>$this->input->post('so'),
+                'opsi_desimal'=>$this->input->post('opsi_desimal'),
                 'gudang_id'=>$this->input->post('gudang_id'),
                 'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
                 'kurensi_id'=>$this->input->post('kurensi_id'),
@@ -185,16 +197,23 @@ class Penjualan extends MX_Controller {
         $data = array();
         $no = $_POST['start'];
         foreach ($list as $r) {
+            $no_sj = explode(',', $r->no_sj);
+            $ref = '';
+            foreach($no_sj as $row=>$v):
+                $ref .="<a class='btn btn-sm btn-light-azure' href='".base_url()."sales/penjulan/detail/".$r->id."' target='_blank' title='detail'>".getValue('no','stok_pengeluaran', array('id'=>'where/'.$v))."</i></a><br/>";
+            endforeach;
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;
             $delete = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$r->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>' : '';
+            $edit = ($r->created_by == sessId() || $this->ion_auth->is_admin() == true) ? '<a class="btn btn-sm btn-info" href="'.base_url().'sales/penjualan/input/'.$r->id.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>' : '';
              //$print = base_url()."print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=invoice.mrt&param1=".$r->id;
              $sj_date = getValue("created_on", "stok_pengeluaran", array('id'=>'where'.$r->id));
             $no++;
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
-            $row[] = date('Ymd', strtotime($sj_date)).sprintf('%04d',$r->no_sj);
+            //$row[] = date('Ymd', strtotime($sj_date)).sprintf('%04d',$r->no_sj);
+            $row[] = $ref;
             $row[] = $r->kontak;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->tanggal_pengantaran;
@@ -203,6 +222,7 @@ class Penjualan extends MX_Controller {
 
             $row[] ="<a class='btn btn-sm btn-primary' href=$detail title='detail'><i class='fa fa-info'></i></a>
                     <a class='btn btn-sm btn-light-azure' href=$print target='_blank' title='detail'><i class='fa fa-print'></i></a>
+                    $edit
                     $delete
                     ";
             $data[] = $row;
@@ -309,11 +329,12 @@ class Penjualan extends MX_Controller {
     function get_dari_so($id)
     {
         permissionUser();
-        $this->data['pengeluaran'] = GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row_array();
+        $this->data['pengeluaran'] = $pengeluaran = GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row_array();
         $num_rows = getAll($this->table_name)->num_rows();
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
-        $this->data['order'] = $this->main->get_detail_so($this->data['pengeluaran']['ref']);
+        $so_id = $this->data['so_id'] = explode(',',$pengeluaran['ref_id']);//print_mz(sizeof($so_id));
+        $this->data['order'] = $this->main->get_detail_so($so_id[0]);
         $this->data['order_list'] = $this->main->get_list_detail_so($id);
         $this->data['kurensi'] = getAll('kurensi')->result();
         $this->data['metode'] = getAll('metode_pembayaran')->result();
@@ -371,7 +392,9 @@ class Penjualan extends MX_Controller {
                     $this->template->add_css('vendor/DataTables/css/DT_bootstrap.css');
                     $this->template->add_js('vendor/DataTables/js/jquery.dataTables.min.js');
                     $this->template->add_js('assets/js/'.$this->module.'/'.$this->file_name.'/index.js');
-                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input')))
+                }elseif(in_array($view, array($this->module.'/'.$this->file_name.'/input',
+                                              $this->module.'/'.$this->file_name.'/edit'
+                    )))
                 {
                     $this->template->set_layout('default');
 

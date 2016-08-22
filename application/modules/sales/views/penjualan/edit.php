@@ -13,7 +13,7 @@
 				<span><a href="<?=base_url('sales/penjualan')?>"><?=$main_title?></a></span>
 			</li>
 			<li  class="active">
-				<span><a href="<?=base_url('sales/penjualan/detail/'.$id)?>">Detail</a></span>
+				<span><a href="<?=base_url('sales/penjualan/detail/'.$id)?>">Edit</a></span>
 			</li>
 		</ol>
 	</div>
@@ -22,27 +22,7 @@
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
 
-<div class="row pull-right">
-	<div class="btn-group">
-		<a aria-expanded="false" href="#" data-toggle="dropdown" class="btn btn-lg btn-primary hidden-print dropdown-toggle">
-			<i class="fa fa-print"></i> <?= lang("print")?> <span class="caret"></span>
-		</a>
-		<ul class="dropdown-menu" role="menu">
-			<li>
-				<a href="<?=base_url().'sales/penjualan/print_pdf/'.$id;?>" target='_blank'>
-					 <i class="fa fa-file-pdf-o"></i> PDF
-				</a>
-			</li>
-			<li>
-				<a href="<?=base_url().'print/file/index.php?stimulsoft_client_key=ViewerFx&stimulsoft_report_key=invoice.mrt&param1='.$id;?>" target="_blank">
-					<i class="fa fa-file"></i> Custom
-				</a>
-			</li>
-		</ul>
-	</div>
-</div>
-<?php foreach ($penjualan->result() as $o) :?>
-<form role="form" action="<?= base_url('transaksi/penjualan/add')?>" method="post" class="form-horizontal">
+<form role="form" action="<?= base_url('sales/penjualan/edit')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -65,7 +45,7 @@
 								No. Invoice
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="No. Invoice" name="no" class="form-control" value="<?=$o->no?>" disabled>
+								<input type="text" placeholder="No. Invoice" name="no" class="form-control" value="<?=$o->no?>">
 							</div>
 						</div>
 
@@ -74,7 +54,7 @@
 								Tgl. Invoice
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="Tgl. Faktur" name="no" class="form-control" value="<?=$o->tanggal_transaksi?>" disabled>
+								<input type="text" placeholder="Tgl. Faktur" name="no" class="form-control" value="<?=$o->tanggal_transaksi?>">
 							</div>
 						</div>
 
@@ -83,7 +63,7 @@
 								Customer
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->kontak?>" class="form-control" readonly>
 							</div>
 						</div>
 
@@ -92,7 +72,7 @@
 								Mata Uang
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->kurensi?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->kurensi?>" class="form-control" readonly>
 							</div>
 						</div>
 
@@ -102,7 +82,7 @@
 								Term
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->metode_pembayaran?>" class="form-control">
 							</div>
 						</div>
 						<?php if($o->metode_pembayaran_id == 2):?>
@@ -111,7 +91,7 @@
 								Tempo Pembayaran
 							</label>
 							<div class="col-sm-4">
-								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control" disabled="disabled">
+								<input type="text" value="<?=$o->lama_angsuran_1.' '.$o->lama_angsuran_2?>" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control">
 							</div>
 						</div>
 						<?php endif;
@@ -123,7 +103,7 @@
 								Catatan
 							</label>
 							<div class="col-sm-8">
-								<textarea name="up" class="form-control" disabled="disabled"><?=$o->catatan?></textarea>
+								<textarea name="up" class="form-control"><?=$o->catatan?></textarea>
 							</div>
 						</div>
 
@@ -141,7 +121,7 @@
 								No. Surat Jalan
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$no_sj?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$no_sj?>" class="form-control">
 							</div>
 						</div>
 						<?php endforeach; ?>
@@ -151,7 +131,7 @@
 								No. SO <?= (sizeof($so_id) > 1) ? '- '.$i++ : '';?>
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="" value="<?=getValue('so', 'sales_order', array('id'=>'where/'.$v))?>" class="form-control" disabled="disabled">
+								<input type="text" name="" value="<?=getValue('so', 'sales_order', array('id'=>'where/'.$v))?>" class="form-control">
 							</div>
 							<?php } ?>
 						</div>
@@ -160,7 +140,7 @@
 								No. Faktur
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->no_faktur?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->no_faktur?>" class="form-control">
 							</div>
 						</div>
 						<div class="form-group">
@@ -168,7 +148,7 @@
 								Tgl. Faktur
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="Tgl. Faktur" name="no" class="form-control" value="<?=$o->tanggal_faktur?>" disabled>
+								<input type="text" placeholder="Tgl. Faktur" name="no" class="form-control" value="<?=$o->tanggal_faktur?>">
 							</div>
 						</div>
 						<div class="form-group">
@@ -176,7 +156,7 @@
 								Batas Pembayaran
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->tanggal_pengantaran?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->tanggal_pengantaran?>" class="form-control">
 							</div>
 						</div>
 						<div class="form-group">
@@ -184,7 +164,7 @@
 								Dikirim dari
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->gudang?>" class="form-control" readonly>
 							</div>
 						</div>
 
@@ -193,7 +173,7 @@
 								Project
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="up" value="<?=$o->project?>" class="form-control" disabled="disabled">
+								<input type="text" name="up" value="<?=$o->project?>" class="form-control">
 							</div>
 						</div>
 					</div>
@@ -242,7 +222,9 @@
 									<td><img height="75px" width="75px" src="<?=$src?>"></td>
 									<td><textarea readonly="readonly"><?=$ol->deskripsi?></textarea></td>
 									<td><textarea readonly="readonly"><?=$ol->catatan?></textarea></td>
-									<td class="text-right"><?=$ol->diterima?></td>
+									<td class="text-right">
+										<input type="text" name="jumlah[]" class=" text-right" value="<?=$ol->diterima?>" id="jumlah<?=$i?>">
+									</td>
 									<td><?=$ol->satuan?></td>
 									<td class="text-right"><?= number_format($ol->harga, $o->opsi_desimal)?></td>
 									<td class="text-right"><?=number_format($ol->disc, 2)?></td>
@@ -386,5 +368,4 @@
 	</div>
 </div>
 </form>
-<?php endforeach;?>
 <!-- end: INVOICE -->

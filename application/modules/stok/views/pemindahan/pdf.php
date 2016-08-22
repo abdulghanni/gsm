@@ -1,213 +1,213 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Untitled Document</title>
-<style type="text/css">
-td{ height:30px;}
-.list td{ height:40px;font-family:Arial, sans-serif;font-size:14px;padding:12px 16px;border-style:solid;border-width:0px;overflow:hidden;word-break:normal;}
-.list th{height:40px; font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:12px 16px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+<style>
+    .bio{
+        font-size:12px;
+    }
+	.header{
+		font-size:26px;
+	}
 </style>
-</head>
-
 <body>
-<hr/>
-<strong>PURCHASE ORDER </strong>
-<hr/>
-<?php foreach ($order->result() as $o) :?>
-<table width="800" border="0">
-  <tbody>
-    <tr>
-      <td width="180">No. Transaksi</td>
-      <td width="20">:</td>
-      <td width="200"><?=$o->no?></td>
-      <td width="180">Pengiriman</td>
-      <td width="20">:</td>
-      <td width="200"><?=$o->tanggal_transaksi?></td>
-    </tr>
-    <tr>
-      <td>Tanggal</td>
-      <td>:</td>
-      <td><?=$o->tanggal_transaksi?></td>
-      <td>No. PO</td>
-      <td>:</td>
-      <td><?=$o->po?></td>
-    </tr>
-    <tr>
-      <td>Kepada</td>
-      <td>:</td>
-      <td><?=$o->supplier?></td>
-      <td>Dikirim Ke</td>
-      <td>:</td>
-      <td><?=$o->gudang?></td>
-    </tr>
-    <tr>
-      <td>Up</td>
-      <td>:</td>
-      <td><?=$o->up?></td>
-      <td>Metode Pembayaran</td>
-      <td>:</td>
-      <td><?=$o->metode_pembayaran?></td>
-    </tr>
-    <tr>
-      <td>Alamat</td>
-      <td>:</td>
-      <td><?=$o->alamat?></td>
-      <td>Mata Uang</td>
-      <td>:</td>
-      <td><?=$o->kurensi?></td>
-    </tr>
-    <?php if ($o->metode_pembayaran_id == 2):?>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Lama Angsuran</td>
-      <td>:</td>
-      <td><?=$o->lama_angsuran_1.' ' .$o->lama_angsuran_2?></td>
-    </tr>
-    <tr>
-      <td></td>
-      <td></td>
-      <td></td>
-      <td>Bunga</td>
-      <td>:</td>
-      <td><?=$o->bunga?>%</td>
-    </tr>
-<?php endif; ?>
-  </tbody>
-</table>
-
- <hr/>
-<table width="800" class="list">
-    <tr>
-	    <th width="5%"> No. </th>
-		<th width="15%"> Kode Barang </th>
-		<th width="20%"> Nama Barang </th>
-		<th width="5%">Quantity</th>
-		<th width="10%"> Satuan </th>
-		<th width="18%"> Harga </th>
-		<th width="5%">Disc(%)</th>
-		<th width="20%"> Sub Total </th>
-		<th width="5%">Pajak(%)</th>
-    </tr>
-	<?php 
-		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-		$i=1;foreach($order_list->result() as $ol): ?>
-	<tr>
-	<?php 
-		$subtotal = $ol->jumlah*$ol->harga;
-		$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
-		$total = $total + $subtotal;
-	?>
-		<td width="5%"><?=$i++?></td>
-		<td width="15%"><?=$ol->kode_barang?></td>
-		<td width="20%"><?=$ol->barang?></td>
-		<td width="5%"align="right"><?=$ol->jumlah?></td>
-		<td width="10%"><?=$ol->satuan?></td>
-		<td width="18%" align="right"><?= number_format($ol->harga, 2)?></td>
-		<td width="5%" align="right"><?=$ol->disc?></td>
-		<td width="20%" align="right"><?= number_format($ol->jumlah*$ol->harga, 2)?></td>
-		<td width="5%" align="right"><?=$ol->pajak?></td>
-	</tr>
-
-	<?php endforeach;		$grandtotal = $total + $o->biaya_pengiriman - $o->dibayar;
-		$bunga =  ($grandtotal) * ($o->bunga/100);
-	?>
-
-	<hr/>
+<?php //print_r($pengeluaran) ?>
+<title>Surat Jalan</title>
+<table cellspacing="0" cellpadding="0" width="100%" style="min-height: 700px;">
+  <col width="64" span="10">
+  <tr>
+    <td width="105"></td>
+    <td width="282"></td>
+    <td width="76"></td>
+    <td width="34"></td>
+    <td width="89"></td>
+    <td width="99"></td>
+    <td width="193"></td>
+    <td width="96"></td>
+    <td width="85"></td>
+    <td width="108"></td>
+  </tr>
+  <tr>
+    <td align="left" valign="top"><img width="80" height="80" src="<?php echo base_url() ?>assets/images/your-logo-here.png">
+      <table cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="64"></td>
+        </tr>
+      </table></td>
+    <td colspan="15" ><strong class="header">PT. Gramaselindo Utama</strong>
+    <br>General Trading of Telecommunication, Multi Media & Electronic Goods</br>
+	<hr width="91%" align="left"></hr>
+	<strong>Surat Jalan</strong>
+	</td>
+  </tr>
+  <tr>
+    <td colspan="5"></td>
+    <td colspan="5">&nbsp;</td>
+  </tr>
+  <tr>
+    <td colspan="13"><table width="100%" border="0" cellspacing="0" cellpadding="00" class="bio">
+      <tbody>
+        <tr>
+          <td>Alamat</td>
+          <td>:</td>
+          <td>Jl. Utan Kayu Raya No. 1 Jakarta Timur 13120</td>
+        </tr>
+        <tr>
+          <td>Phone</td>
+          <td>:</td>
+          <td>(021) 3671 4115</td>
+        </tr>
+        <tr>
+          <td>Fax</td>
+          <td>:</td>
+          <td>(021) 8591 4372</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>:</td>
+          <td>marketing@gramaselindo.com</td>
+        </tr>
+        <tr>
+          <td>Website</td>
+          <td>:</td>
+          <td>www.gramaselindo.com</td>
+        </tr>
+      </tbody>
+    </table></td>
+    <td colspan="5" valign="top"><table width="100%" border="0" cellspacing="0" cellpadding="00" class="bio">
+      <tbody>
+        <tr>
+          <td colspan="3"></td>
+          </tr>
+        <tr>
+          <td >Gudang Asal</td>
+          <td >:</td>
+          <td >&nbsp;<?php echo getValue('title', 'gudang', array('id'=>'where/'.$r->gudang_asal)); ?></td>
+        </tr>
+        <tr>
+          <td>Gudang Tujuan</td>
+          <td>:</td>
+          <td>&nbsp;<?php echo getValue('title', 'gudang', array('id'=>'where/'.$r->gudang_tujuan)); ?></td>
+        </tr>
+        <tr>
+          <td>No Surat Jalan</td>
+          <td>:</td>
+          <td>&nbsp;<?php echo $r->no ?></td>
+        </tr>
+		    <tr>
+          <td>Tanggal Pengiriman</td>
+          <td>:</td>
+          <td>&nbsp;<?php echo $r->tgl ?></td>
+        </tr>
+        <tr>
+          <td>Jenis Kendaraan</td>
+          <td>:</td>
+          <td>&nbsp;<?php echo $r->kendaraan ?></td>
+        </tr>
+        <tr>
+          <td>Plat Nomer</td>
+          <td>:</td>
+          <td>&nbsp;<?php echo $r->plat ?></td>
+        </tr>
 	
-	</table>
-
-	<table table width="900" style="border:0">
-	<tr>
-	<th width="5%"></th>
-	<th width="10%"></th>
-	<th width="20%"></th>
-	<th width="5%"></th>
-	<th width="5%"></th>
-	<th width="5%"></th>
-	<th width="15%"></th>
-	<th width="10%"></th>
-	<th width="20%"></th>
-	</tr>
-	<tr>
-		<td colspan="6"></td>
-		<td>Total Pajak</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($totalpajak, 2)?></td>
-	</tr>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Biaya Pengiriman</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($o->biaya_pengiriman, 2)?></td>
-	</tr>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Total</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($total+$o->biaya_pengiriman, 2)?></td>
-	</tr>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Dibayar</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($o->dibayar,2)?></td>
-	</tr>
-
-	<?php if($o->metode_pembayaran_id == 2):?>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Total+bunga Angsuran</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($grandtotal+$bunga,2)?></td>
-	</tr>
-
-	<tr>
-		<td colspan="6"></td>
-		<td>Biaya Angsuran</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format(($grandtotal+$bunga)/$o->lama_angsuran_1, 2)?>/<?=strtoupper($o->lama_angsuran_2)?></td>
-	</tr>
-
-	<?php endif; ?>
-	<tr>
-		<td colspan="6"></td>
-		<td>Saldo</td>
-		<td align="right">:</td>
-		<td align="right"><?=number_format($grandtotal, 2)?></td>
-	</tr>
-
-	
+      </tbody>
+    </table></td>
+  </tr>
+ 
+  <tr>
+    <td colspan="15">&nbsp;</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  
 </table>
+<table width="100%" style="border:1px solid black;" cellspacing="0" cellpadding="0">
+    <thead>
+  <tr>
+    <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">No</td>
+    <td colspan="5" style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Uraian</td>
+    <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Jumlah</td>
+    <td style="border-bottom:1px solid black;border-right:1px solid black;" align="center">Satuan</td>
+  </tr>
+  </thead>
+  <?php
+  $no=1;
+   foreach($list as $ls){ ?>
+  <tr>
+    <td align="center" style="border-right:1px solid black;"><?php echo $no;?></td>
+    <td colspan="5" width="320" style="border-right:1px solid black;" align="center"><?php echo $ls['nama_barang']?><br/><?=$ls['catatan']?></td>
+    <td style="border-right:1px solid black;" align="center"><?php echo $ls['jumlah']?></td>
+    <td style="border-right:1px solid black;" align="center"><?php echo GetValue('title','satuan',array('id'=>'where/'.$ls['satuan_id']))?></td>
+  </tr>
+  <?php $no++; } ?>
+</table>
+<br/>
+Note:
+<br/><?php echo $r->catatan ?>
+<br/>
+<br/>
 
-<div class="gradient" style="float: left; width: 50%; margin-top: 50px; text-align:center">
-<?=$o->supplier?>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<?=$o->up?>
-</div>
-
-<div class="gradient" style="float: right; width: 50%; text-align:center">
-<?=Pemohon?>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<p></p>
-<?=''?>
-</div>
-
-<?php endforeach;?>
+  <table width="100%" >
+  <tr align="center">
+    <td  class="bio">Penerima (Received by)</td>
+    <td></td>
+	<td></td>
+    <td class="bio">Pemeriksa (Checked by)</td>
+	<td></td>
+    <td></td>
+	<td class="bio">Pengirim (Sent by)</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="4"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="3"></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
 </body>
-</html>

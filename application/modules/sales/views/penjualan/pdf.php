@@ -55,7 +55,11 @@ td{ height:30px;}
       <td width="10"></td>
       <td>SO No.</td>
       <td>:</td>
-      <td><?=$o->so?></td>
+      <td>
+        <?php $so_id = explode(',', $o->so);foreach ($so_id as $key => $v) {?>
+        <p><?=getValue('so', 'sales_order', array('id'=>'where/'.$v))?></p>
+        <?php } ?>
+      </td>
     </tr>
 
     <tr>

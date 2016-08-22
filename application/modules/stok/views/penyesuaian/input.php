@@ -7,13 +7,13 @@
 		</div>
 		<ol class="breadcrumb">
 			<li>
-				<span>Pages</span>
+				<span>Stok</span>
 			</li>
 			<li class="active">
-				<span><a href="<?=base_url('purchase/order')?>">order</a></span>
+				<span><a href="<?=base_url('stok/penyesuaian')?>">Penyesuaian</a></span>
 			</li>
 			<li>
-				<span><a href="<?=base_url('purchase/order/input')?>">input</a></span>
+				<span><a href="<?=base_url('stok/penyesuaian/input')?>">input</a></span>
 			</li>
 		</ol>
 	</div>
@@ -21,7 +21,7 @@
 <!-- end: PAGE TITLE -->
 <!-- start: INVOICE -->
 <div class="container-fluid container-fullw bg-white">
-<form role="form" action="<?= base_url('stok/Penyesuaian/add')?>" method="post" class="form-horizontal">
+<form role="form" action="<?= base_url('stok/penyesuaian/add')?>" method="post" class="form-horizontal">
 	<div class="row">
 		<div class="col-md-12">
 			<div class="invoice">
@@ -38,191 +38,81 @@
 				</div>
 				<hr>
 				<div class="row">
-					<div class="col-md-5">
+					<div class="col-md-6">
 						<div class="form-group">
 							<label class="col-sm-3 control-label" for="inputEmail3">
-								Ref
+								No. Transaksi
 							</label>
-							<div class="col-sm-9">
-								<?php $nm_f="ref";
+							<div class="col-sm-8">
+								<?php $nm_f="mo";
 								?>
-								<!--Bagian Kanan-->
 								<?php echo form_input($nm_f,(isset($val[$nm_f]) ? $val[$nm_f] : date('Ymd',strtotime('now')).$last_id),'class="form-control" id="'.$nm_f.'" required')?>
-								
-								<!--//Bagian Kanan-->
 							</div>
 						</div>
+						
 						<div class="form-group">
-							<?php $nm_f="gudang";
-							?>
 							<label class="col-sm-3 control-label" for="inputEmail3">
-								Gudang
+								Tgl. Penyesuaian
 							</label>
-							<div class="col-sm-9">
-								<!--Bagian Kanan-->
-									<?php echo form_dropdown($nm_f,$gudang,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="chosen-select form-control select2" onchange="caristok(this.value)" id="'.$nm_f.'" data-placeholder="Choose a State..." required ')?>
-								
-								<!--//Bagian Kanan-->
+							<?php $nm_f="tgl";
+							?>
+							<div class="col-sm-8">
+								<div id="tanggal_transaksi" class="input-append date success no-padding">
+                                  <input type="text" class="form-control" name="tgl" required>
+                                  <span class="add-on"><span class="arrow"></span><i class="icon-th"></i></span> 
+                                </div>
 							</div>
 						</div>
-						
-						
+                    </div>
 
+                    <div class="col-md-6">
 						<div class="form-group">
-							<?php $nm_f="keterangan";
+							<?php $nm_f="catatan";
 							?>
 							<label class="col-sm-3 control-label" for="inputPassword3">
 								Keterangan
 							</label>
-							<div class="col-sm-9">
-								<!--Bagian Kanan-->
-								<?php echo form_input($nm_f,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="form-control" id="'.$nm_f.'"')?>
-								
-								<!--//Bagian Kanan-->
+							<div class="col-sm-8">
+								<?php echo form_textarea($nm_f,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="" id="'.$nm_f.'"')?>
 							</div>
 						</div>
-
-                    </div>
-
-                    <div class="col-md-5">
-						<div class="form-group">
-							<label class="col-sm-3 control-label" for="inputEmail3">
-								Tgl. Transaksi
-							</label>
-							<?php $nm_f="tgl";
-							?>
-							<div class="col-sm-9">
-								<!--Bagian Kanan-->
-								<?php echo form_input($nm_f,(isset($val[$nm_f]) ? $val[$nm_f] : ''),'class="form-control date" id="'.$nm_f.'" required')?>
-								
-								<!--//Bagian Kanan-->
-							</div>
-						</div>
-						<div class="form-group">
-							
-						</div>
-
-						
-						
-                    </div>
+					</div>
 				</div>
-				<div class="col-md-12" id="listPenyesuaian">
-				</div>
-				<!--button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">
+				<hr/>
+				<button id="btnAdd" type="button" class="btn btn-green" onclick="addRow('table')">
                     <?= lang('add').' '.lang('item') ?> <i class="fa fa-plus"></i>
                 </button>
-                <button id="btnRemove" type="button" class="btn btn-red" onclick="deleteRow('table')" style="display:none">
-                    <?= 'Remove' ?> <i class="fa fa-remove"></i>
-                </button-->
-				<!--div class="row">
+                <button id="remove" class="btn btn-danger" type="button" style="display:none">Hapus <i class="fa fa-remove"></i></button>
+                <div class="row">
 					<div class="col-sm-12">
-					<div class="table-responsive">
-						<table id="table" class="table table-striped">
-							<thead>
-								<tr>
-									<th width="5%"> # </th>
-									<th width="5%"> No. </th>
-									<th width="10%"> Kode Barang </th>
-									<th width="20%"> Deskripsi </th>
-									<th width="5%">Quantity</th>
-									<th width="10%"> Satuan </th>
-									<th width="20%"> Harga </th>
-									<th width="5%">Disc(%)</th>
-									<th width="15%"> Sub Total </th>
-									<th width="5%">Pajak(%)</th>
-								</tr>
-							</thead>
-							<tbody>
-							</tbody>
-						</table>
-					</div>
+						<div class="table-responsive">
+							<table id="table" style="width:100%" class="table table-striped">
+								<thead>
+									<tr>
+										<th width="1%">#</th>
+										<th width="1%"> No. </th>
+										<th width="30%"> Nama Barang </th>
+										<th width="18%"> Catatan </th>
+										<th width="20%">Buku</th>
+										<th width="15%">Fisik</th>
+										<th width="15%">Satuan</th>
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
 					</div>
 				</div>
-				<div class="row">
-					<input type="hidden" name="dp" value="0">
-					<div id="subTotalPajak"></div>
-					<div class="row">
-						<div id="panel-total" class="panel-body col-md-5 pull-right" style="display:none">
-							<ul class="list-group">
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total Pajak
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="totalPajak" value="0" class="form-control text-right" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Biaya Pengiriman
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="biaya_pengiriman" id="biaya_pengiriman" class="form-control text-right" value="0">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Total
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" class="form-control text-right" id="total" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Dibayar
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" name="dibayar" id="dibayar" class="form-control text-right" value="">
-										</div>
-									</div>
-								</li>
-								<div id="total_angsuran" style="display:none">
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Biaya Angsuran
-											</div>
-											<div class="col-md-2">
-											</div>
-											<div class="col-md-4">
-											<input type="text" name="biaya_angsuran" id="biaya_angsuran" class="form-control text-right" value="0">
-											</div>
-											<div class="col-md-2" id="angsuran" style="margin-left:-10px">
-											</div>
-										</div>
-									</li>
-									<li class="list-group-item">
-										<div class="row">
-											<div class="col-md-4">
-											Total+Bunga Angsuran
-											</div>
-											<div class="col-md-6 pull-right">
-											<input type="text" id="totalplusbunga" class="form-control text-right" value="0">
-											</div>
-										</div>
-									</li>
-								</div>
-								<li class="list-group-item">
-									<div class="row">
-										<div class="col-md-4">
-										Saldo
-										</div>
-										<div class="col-md-6 pull-right">
-										<input type="text" id="saldo" class="form-control text-right" value="0" readonly="readonly">
-										</div>
-									</div>
-								</li>
-							</ul>
-						</div>
-					</div-->
+				<div class="row" id="btnSubmit" style="display:none">
+					<div class="col-md-7"></div>
+					<div class="col-md-3"></div>
+					<div class="col-md-2">
+						<button type="submit" value="Submit" name="btnDraft"  class="btn btn-lg btn-primary hidden-print pull-right">
+							Submit <i class="fa fa-check"></i>
+						</button>
+						<!--button type="submit" value="Submit" name="btnDraft" class="btn btn-lg btn-primary hidden-print pull-right" style="">Btn</button-->
+					</div>
 				</div>
 			</div>
 		</div>
@@ -230,18 +120,3 @@
 </div>
 </form>
 <!-- end: INVOICE -->
-<script type="text/javascript" src="<?=assets_url('vendor/jquery/jquery.min.js')?>"></script>
-<script type="text/javascript">
-	
-	function caristok(gudang){
-			$('#listPenyesuaian').empty();
-			$('#listPenyesuaian').append('<img src="<?php echo base_url() ?>assets/images/loading.gif" />');
-			$('#listPenyesuaian').load('<?php echo base_url() ?>stok/Penyesuaian/liststok',{g:gudang});
-	}
-	$(document).ready(function(e){
-		
-			$('.date').datepicker({
-				format: 'yyyy-mm-dd'
-			});
-	});
-</script>

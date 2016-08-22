@@ -63,15 +63,16 @@
 	<td><input type="file" name="attachment[]"></td>
 
 </tr>
-<script type="text/javascript"> $(document).find("select.barang").select2({
-        dropdownAutoWidth : true,
-        placeholder: "Cari Barang",
-        minimumInputLength: 3,
-    });
-    $(document).find("select.select2").select2({
-        dropdownAutoWidth : true
-    });
-    </script>
+<script type="text/javascript">
+ $(document).find("select.barang").select2({
+    dropdownAutoWidth : true,
+    placeholder: "Cari Barang",
+    minimumInputLength: 3,
+});
+$(document).find("select.select2").select2({
+    dropdownAutoWidth : true
+});
+</script>
 <script type="text/javascript">
 var dec = 2;
 var dec = $("#opsi_desimal_val").val();

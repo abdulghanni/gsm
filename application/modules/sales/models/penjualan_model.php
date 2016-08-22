@@ -112,8 +112,10 @@ class penjualan_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.id as barang_id, barang.photo,barang.kode as kode_barang, 
-            ref_id,
+        $q = $this->db->select('barang.id as barang_id, 
+                                barang.photo,
+                                barang.kode as kode_barang, 
+                                ref_id,
                                 order_list.deskripsi, 
                                 diorder, 
                                 diterima,
@@ -149,6 +151,7 @@ class penjualan_model extends CI_Model {
                                 so, 
                                 no_sj, 
                                 no_faktur,
+                                opsi_desimal,
                                 gudang.title as gudang, 
                                 jatuh_tempo_pembayaran, 
                                 kurensi.title as kurensi, 

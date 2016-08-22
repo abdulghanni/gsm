@@ -16,11 +16,11 @@ $(document).ready(function() {
         var id = $(this).val();
         if(id != 0){
             $('#dari-so').html('<img src="/gsm/assets/images/ajax-loader.gif"> loading...');
-            $('#dari-so').load('get_dari_so/'+id);
-            $("#add_so").show();
+            if($('#dari-so').load('/gsm/sales/penjualan/get_dari_so/'+id)){
+                $("#add_so").show();
+                getTable();
+            }
         }
-        getTable();
-        getTable();
     })
     .change();
 

@@ -1,13 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class pemindahan_model extends CI_Model {
+class penyesuaian_model extends CI_Model {
 
-    var $table = 'stok_pemindahan';
-    var $list = 'stok_pemindahan_list';
+    var $table = 'stok_penyesuaian';
+    var $list = 'stok_penyesuaian_list';
     var $table_join1 = 'barang';
     var $table_join2 = 'satuan';
-    var $column = array('id', 'no', 'tgl', 'gudang_asal', 'gudang_tujuan'); //set column field database for order and search
+    var $column = array('id', 'no', 'tgl', 'catatan'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -79,17 +79,19 @@ class pemindahan_model extends CI_Model {
 
     function get_list($id){
          $this->db->select(
-              $this->list.'.*,
+              $this->list.'.catatan,
+            '.$this->list.'.buku,
+            '.$this->list.'.fisik,
             '.$this->table_join1.'.kode as kode_barang,
             '.$this->table_join1.'.title as nama_barang,
             '.$this->table_join2.'.title as satuan,
-            '.'satuan_awal.title as satuan_awal,
+            '.'satuan_buku.title as satuan_buku,
             ');
         $this->db->from($this->list);
         $this->db->join($this->table_join1, $this->table_join1.'.id = '.$this->list.'.barang_id', 'left');
         $this->db->join($this->table_join2, $this->table_join2.'.id = '.$this->list.'.satuan_id', 'left');
-        $this->db->join($this->table_join2.' as satuan_awal', 'satuan_awal.id = '.$this->list.'.satuan_awal', 'left');
-        $this->db->where('pemindahan_id', $id);
+        $this->db->join($this->table_join2.' as satuan_buku', 'satuan_buku.id = '.$this->list.'.satuan_buku', 'left');
+        $this->db->where('penyesuaian_id', $id);
         return $this->db->get();
     }
 }

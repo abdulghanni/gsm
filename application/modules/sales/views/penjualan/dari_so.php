@@ -51,6 +51,45 @@
 								<input type="hidden" name="kurensi_id" value="<?=$o->kurensi_id?>" class="form-control" readonly>
 							</div>
 						</div>
+
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								Term
+							</label>
+							<div class="col-sm-8">
+								<div class="clip-radio radio-primary">
+									<?php foreach($metode as $m):
+										$checked = ($m->id == $o->metode_pembayaran_id) ? 'checked="checked"' : '';
+									?>
+									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>" <?= $checked;?>>
+									<label for="metode<?=$m->id?>">
+										<?=$m->title?>
+									</label>
+									<?php endforeach;?>
+								</div>
+							</div>
+						</div>
+						<?php $d = "display:none";?>
+						<div id="kredit" style="<?=($o->metode_pembayaran_id == 1) ? $d : ''?>">
+							<div class="form-group">
+								<label class="col-sm-4 control-label" for="inputPassword3">
+									Tempo Pembayaran
+								</label>
+								<div class="col-sm-2">
+									<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="<?= $o->lama_angsuran_1?>">
+								</div>
+								<div class="col-sm-6">
+									<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
+									<option value="0">-- Pilih Tempo Pembayaran --</option>
+								    <option value="hari" <?= ($o->lama_angsuran_2 == 'hari') ? 'selected="selected"' : ''?>>Hari</option>
+						            <option value="bulan" <?= ($o->lama_angsuran_2 == 'bulan') ? 'selected="selected"' : ''?>>Bulan</option>
+						            <option value="tahun" <?= ($o->lama_angsuran_2 == 'tahun') ? 'selected="selected"' : ''?>>Tahun</option>
+		              	            </select>
+								</div>
+							</div>
+						</div>
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Catatan
@@ -62,12 +101,15 @@
                     </div>
                     <div class="col-md-6">
 						<div class="form-group">
+							<?php $i = 1;foreach ($so_id as $key => $v) {?>
 							<label class="col-sm-4 control-label" for="inputPassword3">
-								No. SO
+								No. SO <?= (sizeof($so_id) > 1) ? '- '.$i++ : '';?>
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="so" value="<?=$o->so?>" class="form-control">
+								<input type="text" name="" value="<?=getValue('so', 'sales_order', array('id'=>'where/'.$v))?>" class="form-control">
+								<input type="hidden" name="so" value="<?=$pengeluaran['ref_id']?>">
 							</div>
+							<?php } ?>
 						</div>
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputEmail3">
@@ -119,40 +161,23 @@
                                 </div>
 							</div>
 						</div>
+
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputPassword3">
-								Term
-							</label>
-							<div class="col-sm-8">
-								<div class="clip-radio radio-primary">
-									<?php foreach($metode as $m):?>
-									<input type="radio" id="metode<?=$m->id?>" name="metode_pembayaran_id" value="<?=$m->id?>" <?= ($o->metode_pembayaran_id == $m->id)?'checked':'';?>>
-									<label for="metode<?=$m->id?>">
-										<?=$m->title?>
-									</label>
-									<?php endforeach;?>
-								</div>
-							</div>
-						</div>
-						<?php $d = "display:none";?>
-						<div id="kredit" style="<?=($o->metode_pembayaran_id == 1) ? $d : ''?>">
-							<div class="form-group">
-								<label class="col-sm-4 control-label" for="inputPassword3">
-									Tempo Pembayaran
-								</label>
-								<div class="col-sm-2">
-									<input type="text" placeholder="" name="lama_angsuran_1" id="lama_angsuran_1" class="form-control text-right" value="0">
-								</div>
-								<div class="col-sm-6">
-									<select class="select2" name="lama_angsuran_2" id="lama_angsuran_2" style="width:100%">
-									<option value="0">-- Pilih Tempo Pembayaran --</option>
-								    <option value="hari">Hari</option>
-						            <option value="bulan">Bulan</option>
-						            <option value="tahun">Tahun</option>
-		              	            </select>
-								</div>
-							</div>
-						</div>
+			                <label class="col-sm-4 control-label" for="inputEmail3">
+			                    Opsi Desimal
+			                </label>
+			                <div class="col-sm-8">
+			                    <select name="opsi_desimal" id="opsi_desimal">
+			                    <?php for($i=0;$i<9;$i++):
+			                    $selected = ($i==2) ? "selected='selected'" : '';
+			                    ?>
+			                        <option value="<?=$i?>" <?= $selected ?>><?=$i?></option>
+			                    <?php endfor;?>
+			                    </select>
+			                    <input type="hidden" id="opsi_desimal_val" value="2">
+			                </div>
+			            </div>
+
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
 								Komponen Pajak

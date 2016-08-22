@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
     $('.input-append.date')
         .datepicker({
             todayHighlight: true,
@@ -11,11 +10,11 @@ $(document).ready(function() {
         dropdownAutoWidth : true
     });
 
-function resizeInput() {
-    $(this).attr('size', $(this).val().length);
-}
+    function resizeInput() {
+        $(this).attr('size', $(this).val().length);
+    }
 
-$('input[type="checkbox"]').on('change', function(e){
+    $('input[type="checkbox"]').on('change', function(e){
         if($(this).prop('checked'))
         {
             $(this).next().val(1);
@@ -26,7 +25,7 @@ $('input[type="checkbox"]').on('change', function(e){
         }
     });
 
-$('input[type="text"]')
+    $('input[type="text"]')
     // event handler
     .change(resizeInput)
     // resize on page load
@@ -65,8 +64,8 @@ $('input[type="text"]')
 
     $('#btnAdd').on('click', function () {
         $(document).find("select.select2").select2({
-    dropdownAutoWidth : true
-});
+            dropdownAutoWidth : true
+        });
         //$('#remove').show("slow");
         $('#btnSubmit').show("slow");
         $('#panel-total').show("slow");
@@ -123,8 +122,7 @@ $('input[type="text"]')
     })
 });
 
-
-    function saveKontak()
+function saveKontak()
 {
     $('#btnSaveKontak').text('saving...'); //change button text
     $('#btnSaveKontak').attr('disabled',true); //set button disable 
@@ -137,7 +135,6 @@ $('input[type="text"]')
         dataType: "JSON",
         success: function(data)
         {
-
             if(data.status) //if success close modal and reload ajax table
             {
                 $('#modalKontak').modal('hide');

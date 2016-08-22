@@ -318,15 +318,18 @@ class Pengeluaran extends MX_Controller {
     {
         permissionUser();
         $url = base_url().'stok/pengeluaran/detail/'.$id;
+        $no = getValue('no', $this->table_name, array('id'=>'where/'.$id));
         $isi = getName(sessId())." Melakukan Transaksi pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
         $approver = getAll('approver');
         foreach($approver->result() as $r):
-		$data = array('sender_id' => sessId(),
-		'receiver_id' => $r->user_id,
-		'sent_on' => dateNow(),
-		'judul' => 'pengeluaran Order',
-		'isi' => $isi,
-		'url' => $url,
+		$data = array(
+            'sender_id' => sessId(),
+    		'receiver_id' => $r->user_id,
+    		'sent_on' => dateNow(),
+            'no' => $no,
+    		'judul' => 'pengeluaran Order',
+    		'isi' => $isi,
+    		'url' => $url,
 		);
         $this->db->insert('notifikasi', $data);
         endforeach;
@@ -338,35 +341,34 @@ class Pengeluaran extends MX_Controller {
         $data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->load->model('sales/order_model', 'so');
         $data['options_kontak'] = options_row('so','get_kontak','id','title','-- Pilih Supplier --');
-			$v=$_POST['v'];
-			$cariref=$this->db->query("SELECT * FROM sales_order WHERE (id='$v' OR so='$v') ");
-			if($cariref->num_rows()>0){
-					$data['refid']=$cariref->row_array();
-				//if($data['refid']['is_app_lv1']==1){
-					if($data['refid']['is_closed']==0){
-						$data['reftype']='sales_order';
-						$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
-						if($cekparsial->num_rows()>0){
-							$data['part']=TRUE;	
-							$data['partno']=$cekparsial->num_rows()+1;	
-						}
-						
-						$this->load->view('stok/pengeluaran/input_id',$data);
-						
-						}
-					else{
-							$data['message']="Transaksi sudah CLOSED";
-							$this->load->view('stok/pengeluaran/error',$data);
-						}
-				/* }
+		$v=$_POST['v'];
+		$cariref=$this->db->query("SELECT * FROM sales_order WHERE (id='$v' OR so='$v') ");
+		if($cariref->num_rows()>0){
+				$data['refid']=$cariref->row_array();
+			//if($data['refid']['is_app_lv1']==1){
+				if($data['refid']['is_closed']==0){
+					$data['reftype']='sales_order';
+					$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran WHERE ref_type='".$data['reftype']."' AND ref_id='".$data['refid']['id']."'");
+					if($cekparsial->num_rows()>0){
+						$data['part']=TRUE;	
+						$data['partno']=$cekparsial->num_rows()+1;	
+					}
+					
+					$this->load->view('stok/pengeluaran/input_id',$data);
+					
+					}
 				else{
-					$data['message']="S.O BELUM di APPROVE";
-				$this->load->view('stok/pengeluaran/error',$data);} */
-			}
+						$data['message']="Transaksi sudah CLOSED";
+						$this->load->view('stok/pengeluaran/error',$data);
+					}
+			/* }
 			else{
-				$data['message']="Transaksi TIDAK DITEMUKAN";
-				$this->load->view('stok/pengeluaran/error',$data);
-			}
+				$data['message']="S.O BELUM di APPROVE";
+			$this->load->view('stok/pengeluaran/error',$data);} */
+		}else{
+			$data['message']="Transaksi TIDAK DITEMUKAN";
+			$this->load->view('stok/pengeluaran/error',$data);
+		}
 	}
 
 	function carilist(){
