@@ -80,7 +80,7 @@ class wo extends MX_Controller {
                 'barang_id' => $list['barang_id'][$i],
                 'deskripsi' => $list['deskripsi'][$i],
                 'catatan' => $list['catatan_barang'][$i],
-                'jumlah' => str_replace(',', '', $list['jumlah'][$i]),
+                'qty' => str_replace(',', '', $list['jumlah'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 'sisa_stok' => $list['sisa_stok'][$i],
             );
