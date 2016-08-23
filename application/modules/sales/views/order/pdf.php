@@ -113,17 +113,16 @@ td{ height:30px;}
     	</tr>
     </tr>
 	<?php 
-		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo = 0;
-		$i=1;foreach($order_list->result() as $ol): ?>
+		$totalpajak = $total = $biaya_angsuran = $totalplusbunga = $saldo =$exc = $total_diskon= 0;
+		$i=1;foreach($order_list->result() as $ol): 
+    $diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
+    $subtotal = $ol->jumlah*$ol->harga-$diskon;
+    $totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
+    $exc = ($ol->inc_ppn != 0) ? 0 : $exc + ($subtotal * (10/100));
+    $total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
+    $total = $total + $subtotal;
+    ?>
 	<tr>
-	<?php 
-		$diskon = $ol->jumlah*$ol->harga*($ol->disc/100);
-		$subtotal = $ol->jumlah*$ol->harga-$diskon;
-		$totalpajak = $totalpajak + ($subtotal * ($ol->pajak/100));
-		$total_diskon= $total_diskon + ($ol->jumlah*$ol->harga * ($ol->disc/100));
-		$total = $total + $subtotal;
-		$ex_tax = ($ol->pajak != 0)? '*' : '';
-	?>
 		<td width="5%"><?=$i++?></td>
 		<td width="15%"><?=$ol->kode_barang.' '.$ex_tax?></td>
 		<td width="20%"><?=$ol->deskripsi?><br/><?=$ol->catatan?></td>
@@ -132,7 +131,13 @@ td{ height:30px;}
 		<td width="5%" align="right"><?=$ol->disc?></td>
 		<td width="20%" align="right"><?= number_format($subtotal, 2)?></td>
 	</tr>
-<?php endforeach;?>
+<?php endforeach;
+  $total_pajak = $o->total_ppn + $o->total_pph22 + $o->total_pph23;
+  $total = $total+$o->biaya_pengiriman-$total_pajak+$exc;
+  $totalpluspajak = $total+$total_pajak;
+  $dp = $totalpluspajak * ($o->dibayar/100);
+  $saldo = $totalpluspajak - $dp - $o->dibayar_nominal;
+?>
 	</table>
   
 <div style="float: right; width: 25%">
@@ -164,7 +169,7 @@ td{ height:30px;}
   <tr>
     <td width="100px">Grand Total</td>
     <td width="10px">:</td>
-    <td width="100px" align="right"><?=number_format($totalpluspajak, 2)?></td>
+    <td width="100px" align="right"><?=number_format($total+$total_pajak, 2)?></td>
   </tr>
 </table>
 </div>
