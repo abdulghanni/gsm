@@ -160,8 +160,8 @@
                     <td><?= getValue('title', 'barang', array('id'=>'where/'.$l->kode_barang))?></td>
                     <td align="right" class="val-bth<?=$r->id?>">
                       <?=$l->jumlah?>
-                      <input type="hidden" name="jumlah_komposisi" value="<?=$l->jumlah?>" class="fix-val<?=$r->id?>">
                     </td>
+                      <input type="text" name="jumlah_komposisi" value="<?=$l->jumlah?>" class="fix-val<?=$r->id?>">
                     <td>
                       <?= getValue('title', 'satuan', array('id'=>'where/'.$l->satuan_id))?>
                       <input type="hidden" name="satuan_id_komposisi" value="<?=$l->satuan_id?>">
@@ -202,10 +202,11 @@ $('.number').maskMoney(
   );
   function hitung(id){
     var val = $("#dibuat-"+id).val();
+        val = parseInt(val);
     $("#th-bth-"+id).text("Qty Dibuthkan(x"+val+")");
     $(".val-bth"+id).each(function(index2, element2){
       var v = parseInt($("#dibuat-"+id).val());
-      var v = val;
+      // var v = val;
       var x = 0;
       var x = parseInt($(".fix-val"+id).eq(index2).val());
       y = x*v;
