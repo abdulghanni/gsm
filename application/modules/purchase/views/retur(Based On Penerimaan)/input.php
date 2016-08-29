@@ -38,13 +38,14 @@
 				<div class="row form-row">
 					<div class="col-md-6">
 						<div class="col-md-5">
-							<label class="control-label">Salin Dari P.O</label>
+							<label class="control-label">Salin Dari Penerimaan Stok</label>
 						</div>
 						<div class="col-md-7">
 							<select class="select2" id="list_pembelian" style="width:100%" name="penerimaan_id">
-								<option value="0">-- Pilih NO. PO --</option>
+								<option value="0">-- Pilih NO. Penerimaan --</option>
 								<?php foreach($po as $p):?>
-								<option value="<?=$p->id?>"><?=$p->po?></option>
+								<option value="<?=$p->id?>"><?=date('Ymd', strtotime($p->created_on)).sprintf('%04d',$p->id)?></option>
+								<!--<option value="<?=$p->id?>"><?=$p->po?></option>-->
 								<?php endforeach;?>
 							</select>
 						</div>

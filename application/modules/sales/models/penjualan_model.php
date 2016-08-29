@@ -112,7 +112,8 @@ class penjualan_model extends CI_Model {
 
     function get_list_detail($id)
     {
-        $q = $this->db->select('barang.id as barang_id, 
+        $q = $this->db->select('order_list.id as id,
+                                barang.id as barang_id, 
                                 barang.photo,
                                 barang.kode as kode_barang, 
                                 ref_id,

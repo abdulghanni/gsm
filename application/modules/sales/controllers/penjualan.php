@@ -68,7 +68,108 @@ class Penjualan extends MX_Controller {
     }
 
     function edit($id){
+        //print_mz(str_replace(',', '', $this->input->post('total-ppn')));
+        permissionUser();
+        $list = array(
+                        'list_id'=>$this->input->post('list_id'),
+                        'kode_barang'=>$this->input->post('kode_barang'),
+                        'ref_id'=>$this->input->post('ref_id'),
+                        'deskripsi'=>$this->input->post('deskripsi'),
+                        'diterima'=>$this->input->post('jumlah'),
+                        'diorder'=>$this->input->post('diorder'),
+                        'satuan'=>$this->input->post('satuan'),
+                        'harga'=>$this->input->post('harga'),
+                        'disc'=>$this->input->post('disc'),
+                        'pajak'=>$this->input->post('pajak'),
+                        'catatan_barang'=>$this->input->post('catatan_barang'),
+                        'inc_ppn'=>$this->input->post('pajak_checkbox1'),
+                        );
 
+        $data = array(
+                'no' => $this->input->post('no'),
+                'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
+                //'kontak_id'=>$this->input->post('kontak_id'),
+                //'up'=>'',
+                'alamat'=>$this->input->post('alamat'),
+                //'kurensi_id'=>$this->input->post('kurensi_id'),
+                'metode_pembayaran_id'=>$this->input->post('metode_pembayaran_id'),
+                'lama_angsuran_1' =>$this->input->post('lama_angsuran_1'),
+                'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
+                'catatan' =>$this->input->post('catatan'),
+
+                'no_sj'=> implode(',',$this->input->post('no_sj')),
+                //'so'=>$this->input->post('so'),
+                'no_faktur'=>$this->input->post("no_faktur"),
+                'tanggal_faktur'=>date('Y-m-d',strtotime($this->input->post('tanggal_faktur'))),
+                'tanggal_pengantaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
+                //'gudang_id'=>$this->input->post('gudang_id'),
+                'project'=>$this->input->post("project"),
+                'opsi_desimal'=>$this->input->post('opsi_desimal'),
+                'jatuh_tempo_pembayaran'=>date('Y-m-d',strtotime($this->input->post('tanggal_pengiriman'))),
+
+
+                'total_ppn' => str_replace(',', '', $this->input->post('total-ppn')),
+                'total_pph22' => str_replace(',', '', $this->input->post('total-pph22')),
+                'total_pph23' => str_replace(',', '', $this->input->post('total-pph23')),
+
+                'biaya_pengiriman'=>str_replace(',', '', $this->input->post('biaya_pengiriman')),
+                'total_diskon' => str_replace(',', '', $this->input->post('total-diskon')),
+                'total' => str_replace(',', '', $this->input->post('total')),
+                'total_plus_pajak' => str_replace(',', '', $this->input->post('total_plus_pajak')),
+
+                'dibayar'=>str_replace(',', '', $this->input->post('dibayar')),
+                'dibayar_nominal'=>str_replace(',', '', $this->input->post('dibayar-nominal')),
+
+                'saldo'=>str_replace(',', '', $this->input->post('saldo')),
+
+                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
+                'created_by' => sessId(),
+                'created_on' => dateNow(),
+            );
+
+        $this->db->where('id', $id)->update($this->table_name, $data);
+        // if($this->input->post('metode_pembayaran_id') == 2){
+        //     $data_hutang = array(
+        //                  'penjualan_id'=>$insert_id,
+        //                  'total'=>str_replace(',', '', $this->input->post('saldo')),
+        //                  'terbayar'=>0,
+        //                  'saldo'=>str_replace(',', '', $this->input->post('saldo')),
+        //                  'status_hutang_id'=>1,  
+        //         );
+        //     $this->db->insert('sales_piutang_list', $data_hutang);
+        // }
+        for($i=0;$i<sizeof($list['kode_barang']);$i++):
+            $data2 = array(
+                //$this->file_name.'_id' => $insert_id,
+                'ref_id' => $list['ref_id'][$i],
+                'kode_barang' => $list['kode_barang'][$i],
+                'deskripsi' => $list['deskripsi'][$i],
+                'diterima' => str_replace(',', '', $list['diterima'][$i]),
+                'diorder' => str_replace(',', '', $list['diorder'][$i]),
+                'satuan_id' => $list['satuan'][$i],
+                'inc_ppn' => $list['inc_ppn'][$i],
+                'harga' => str_replace(',', '', $list['harga'][$i]),
+                'disc' => str_replace(',', '', $list['disc'][$i]),
+                'pajak' => str_replace(',', '', $list['pajak'][$i]),
+                'catatan' => str_replace(',', '', $list['catatan_barang'][$i]),
+                );
+        $this->db->where('id', $list['list_id'])->update($this->table_name.'_list', $data2);
+        //$this->db->where('id', $list['ref_id'][$i])->update('stok_pengeluaran', array('is_closed'=>1));
+        $this->load->library('upload');
+        $this->upload->initialize($this->set_upload_options());
+        if($this->upload->do_multi_upload("attachment")){
+            $up = $this->upload->get_multi_upload_data();
+            $att = array(
+                    'attachment' => $up[$i]['file_name'],
+                );
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $att);
+        }else{
+            $att = $this->input->post('attachment');
+            $attx = (!empty($att[$i])) ? $att[$i] : '';
+            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
+        }
+        endfor;
+        redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
     function add()

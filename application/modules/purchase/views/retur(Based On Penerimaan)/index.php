@@ -31,6 +31,7 @@
                         <tr>
                             <th width="1%" align="center">No.</th>
                             <th width="10%"><?php echo 'No. Retur';?></th>
+                            <th width="15%"><?php echo 'No. Penerimaan';?></th>
                             <th width="15%"><?php echo 'No. PO';?></th>
                             <th width="15%"><?php echo 'Supplier';?></th>
                             <th width="5%" class="text-center"><?php echo 'Tanggal PO';?></th>

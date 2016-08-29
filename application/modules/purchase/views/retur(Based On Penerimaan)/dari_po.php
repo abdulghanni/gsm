@@ -98,10 +98,10 @@
 					<?php $i=1;foreach($order_list->result() as $ol): ?>
 						<tr>
 							<td><?=$i++?></td>
-							<td><?=getValue('kode', 'barang', array('id'=>'where/'.$ol->kode_barang))?></td>
-							<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->kode_barang?>">
-							<td><?=getValue('title', 'barang', array('id'=>'where/'.$ol->kode_barang))?></td>
-							<td><textarea name="deskripsi[]"><?=$ol->deskripsi?></textarea></td>
+							<td><?=getValue('kode', 'barang', array('id'=>'where/'.$ol->barang_id))?></td>
+							<input type="hidden" name="kode_barang[]" class="form-control text-right" value="<?=$ol->barang_id?>">
+							<td><?=getValue('title', 'barang', array('id'=>'where/'.$ol->barang_id))?></td>
+							<td><textarea name="deskripsi[]"><?=getValue('title', 'barang', array('id'=>'where/'.$ol->barang_id))?></textarea></td>
 							<td class="text-right"><?=$ol->jumlah?></td>
 							<input type="hidden" name="diterima[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="">
 							<td class="text-right"><input type="text" name="diretur[]" class="form-control text-right" value="<?=$ol->jumlah?>" id="jumlah<?=$i?>"></td>

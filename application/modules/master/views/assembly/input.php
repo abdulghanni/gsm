@@ -92,11 +92,14 @@
                                                                 foreach($list as $ls){?>
 								<tr>
                                                                     <td><input type="checkbox" name="chkbox[]" class="checkbox1"/></td>
-									<td> <?php 
-                                                $nmf='kode_barang[]';
-			                    	$js = 'class="select2" style="width:100%" id="barang_id'.$a.'"';
-			                    	echo form_dropdown($nmf,$opt_barang,isset($ls['kode_barang'])?$ls['kode_barang'] : '',$js); 
-			                  	?> </td>
+									<td> 
+										<select name="kode_barang[]" class="select2" style="width:100%" id="barang_id<?=$a?>">
+											<option value="0">-- Pilih Barang--</option>php
+											<?php foreach($opt_barang as $b){
+												echo "<option value=$b->id>$b->title</option>";
+											}?>
+										</select>
+									</td>
 									<!--th width="20%"> Deskripsi </th--><?php 
                                                 $nmf='jumlah[]';
                                                 

@@ -93,11 +93,19 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="col-sm-4 control-label" for="inputEmail3">
-								Tanggal PO
+							<label class="col-sm-4 control-label" for="inputPassword3">
+								No. Penerimaan
 							</label>
 							<div class="col-sm-8">
-                                  <input type="text" class="form-control" name="tanggal_pengiriman" value="<?=dateIndo($o->tanggal_po)?>" readonly>
+								<input type="text" name="po" value="<?=date('Ymd', strtotime($o->created_on)).sprintf('%04d',$o->penerimaan_id)?>" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputEmail3">
+								Tanggal Penerimaan
+							</label>
+							<div class="col-sm-8">
+                                  <input type="text" class="form-control" name="tanggal_pengiriman" value="<?=dateIndo($o->tanggal_penerimaan)?>" readonly>
 							</div>
 						</div>
 						<div class="form-group">

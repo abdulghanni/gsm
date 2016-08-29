@@ -10,7 +10,7 @@ class retur_model extends CI_Model {
     var $table_join2 = 'metode_pembayaran';
     var $table_join3 = 'kurensi';
     var $table_join4 = 'gudang';
-    var $column = array('id', 'no', 'penerimaan_id', 'po','kontak','tanggal_penerimaan', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
+    var $column = array('id', 'no', 'po','kontak','tanggal_po', 'tanggal_transaksi', 'gudang'); //set column field database for order and search
     var $order = array('id' => 'desc'); // default order 
 
     public function __construct()
@@ -24,20 +24,19 @@ class retur_model extends CI_Model {
         
         $this->db->select('purchase_return.no,
                             purchase_return.id as id,
-                                penerimaan_id,
-                                stok_penerimaan.tgl as tanggal_penerimaan,
-                                purchase_order.po as po,
-                                kontak.title as kontak,
-                                gudang.title as gudang,
-                                purchase_return.tanggal_transaksi,
-                                purchase_return.catatan,
-                                purchase_return.created_on,
-                                purchase_return.created_by'
+                            purchase_order.po as po,
+                            purchase_order.tanggal_transaksi as tanggal_po,
+                            kontak.title as kontak,
+                            gudang.title as gudang,
+                            purchase_return.tanggal_transaksi,
+                            purchase_return.catatan,
+                            purchase_return.created_on,
+                            purchase_return.created_by'
                                 )
                  ->from($this->table)
-                 ->join('stok_penerimaan', 'stok_penerimaan'.'.id ='.$this->table.'.penerimaan_id', 'left')
-                 ->join('gudang', 'stok_penerimaan'.'.gudang_to ='.'gudang'.'.id', 'left')
-                 ->join('purchase_order', 'stok_penerimaan'.'.ref_id ='.'purchase_order'.'.id', 'left')
+                 // ->join('stok_penerimaan', 'stok_penerimaan'.'.id ='.$this->table.'.penerimaan_id', 'left')
+                 ->join('purchase_order', 'purchase_return'.'.ref_id ='.'purchase_order'.'.id', 'left')
+                 ->join('gudang', 'purchase_order'.'.gudang_id ='.'gudang'.'.id', 'left')
                  ->join('kontak', 'kontak'.'.id ='.'purchase_order'.'.kontak_id', 'left');
 
         $i = 0;
@@ -112,9 +111,8 @@ class retur_model extends CI_Model {
     function get_detail($id)
     {
         $q = $this->db->select('purchase_return.no,
-                                penerimaan_id,
-                                stok_penerimaan.tgl as tanggal_penerimaan,
                                 purchase_order.po as po,
+                                purchase_order.tanggal_transaksi as tanggal_po,
                                 kontak.title as kontak,
                                 gudang.title as gudang,
                                 purchase_return.tanggal_transaksi,
@@ -123,9 +121,8 @@ class retur_model extends CI_Model {
                                 purchase_return.created_by'
                                 )
                  ->from($this->table)
-                 ->join('stok_penerimaan', 'stok_penerimaan'.'.id ='.$this->table.'.penerimaan_id', 'left')
-                 ->join('gudang', 'stok_penerimaan'.'.gudang_to ='.'gudang'.'.id', 'left')
-                 ->join('purchase_order', 'stok_penerimaan'.'.ref_id ='.'purchase_order'.'.id', 'left')
+                 ->join('purchase_order', 'purchase_return'.'.ref_id ='.'purchase_order'.'.id', 'left')
+                 ->join('gudang', 'purchase_order'.'.gudang_id ='.'gudang'.'.id', 'left')
                  ->join('kontak', 'kontak'.'.id ='.'purchase_order'.'.kontak_id', 'left')
                  ->where("$this->table.id", $id)
                  ->get();

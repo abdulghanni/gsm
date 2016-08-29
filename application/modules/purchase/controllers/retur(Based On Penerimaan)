@@ -40,7 +40,7 @@ class Retur extends MX_Controller {
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih kontak --');
         //$this->data['po'] = GetAllSelect('purchase_order', array('id','po'), array('id'=>'order/desc'))->result();
-        $this->data['po'] = GetAllSelect('purchase_order', array('id', 'po'), array('id'=>'order/desc'))->result();
+        $this->data['po'] = GetAllSelect('stok_penerimaan', array('id', 'created_on'), array('id'=>'order/desc'))->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
 
@@ -64,9 +64,9 @@ class Retur extends MX_Controller {
         $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $order_id = getValue('ref_id', 'stok_penerimaan', array('id'=>'where/'.$id));
-        $this->data['tgl_terima'] = getValue('tgl', 'stok_penerimaan', array('ref_id'=>'where/'.$id));
-        $this->data['order'] = $this->main->get_detail_po($id);
-        $this->data['order_list'] = getAll('purchase_order_list', array('order_id'=>'where/'.$id));//print_mz($this->data['order_list']->result());
+        $this->data['tgl_terima'] = getValue('tgl', 'stok_penerimaan', array('id'=>'where/'.$id));
+        $this->data['order'] = $this->main->get_detail_po($order_id);
+        $this->data['order_list'] = getAll('stok_penerimaan_list', array('penerimaan_id'=>'where/'.$id));
         $this->load->view($this->module.'/'.$this->file_name.'/dari_po', $this->data);
     }
 
@@ -83,7 +83,7 @@ class Retur extends MX_Controller {
         $data = array(
                 'no' => $this->input->post('no'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
-                'ref_id'=>$this->input->post('penerimaan_id'),
+                'penerimaan_id'=>$this->input->post('penerimaan_id'),
                 'catatan' =>$this->input->post('catatan'),
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
@@ -100,13 +100,9 @@ class Retur extends MX_Controller {
                 'diterima' => str_replace(',', '', $list['diterima'][$i]),
                 'satuan_id' => $list['satuan'][$i],
                 );
-            if($this->db->insert($this->table_name.'_list', $data2)){
-                $sisa = getValue('dalam_stok', 'stok', array('barang_id'=>'where/'.$list['kode_barang'][$i])) - $list['diretur'][$i];
-                $this->db->where('barang_id', $list['kode_barang'][$i])->update('stok', array('dalam_stok'=>$sisa));
-                $status = ($list['diretur'][$i] >= $list['diterima'][$i]) ? 4 : 5;
-            }
+        $this->db->insert($this->table_name.'_list', $data2);
         endfor;
-        $this->insert_po_status($this->input->post('penerimaan_id'));
+        
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
 
@@ -122,9 +118,10 @@ class Retur extends MX_Controller {
             $row = array();
             $row[] = $no;
             $row[] = "<a href=$detail>#".$r->no.'</a>';
+            $row[] = date('Ymd', strtotime($r->created_on)).sprintf('%04d',$r->penerimaan_id);
             $row[] = $r->po;
             $row[] = $r->kontak;
-            $row[] = $r->tanggal_po;
+            $row[] = $r->tanggal_penerimaan;
             $row[] = $r->tanggal_transaksi;
             $row[] = $r->gudang;
 
@@ -224,18 +221,6 @@ class Retur extends MX_Controller {
         else
         {
             return $this->load->view($view, $data, TRUE);
-        }
-    }
-
-    function insert_po_status($id){
-        $po_in_stok = GetAllSelect('purchase_return', 'ref_id', array('ref_id'=>'where/'.$id))->num_rows();
-        $num_in_po = $this->db->select_sum('jumlah')->where('order_id', $id)->get('purchase_order_list')->row()->jumlah;
-        $retur_id = getValue('id', 'purchase_return', array('ref_id'=>'where/'.$id));
-        $num_in_stok = $this->db->select_sum('diretur')->where('retur_id', $retur_id)->get('purchase_return_list')->row()->diretur;
-        if($num_in_stok >= $num_in_po){
-            $this->db->where('id', $id)->update('purchase_order', array('status_id'=>4));
-        }elseif($num_in_stok < $num_in_po && $po_in_stok > 0){
-             $this->db->where('id', $id)->update('purchase_order', array('status_id'=>5));
         }
     }
 }

@@ -12,8 +12,8 @@ $(document).ready(function() {
     $("#list_pembelian").change(function(){
         var id = $(this).val();
         if(id != 0){
-            id = id.substring(0,1);
-            $('#dari-pembelian').load('get_dari_po/'+id);
+            //id = id.substring(0,1);
+            $('#dari-pembelian').load('/gsm/purchase/retur/get_dari_po/'+id);
         }
     })
     .change();
