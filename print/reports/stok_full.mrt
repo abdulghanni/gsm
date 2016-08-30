@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <StiSerializer version="1.02" application="StiReport" type="Flex">
-  <Dictionary Ref="1" isKey="true" type="Dictionary">
+  <Dictionary Ref="1" type="Dictionary" isKey="true">
     <BusinessObjects isList="true" count="0"/>
     <Databases isList="true" count="1">
-      <q Ref="2" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlDatabase">
+      <q Ref="2" type="Stimulsoft.Report.Dictionary.StiMySqlDatabase" isKey="true">
         <Alias>q</Alias>
         <ConnectionStringEncrypted>48j7a9dKAYRrTKXU5QBlY4tU1ytsVQHNwE39xGR4tTbCcLPLSEwxzeIVpaVOBWJ70Wz9CUhQ+oVx
 TZy9ZAA=</ConnectionStringEncrypted>
@@ -11,7 +11,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
       </q>
     </Databases>
     <DataSources isList="true" count="1">
-      <list Ref="3" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+      <list Ref="3" type="Stimulsoft.Report.Dictionary.StiMySqlSource" isKey="true">
         <Alias>list</Alias>
         <Columns isList="true" count="10">
           <value>id,System.Int32</value>
@@ -44,22 +44,22 @@ TZy9ZAA=</ConnectionStringEncrypted>
       <value>,barang,Nama_x0020_Barang,,System.String,,False,False,True</value>
       <value>,gudang,Gudang,,System.String,,False,False,True</value>
       <value>,gt0,Lebih_x0020_dari_x0020_0,System.Int32,,False,False</value>
-      <value>,jenis_barang,Jenis_x0020_Barang,System.Int32,,False,False</value>
+      <value>,jenis_barang,Jenis_x0020_Barang,,System.String,,True,False,True</value>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
   <GlobalizationStrings isList="true" count="0"/>
   <MetaTags isList="true" count="0"/>
   <Pages isList="true" count="1">
-    <Page1 Ref="4" isKey="true" type="Page">
+    <Page1 Ref="4" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
       <Components isList="true" count="16">
-        <PageFooterBand1 Ref="5" isKey="true" type="PageFooterBand">
+        <PageFooterBand1 Ref="5" type="PageFooterBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,27.3,19,0.4</ClientRectangle>
           <Components isList="true" count="1">
-            <Text6 Ref="6" isKey="true" type="Text">
+            <Text6 Ref="6" type="Text" isKey="true">
               <Border>None;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <ClientRectangle>6.8,0,12.2,0.4</ClientRectangle>
@@ -81,11 +81,11 @@ TZy9ZAA=</ConnectionStringEncrypted>
           <Page isRef="4"/>
           <Parent isRef="4"/>
         </PageFooterBand1>
-        <ReportTitleBand2 Ref="7" isKey="true" type="ReportTitleBand">
+        <ReportTitleBand2 Ref="7" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0.4,19,2.2</ClientRectangle>
           <Components isList="true" count="2">
-            <Text23 Ref="8" isKey="true" type="Text">
+            <Text23 Ref="8" type="Text" isKey="true">
               <Border>Bottom;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,19,2.2</ClientRectangle>
@@ -103,7 +103,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text23>
-            <Image1 Ref="9" isKey="true" type="Image">
+            <Image1 Ref="9" type="Image" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.8,0,2.6,2</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -379,11 +379,11 @@ wIHZxw1GtVNVZ7KXXz/po6f+8NndQ4flfhMKhjw3fG/Gqlf+vPG2gWW5J2bOG7bFtjklBIVSQBmj
           <Page isRef="4"/>
           <Parent isRef="4"/>
         </ReportTitleBand2>
-        <HeaderBand2 Ref="10" isKey="true" type="HeaderBand">
+        <HeaderBand2 Ref="10" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,3.4,19,0.8</ClientRectangle>
           <Components isList="true" count="10">
-            <Text11 Ref="11" isKey="true" type="Text">
+            <Text11 Ref="11" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>0.8,0,1.6,0.8</ClientRectangle>
@@ -401,7 +401,7 @@ wIHZxw1GtVNVZ7KXXz/po6f+8NndQ4flfhMKhjw3fG/Gqlf+vPG2gWW5J2bOG7bFtjklBIVSQBmj
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text11>
-            <Text10 Ref="12" isKey="true" type="Text">
+            <Text10 Ref="12" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>2.4,0,4,0.8</ClientRectangle>
@@ -419,7 +419,7 @@ wIHZxw1GtVNVZ7KXXz/po6f+8NndQ4flfhMKhjw3fG/Gqlf+vPG2gWW5J2bOG7bFtjklBIVSQBmj
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text10>
-            <Text7 Ref="13" isKey="true" type="Text">
+            <Text7 Ref="13" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>8.2,0,1.6,0.8</ClientRectangle>
@@ -438,7 +438,7 @@ Tersedia</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text7>
-            <Text9 Ref="14" isKey="true" type="Text">
+            <Text9 Ref="14" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>11.4,0,1.4,0.8</ClientRectangle>
@@ -456,7 +456,7 @@ Tersedia</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text9>
-            <Text8 Ref="15" isKey="true" type="Text">
+            <Text8 Ref="15" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>9.8,0,1.6,0.8</ClientRectangle>
@@ -475,7 +475,7 @@ Minimum</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text8>
-            <Text12 Ref="16" isKey="true" type="Text">
+            <Text12 Ref="16" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>16.4,0,2.6,0.8</ClientRectangle>
@@ -493,7 +493,7 @@ Minimum</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text12>
-            <Text13 Ref="17" isKey="true" type="Text">
+            <Text13 Ref="17" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>0,0,0.8,0.8</ClientRectangle>
@@ -511,7 +511,7 @@ Minimum</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text13>
-            <Text18 Ref="18" isKey="true" type="Text">
+            <Text18 Ref="18" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>12.8,0,1.8,0.8</ClientRectangle>
@@ -529,7 +529,7 @@ Minimum</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text18>
-            <Text14 Ref="19" isKey="true" type="Text">
+            <Text14 Ref="19" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>14.6,0,1.8,0.8</ClientRectangle>
@@ -547,7 +547,7 @@ Minimum</Text>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text14>
-            <Text21 Ref="20" isKey="true" type="Text">
+            <Text21 Ref="20" type="Text" isKey="true">
               <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
               <Brush>[242:234:221]</Brush>
               <ClientRectangle>6.4,0,1.8,0.8</ClientRectangle>
@@ -573,11 +573,11 @@ Minimum</Text>
           <Parent isRef="4"/>
           <PrintIfEmpty>True</PrintIfEmpty>
         </HeaderBand2>
-        <DataBand1 Ref="21" isKey="true" type="DataBand">
+        <DataBand1 Ref="21" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,5,19,1</ClientRectangle>
           <Components isList="true" count="32">
-            <Text1 Ref="22" isKey="true" type="Text">
+            <Text1 Ref="22" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanBreak>True</CanBreak>
               <CanGrow>True</CanGrow>
@@ -594,7 +594,7 @@ Minimum</Text>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>DataColumn</Type>
             </Text1>
-            <Text3 Ref="23" isKey="true" type="Text">
+            <Text3 Ref="23" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.8,0.2,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -607,7 +607,7 @@ Minimum</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text3>
-            <Text4 Ref="24" isKey="true" type="Text">
+            <Text4 Ref="24" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>8.2,0.2,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -620,7 +620,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <Text>{list.dalam_stok}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="25" isKey="true" type="NumberFormat">
+              <TextFormat Ref="25" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator></GroupSeparator>
@@ -629,7 +629,7 @@ Minimum</Text>
               </TextFormat>
               <Type>DataColumn</Type>
             </Text4>
-            <Text5 Ref="26" isKey="true" type="Text">
+            <Text5 Ref="26" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>9.8,0.2,1.6,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -642,7 +642,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <Text>{list.minimum_stok}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="27" isKey="true" type="NumberFormat">
+              <TextFormat Ref="27" type="NumberFormat" isKey="true">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator></GroupSeparator>
@@ -651,7 +651,7 @@ Minimum</Text>
               </TextFormat>
               <Type>DataColumn</Type>
             </Text5>
-            <Text2 Ref="28" isKey="true" type="Text">
+            <Text2 Ref="28" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0.2,0.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -663,7 +663,7 @@ Minimum</Text>
               <Text>{Line}</Text>
               <TextBrush>Black</TextBrush>
             </Text2>
-            <Text15 Ref="29" isKey="true" type="Text">
+            <Text15 Ref="29" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>11.4,0.2,1.4,0.6</ClientRectangle>
@@ -680,7 +680,7 @@ Minimum</Text>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>DataColumn</Type>
             </Text15>
-            <Text16 Ref="30" isKey="true" type="Text">
+            <Text16 Ref="30" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>16.4,0.2,2.6,0.6</ClientRectangle>
@@ -695,7 +695,7 @@ Minimum</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text16>
-            <Text20 Ref="31" isKey="true" type="Text">
+            <Text20 Ref="31" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>12.8,0.2,1.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -708,7 +708,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <Text>{list.harga_beli}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="32" isKey="true" type="NumberFormat">
+              <TextFormat Ref="32" type="NumberFormat" isKey="true">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator></GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -716,7 +716,7 @@ Minimum</Text>
               </TextFormat>
               <Type>DataColumn</Type>
             </Text20>
-            <Text17 Ref="33" isKey="true" type="Text">
+            <Text17 Ref="33" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>14.6,0.2,1.8,0.6</ClientRectangle>
               <Conditions isList="true" count="0"/>
@@ -729,7 +729,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <Text>{list.harga_jual}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="34" isKey="true" type="NumberFormat">
+              <TextFormat Ref="34" type="NumberFormat" isKey="true">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator></GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -737,7 +737,7 @@ Minimum</Text>
               </TextFormat>
               <Type>DataColumn</Type>
             </Text17>
-            <Text22 Ref="35" isKey="true" type="Text">
+            <Text22 Ref="35" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <CanBreak>True</CanBreak>
               <CanGrow>True</CanGrow>
@@ -755,21 +755,21 @@ Minimum</Text>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>DataColumn</Type>
             </Text22>
-            <HorizontalLinePrimitive1 Ref="36" isKey="true" type="HorizontalLinePrimitive">
+            <HorizontalLinePrimitive1 Ref="36" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,1,19,0.0254</ClientRectangle>
               <Color>Black</Color>
               <Conditions isList="true" count="0"/>
-              <EndCap Ref="37" isKey="true" type="Cap">
+              <EndCap Ref="37" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive1</Name>
               <Page isRef="4"/>
               <Parent isRef="21"/>
-              <StartCap Ref="38" isKey="true" type="Cap">
+              <StartCap Ref="38" type="Cap" isKey="true">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive1>
-            <StartPointPrimitive1 Ref="39" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive1 Ref="39" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0.8,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive1</Name>
@@ -777,7 +777,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>6c7779a5dc2146c8418a66ed141a407b</ReferenceToGuid>
             </StartPointPrimitive1>
-            <EndPointPrimitive1 Ref="40" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive1 Ref="40" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>0.83,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive1</Name>
@@ -785,7 +785,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>6c7779a5dc2146c8418a66ed141a407b</ReferenceToGuid>
             </EndPointPrimitive1>
-            <StartPointPrimitive2 Ref="41" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive2 Ref="41" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>2.4,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive2</Name>
@@ -793,7 +793,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>c30eb85c8ed33d7fe56f66ed2c1d7aee</ReferenceToGuid>
             </StartPointPrimitive2>
-            <EndPointPrimitive2 Ref="42" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive2 Ref="42" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>2.43,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive2</Name>
@@ -801,7 +801,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>c30eb85c8ed33d7fe56f66ed2c1d7aee</ReferenceToGuid>
             </EndPointPrimitive2>
-            <StartPointPrimitive3 Ref="43" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive3 Ref="43" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>8.2,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive3</Name>
@@ -809,7 +809,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>c3bacef5c9260046ff0366ed38cb3ba1</ReferenceToGuid>
             </StartPointPrimitive3>
-            <StartPointPrimitive4 Ref="44" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive4 Ref="44" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>9.8,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive4</Name>
@@ -817,7 +817,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>0360d5453c252067db4566ed57033970</ReferenceToGuid>
             </StartPointPrimitive4>
-            <StartPointPrimitive5 Ref="45" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive5 Ref="45" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>12.8,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive5</Name>
@@ -825,7 +825,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>908cac7fd59e2f19eb2966ed73d1dca5</ReferenceToGuid>
             </StartPointPrimitive5>
-            <EndPointPrimitive5 Ref="46" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive5 Ref="46" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>12.83,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive5</Name>
@@ -833,7 +833,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>908cac7fd59e2f19eb2966ed73d1dca5</ReferenceToGuid>
             </EndPointPrimitive5>
-            <StartPointPrimitive6 Ref="47" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive6 Ref="47" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>14.6,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive6</Name>
@@ -841,7 +841,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>c788ee76bf185b0466dc66ed7fcaa876</ReferenceToGuid>
             </StartPointPrimitive6>
-            <EndPointPrimitive6 Ref="48" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive6 Ref="48" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>14.63,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive6</Name>
@@ -849,7 +849,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>c788ee76bf185b0466dc66ed7fcaa876</ReferenceToGuid>
             </EndPointPrimitive6>
-            <StartPointPrimitive7 Ref="49" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive7 Ref="49" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>0,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive7</Name>
@@ -857,7 +857,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>2c5a448d002ad773c00366f4582e9174</ReferenceToGuid>
             </StartPointPrimitive7>
-            <EndPointPrimitive7 Ref="50" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive7 Ref="50" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>0.03,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive7</Name>
@@ -865,7 +865,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>2c5a448d002ad773c00366f4582e9174</ReferenceToGuid>
             </EndPointPrimitive7>
-            <StartPointPrimitive8 Ref="51" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive8 Ref="51" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>19,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive8</Name>
@@ -873,7 +873,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>00e36096b97977a7f83966f4744e4b97</ReferenceToGuid>
             </StartPointPrimitive8>
-            <EndPointPrimitive3 Ref="52" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive3 Ref="52" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>8.23,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive3</Name>
@@ -881,7 +881,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>c3bacef5c9260046ff0366ed38cb3ba1</ReferenceToGuid>
             </EndPointPrimitive3>
-            <StartPointPrimitive9 Ref="53" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive9 Ref="53" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>11.4,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive9</Name>
@@ -889,7 +889,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>38b5a7e2c6ce193ee1316727a4e895b3</ReferenceToGuid>
             </StartPointPrimitive9>
-            <EndPointPrimitive9 Ref="54" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive9 Ref="54" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>11.43,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive9</Name>
@@ -897,7 +897,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>38b5a7e2c6ce193ee1316727a4e895b3</ReferenceToGuid>
             </EndPointPrimitive9>
-            <StartPointPrimitive10 Ref="55" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive10 Ref="55" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>6.4,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive10</Name>
@@ -905,7 +905,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>26a7696d44ce6b69dd316727d7f17db6</ReferenceToGuid>
             </StartPointPrimitive10>
-            <EndPointPrimitive10 Ref="56" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive10 Ref="56" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>6.43,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive10</Name>
@@ -913,7 +913,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>26a7696d44ce6b69dd316727d7f17db6</ReferenceToGuid>
             </EndPointPrimitive10>
-            <StartPointPrimitive11 Ref="57" isKey="true" type="Stimulsoft.Report.Components.StiStartPointPrimitive">
+            <StartPointPrimitive11 Ref="57" type="Stimulsoft.Report.Components.StiStartPointPrimitive" isKey="true">
               <ClientRectangle>16.4,0,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>StartPointPrimitive11</Name>
@@ -921,7 +921,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>72bf5b949afc61dad1376325ed24d674</ReferenceToGuid>
             </StartPointPrimitive11>
-            <EndPointPrimitive11 Ref="58" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive11 Ref="58" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>16.43,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive11</Name>
@@ -929,7 +929,7 @@ Minimum</Text>
               <Parent isRef="21"/>
               <ReferenceToGuid>72bf5b949afc61dad1376325ed24d674</ReferenceToGuid>
             </EndPointPrimitive11>
-            <EndPointPrimitive4 Ref="59" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+            <EndPointPrimitive4 Ref="59" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
               <ClientRectangle>9.83,1,0,0</ClientRectangle>
               <Conditions isList="true" count="0"/>
               <Name>EndPointPrimitive4</Name>
@@ -946,127 +946,127 @@ Minimum</Text>
           <Parent isRef="4"/>
           <Sort isList="true" count="0"/>
         </DataBand1>
-        <VerticalLinePrimitive1 Ref="60" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive1 Ref="60" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>0.8,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="61" isKey="true" type="Cap">
+          <EndCap Ref="61" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>6c7779a5dc2146c8418a66ed141a407b</Guid>
           <Name>VerticalLinePrimitive1</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="62" isKey="true" type="Cap">
+          <StartCap Ref="62" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive1>
-        <VerticalLinePrimitive3 Ref="63" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive3 Ref="63" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>2.4,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="64" isKey="true" type="Cap">
+          <EndCap Ref="64" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>c30eb85c8ed33d7fe56f66ed2c1d7aee</Guid>
           <Name>VerticalLinePrimitive3</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="65" isKey="true" type="Cap">
+          <StartCap Ref="65" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive3>
-        <VerticalLinePrimitive4 Ref="66" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive4 Ref="66" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>8.2,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="67" isKey="true" type="Cap">
+          <EndCap Ref="67" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>c3bacef5c9260046ff0366ed38cb3ba1</Guid>
           <Name>VerticalLinePrimitive4</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="68" isKey="true" type="Cap">
+          <StartCap Ref="68" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive4>
-        <VerticalLinePrimitive5 Ref="69" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive5 Ref="69" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>9.8,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="70" isKey="true" type="Cap">
+          <EndCap Ref="70" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>0360d5453c252067db4566ed57033970</Guid>
           <Name>VerticalLinePrimitive5</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="71" isKey="true" type="Cap">
+          <StartCap Ref="71" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive5>
-        <VerticalLinePrimitive6 Ref="72" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive6 Ref="72" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>12.8,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="73" isKey="true" type="Cap">
+          <EndCap Ref="73" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>908cac7fd59e2f19eb2966ed73d1dca5</Guid>
           <Name>VerticalLinePrimitive6</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="74" isKey="true" type="Cap">
+          <StartCap Ref="74" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive6>
-        <VerticalLinePrimitive7 Ref="75" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive7 Ref="75" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>14.6,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="76" isKey="true" type="Cap">
+          <EndCap Ref="76" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>c788ee76bf185b0466dc66ed7fcaa876</Guid>
           <Name>VerticalLinePrimitive7</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="77" isKey="true" type="Cap">
+          <StartCap Ref="77" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive7>
-        <VerticalLinePrimitive8 Ref="78" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive8 Ref="78" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>0,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="79" isKey="true" type="Cap">
+          <EndCap Ref="79" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>2c5a448d002ad773c00366f4582e9174</Guid>
           <Name>VerticalLinePrimitive8</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="80" isKey="true" type="Cap">
+          <StartCap Ref="80" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive8>
-        <VerticalLinePrimitive9 Ref="81" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive9 Ref="81" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>19,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="82" isKey="true" type="Cap">
+          <EndCap Ref="82" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>00e36096b97977a7f83966f4744e4b97</Guid>
           <Name>VerticalLinePrimitive9</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="83" isKey="true" type="Cap">
+          <StartCap Ref="83" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive9>
-        <EndPointPrimitive8 Ref="84" isKey="true" type="Stimulsoft.Report.Components.StiEndPointPrimitive">
+        <EndPointPrimitive8 Ref="84" type="Stimulsoft.Report.Components.StiEndPointPrimitive" isKey="true">
           <ClientRectangle>19.03,6,0,0</ClientRectangle>
           <Conditions isList="true" count="0"/>
           <Name>EndPointPrimitive8</Name>
@@ -1074,48 +1074,48 @@ Minimum</Text>
           <Parent isRef="4"/>
           <ReferenceToGuid>00e36096b97977a7f83966f4744e4b97</ReferenceToGuid>
         </EndPointPrimitive8>
-        <VerticalLinePrimitive10 Ref="85" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive10 Ref="85" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>11.4,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="86" isKey="true" type="Cap">
+          <EndCap Ref="86" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>38b5a7e2c6ce193ee1316727a4e895b3</Guid>
           <Name>VerticalLinePrimitive10</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="87" isKey="true" type="Cap">
+          <StartCap Ref="87" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive10>
-        <VerticalLinePrimitive11 Ref="88" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive11 Ref="88" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>6.4,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="89" isKey="true" type="Cap">
+          <EndCap Ref="89" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>26a7696d44ce6b69dd316727d7f17db6</Guid>
           <Name>VerticalLinePrimitive11</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="90" isKey="true" type="Cap">
+          <StartCap Ref="90" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive11>
-        <VerticalLinePrimitive12 Ref="91" isKey="true" type="VerticalLinePrimitive">
+        <VerticalLinePrimitive12 Ref="91" type="VerticalLinePrimitive" isKey="true">
           <ClientRectangle>16.4,5,0.0254,1</ClientRectangle>
           <Color>Black</Color>
           <Conditions isList="true" count="0"/>
-          <EndCap Ref="92" isKey="true" type="Cap">
+          <EndCap Ref="92" type="Cap" isKey="true">
             <Color>Black</Color>
           </EndCap>
           <Guid>72bf5b949afc61dad1376325ed24d674</Guid>
           <Name>VerticalLinePrimitive12</Name>
           <Page isRef="4"/>
           <Parent isRef="4"/>
-          <StartCap Ref="93" isKey="true" type="Cap">
+          <StartCap Ref="93" type="Cap" isKey="true">
             <Color>Black</Color>
           </StartCap>
         </VerticalLinePrimitive12>
@@ -1127,7 +1127,7 @@ Minimum</Text>
       <PageHeight>29.7</PageHeight>
       <PageWidth>21</PageWidth>
       <Report isRef="0"/>
-      <Watermark Ref="94" isKey="true" type="Stimulsoft.Report.Components.StiWatermark">
+      <Watermark Ref="94" type="Stimulsoft.Report.Components.StiWatermark" isKey="true">
         <Font>Arial,100,Bold</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
@@ -1135,7 +1135,7 @@ Minimum</Text>
   </Pages>
   <PreviewMode>StandardAndDotMatrix</PreviewMode>
   <PreviewSettings>33538047</PreviewSettings>
-  <PrinterSettings Ref="95" isKey="true" type="Stimulsoft.Report.Print.StiPrinterSettings"/>
+  <PrinterSettings Ref="95" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true"/>
   <ReferencedAssemblies isList="true" count="8">
     <value>System.Dll</value>
     <value>System.Drawing.Dll</value>
@@ -1148,11 +1148,11 @@ Minimum</Text>
   </ReferencedAssemblies>
   <ReportAlias>Simple List</ReportAlias>
   <ReportAuthor>Stimulsoft</ReportAuthor>
-  <ReportChanged>08/08/2016 01:41:27 PM</ReportChanged>
+  <ReportChanged>08/29/2016 10:52:45 PM</ReportChanged>
   <ReportCreated>05/29/2004 10:59:00 AM</ReportCreated>
   <ReportDescription>The sample demonstrates how to create a simple list report.</ReportDescription>
   <ReportFile>SimpleList.pdf</ReportFile>
-  <ReportGuid>a13be26288a88409bc4368e26ab94ac4</ReportGuid>
+  <ReportGuid>b0206874404552fe46b1d700bea50dea</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.2</ReportVersion>
@@ -1181,7 +1181,7 @@ namespace Reports
 }</Script>
   <ScriptLanguage>CSharp</ScriptLanguage>
   <Styles isList="true" count="10">
-    <Title1 Ref="96" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Title1 Ref="96" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>None;[193:152:89];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
@@ -1192,7 +1192,7 @@ namespace Reports
       <TextBrush>[193:152:89]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Title1>
-    <Title2 Ref="97" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Title2 Ref="97" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>None;[102:77:38];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
@@ -1202,7 +1202,7 @@ namespace Reports
       <TextBrush>[102:77:38]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Title2>
-    <Header1 Ref="98" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Header1 Ref="98" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>None;[193:152:89];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
@@ -1212,7 +1212,7 @@ namespace Reports
       <TextBrush>[193:152:89]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Header1>
-    <Header2 Ref="99" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Header2 Ref="99" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>None;[193:152:89];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
@@ -1223,7 +1223,7 @@ namespace Reports
       <TextBrush>[193:152:89]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Header2>
-    <Header3 Ref="100" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Header3 Ref="100" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>All;[193:152:89];1;Solid;False;4;Black</Border>
       <Brush>[242:234:221]</Brush>
@@ -1234,7 +1234,7 @@ namespace Reports
       <TextBrush>[193:152:89]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Header3>
-    <Data1 Ref="101" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Data1 Ref="101" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>None;[193:152:89];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
@@ -1244,7 +1244,7 @@ namespace Reports
       <TextBrush>[102:77:38]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Data1>
-    <Data2 Ref="102" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Data2 Ref="102" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderFormatting>False</AllowUseBorderFormatting>
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <AllowUseFont>False</AllowUseFont>
@@ -1256,7 +1256,7 @@ namespace Reports
       <Name>Data2</Name>
       <TextBrush>Black</TextBrush>
     </Data2>
-    <Data3 Ref="103" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Data3 Ref="103" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>None;[193:152:89];1;Solid;False;4;Black</Border>
       <Brush>[240:237:232]</Brush>
@@ -1266,7 +1266,7 @@ namespace Reports
       <TextBrush>[102:77:38]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Data3>
-    <Footer1 Ref="104" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Footer1 Ref="104" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>Top;[193:152:89];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
@@ -1276,7 +1276,7 @@ namespace Reports
       <TextBrush>[102:77:38]</TextBrush>
       <VertAlignment>Center</VertAlignment>
     </Footer1>
-    <Footer2 Ref="105" isKey="true" type="Stimulsoft.Report.StiStyle">
+    <Footer2 Ref="105" type="Stimulsoft.Report.StiStyle" isKey="true">
       <AllowUseBorderSides>False</AllowUseBorderSides>
       <Border>None;[193:152:89];1;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>

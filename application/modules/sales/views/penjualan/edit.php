@@ -54,7 +54,7 @@
 								Tgl. Invoice
 							</label>
 							<div class="col-sm-8">
-								<input type="text" placeholder="Tgl. Faktur" name="no" class="form-control" value="<?=$o->tanggal_transaksi?>">
+								<input type="text" placeholder="Tgl. Faktur" name="tanggal_transaksi" class="form-control" value="<?=$o->tanggal_transaksi?>">
 							</div>
 						</div>
 
@@ -151,7 +151,7 @@
 								No. Surat Jalan
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="no_sj[]" value="<?=$no_sj?>" class="form-control">
+								<input type="text" name="" value="<?=$no_sj?>" class="form-control">
 							</div>
 						</div>
 						<?php endforeach; ?>
@@ -458,7 +458,7 @@
 									Diskon
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="diskon" value="<?=number_format($total_diskon, $o->opsi_desimal)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" name="total-diskon" id="diskon" value="<?=number_format($total_diskon, $o->opsi_desimal)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -468,7 +468,7 @@
 									Total
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="total" value="<?=number_format($o->total, $o->opsi_desimal)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" name="total" id="total" value="<?=number_format($o->total, $o->opsi_desimal)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -478,7 +478,7 @@
 									Total + Pajak
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" class="form-control text-right" id="totalpluspajak" value="<?=number_format($o->total_plus_pajak, $o->opsi_desimal)?>" readonly="readonly">
+									<input type="text" class="form-control text-right" id="totalpluspajak" name="total_plus_pajak" value="<?=number_format($o->total_plus_pajak, $o->opsi_desimal)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>
@@ -515,7 +515,7 @@
 									Saldo
 									</div>
 									<div class="col-md-7 pull-right">
-									<input type="text" id="saldo" class="form-control text-right" value="<?=number_format($o->saldo, $o->opsi_desimal)?>" readonly="readonly">
+									<input type="text" name="saldo" id="saldo" class="form-control text-right" value="<?=number_format($o->saldo, $o->opsi_desimal)?>" readonly="readonly">
 									</div>
 								</div>
 							</li>

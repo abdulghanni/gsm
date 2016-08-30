@@ -84,7 +84,6 @@ class Penjualan extends MX_Controller {
                         'catatan_barang'=>$this->input->post('catatan_barang'),
                         'inc_ppn'=>$this->input->post('pajak_checkbox1'),
                         );
-
         $data = array(
                 'no' => $this->input->post('no'),
                 'tanggal_transaksi'=>date('Y-m-d',strtotime($this->input->post('tanggal_transaksi'))),
@@ -97,7 +96,7 @@ class Penjualan extends MX_Controller {
                 'lama_angsuran_2' =>$this->input->post('lama_angsuran_2'),
                 'catatan' =>$this->input->post('catatan'),
 
-                'no_sj'=> implode(',',$this->input->post('no_sj')),
+                //'no_sj'=> implode(',',$this->input->post('no_sj')),
                 //'so'=>$this->input->post('so'),
                 'no_faktur'=>$this->input->post("no_faktur"),
                 'tanggal_faktur'=>date('Y-m-d',strtotime($this->input->post('tanggal_faktur'))),
@@ -122,7 +121,7 @@ class Penjualan extends MX_Controller {
 
                 'saldo'=>str_replace(',', '', $this->input->post('saldo')),
 
-                'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
+                //'pajak_komponen_id' =>(!empty($this->input->post('pajak_komponen_id'))) ? implode(',',$this->input->post('pajak_komponen_id')) : '',
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
@@ -146,28 +145,28 @@ class Penjualan extends MX_Controller {
                 'deskripsi' => $list['deskripsi'][$i],
                 'diterima' => str_replace(',', '', $list['diterima'][$i]),
                 'diorder' => str_replace(',', '', $list['diorder'][$i]),
-                'satuan_id' => $list['satuan'][$i],
+                //'satuan_id' => $list['satuan'][$i],
                 'inc_ppn' => $list['inc_ppn'][$i],
                 'harga' => str_replace(',', '', $list['harga'][$i]),
                 'disc' => str_replace(',', '', $list['disc'][$i]),
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 'catatan' => str_replace(',', '', $list['catatan_barang'][$i]),
                 );
-        $this->db->where('id', $list['list_id'])->update($this->table_name.'_list', $data2);
+        $this->db->where('id', $list['list_id'][$i])->update($this->table_name.'_list', $data2);
         //$this->db->where('id', $list['ref_id'][$i])->update('stok_pengeluaran', array('is_closed'=>1));
-        $this->load->library('upload');
-        $this->upload->initialize($this->set_upload_options());
-        if($this->upload->do_multi_upload("attachment")){
-            $up = $this->upload->get_multi_upload_data();
-            $att = array(
-                    'attachment' => $up[$i]['file_name'],
-                );
-            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $att);
-        }else{
-            $att = $this->input->post('attachment');
-            $attx = (!empty($att[$i])) ? $att[$i] : '';
-            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
-        }
+        // $this->load->library('upload');
+        // $this->upload->initialize($this->set_upload_options());
+        // if($this->upload->do_multi_upload("attachment")){
+        //     $up = $this->upload->get_multi_upload_data();
+        //     $att = array(
+        //             'attachment' => $up[$i]['file_name'],
+        //         );
+        //     $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $att);
+        // }else{
+        //     $att = $this->input->post('attachment');
+        //     $attx = (!empty($att[$i])) ? $att[$i] : '';
+        //     $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
+        // }
         endfor;
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
