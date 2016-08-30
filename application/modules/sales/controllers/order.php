@@ -251,12 +251,12 @@ class Order extends MX_Controller {
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 'inc_ppn' => $list['inc_ppn'][$i],
                 );
-        $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
-        if($num_rows_list>0){
-            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
-        }else{
+        //$num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id))->num_rows();
+        //if($num_rows_list>0){
+          //  $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
+        //}else{
         $this->db->insert($this->table_name.'_list', $data2);
-        }
+        //}
         $this->load->library('upload');
         $this->upload->initialize($this->set_upload_options());
         if($this->upload->do_multi_upload("attachment")){

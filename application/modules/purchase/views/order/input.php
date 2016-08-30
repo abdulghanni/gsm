@@ -44,11 +44,10 @@
 						<div class="col-md-8">
 							<select class="select2 select_pr" id="list_pr" style="width:100%" name="no[]">
 								<option value="0">-- Pilih NO. P.R --</option>
-								<?php foreach($pr as $p):;
-									if($ci->get_pr_status($p->id) != "Close"){
+								<?php foreach($pr as $p):
 								?>
 								<option value="<?=$p->id?>"><?=$p->no?></option>
-								<?php } endforeach;?>
+								<?php endforeach;?>
 							</select>
 						</div>
 					</div>

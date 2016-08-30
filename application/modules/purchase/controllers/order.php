@@ -53,7 +53,7 @@ class Order extends MX_Controller {
         $this->data['gudang'] = getAll('gudang')->result();
         $this->data['users'] = getAll('users');
         $this->data['options_kontak'] = options_row('main','get_kontak','id','title','-- Pilih Supplier --');
-        $this->data['pr'] = GetAllSelect('purchase_request', array('id','no'), array('id'=>'order/desc','app_status_id_lv4'=>'where/1', 'limit'=>'limit/100'))->result();
+        $this->data['pr'] = getAll('purchase_request', array('id'=>'order/desc','app_status_id_lv4'=>'where/1'),array('!=status_id'=>'2'))->result();
         $this->data['ci'] = $this;
         $this->_render_page($this->module.'/'.$this->file_name.'/input', $this->data);
     }
@@ -160,11 +160,11 @@ class Order extends MX_Controller {
                 'pajak' => str_replace(',', '', $list['pajak'][$i]),
                 );
         $num_rows_list = getAll($this->table_name.'_list', array('kode_barang'=>'where/'.$list['kode_barang'][$i], $this->file_name.'_id'=>'where/'.$insert_id, 'request_id'=>'where/'.$list['request_id'][$i]))->num_rows();
-        if($num_rows_list>0){
-            $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
-        }else{
+        //if($num_rows_list>0){
+        //    $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', $data2);
+        //}else{
         $this->db->insert($this->table_name.'_list', $data2);
-        }
+        //}
         $this->db->where('barang_id', $list['kode_barang'][$i])->update('stok', array('harga_beli'=>str_replace(',', '', $list['harga'][$i])));
         $this->load->library('upload');
         $this->upload->initialize($this->set_upload_options());

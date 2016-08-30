@@ -318,7 +318,7 @@ class Pengeluaran extends MX_Controller {
     {
         permissionUser();
         $url = base_url().'stok/pengeluaran/detail/'.$id;
-        $no = getValue('no', $this->table_name, array('id'=>'where/'.$id));
+        $no = getValue('no', 'stok_pengeluaran', array('id'=>'where/'.$id));
         $isi = getName(sessId())." Melakukan Transaksi pengeluaran Barang <a href=$url> KLIK DISINI </a> ";
         $approver = getAll('approver');
         foreach($approver->result() as $r):
