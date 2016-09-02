@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Index extends MX_Controller {
+class Report extends MX_Controller {
     public $data;
     var $module = 'report';
     var $title = 'Custom Report';
@@ -16,7 +16,7 @@ class Index extends MX_Controller {
     var $model_name = 'stok';
 
 	// redirect if needed, otherwise display the user list
-	function index($id = null)
+	function index($id = "fn:")
 	{
         permissionUser();
         $this->data['title'] = $this->title;
@@ -35,6 +35,26 @@ class Index extends MX_Controller {
 		$this->_render_page('report/menu/menu', $this->data);
 	}
     
+    function lists($id = null)
+    {
+        permissionUser();
+        $this->data['title'] = $this->title;
+        $this->data['main_title'] = $this->module.'';
+        $q=$this->stok->get_judul();
+        $this->data['tipedokumen']= $q->result();
+        $filter['statusisasi']='where/1';
+        if($this->session->userdata('webmaster_grup')==10){
+            $filter['id']='where/2';
+        }
+        $this->data['opt_dok']=$this->GetOptDoc($id);
+        $this->data['options_barang'] = options_row($this->model_name,'get_barang','kode','title','-- Pilih Barang --');
+        $this->data['options_satuan'] = options_row($this->model_name,'get_satuan','id','title','-- Pilih Satuan --');
+        $this->data['options_gudang'] = options_row($this->model_name,'get_gudang','id','title','-- Pilih Gudang --');
+        $this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
+        $this->_render_page('report/menu/menu', $this->data);
+    }
+    
+
     function GetOptDoc($group_id, $tabel='report',$judul='-Laporan-',$filter=NULL,$field=NULL,$id=NULL,$field2=NULL,$filter_where_in=NULL)
     {
         $CI =& get_instance();
@@ -47,10 +67,10 @@ class Index extends MX_Controller {
         if($judul) $opt[''] = $judul;
         foreach($q->result_array() as $r)
         {
-            $in_group_id = getValue('group_id', 'report', array('id'=>'where/1'));
+            $in_group_id = getValue('group_id', 'report', array('id'=>'where/'.$r[$id]));
         // die($r['id']);
             $in_group_id = explode(',', $in_group_id);
-            if(in_array($group_id, $in_group_id))die($group_id);
+            if(in_array($group_id, $in_group_id))
             $opt[$r[$id]] = $r['title_document'];
         }
         

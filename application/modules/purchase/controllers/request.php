@@ -31,7 +31,13 @@ class Request extends MX_Controller {
         $this->data['module'] = $this->module;
         permissionUser();
         $num_rows = getAll($this->table_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'desc')->limit(1)->get($this->table_name)->last_row()->id : 0;
+        $y = '2016';
+        $num_in_year = getAll($this->table_name, array('no'=>'like/'.$y))->num_rows();//lastq();
+        if($num_in_year > 0){
+            $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'desc')->limit(1)->get($this->table_name)->last_row()->id : 0;
+        }else{
+            $last_id = 0;
+        }
         $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();

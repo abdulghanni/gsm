@@ -300,7 +300,7 @@ class Penjualan extends MX_Controller {
             $no_sj = explode(',', $r->no_sj);
             $ref = '';
             foreach($no_sj as $row=>$v):
-                $ref .="<a class='btn btn-sm btn-light-azure' href='".base_url()."sales/penjulan/detail/".$r->id."' target='_blank' title='detail'>".getValue('no','stok_pengeluaran', array('id'=>'where/'.$v))."</i></a><br/>";
+                $ref .="<a class='btn btn-sm btn-light-azure' href='".base_url()."sales/penjualan/detail/".$r->id."' target='_blank' title='detail'>".getValue('no','stok_pengeluaran', array('id'=>'where/'.$v))."</i></a><br/>";
             endforeach;
             $detail = base_url().$this->module.'/'.$this->file_name.'/detail/'.$r->id;
             $print = base_url().$this->module.'/'.$this->file_name.'/print_pdf/'.$r->id;

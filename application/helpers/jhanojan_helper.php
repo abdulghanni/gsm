@@ -970,27 +970,6 @@ if (!function_exists('GetOptAll')){
 	}
 }
 
-if (!function_exists('GetOptDoc')){
-	function GetOptDoc($tabel='report',$judul='-Laporan-',$filter=NULL,$field=NULL,$id=NULL,$field2=NULL,$filter_where_in=NULL)
-	{
-            
-		$CI =& get_instance();
-                $user_id =$CI->session->userdata('user_id');
-
-		if($filter==NULL)$filter = array();
-		if($filter_where_in==NULL)$filter_where_in = array();
-		if($field==NULL)$field='title';
-		if($id==NULL)$id='id';
-		$q = $CI->db->query("SELECT a.id id, a.title_document title_document FROM report a LEFT JOIN report_permission b ON b.menu_id=a.id AND b.user_id = '$user_id' WHERE b.view='1' AND a.statusisasi='1' ORDER BY  a.title_document ASC");
-		if($judul) $opt[''] = $judul;
-		foreach($q->result_array() as $r)
-		{
-			$opt[$r[$id]] = $r['title_document'];
-		}
-		
-		return $opt;
-	}
-}
 if (!function_exists('GetOptAllMenu')){
 	function GetOptAllMenu($tabel,$judul=NULL)
 	{
