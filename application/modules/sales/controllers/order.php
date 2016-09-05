@@ -35,9 +35,17 @@ class Order extends MX_Controller {
         $filter = array('is_deleted'=>0);
         $this->data['jenis'] = getAll('kontak_jenis', $filter);
         $this->data['tipe'] = getAll('kontak_tipe', $filter);
-        $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
-        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        // $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
+        // $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
+        // $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        $y = date('Y');
+        $last_id_year = getValue('so', $this->table_name, array('id'=>'order/desc'));
+        $last_id_year = substr($last_id_year, -4);
+        if($y != $last_id_year){
+            $this->db->where('table_name', 'so')->update('numbersequencetable', array('nextrec'=>1));
+        }
+        $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/so'));
+        $this->data['last_id'] = (!empty($nextrec)) ? $nextrec : 1;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
@@ -233,9 +241,15 @@ class Order extends MX_Controller {
         if($num_rows>0){
             $this->db->where('so', $po)->update($this->table_name, $data);
             $insert_id = $this->db->select('id')->where('so', $po)->get($this->table_name)->row()->id;
+            $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/so'));
+            if($nextrec == $insert_id){
+                $this->db->where('table_name', 'so')->update('numbersequencetable', array('nextrec'=>$nextrec+1));
+            }
         }else{
             $this->db->insert($this->table_name, $data);
             $insert_id = $this->db->insert_id();
+            $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/so'));
+            $this->db->where('table_name', 'so')->update('numbersequencetable', array('nextrec'=>$nextrec+1));
         }
         $this->db->where($this->file_name.'_id', $insert_id)->delete($this->table_name.'_list');
         for($i=0;$i<sizeof($list['kode_barang']);$i++):

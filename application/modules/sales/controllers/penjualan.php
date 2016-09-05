@@ -30,9 +30,17 @@ class Penjualan extends MX_Controller {
         $this->data['file_name'] = $this->file_name;
         $this->data['main_title'] = $this->main_title;
         permissionUser();
-        $num_rows = getAll($this->table_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
-        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        // $num_rows = getAll($this->table_name)->num_rows();
+        // $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
+        // $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        $y = date('Y');
+        $last_id_year = getValue('no', $this->table_name, array('id'=>'order/desc'));
+        $last_id_year = substr($last_id_year, -4);
+        if($y != $last_id_year){
+            $this->db->where('table_name', 'inv')->update('numbersequencetable', array('nextrec'=>1));
+        }
+        $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/inv'));
+        $this->data['last_id'] = (!empty($nextrec)) ? $nextrec : 1;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
@@ -225,6 +233,8 @@ class Penjualan extends MX_Controller {
             );
 
         $this->db->insert($this->table_name, $data);
+        $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/inv'));
+        $this->db->where('table_name', 'inv')->update('numbersequencetable', array('nextrec'=>$nextrec+1));
         $insert_id = $this->db->insert_id();
         if($this->input->post('metode_pembayaran_id') == 2){
             $data_hutang = array(
@@ -430,9 +440,17 @@ class Penjualan extends MX_Controller {
     {
         permissionUser();
         $this->data['pengeluaran'] = $pengeluaran = GetAll('stok_pengeluaran',array('id'=>'where/'.$id))->row_array();
-        $num_rows = getAll($this->table_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
-        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        // $num_rows = getAll($this->table_name)->num_rows();
+        // $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->table_name)->last_row()->id : 0;
+        // $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        $y = date('Y');
+        $last_id_year = getValue('no', $this->table_name, array('id'=>'order/desc'));
+        $last_id_year = substr($last_id_year, -4);
+        if($y != $last_id_year){
+            $this->db->where('table_name', 'inv')->update('numbersequencetable', array('nextrec'=>1));
+        }
+        $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/inv'));
+        $this->data['last_id'] = (!empty($nextrec)) ? $nextrec : 1;
         $so_id = $this->data['so_id'] = explode(',',$pengeluaran['ref_id']);//print_mz(sizeof($so_id));
         $this->data['order'] = $this->main->get_detail_so($so_id[0]);
         $this->data['order_list'] = $this->main->get_list_detail_so($id);
@@ -444,6 +462,7 @@ class Penjualan extends MX_Controller {
         $this->data['ppn_val'] = getValue('value', 'pajak_value', array('id'=>'where/1'));
         $this->data['pph22_val'] = getValue('value', 'pajak_value', array('id'=>'where/2'));
         $this->data['pph23_val'] = getValue('value', 'pajak_value', array('id'=>'where/3'));
+        $this->data['bank'] = getAll('bank')->result();
         if(!empty($this->data['order']->result())){
             $this->load->view($this->module.'/'.$this->file_name.'/dari_so', $this->data);
         }else{    

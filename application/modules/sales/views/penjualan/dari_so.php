@@ -92,10 +92,24 @@
 
 						<div class="form-group">
 							<label class="col-sm-4 control-label" for="inputPassword3">
+								Opsi Bank
+							</label>
+							<div class="col-sm-8">
+								<select class="bank" id="multi" name="" style="width:100%" multiple>
+									<?php foreach($bank as $b):?>
+                                		<option value="Transfer to <?=$b->nama_bank?> Bank, for <?=$b->an?>, account : <?=$b->norek?>"><?=$b->nama_bank?> - <?=$b->norek?></option>
+                                	<?php endforeach;?>
+                                </select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<label class="col-sm-4 control-label" for="inputPassword3">
 								Catatan
 							</label>
 							<div class="col-sm-8">
-								<textarea class="form-control" name="catatan"><?=$o->catatan?></textarea>
+								<textarea class="form-control" id="catatan" name="catatan"><?=$o->catatan?></textarea>
+								<textarea class="form-control" id="catatan-fix" name="" style="display:none;"><?=$o->catatan?></textarea>
 							</div>
 						</div>
                     </div>
@@ -203,6 +217,16 @@
 <script type="text/javascript" src="<?=assets_url('vendor/bootstrap-datepicker/bootstrap-datepicker.min.js')?>"></script>
 <script type="text/javascript" src="<?=assets_url('vendor/jquery-mask-money/jquery.MaskMoney.js')?>"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	$(document).find("select.bank").select2({
+        dropdownAutoWidth : true
+    });
+});
+
+$(".bank").change(function(){
+     var id = $(this).val();
+     $("#catatan").val($("#catatan-fix").val()+'\n'+id);
+});
 $('.input-append.date')
         .datepicker({
             todayHighlight: true,

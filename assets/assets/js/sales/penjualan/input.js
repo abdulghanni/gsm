@@ -17,6 +17,9 @@ $(document).ready(function() {
         if(id != 0){
             $('#dari-so').html('<img src="/gsm/assets/images/ajax-loader.gif"> loading...');
             if($('#dari-so').load('/gsm/sales/penjualan/get_dari_so/'+id)){
+                $(document).find("select.select2").select2({
+                     dropdownAutoWidth : true
+                });
                 $("#add_so").show();
                 getTable();
             }

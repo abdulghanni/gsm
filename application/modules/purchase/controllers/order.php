@@ -141,9 +141,15 @@ class Order extends MX_Controller {
         if($num_rows>0){
             $this->db->where('po', $po)->update($this->table_name, $data);
             $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$po));
+            $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/po'));
+            if($nextrec == $insert_id){
+                $this->db->where('table_name', 'po')->update('numbersequencetable', array('nextrec'=>$nextrec+1));
+            }
         }else{
             $this->db->insert($this->table_name, $data);
             $insert_id = $this->db->insert_id();
+            $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/po'));
+            $this->db->where('table_name', 'po')->update('numbersequencetable', array('nextrec'=>$nextrec+1));
         }
         $this->db->where($this->file_name.'_id', $insert_id)->delete($this->table_name.'_list');
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
@@ -579,9 +585,17 @@ class Order extends MX_Controller {
 
         $this->data['order'] = $this->pr->get_detail($id);
         $this->data['order_list'] = $this->pr->get_list_detail($id);
-        $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
-        $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
-        $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        // $num_rows = getAll($this->module.'_'.$this->file_name)->num_rows();
+        // $last_id = ($num_rows>0) ? $this->db->select('id')->order_by('id', 'asc')->get($this->module.'_'.$this->file_name)->last_row()->id : 0;
+        // $this->data['last_id'] = ($num_rows>0) ? $last_id+1 : 1;
+        $y = date('Y');
+        $last_id_year = getValue('po', $this->table_name, array('id'=>'order/desc'));
+        $last_id_year = substr($last_id_year, -4);
+        if($y != $last_id_year){
+            $this->db->where('table_name', 'po')->update('numbersequencetable', array('nextrec'=>1));
+        }
+        $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/po'));
+        $this->data['last_id'] = (!empty($nextrec)) ? $nextrec : 1;
         $this->data['barang'] = getAll('barang')->result_array();
         $this->data['satuan'] = getAll('satuan')->result_array();
         $this->data['kurensi'] = getAll('kurensi')->result();
