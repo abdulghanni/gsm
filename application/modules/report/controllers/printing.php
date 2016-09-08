@@ -162,6 +162,24 @@ class Printing extends MX_Controller {
 		redirect(base_url()."print/file/index.php?stimulsoft_report_key=report_invoice.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&kurensi=$kur",'refresh');
 	}
 
+	function produksi(){
+        $sd=$this->input->post('start_date');
+		$ed=$this->input->post('end_date');
+		$k=$this->input->post('kontak');
+		$s=$this->input->post('status');
+
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=produksi.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&status=$s",'refresh');
+	}
+
+	function displacement(){
+        $sd=$this->input->post('start_date');
+		$ed=$this->input->post('end_date');
+		$g=$this->input->post('gudang');
+		$b=$this->input->post('barang');
+
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=displacement.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&gudang=$g&barang=$b",'refresh');
+	}
+
 	function neraca(){
         $data['autoprint']=FALSE;
 		$sd=$this->input->post('start_date');
