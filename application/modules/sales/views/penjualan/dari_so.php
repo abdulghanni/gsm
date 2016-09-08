@@ -120,8 +120,8 @@
 								No. SO <?= (sizeof($so_id) > 1) ? '- '.$i++ : '';?>
 							</label>
 							<div class="col-sm-8">
-								<input type="text" name="" value="<?=getValue('so', 'sales_order', array('id'=>'where/'.$v))?>" class="form-control">
-								<input type="hidden" name="so" value="<?=$pengeluaran['ref_id']?>">
+								<input type="text" name="so" value="<?=getValue('so', 'sales_order', array('id'=>'where/'.$v))?>" class="form-control">
+								<!--<input type="hidden" name="so" value="<?=$pengeluaran['ref_id']?>">-->
 							</div>
 							<?php } ?>
 						</div>

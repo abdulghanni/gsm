@@ -231,10 +231,10 @@ class Penjualan extends MX_Controller {
                 'created_by' => sessId(),
                 'created_on' => dateNow(),
             );
-
-        $this->db->insert($this->table_name, $data);
+        
         $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/inv'));
         $this->db->where('table_name', 'inv')->update('numbersequencetable', array('nextrec'=>$nextrec+1));
+        $this->db->insert($this->table_name, $data);
         $insert_id = $this->db->insert_id();
         if($this->input->post('metode_pembayaran_id') == 2){
             $data_hutang = array(
