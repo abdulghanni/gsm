@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<StiSerializer type="Flex" version="1.02" application="StiReport">
-  <Dictionary type="Dictionary" Ref="1" isKey="true">
-    <Databases isList="true" count="1">
-      <po type="Stimulsoft.Report.Dictionary.StiMySqlDatabase" Ref="2" isKey="true">
+<StiSerializer version="1.02" application="StiReport" type="Flex">
+  <Dictionary Ref="1" isKey="true" type="Dictionary">
+    <Databases count="1" isList="true">
+      <po Ref="2" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlDatabase">
         <Alias>po</Alias>
         <ConnectionStringEncrypted>48j7a9dKAYRrTKXU5QBlY4tU1ytsVQHNwE39xGR4tTbCcLPLSEwxzeIVpaVOBWJ70Wz9CUhQ+oVx
 TZy9ZAA=</ConnectionStringEncrypted>
         <Name>po</Name>
       </po>
     </Databases>
-    <DataSources isList="true" count="2">
-      <field type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="3" isKey="true">
+    <DataSources count="2" isList="true">
+      <field Ref="3" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
         <Alias>field</Alias>
-        <Columns isList="true" count="65">
+        <Columns count="65" isList="true">
           <value>no,System.String</value>
           <value>kontak,System.String</value>
           <value>email,System.String</value>
@@ -83,12 +83,12 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Dictionary isRef="1"/>
         <Name>field</Name>
         <NameInSource>po</NameInSource>
-        <Parameters isList="true" count="0"/>
+        <Parameters count="0" isList="true"/>
         <SqlCommand>SELECT `no`, `kontak`.`title` as `kontak`, `kontak`.`email` as `email`, `kontak`.`up`, `kontak`.`alamat`, penjualan.alamat as alamat_invoice, `metode_pembayaran_id`,`project`, `dibayar_nominal`, `no_faktur`, `total_diskon`, `metode_pembayaran`.`title` as `metode_pembayaran`, `tanggal_transaksi`, `tanggal_pengantaran`, `so`, `gudang`.`title` as `gudang`, `jatuh_tempo_pembayaran`,kurensi_id, `kurensi`.`title` as `kurensi`, `biaya_pengiriman`, `dibayar`, `lama_angsuran_2`, `lama_angsuran_1`, `total`,`saldo`,`total_plus_pajak`, `penjualan`.`catatan`, `pajak_komponen_id`, `total_ppn`, `total_pph22`, `total_pph23`, `penjualan`.`created_on` FROM `penjualan` LEFT JOIN `kontak` ON `kontak`.`id` =`penjualan`.`kontak_id` LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` =`penjualan`.`metode_pembayaran_id` LEFT JOIN `kurensi` ON `kurensi`.`id` =`penjualan`.`kurensi_id` LEFT JOIN `gudang` ON `gudang`.`id` =`penjualan`.`gudang_id` WHERE `penjualan`.`id` = {param1}</SqlCommand>
       </field>
-      <list type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="4" isKey="true">
+      <list Ref="4" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
         <Alias>list</Alias>
-        <Columns isList="true" count="20">
+        <Columns count="20" isList="true">
           <value>barang_id,System.String</value>
           <value>satuan_id,System.Int32</value>
           <value>photo,System.String</value>
@@ -114,13 +114,13 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Dictionary isRef="1"/>
         <Name>list</Name>
         <NameInSource>po</NameInSource>
-        <Parameters isList="true" count="0"/>
+        <Parameters count="0" isList="true"/>
         <SqlCommand>SELECT `barang`.`id` as `barang_id`, `barang`.`photo`, `barang`.`kode` as `kode_barang`, `ref_id`, `order_list`.`deskripsi`, `diorder`, `diterima`, `satuan`.`title` as `satuan`, `harga`, `disc`, `pajak`, `order_list`.`catatan`, `order_list`.`attachment`, `order_list`.`inc_ppn` FROM `penjualan_list` as `order_list` LEFT JOIN `barang` ON `barang`.`id` = `order_list`.`kode_barang` JOIN `satuan` ON `satuan`.`id` = `order_list`.`satuan_id` WHERE `penjualan_id` = {param1}</SqlCommand>
       </list>
     </DataSources>
-    <Relations isList="true" count="0"/>
+    <Relations count="0" isList="true"/>
     <Report isRef="0"/>
-    <Variables isList="true" count="4">
+    <Variables count="4" isList="true">
       <value>,total_pajak,total_pajak,System.Decimal,field_x002E_total_ppn_x002B_field_x002E_total_pph23_x002B_field_x002E_total_pph22,True,True</value>
       <value>,total,total,System.Decimal,field_x002E_total,True,True</value>
       <value>,grand_total,grand_total,System.Decimal,field_x002E_total_plus_pajak,True,True</value>
@@ -128,393 +128,22 @@ TZy9ZAA=</ConnectionStringEncrypted>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
-  <GlobalizationStrings isList="true" count="0"/>
-  <MetaTags isList="true" count="0"/>
-  <Pages isList="true" count="1">
-    <Page1 type="Page" Ref="5" isKey="true">
+  <GlobalizationStrings count="0" isList="true"/>
+  <MetaTags count="0" isList="true"/>
+  <Pages count="1" isList="true">
+    <Page1 Ref="5" isKey="true" type="Page">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components isList="true" count="6">
-        <PageFooterBand1 type="PageFooterBand" Ref="6" isKey="true">
-          <Brush>Transparent</Brush>
-          <ClientRectangle>0,19.09,19.01,8.6</ClientRectangle>
-          <Components isList="true" count="21">
-            <Text29 type="Text" Ref="7" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>15.6,1.6,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <HorAlignment>Right</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text29</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{total}</Text>
-              <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="8" isKey="true">
-                <DecimalSeparator>,</DecimalSeparator>
-                <GroupSeparator>.</GroupSeparator>
-                <NegativePattern>1</NegativePattern>
-                <UseLocalSetting>False</UseLocalSetting>
-              </TextFormat>
-              <Type>Expression</Type>
-            </Text29>
-            <Text30 type="Text" Ref="9" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>11.8,1.6,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text30</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>Subtotal</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text30>
-            <Text31 type="Text" Ref="10" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>10.8,5.2,8.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text31</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>Jakarta, {field.tanggal_transaksi.ToString("dd MMMM yyyy")}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text31>
-            <Text62 type="Text" Ref="11" isKey="true">
-              <AutoWidth>True</AutoWidth>
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>0,5.1,10.8,2.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text62</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>Note :
-{(po.catatan == null) ? "" : - po.catatan}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text62>
-            <Text66 type="Text" Ref="12" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>10.8,7.5,8.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>dcda66972385df15f7f1ccc9bdf3113d</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text66</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>Chief Excecutive Officer</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text66>
-            <Text64 type="Text" Ref="13" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>10.8,8,8.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>2bafe44bc53021992477ccc9bdf324a9</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text64</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>(Mursiawaty Suryadinata)</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text64>
-            <Text32 type="Text" Ref="14" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>15.6,2.3,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <HorAlignment>Right</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text32</Name>
-              <NullValue>-</NullValue>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.total_ppn &gt; 0,total_pajak,IIF(field.total_pph22 &gt; 0,total_pajak,""))}</Text>
-              <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="15" isKey="true">
-                <DecimalSeparator>,</DecimalSeparator>
-                <GroupSeparator>.</GroupSeparator>
-                <NegativePattern>1</NegativePattern>
-                <UseLocalSetting>False</UseLocalSetting>
-              </TextFormat>
-              <Type>Expression</Type>
-            </Text32>
-            <Text67 type="Text" Ref="16" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>11.8,2.3,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>b6147f23e83b1010920dcd0450ab8160</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text67</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.total_ppn &gt; 0,"VAT",IIF(field.total_pph22 &gt; 0,"VAT",""))}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text67>
-            <Text69 type="Text" Ref="17" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>11.8,0.9,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>4c0ab69c851c3a67450fcd04bb80de11</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text69</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.total_diskon&gt;0,"Discount")}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text69>
-            <Text71 type="Text" Ref="18" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>15.6,2.9,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>5829e55304646b7d40a5cd0528cab2ab</Guid>
-              <HorAlignment>Right</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text71</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{grand_total}</Text>
-              <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="19" isKey="true">
-                <DecimalSeparator>,</DecimalSeparator>
-                <GroupSeparator>.</GroupSeparator>
-                <NegativePattern>1</NegativePattern>
-                <UseLocalSetting>False</UseLocalSetting>
-              </TextFormat>
-              <Type>Expression</Type>
-            </Text71>
-            <Text61 type="Text" Ref="20" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>11.8,2.9,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>bbfc8f9d885c37fac9adcd0528ca45b8</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text61</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>Grand Total</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text61>
-            <Text70 type="Text" Ref="21" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>15.6,4.1,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>9de6af8481bb39d2869bda01c76c8a50</Guid>
-              <HorAlignment>Right</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text70</Name>
-              <NullValue>-</NullValue>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.metode_pembayaran_id == 2,grand_total-field.dibayar_nominal)}</Text>
-              <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="22" isKey="true">
-                <DecimalSeparator>,</DecimalSeparator>
-                <GroupSeparator>.</GroupSeparator>
-                <NegativePattern>1</NegativePattern>
-                <UseLocalSetting>False</UseLocalSetting>
-              </TextFormat>
-              <Type>Expression</Type>
-            </Text70>
-            <Text75 type="Text" Ref="23" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>11.8,4.11,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text75</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.metode_pembayaran_id == 2,"Saldo")}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text75>
-            <Text8 type="Text" Ref="24" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanGrow>True</CanGrow>
-              <ClientRectangle>0,4.71,19,0.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <GrowToHeight>True</GrowToHeight>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text8</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>Amount In Words : {IIF(field.kurensi_id == 2,ToCurrencyWords(grand_total),IIF(field.kurensi_id == 1,ToWords(grand_total),""))}</Text>
-              <TextBrush>Black</TextBrush>
-              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
-              <Type>Expression</Type>
-            </Text8>
-            <Text47 type="Text" Ref="25" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>11.8,0.31,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>1a1d6185a3e326bd666092b4218c0e49</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text47</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.biaya_pengiriman&gt;0,"Transport Cost")}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text47>
-            <Text48 type="Text" Ref="26" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>15.6,0.31,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>4667964fe9fbd0ac1c4f92b807ceec9d</Guid>
-              <HorAlignment>Right</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text48</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.biaya_pengiriman&gt;0,field.biaya_pengiriman)}</Text>
-              <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="27" isKey="true">
-                <DecimalSeparator>,</DecimalSeparator>
-                <GroupSeparator>.</GroupSeparator>
-                <NegativePattern>1</NegativePattern>
-                <UseLocalSetting>False</UseLocalSetting>
-              </TextFormat>
-              <Type>Expression</Type>
-            </Text48>
-            <Text34 type="Text" Ref="28" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>15.6,0.91,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <HorAlignment>Right</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text34</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.total_diskon&gt;0,field.total_diskon)}</Text>
-              <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="29" isKey="true">
-                <DecimalSeparator>,</DecimalSeparator>
-                <GroupSeparator>.</GroupSeparator>
-                <NegativePattern>1</NegativePattern>
-                <UseLocalSetting>False</UseLocalSetting>
-              </TextFormat>
-              <Type>Expression</Type>
-            </Text34>
-            <Text52 type="Text" Ref="30" isKey="true">
-              <Brush>Transparent</Brush>
-              <ClientRectangle>10.8,5.71,8.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>38a6954e1f5e2b498bd292de79d4ce3d</Guid>
-              <HorAlignment>Center</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text52</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>PT. Gramaselindo Utama</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text52>
-            <Text54 type="Text" Ref="31" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>15.6,3.51,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>a32358b4106f63430ab892e4482b4d93</Guid>
-              <HorAlignment>Right</HorAlignment>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text54</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.metode_pembayaran_id == 2,dibayar_nominal)}</Text>
-              <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="32" isKey="true">
-                <DecimalSeparator>,</DecimalSeparator>
-                <GroupSeparator>.</GroupSeparator>
-                <NegativePattern>1</NegativePattern>
-                <UseLocalSetting>False</UseLocalSetting>
-              </TextFormat>
-              <Type>Expression</Type>
-            </Text54>
-            <Text49 type="Text" Ref="33" isKey="true">
-              <Brush>Transparent</Brush>
-              <CanShrink>True</CanShrink>
-              <ClientRectangle>11.8,3.51,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
-              <Font>Arial,10</Font>
-              <Guid>77a2ca7f3608a19ba46b92e4482b22ab</Guid>
-              <Margins>0,0,0,0</Margins>
-              <Name>Text49</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <Text>{IIF(field.metode_pembayaran_id == 2,"Down Payment")}</Text>
-              <TextBrush>Black</TextBrush>
-              <Type>Expression</Type>
-            </Text49>
-            <HorizontalLinePrimitive5 type="HorizontalLinePrimitive" Ref="34" isKey="true">
-              <ClientRectangle>0,5.1,19,0.0254</ClientRectangle>
-              <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap type="Cap" Ref="35" isKey="true">
-                <Color>Black</Color>
-              </EndCap>
-              <Name>HorizontalLinePrimitive5</Name>
-              <Page isRef="5"/>
-              <Parent isRef="6"/>
-              <StartCap type="Cap" Ref="36" isKey="true">
-                <Color>Black</Color>
-              </StartCap>
-            </HorizontalLinePrimitive5>
-          </Components>
-          <Conditions isList="true" count="0"/>
-          <Name>PageFooterBand1</Name>
-          <Page isRef="5"/>
-          <Parent isRef="5"/>
-        </PageFooterBand1>
-        <ReportTitleBand1 type="ReportTitleBand" Ref="37" isKey="true">
+      <Components count="7" isList="true">
+        <ReportTitleBand1 Ref="6" isKey="true" type="ReportTitleBand">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0.4,19.01,3.2</ClientRectangle>
-          <Components isList="true" count="1">
-            <Image1 type="Image" Ref="38" isKey="true">
+          <Components count="1" isList="true">
+            <Image1 Ref="7" isKey="true" type="Image">
               <AspectRatio>True</AspectRatio>
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,19,3.2</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <DataColumn isNull="true"/>
               <File>logo-full.png</File>
               <Image>iVBORw0KGgoAAAANSUhEUgAABLAAAADICAIAAAB3fY8nAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
@@ -1410,723 +1039,723 @@ q6NHCYIgCILg0QohQRAEcd/R1dU1ZsyYzMxMd3f3uLg4W1tbUoMEQRAE8cugFUKCIAiCIAiCIIjf
 KbRCSBAEQRAEQRAE8Tvl/wIMANa+duJG6fTpAAAAAElFTkSuQmCC</Image>
               <Name>Image1</Name>
               <Page isRef="5"/>
-              <Parent isRef="37"/>
+              <Parent isRef="6"/>
               <Stretch>True</Stretch>
             </Image1>
           </Components>
-          <Conditions isList="true" count="0"/>
+          <Conditions count="0" isList="true"/>
           <Name>ReportTitleBand1</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
         </ReportTitleBand1>
-        <ReportTitleBand2 type="ReportTitleBand" Ref="39" isKey="true">
+        <ReportTitleBand2 Ref="8" isKey="true" type="ReportTitleBand">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,4.4,19.01,0.8</ClientRectangle>
-          <Components isList="true" count="3">
-            <Text5 type="Text" Ref="40" isKey="true">
+          <Components count="3" isList="true">
+            <Text5 Ref="9" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,19,0.8</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,18,Bold</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text5</Name>
               <Page isRef="5"/>
-              <Parent isRef="39"/>
+              <Parent isRef="8"/>
               <Text>Invoice</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text5>
-            <HorizontalLinePrimitive1 type="HorizontalLinePrimitive" Ref="41" isKey="true">
+            <HorizontalLinePrimitive1 Ref="10" isKey="true" type="HorizontalLinePrimitive">
               <ClientRectangle>0,0,19,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap type="Cap" Ref="42" isKey="true">
+              <Conditions count="0" isList="true"/>
+              <EndCap Ref="11" isKey="true" type="Cap">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive1</Name>
               <Page isRef="5"/>
-              <Parent isRef="39"/>
-              <StartCap type="Cap" Ref="43" isKey="true">
+              <Parent isRef="8"/>
+              <StartCap Ref="12" isKey="true" type="Cap">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive1>
-            <HorizontalLinePrimitive3 type="HorizontalLinePrimitive" Ref="44" isKey="true">
+            <HorizontalLinePrimitive3 Ref="13" isKey="true" type="HorizontalLinePrimitive">
               <ClientRectangle>0,0.8,19,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap type="Cap" Ref="45" isKey="true">
+              <Conditions count="0" isList="true"/>
+              <EndCap Ref="14" isKey="true" type="Cap">
                 <Color>Black</Color>
               </EndCap>
               <Guid>698c5b5a529c515b9fe3b10f28dbd883</Guid>
               <Name>HorizontalLinePrimitive3</Name>
               <Page isRef="5"/>
-              <Parent isRef="39"/>
-              <StartCap type="Cap" Ref="46" isKey="true">
+              <Parent isRef="8"/>
+              <StartCap Ref="15" isKey="true" type="Cap">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive3>
           </Components>
-          <Conditions isList="true" count="0"/>
+          <Conditions count="0" isList="true"/>
           <Name>ReportTitleBand2</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
         </ReportTitleBand2>
-        <DataBand1 type="DataBand" Ref="47" isKey="true">
+        <DataBand1 Ref="16" isKey="true" type="DataBand">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,6,19.01,4.8</ClientRectangle>
-          <Components isList="true" count="32">
-            <Text2 type="Text" Ref="48" isKey="true">
+          <Components count="32" isList="true">
+            <Text2 Ref="17" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>10,0.2,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text2</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Invoice No.</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text2>
-            <Text9 type="Text" Ref="49" isKey="true">
+            <Text9 Ref="18" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>10,0.8,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>4968290fce224009ab13b11284e2740c</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text9</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Invoice Date</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text9>
-            <Text10 type="Text" Ref="50" isKey="true">
+            <Text10 Ref="19" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,0.2,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>e5fd6cacc788b1f7ec09b1129d51dbc0</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text10</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Charged To</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text10>
-            <Text11 type="Text" Ref="51" isKey="true">
+            <Text11 Ref="20" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,1.4,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>694e54672eff1e95f0bcb114088bd8b0</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text11</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Attn</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text11>
-            <Text13 type="Text" Ref="52" isKey="true">
+            <Text13 Ref="21" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,0.2,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>0b2146e3355fcd36ad1db11471ba482d</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text13</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text13>
-            <Text14 type="Text" Ref="53" isKey="true">
+            <Text14 Ref="22" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,0.8,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>511fccba2df2a466e5c7b1148a6a0eec</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text14</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text14>
-            <Text15 type="Text" Ref="54" isKey="true">
+            <Text15 Ref="23" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>4,1.4,5.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text15</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Finance</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>Expression</Type>
             </Text15>
-            <Text33 type="Text" Ref="55" isKey="true">
+            <Text33 Ref="24" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,1.4,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>73a353c795856585d45ccc01233da660</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text33</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text33>
-            <Text43 type="Text" Ref="56" isKey="true">
+            <Text43 Ref="25" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>10,2.6,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>5cbfee41c27f8195134acc01ec217d70</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text43</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Payment Method</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text43>
-            <Text39 type="Text" Ref="57" isKey="true">
+            <Text39 Ref="26" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,2.6,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>2599274cc4b9b141a899cc01ec21c005</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text39</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text39>
-            <Text46 type="Text" Ref="58" isKey="true">
+            <Text46 Ref="27" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>10,3.2,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>8740617c8116844d808acc02440f0d23</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text46</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Project</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text46>
-            <Text42 type="Text" Ref="59" isKey="true">
+            <Text42 Ref="28" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,3.2,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>b61558d76f918f290b3acc02440f6ff4</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text42</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text42>
-            <Text55 type="Text" Ref="60" isKey="true">
+            <Text55 Ref="29" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,2,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>10f292c454f85baab4dfcc05797a2b65</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text55</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Email</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text55>
-            <Text51 type="Text" Ref="61" isKey="true">
+            <Text51 Ref="30" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,1.4,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>9b3ea7e0b4f1bf4fbbb4cc05797a4e81</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text51</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text51>
-            <Text3 type="Text" Ref="62" isKey="true">
+            <Text3 Ref="31" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,2,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>5dfa6f32ed7fee0dc066da480fa2b001</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text3</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text3>
-            <Text1 type="Text" Ref="63" isKey="true">
+            <Text1 Ref="32" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>4,0.2,5.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Margins>0,0,0,0</Margins>
               <Name>Text1</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.kontak}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>Expression</Type>
             </Text1>
-            <Text6 type="Text" Ref="64" isKey="true">
+            <Text6 Ref="33" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,0.2,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>6a5a2989a1e40f44c8048e63c0ce106c</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text6</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text6>
-            <Text7 type="Text" Ref="65" isKey="true">
+            <Text7 Ref="34" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>10,1.4,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>2c0662ad54f9720ddee58e711fd1799a</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text7</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Due Date</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text7>
-            <Text12 type="Text" Ref="66" isKey="true">
+            <Text12 Ref="35" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>10,2,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>5dc1d76ca46ed0bf8d5c8e728a6c39ba</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text12</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>Po No.</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text12>
-            <Text16 type="Text" Ref="67" isKey="true">
+            <Text16 Ref="36" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,2,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>14286ab70e8f99c6541a8e730ddb0a59</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text16>
-            <Text35 type="Text" Ref="68" isKey="true">
+            <Text35 Ref="37" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>10,3.8,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>f34430e5908b183efc248e747a5b669a</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text35</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>VAT No.</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text35>
-            <Text36 type="Text" Ref="69" isKey="true">
+            <Text36 Ref="38" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,3.8,0.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>2f01c3dbd3fd5e34fa298e7581c59398</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text36</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>:</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text36>
-            <Text4 type="Text" Ref="70" isKey="true">
+            <Text4 Ref="39" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,0.2,5.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text4</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.no}</Text>
               <TextBrush>Black</TextBrush>
             </Text4>
-            <Text37 type="Text" Ref="71" isKey="true">
+            <Text37 Ref="40" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,0.8,5.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text37</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.tanggal_transaksi.ToString("dd MMMM yyyy")}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text37>
-            <Text38 type="Text" Ref="72" isKey="true">
+            <Text38 Ref="41" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,1.4,5.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text38</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.tanggal_pengantaran.ToString("dd MMMM yyyy")}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text38>
-            <Text40 type="Text" Ref="73" isKey="true">
+            <Text40 Ref="42" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,2,5.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text40</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.so}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text40>
-            <Text41 type="Text" Ref="74" isKey="true">
+            <Text41 Ref="43" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,2.6,5.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text41</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.metode_pembayaran}</Text>
               <TextBrush>Black</TextBrush>
             </Text41>
-            <Text44 type="Text" Ref="75" isKey="true">
+            <Text44 Ref="44" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,3.2,5.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text44</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.project}</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text44>
-            <Text45 type="Text" Ref="76" isKey="true">
+            <Text45 Ref="45" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>4,2,5.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text45</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.email}</Text>
               <TextBrush>Black</TextBrush>
             </Text45>
-            <Text50 type="Text" Ref="77" isKey="true">
+            <Text50 Ref="46" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>13.6,3.8,5.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>effeb3584372ca5e110992d59764e46a</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text50</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.no_faktur}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>Expression</Type>
             </Text50>
-            <Text56 type="Text" Ref="78" isKey="true">
+            <Text56 Ref="47" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>4,0.8,5.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>fc43e3759eadcc6e45792ee6e452b553</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text56</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
+              <Parent isRef="16"/>
               <Text>{field.alamat_invoice}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>DataColumn</Type>
             </Text56>
-            <HorizontalLinePrimitive2 type="HorizontalLinePrimitive" Ref="79" isKey="true">
-              <ClientRectangle>0,4.6,19,0.0254</ClientRectangle>
+            <HorizontalLinePrimitive2 Ref="48" isKey="true" type="HorizontalLinePrimitive">
+              <ClientRectangle>0,4.4,19,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap type="Cap" Ref="80" isKey="true">
+              <Conditions count="0" isList="true"/>
+              <EndCap Ref="49" isKey="true" type="Cap">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive2</Name>
               <Page isRef="5"/>
-              <Parent isRef="47"/>
-              <StartCap type="Cap" Ref="81" isKey="true">
+              <Parent isRef="16"/>
+              <StartCap Ref="50" isKey="true" type="Cap">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive2>
           </Components>
-          <Conditions isList="true" count="0"/>
+          <Conditions count="0" isList="true"/>
           <DataSourceName>pr</DataSourceName>
-          <Filters isList="true" count="0"/>
+          <Filters count="0" isList="true"/>
           <Name>DataBand1</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
-          <Sort isList="true" count="0"/>
+          <Sort count="0" isList="true"/>
         </DataBand1>
-        <HeaderBand1 type="HeaderBand" Ref="82" isKey="true">
+        <HeaderBand1 Ref="51" isKey="true" type="HeaderBand">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,11.6,19.01,0.6</ClientRectangle>
-          <Components isList="true" count="8">
-            <Text17 type="Text" Ref="83" isKey="true">
+          <ClientRectangle>0,11.6,19.01,0.8</ClientRectangle>
+          <Components count="8" isList="true">
+            <Text17 Ref="52" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,1.2,0.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text17</Name>
               <Page isRef="5"/>
-              <Parent isRef="82"/>
+              <Parent isRef="51"/>
               <Text>No</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text17>
-            <Text20 type="Text" Ref="84" isKey="true">
+            <Text20 Ref="53" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.6,0,1.6,0.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>28d427094298227194e6b13ef3565dff</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text20</Name>
               <Page isRef="5"/>
-              <Parent isRef="82"/>
+              <Parent isRef="51"/>
               <Text>Barcode</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text20>
-            <Text22 type="Text" Ref="85" isKey="true">
+            <Text22 Ref="54" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.4,0,5.8,0.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>30c01b3c265366a0147bb13f91775559</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text22</Name>
               <Page isRef="5"/>
-              <Parent isRef="82"/>
+              <Parent isRef="51"/>
               <Text>Description</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text22>
-            <Text24 type="Text" Ref="86" isKey="true">
+            <Text24 Ref="55" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>9.4,0,2.2,0.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>48c46f4807f31887e3dab140461323f9</Guid>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text24</Name>
               <Page isRef="5"/>
-              <Parent isRef="82"/>
+              <Parent isRef="51"/>
               <Text>Qty</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text24>
-            <Text26 type="Text" Ref="87" isKey="true">
+            <Text26 Ref="56" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.8,0,2.6,0.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>9545ef084ce0f9826462b14158e68955</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text26</Name>
               <Page isRef="5"/>
-              <Parent isRef="82"/>
+              <Parent isRef="51"/>
               <Text>Unit Price</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text26>
-            <Text28 type="Text" Ref="88" isKey="true">
+            <Text28 Ref="57" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.2,0,2.8,0.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>8a1d1ca86b4c1f41afdbb141e636b6b3</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text28</Name>
               <Page isRef="5"/>
-              <Parent isRef="82"/>
+              <Parent isRef="51"/>
               <Text>Subtotal</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text28>
-            <Text59 type="Text" Ref="89" isKey="true">
+            <Text59 Ref="58" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>14.6,0,1.4,0.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>07f9756a345fdb415c0ccc0bee91813c</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text59</Name>
               <Page isRef="5"/>
-              <Parent isRef="82"/>
+              <Parent isRef="51"/>
               <Text>Disc(%)</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text59>
-            <HorizontalLinePrimitive4 type="HorizontalLinePrimitive" Ref="90" isKey="true">
-              <ClientRectangle>0,0.4,19,0.0254</ClientRectangle>
+            <HorizontalLinePrimitive4 Ref="59" isKey="true" type="HorizontalLinePrimitive">
+              <ClientRectangle>0,0.6,19,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap type="Cap" Ref="91" isKey="true">
+              <Conditions count="0" isList="true"/>
+              <EndCap Ref="60" isKey="true" type="Cap">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive4</Name>
               <Page isRef="5"/>
-              <Parent isRef="82"/>
-              <StartCap type="Cap" Ref="92" isKey="true">
+              <Parent isRef="51"/>
+              <StartCap Ref="61" isKey="true" type="Cap">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive4>
           </Components>
-          <Conditions isList="true" count="0"/>
+          <Conditions count="0" isList="true"/>
           <Name>HeaderBand1</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
         </HeaderBand1>
-        <DataBand3 type="DataBand" Ref="93" isKey="true">
+        <DataBand3 Ref="62" isKey="true" type="DataBand">
           <Brush>Transparent</Brush>
-          <ClientRectangle>0,13,19.01,0.8</ClientRectangle>
-          <Components isList="true" count="8">
-            <Text60 type="Text" Ref="94" isKey="true">
+          <ClientRectangle>0,13.2,19.01,0.8</ClientRectangle>
+          <Components count="8" isList="true">
+            <Text60 Ref="63" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,1.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>09e60a6e899ca8b7e190cc13a78b93d3</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text60</Name>
               <Page isRef="5"/>
-              <Parent isRef="93"/>
+              <Parent isRef="62"/>
               <Text>{Line}</Text>
               <TextBrush>Black</TextBrush>
             </Text60>
-            <Text18 type="Text" Ref="95" isKey="true">
+            <Text18 Ref="64" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.6,0,1.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>309cefe9ff24aa22b48ccc13a78b3670</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text18</Name>
               <Page isRef="5"/>
-              <Parent isRef="93"/>
+              <Parent isRef="62"/>
               <Text>{list.kode_barang}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text18>
-            <Text19 type="Text" Ref="96" isKey="true">
+            <Text19 Ref="65" isKey="true" type="Text">
               <AutoWidth>True</AutoWidth>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>3.4,0,5.8,0.8</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>ccffc4fdd1b328fcaf21cc13a78ba930</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text19</Name>
               <Page isRef="5"/>
-              <Parent isRef="93"/>
+              <Parent isRef="62"/>
               <Text>{list.deskripsi}
 {list.catatan}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>Expression</Type>
             </Text19>
-            <Text23 type="Text" Ref="97" isKey="true">
+            <Text23 Ref="66" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>9.4,0,1.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>a6bd8e27c81ad96c91abcc13a78cad02</Guid>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text23</Name>
               <Page isRef="5"/>
-              <Parent isRef="93"/>
+              <Parent isRef="62"/>
               <Text>{list.diterima}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="98" isKey="true">
+              <TextFormat Ref="67" isKey="true" type="NumberFormat">
                 <DecimalDigits>0</DecimalDigits>
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator></GroupSeparator>
@@ -2135,20 +1764,20 @@ KbRCSBAEQRAEQRAE8Tvl/wIMANa+duJG6fTpAAAAAElFTkSuQmCC</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text23>
-            <Text25 type="Text" Ref="99" isKey="true">
+            <Text25 Ref="68" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.2,0,2.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>fb8b02b33bea00d857a7cc13a78cec2d</Guid>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text25</Name>
               <Page isRef="5"/>
-              <Parent isRef="93"/>
+              <Parent isRef="62"/>
               <Text>{list.harga*list.diterima}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="100" isKey="true">
+              <TextFormat Ref="69" isKey="true" type="NumberFormat">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -2156,10 +1785,10 @@ KbRCSBAEQRAEQRAE8Tvl/wIMANa+duJG6fTpAAAAAElFTkSuQmCC</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text25>
-            <Text27 type="Text" Ref="101" isKey="true">
+            <Text27 Ref="70" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>14.6,0,1.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Guid>9e9a165597e1407f3a37cc13a78c435e</Guid>
               <HideZeros>True</HideZeros>
@@ -2167,54 +1796,433 @@ KbRCSBAEQRAEQRAE8Tvl/wIMANa+duJG6fTpAAAAAElFTkSuQmCC</Image>
               <Margins>0,0,0,0</Margins>
               <Name>Text27</Name>
               <Page isRef="5"/>
-              <Parent isRef="93"/>
+              <Parent isRef="62"/>
               <Text>{list.disc}</Text>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text27>
-            <Text21 type="Text" Ref="102" isKey="true">
+            <Text21 Ref="71" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.8,0,2.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text21</Name>
               <Page isRef="5"/>
-              <Parent isRef="93"/>
+              <Parent isRef="62"/>
               <Text>{list.harga}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat type="NumberFormat" Ref="103" isKey="true">
+              <TextFormat Ref="72" isKey="true" type="NumberFormat">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
                 <UseLocalSetting>False</UseLocalSetting>
               </TextFormat>
             </Text21>
-            <Text57 type="Text" Ref="104" isKey="true">
+            <Text57 Ref="73" isKey="true" type="Text">
               <Brush>Transparent</Brush>
               <ClientRectangle>10.6,0,1,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text57</Name>
               <Page isRef="5"/>
-              <Parent isRef="93"/>
+              <Parent isRef="62"/>
               <Text>{list.satuan}</Text>
               <TextBrush>Black</TextBrush>
             </Text57>
           </Components>
-          <Conditions isList="true" count="0"/>
+          <Conditions count="0" isList="true"/>
           <DataSourceName>list</DataSourceName>
-          <Filters isList="true" count="0"/>
+          <Filters count="0" isList="true"/>
           <Guid>61c22a7a8b8230d9f3b0cc13a78bf83a</Guid>
           <Name>DataBand3</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
-          <Sort isList="true" count="0"/>
+          <Sort count="0" isList="true"/>
         </DataBand3>
+        <FooterBand1 Ref="74" isKey="true" type="FooterBand">
+          <Brush>Transparent</Brush>
+          <ClientRectangle>0,14.8,19.01,9</ClientRectangle>
+          <Components count="20" isList="true">
+            <Text53 Ref="75" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>15.6,1.29,3.4,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>550581e4b223c684cf63378333c16368</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text53</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{total}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="76" isKey="true" type="NumberFormat">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text53>
+            <Text29 Ref="77" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>11.8,1.29,3,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>379803f07698c9d5d3fb378333c1cce8</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text29</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>Subtotal</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text29>
+            <Text31 Ref="78" isKey="true" type="Text">
+              <AutoWidth>True</AutoWidth>
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>0,4.79,10.8,2.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>9c3c36cdd5013834d9e7378333c1166c</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text31</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>Note :
+{(po.catatan == null) ? "" : - po.catatan}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text31>
+            <Text62 Ref="79" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>15.6,1.99,3.4,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>e22e7e42a8b73c88699c378333c1ed58</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text62</Name>
+              <NullValue>-</NullValue>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.total_ppn &gt; 0,total_pajak,IIF(field.total_pph22 &gt; 0,total_pajak,""))}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="80" isKey="true" type="NumberFormat">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text62>
+            <Text32 Ref="81" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>11.8,1.99,3,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>46e42eb612dbde87525b378333c10bcd</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text32</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.total_ppn &gt; 0,"VAT",IIF(field.total_pph22 &gt; 0,"VAT",""))}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text32>
+            <Text63 Ref="82" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>11.8,0.59,3,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>7ef9ffb8af94209efaac378333c2c9b4</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text63</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.total_diskon&gt;0,"Discount")}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text63>
+            <Text64 Ref="83" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>15.6,2.59,3.4,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>a225e2ceb996992c1a83378333c3ff68</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text64</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{grand_total}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="84" isKey="true" type="NumberFormat">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text64>
+            <Text65 Ref="85" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>11.8,2.59,3,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>b549a20638719db1603c378333c337a4</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text65</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>Grand Total</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text65>
+            <Text61 Ref="86" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>15.6,3.79,3.4,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>20e27d6d93f71951f82c378333c33a05</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text61</Name>
+              <NullValue>-</NullValue>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.metode_pembayaran_id == 2,grand_total-field.dibayar_nominal)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="87" isKey="true" type="NumberFormat">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text61>
+            <Text67 Ref="88" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>11.8,3.8,3,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>f9c8edb73158ae681494378333c32339</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text67</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.metode_pembayaran_id == 2,"Saldo")}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text67>
+            <Text68 Ref="89" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanGrow>True</CanGrow>
+              <ClientRectangle>0,4.4,19,0.4</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <GrowToHeight>True</GrowToHeight>
+              <Guid>82cb0d4107f6d317b237378333c3ebb5</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text68</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>Amount In Words : {IIF(field.kurensi_id == 2,ToCurrencyWords(grand_total),IIF(field.kurensi_id == 1,ToWords(grand_total),""))}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>Expression</Type>
+            </Text68>
+            <Text8 Ref="90" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>11.8,0,3,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>1e951c25a78d94666ace378333c30273</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text8</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.biaya_pengiriman&gt;0,"Transport Cost")}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text8>
+            <Text47 Ref="91" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>15.6,0,3.4,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>b1fdaad5abd1aa5fc2ec378333c3b4c6</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text47</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.biaya_pengiriman&gt;0,field.biaya_pengiriman)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="92" isKey="true" type="NumberFormat">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text47>
+            <Text48 Ref="93" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>15.6,0.6,3.4,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>ea4ec852e2ddb8addf3d378333c3d98a</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text48</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.total_diskon&gt;0,field.total_diskon)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="94" isKey="true" type="NumberFormat">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text48>
+            <Text52 Ref="95" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>15.6,3.2,3.4,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>027c1f8e2ba058435855378333c328ce</Guid>
+              <HorAlignment>Right</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text52</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.metode_pembayaran_id == 2,dibayar_nominal)}</Text>
+              <TextBrush>Black</TextBrush>
+              <TextFormat Ref="96" isKey="true" type="NumberFormat">
+                <DecimalSeparator>,</DecimalSeparator>
+                <GroupSeparator>.</GroupSeparator>
+                <NegativePattern>1</NegativePattern>
+                <UseLocalSetting>False</UseLocalSetting>
+              </TextFormat>
+              <Type>Expression</Type>
+            </Text52>
+            <Text54 Ref="97" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <CanShrink>True</CanShrink>
+              <ClientRectangle>11.8,3.2,3,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>17939cc19fd706c3e8b3378333c31a07</Guid>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text54</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>{IIF(field.metode_pembayaran_id == 2,"Down Payment")}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text54>
+            <Text30 Ref="98" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.8,4.89,8.2,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>37d3a05dea00ccc1f640378333c19993</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text30</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>Jakarta, {field.tanggal_transaksi.ToString("dd MMMM yyyy")}</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text30>
+            <Text58 Ref="99" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.8,7.49,8.2,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>be371d94cc9b47df1b3a378333c187cb</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text58</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>(Mursiawaty Suryadinata)</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text58>
+            <Text34 Ref="100" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.8,5.4,8.2,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>36f6b6390850990c4dfa378333c35fa8</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text34</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>PT. Gramaselindo Utama</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text34>
+            <Text66 Ref="101" isKey="true" type="Text">
+              <Brush>Transparent</Brush>
+              <ClientRectangle>10.8,7.99,8.2,0.6</ClientRectangle>
+              <Conditions count="0" isList="true"/>
+              <Font>Arial,10</Font>
+              <Guid>dcda66972385df15f7f1ccc9bdf3113d</Guid>
+              <HorAlignment>Center</HorAlignment>
+              <Margins>0,0,0,0</Margins>
+              <Name>Text66</Name>
+              <Page isRef="5"/>
+              <Parent isRef="74"/>
+              <Text>Chief Excecutive Officer</Text>
+              <TextBrush>Black</TextBrush>
+              <Type>Expression</Type>
+            </Text66>
+          </Components>
+          <Conditions count="0" isList="true"/>
+          <Name>FooterBand1</Name>
+          <Page isRef="5"/>
+          <Parent isRef="5"/>
+        </FooterBand1>
+        <HorizontalLinePrimitive5 Ref="102" isKey="true" type="HorizontalLinePrimitive">
+          <ClientRectangle>0,28.99,19,0.0254</ClientRectangle>
+          <Color>Black</Color>
+          <Conditions count="0" isList="true"/>
+          <EndCap Ref="103" isKey="true" type="Cap">
+            <Color>Black</Color>
+          </EndCap>
+          <Name>HorizontalLinePrimitive5</Name>
+          <Page isRef="5"/>
+          <Parent isRef="5"/>
+          <StartCap Ref="104" isKey="true" type="Cap">
+            <Color>Black</Color>
+          </StartCap>
+        </HorizontalLinePrimitive5>
       </Components>
-      <Conditions isList="true" count="0"/>
+      <Conditions count="0" isList="true"/>
       <Guid>407d912958a5162b3daeb0af3d3913cb</Guid>
       <Margins>1,1,1,1</Margins>
       <Name>Page1</Name>
@@ -2222,21 +2230,21 @@ KbRCSBAEQRAEQRAE8Tvl/wIMANa+duJG6fTpAAAAAElFTkSuQmCC</Image>
       <PageWidth>21.01</PageWidth>
       <PaperSize>A4</PaperSize>
       <Report isRef="0"/>
-      <Watermark type="Stimulsoft.Report.Components.StiWatermark" Ref="105" isKey="true">
+      <Watermark Ref="105" isKey="true" type="Stimulsoft.Report.Components.StiWatermark">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings type="Stimulsoft.Report.Print.StiPrinterSettings" Ref="106" isKey="true"/>
+  <PrinterSettings Ref="106" isKey="true" type="Stimulsoft.Report.Print.StiPrinterSettings"/>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>06/15/2016 09:14:43 PM</ReportChanged>
+  <ReportChanged>09/17/2016 04:42:14 PM</ReportChanged>
   <ReportCreated>03/26/2016 09:09:47 AM</ReportCreated>
   <ReportFile>D:\xampp\htdocs\gsm\print\reports\pr.mrt</ReportFile>
-  <ReportGuid>444e8d1ca3bb42a6baa9546a0a15df82</ReportGuid>
+  <ReportGuid>92b1e51276d0a93a68bc3785e6469ce3</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.2</ReportVersion>
   <ScriptLanguage>CSharp</ScriptLanguage>
-  <Styles isList="true" count="0"/>
+  <Styles count="0" isList="true"/>
 </StiSerializer>
