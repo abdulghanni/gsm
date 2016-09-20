@@ -53,7 +53,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
       <td>:</td>
       <td><?= getValue('no','purchase_request', array('id'=>'where/'.$o->no))?></td>
       
-      <td>Up</td>
+      <td>Attention</td>
       <td>:</td>
       <td><?=$o->up?></td>
       
@@ -62,7 +62,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
     <tr>
       <td width="180">Date</td>
       <td width="20">:</td>
-      <td width="300"><?=dateIndo($o->created_on)?></td>
+      <td width="300"><?=date('d F Y', strtotime($o->created_on))?></td>
       
       <td>Phone</td>
       <td>:</td>
@@ -70,9 +70,9 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
     </tr>
     <tr>
 
-      <td width="180">Delivery</td>
+      <td width="180">Delivery Time</td>
       <td width="20">:</td>
-      <td width="300"><?=dateIndo($o->tanggal_transaksi)?></td>
+      <td width="300"><?=date('d F Y', strtotime($o->tanggal_transaksi))?></td>
 
 
       <td>Fax</td>
@@ -91,7 +91,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
       <td><?=$o->email?></td>
     </tr>
     <tr>
-      <td>Payment Method</td>
+      <td>Payment Term</td>
       <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
       <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
       <td>Address</td>
@@ -99,7 +99,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
       <td><?=$o->alamat?></td>
     </tr>
     <tr>
-      <td>Proyek</td>
+      <td>Project</td>
       <td>:</td>
       <td><?=$o->proyek?></td>
     </tr>
@@ -174,7 +174,7 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 		<th width="2%"></th>
 		<th width="2%"></th>
 		<th width="5%"></th>
-		<th width="5%"></th>
+		<th width="10%"></th>
 		<th width="10%"></th>
 		<th width="10%"></th>
 	</tr>
@@ -184,18 +184,19 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 			  foreach ($c as $key => $value) {?>
 			  <tr><td colspan="4">- <?=$value?></td></tr>
 		<?php }} ?>
-		<tr><td colspan="4">- All shipments must included an invoice</td></tr>
-		<tr><td colspan="4">- Invoices is intended shown to finance PT. Gramaselindo Utama and Submitted through our </td></tr>
-		<tr><td colspan="4">  &nbsp;&nbsp;receptionist</td></tr>
-		<tr><td colspan="4">- The items will be returned if not suitable from order</td></tr>
-		<tr><td colspan="9">- PO number should be included in invoices and delivery orders</td>
+		<tr><td colspan="4">- POD (Prove of delivery) must be enclosed in all delivery</td></tr>
+		<tr><td colspan="4">- Invoices must be sent to PT. Gramaselindo Utama with attention to finanace,  </td></tr>
+		<tr><td colspan="4">  &nbsp;&nbsp;submitted through our receptionist</td></tr>
+		<tr><td colspan="4">- The items will be returned if not appropriate order</td></tr>
+		<tr><td colspan="9">- PO number should be mentioned in invoices and delivery orders</td>
 	</tr>
 	<hr style="width:100%">
 	<tr><td>&nbsp;</td></tr>
 	<tr>
-		<td align="center">Order By,</td>
-		<td align="center"><!--Order By,--></td>
+		<td align="center" >Order By,</td>
+		
 		<td align="center">ACC Vendor</td>
+		<td align="center"></td>
 		<?php if(in_array(1, $pajak_komponen)){?>
 		<td colspan="3">PPN</td>
 		<td align="right">:</td>
@@ -288,10 +289,11 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
 	</tr>
 
 	<tr>
-		<td align="center">(<?=getFullName($o->created_by)?>)</td>
-		<td align="center"></td>
+		<td align="center" width="500px">(<?=getFullName($o->created_by)?>)</td>
+		
 		<td align="center">(Sign & Return by Fax)</td>
-		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Saldo<?php endif; ?></td>
+		<td align="center"></td>
+		<td colspan="3"><?php if($o->metode_pembayaran_id == 2):?>Total<?php endif; ?></td>
 		<td align="right"><?php if($o->metode_pembayaran_id == 2):?>:<?php endif; ?></td>
 		<td align="right" colspan="2"><?php if($o->metode_pembayaran_id == 2):?><?=number_format($saldo, 2)?><?php endif; ?></td>
 	</tr>

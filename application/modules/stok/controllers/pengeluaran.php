@@ -382,7 +382,7 @@ class Pengeluaran extends MX_Controller {
 					$data['reftype']='sales_order';
 					$cekparsial=$this->db->query("SELECT * FROM stok_pengeluaran_list WHERE ref_type='".$data['reftype']."' AND order_id='".$data['refid']['id']."' GROUP BY pengeluaran_id ORDER BY id DESC ");
 					$so = getValue('so', 'sales_order', array('id'=>'where/'.$v));
-					$pengiriman_ke = getAll('stok_pengeluaran', array('ref'=>'where/'.$so));
+					$pengiriman_ke = getAll('stok_pengeluaran', array('ref_id'=>'where/'.$v));
                                         // lastq();
 					if($cekparsial->num_rows()>0){
 						$data['part']=TRUE;	

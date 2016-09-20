@@ -68,6 +68,7 @@ function edit_user(id)
             $('[name="kode"]').val(data.code);
             $('[name="title"]').val(data.name);
             $('[name="type"]').select2().select2('val',data.type);
+            $('[name="class"]').select2().select2('val',data.class);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit COA'); // Set title to Bootstrap modal title
 

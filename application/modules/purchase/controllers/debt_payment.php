@@ -20,6 +20,7 @@ class Debt_payment extends MX_Controller {
         permissionUser();
         $this->data['coa'] = GetAllSelect('sv_setup_coa', 'id,name')->result();
         $this->data['options_po'] = options_row('main','get_po','id','no','-- Pilih No. Invoice --');
+        $this->data['po'] = $this->main->get_po()->result();
         $this->_render_page($this->module.'/'.$this->file_name.'/index', $this->data);
     }
 

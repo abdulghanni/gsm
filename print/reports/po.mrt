@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<StiSerializer type="Flex" version="1.02" application="StiReport">
+<StiSerializer version="1.02" type="Flex" application="StiReport">
   <Dictionary Ref="1" type="Dictionary" isKey="true">
-    <Databases count="1" isList="true">
+    <Databases isList="true" count="1">
       <po Ref="2" type="Stimulsoft.Report.Dictionary.StiMySqlDatabase" isKey="true">
         <Alias>po</Alias>
         <ConnectionStringEncrypted>48j7a9dKAYRrTKXU5QBlY4tU1ytsVQHNwE39xGR4tTbCcLPLSEwxzeIVpaVOBWJ70Wz9CUhQ+oVx
@@ -9,10 +9,10 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Name>po</Name>
       </po>
     </Databases>
-    <DataSources count="2" isList="true">
+    <DataSources isList="true" count="2">
       <po Ref="3" type="Stimulsoft.Report.Dictionary.StiMySqlSource" isKey="true">
         <Alias>po</Alias>
-        <Columns count="56" isList="true">
+        <Columns isList="true" count="56">
           <value>no,System.String</value>
           <value>kontak,System.String</value>
           <value>email,System.String</value>
@@ -74,12 +74,12 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Dictionary isRef="1"/>
         <Name>po</Name>
         <NameInSource>po</NameInSource>
-        <Parameters count="0" isList="true"/>
+        <Parameters isList="true" count="0"/>
         <SqlCommand>SELECT `no`,`users`.`full_name` as `creator`, `kontak`.`title` as `kontak`, `kontak`.`email` as `email`, `kontak`.`telepon`,`total_diskon`, `kontak`.`fax`, `kontak_id`, `purchase_order`.`up`, `purchase_order`.`alamat`, `metode_pembayaran_id`, `metode_pembayaran`.`title` as `metode_pembayaran`, `tanggal_transaksi`, `po`, `gudang`.`title` as `gudang`, `gudang_id`, `jatuh_tempo_pembayaran`, `kurensi`.`title` as `kurensi`, `kurensi_id`, `biaya_pengiriman`, `dibayar`, `dibayar_nominal`, `lama_angsuran_2`, `lama_angsuran_1`, `bunga`, `proyek`, `purchase_order`.`catatan`, `purchase_order`.`pajak_komponen_id`, `purchase_order`.`total_ppn`, `purchase_order`.`total_pph22`, `purchase_order`.`total_pph23`, `purchase_order`.`diskon_tambahan_nominal`, `purchase_order`.`diskon_tambahan_persen`, `purchase_order`.`created_on`, `is_app_lv1`, `is_app_lv2`, `is_app_lv3`, `is_app_lv4`, `user_app_lv1`, `user_app_lv2`, `user_app_lv3`, `user_app_lv4`, `date_app_lv1`, `date_app_lv2`, `date_app_lv3`, `date_app_lv4`, `app_status_id_lv1`, `app_status_id_lv2`, `app_status_id_lv3`, `app_status_id_lv4`, `note_app_lv1`, `note_app_lv2`, `note_app_lv3`, `note_app_lv4`, `purchase_order`.`created_by` FROM `purchase_order` LEFT JOIN `kontak` ON `kontak`.`id` =`purchase_order`.`kontak_id` LEFT JOIN `users` ON `users`.`id` = `purchase_order`.`created_by` LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` =`purchase_order`.`metode_pembayaran_id` LEFT JOIN `kurensi` ON `kurensi`.`id` =`purchase_order`.`kurensi_id` LEFT JOIN `gudang` ON `gudang`.`id` =`purchase_order`.`gudang_id` WHERE `purchase_order`.`id` = {param1}</SqlCommand>
       </po>
       <list Ref="4" type="Stimulsoft.Report.Dictionary.StiMySqlSource" isKey="true">
         <Alias>list</Alias>
-        <Columns count="12" isList="true">
+        <Columns isList="true" count="12">
           <value>barang_id,System.String</value>
           <value>satuan_id,System.Int32</value>
           <value>photo,System.String</value>
@@ -97,13 +97,13 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <Dictionary isRef="1"/>
         <Name>list</Name>
         <NameInSource>po</NameInSource>
-        <Parameters count="0" isList="true"/>
+        <Parameters isList="true" count="0"/>
         <SqlCommand>SELECT `barang`.`id` as `barang_id`, `satuan_id`, `barang`.`photo`, `barang`.`kode` as `kode_barang`, `barang`.`title` as `nama_barang`, `purchase_order_list`.`deskripsi`,`purchase_order_list`.`catatan`, `jumlah`, `satuan`.`title` as `satuan`, `harga`, `disc`, `pajak` FROM `purchase_order_list` LEFT JOIN `barang` ON `barang`.`id` =`purchase_order_list`.`kode_barang` LEFT JOIN `satuan` ON `satuan`.`id` =`purchase_order_list`.`satuan_id` WHERE `order_id` = {param1}</SqlCommand>
       </list>
     </DataSources>
-    <Relations count="0" isList="true"/>
+    <Relations isList="true" count="0"/>
     <Report isRef="0"/>
-    <Variables count="5" isList="true">
+    <Variables isList="true" count="5">
       <value>,total_pajak,total_pajak,System.Decimal,po_x002E_total_ppn_x002B_po_x002E_total_pph23_x002B_po_x002E_total_pph22,True,True</value>
       <value>,total,total,System.Decimal,Sum_x0028_DataBand3_x002C_list_x002E_jumlah_x002A_list_x002E_harga_x0029_,True,True</value>
       <value>,diskon_tambahan_persen,diskon_tambahan_persen,System.Decimal,total_x0020__x002A__x0020__x0028_po_x002E_diskon_tambahan_persen_x0020__x002F__x0020_100_x0029_,True,True</value>
@@ -112,17 +112,17 @@ TZy9ZAA=</ConnectionStringEncrypted>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
-  <GlobalizationStrings count="0" isList="true"/>
-  <MetaTags count="0" isList="true"/>
-  <Pages count="1" isList="true">
+  <GlobalizationStrings isList="true" count="0"/>
+  <MetaTags isList="true" count="0"/>
+  <Pages isList="true" count="1">
     <Page1 Ref="5" type="Page" isKey="true">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components count="6" isList="true">
+      <Components isList="true" count="6">
         <PageFooterBand1 Ref="6" type="PageFooterBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,19.89,19.01,7.8</ClientRectangle>
-          <Components count="25" isList="true">
+          <Components isList="true" count="25">
             <Text29 Ref="7" type="Text" isKey="true">
               <AutoWidth>True</AutoWidth>
               <Brush>Transparent</Brush>
@@ -130,7 +130,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>16.2,5.4,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <HorAlignment>Right</HorAlignment>
@@ -155,7 +155,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>13.6,5.4,2.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Margins>0,0,0,0</Margins>
@@ -169,7 +169,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
             <Text31 Ref="10" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,3,8.2,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text31</Name>
@@ -182,13 +182,13 @@ TZy9ZAA=</ConnectionStringEncrypted>
             <Text34 Ref="11" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,1.1,16.4,1.8</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text34</Name>
               <Page isRef="5"/>
               <Parent isRef="6"/>
-              <Text>- All shipments must included an invoice
+              <Text>- All shipments must included an invoice test
 - Invoices is intended shown to finance PT. Gramaselindo Utama and Submitted through our receptionist
 - The items will be returned if not suitable from order
 - PO number should be included in invoices and delivery orders</Text>
@@ -198,7 +198,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
             <Text62 Ref="12" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0.7,16,0.4</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text62</Name>
@@ -211,7 +211,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
             <Text63 Ref="13" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0.1,1.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text63</Name>
@@ -224,7 +224,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
             <Text66 Ref="14" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>9.8,3.7,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>dcda66972385df15f7f1ccc9bdf3113d</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -239,7 +239,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
             <Text64 Ref="15" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>9.2,6,3.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>2bafe44bc53021992477ccc9bdf324a9</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -254,7 +254,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
             <Text68 Ref="16" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2,3.7,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>66aa4e4ffeb8ce95b9cecccb53a8073d</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -269,7 +269,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
             <Text65 Ref="17" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>2,6,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>1ef6ac9a51c1ca1e73cfcccb53a84e0f</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -288,7 +288,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>16.2,2.9,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <HorAlignment>Right</HorAlignment>
@@ -314,7 +314,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>13.6,2.9,2.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>b6147f23e83b1010920dcd0450ab8160</Guid>
@@ -333,7 +333,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>13.6,4.1,2.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>4c0ab69c851c3a67450fcd04bb80de11</Guid>
@@ -352,7 +352,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>16.2,5.9,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>5829e55304646b7d40a5cd0528cab2ab</Guid>
@@ -378,7 +378,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>13.6,5.9,2.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>bbfc8f9d885c37fac9adcd0528ca45b8</Guid>
@@ -397,7 +397,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>16.2,4.1,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>197a3d46187c1ecaa1f3d9f6dfcf992b</Guid>
@@ -423,7 +423,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>13.6,6.5,2.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>6539b8d2d4a02f5df3e2d9f998e86f95</Guid>
@@ -442,7 +442,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>16.2,7.1,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>9de6af8481bb39d2869bda01c76c8a50</Guid>
@@ -469,7 +469,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>13.6,7.11,2.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Margins>0,0,0,0</Margins>
@@ -487,7 +487,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>16.2,6.51,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>8a91bad96521650c1f29da2c73a72ac8</Guid>
@@ -514,7 +514,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>13.6,3.51,2.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>e91fdf024f57f4dbb46a838e46aac1a6</Guid>
@@ -533,7 +533,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>16.2,3.51,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <HorAlignment>Right</HorAlignment>
@@ -558,7 +558,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>13.6,4.71,2.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>1048fc76b15eddf9821883af93ccf268</Guid>
@@ -577,7 +577,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>16.2,4.71,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>82efc11cf0bb33b6b9e983af93cc57f7</Guid>
@@ -599,7 +599,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
             <HorizontalLinePrimitive5 Ref="39" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,2.7,19,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <EndCap Ref="40" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
@@ -611,7 +611,7 @@ TZy9ZAA=</ConnectionStringEncrypted>
               </StartCap>
             </HorizontalLinePrimitive5>
           </Components>
-          <Conditions count="0" isList="true"/>
+          <Conditions isList="true" count="0"/>
           <Name>PageFooterBand1</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
@@ -619,11 +619,11 @@ TZy9ZAA=</ConnectionStringEncrypted>
         <ReportTitleBand1 Ref="42" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0.4,19.01,3.6</ClientRectangle>
-          <Components count="1" isList="true">
+          <Components isList="true" count="1">
             <Image1 Ref="43" type="Image" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,18.6,3.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <DataColumn isNull="true"/>
               <Image>iVBORw0KGgoAAAANSUhEUgAAAyAAAACFCAIAAAAsKwv/AAAAB3RJTUUH4AMaASEa0qv6pwAABA1p
 VFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0
@@ -1741,7 +1741,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Parent isRef="42"/>
             </Image1>
           </Components>
-          <Conditions count="0" isList="true"/>
+          <Conditions isList="true" count="0"/>
           <Name>ReportTitleBand1</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
@@ -1749,11 +1749,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
         <ReportTitleBand2 Ref="44" type="ReportTitleBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,4.8,19.01,1</ClientRectangle>
-          <Components count="3" isList="true">
+          <Components isList="true" count="3">
             <Text5 Ref="45" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,19,0.8</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,18,Bold</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -1767,7 +1767,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <HorizontalLinePrimitive1 Ref="46" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,0,19,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <EndCap Ref="47" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
@@ -1781,7 +1781,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <HorizontalLinePrimitive3 Ref="49" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,0.8,19,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <EndCap Ref="50" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
@@ -1794,7 +1794,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               </StartCap>
             </HorizontalLinePrimitive3>
           </Components>
-          <Conditions count="0" isList="true"/>
+          <Conditions isList="true" count="0"/>
           <Name>ReportTitleBand2</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
@@ -1802,11 +1802,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
         <DataBand1 Ref="52" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,6.6,19.01,4.8</ClientRectangle>
-          <Components count="40" isList="true">
+          <Components isList="true" count="40">
             <Text2 Ref="53" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,0.2,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text2</Name>
@@ -1819,7 +1819,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text4 Ref="54" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,0.8,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text4</Name>
@@ -1832,7 +1832,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text6 Ref="55" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,0.2,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -1846,7 +1846,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text8 Ref="56" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,0.8,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>5e288c358c60e9c2266ab1126704c565</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1861,7 +1861,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text9 Ref="57" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,1.4,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>4968290fce224009ab13b11284e2740c</Guid>
               <Margins>0,0,0,0</Margins>
@@ -1875,7 +1875,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text10 Ref="58" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.6,0.2,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>e5fd6cacc788b1f7ec09b1129d51dbc0</Guid>
               <Margins>0,0,0,0</Margins>
@@ -1889,7 +1889,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text11 Ref="59" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.6,0.8,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>694e54672eff1e95f0bcb114088bd8b0</Guid>
               <Margins>0,0,0,0</Margins>
@@ -1903,7 +1903,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text12 Ref="60" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,1.4,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>c8d8ab32e62550031347b11468451770</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1918,7 +1918,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text13 Ref="61" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,0.2,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>0b2146e3355fcd36ad1db11471ba482d</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1933,7 +1933,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text14 Ref="62" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,0.8,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>511fccba2df2a466e5c7b1148a6a0eec</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -1948,7 +1948,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text7 Ref="63" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,0.2,5.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text7</Name>
@@ -1962,7 +1962,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text15 Ref="64" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,0.8,5.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text15</Name>
@@ -1976,7 +1976,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text1 Ref="65" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,0.2,5.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text1</Name>
@@ -1988,7 +1988,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text3 Ref="66" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,0.8,5.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text3</Name>
@@ -2000,7 +2000,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text16 Ref="67" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,1.4,5.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text16</Name>
@@ -2013,7 +2013,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text37 Ref="68" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,2,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>9e92edbab85d6a64e1dfcc01233de23c</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2027,7 +2027,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text33 Ref="69" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,2,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>73a353c795856585d45ccc01233da660</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -2042,7 +2042,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text35 Ref="70" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,2,5.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>e02d4ef6662eed32f718cc01233d2b1d</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2056,7 +2056,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text40 Ref="71" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,2.6,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>1911307eba1f037e29e6cc01a141e57e</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2070,7 +2070,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text36 Ref="72" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,2.6,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>1ef9a6384c35208aee08cc01a141ee09</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -2085,7 +2085,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text38 Ref="73" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,2.6,5.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>6874afb7ba7b272ba762cc01a1416922</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2099,7 +2099,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text43 Ref="74" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,3.2,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>5cbfee41c27f8195134acc01ec217d70</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2113,7 +2113,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text39 Ref="75" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,3.2,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>2599274cc4b9b141a899cc01ec21c005</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -2128,7 +2128,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text41 Ref="76" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,3.2,5.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>9963cca9cbfaf5348e88cc01ec2114d7</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2142,7 +2142,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text46 Ref="77" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.4,3.8,2.8,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>8740617c8116844d808acc02440f0d23</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2156,7 +2156,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text42 Ref="78" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.2,3.8,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>b61558d76f918f290b3acc02440f6ff4</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -2171,7 +2171,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text44 Ref="79" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.6,3.8,5.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>d7cec4bf957540b11c28cc02440fe06b</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2186,7 +2186,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text49 Ref="80" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.6,1.4,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>c4308911387e38c226c4cc053deced15</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2200,7 +2200,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text45 Ref="81" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,1.4,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>ceafb96c4d051e183750cc053dec8397</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -2215,7 +2215,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text47 Ref="82" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,1.4,5.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>272f7c9493d4262440f1cc053dec1c8d</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2229,7 +2229,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text52 Ref="83" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.6,2,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>3762e976dd777c7cf55bcc0552c700ac</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2243,7 +2243,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text48 Ref="84" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,2,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>e0937937d1113b1e3844cc0552c7b337</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -2258,7 +2258,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text50 Ref="85" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,2,5.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>2b3bc533dbea646fed38cc0552c71836</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2272,7 +2272,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text55 Ref="86" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.6,2.6,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>10f292c454f85baab4dfcc05797a2b65</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2286,7 +2286,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text51 Ref="87" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,2.6,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>9b3ea7e0b4f1bf4fbbb4cc05797a4e81</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -2301,7 +2301,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text53 Ref="88" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.6,2.6,5.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>9f025053ca7fb7a7c177cc05797a2874</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2316,7 +2316,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text58 Ref="89" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.6,3.2,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>9899266ce92e3b20762dcc0593d085db</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2330,7 +2330,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text54 Ref="90" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>13.2,3.2,0.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>2809106bf180270d8909cc0593d0d6c6</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -2346,7 +2346,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>13.6,3.2,5.4,1.2</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>0df4416d6d96e3efcf96cc0593d091f0</Guid>
@@ -2362,7 +2362,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <HorizontalLinePrimitive2 Ref="92" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,4.6,19,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <EndCap Ref="93" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
@@ -2374,22 +2374,22 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               </StartCap>
             </HorizontalLinePrimitive2>
           </Components>
-          <Conditions count="0" isList="true"/>
+          <Conditions isList="true" count="0"/>
           <DataSourceName>pr</DataSourceName>
-          <Filters count="0" isList="true"/>
+          <Filters isList="true" count="0"/>
           <Name>DataBand1</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
-          <Sort count="0" isList="true"/>
+          <Sort isList="true" count="0"/>
         </DataBand1>
         <HeaderBand1 Ref="95" type="HeaderBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,12.2,19.01,0.8</ClientRectangle>
-          <Components count="8" isList="true">
+          <Components isList="true" count="8">
             <Text17 Ref="96" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,1.2,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text17</Name>
@@ -2402,7 +2402,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text20 Ref="97" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.6,0,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>28d427094298227194e6b13ef3565dff</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2416,7 +2416,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text22 Ref="98" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>3.4,0,5.4,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>30c01b3c265366a0147bb13f91775559</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2430,7 +2430,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text24 Ref="99" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>9,0,2,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>48c46f4807f31887e3dab140461323f9</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -2445,7 +2445,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text26 Ref="100" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.2,0,3.2,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>9545ef084ce0f9826462b14158e68955</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2459,7 +2459,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text28 Ref="101" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.4,0,2.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>8a1d1ca86b4c1f41afdbb141e636b6b3</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2473,7 +2473,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text59 Ref="102" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>14.6,0,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>07f9756a345fdb415c0ccc0bee91813c</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2487,7 +2487,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <HorizontalLinePrimitive4 Ref="103" type="HorizontalLinePrimitive" isKey="true">
               <ClientRectangle>0,0.6,19,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <EndCap Ref="104" type="Cap" isKey="true">
                 <Color>Black</Color>
               </EndCap>
@@ -2499,7 +2499,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               </StartCap>
             </HorizontalLinePrimitive4>
           </Components>
-          <Conditions count="0" isList="true"/>
+          <Conditions isList="true" count="0"/>
           <Name>HeaderBand1</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
@@ -2507,11 +2507,11 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
         <DataBand3 Ref="106" type="DataBand" isKey="true">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,13.8,19.01,0.8</ClientRectangle>
-          <Components count="8" isList="true">
+          <Components isList="true" count="8">
             <Text60 Ref="107" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>0.2,0,1.2,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>09e60a6e899ca8b7e190cc13a78b93d3</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2526,7 +2526,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text18 Ref="108" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>1.6,0,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>309cefe9ff24aa22b48ccc13a78b3670</Guid>
               <Margins>0,0,0,0</Margins>
@@ -2542,7 +2542,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text23 Ref="109" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>9,0,1,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>a6bd8e27c81ad96c91abcc13a78cad02</Guid>
               <HorAlignment>Right</HorAlignment>
@@ -2559,7 +2559,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text25 Ref="110" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>16.4,0,2.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>fb8b02b33bea00d857a7cc13a78cec2d</Guid>
               <HorAlignment>Right</HorAlignment>
@@ -2582,7 +2582,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text27 Ref="112" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>14.6,0,1.6,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Guid>9e9a165597e1407f3a37cc13a78c435e</Guid>
               <HorAlignment>Right</HorAlignment>
@@ -2599,7 +2599,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text21 Ref="113" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>11.2,0,3.2,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -2619,7 +2619,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
             <Text57 Ref="115" type="Text" isKey="true">
               <Brush>Transparent</Brush>
               <ClientRectangle>10,0,1,0.6</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Font>Arial,10</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text57</Name>
@@ -2634,7 +2634,7 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <CanGrow>True</CanGrow>
               <CanShrink>True</CanShrink>
               <ClientRectangle>3.4,0,5.4,0.8</ClientRectangle>
-              <Conditions count="0" isList="true"/>
+              <Conditions isList="true" count="0"/>
               <Editable>True</Editable>
               <Font>Arial,10</Font>
               <GrowToHeight>True</GrowToHeight>
@@ -2651,17 +2651,17 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
               <Type>Expression</Type>
             </Text19>
           </Components>
-          <Conditions count="0" isList="true"/>
+          <Conditions isList="true" count="0"/>
           <DataSourceName>list</DataSourceName>
-          <Filters count="0" isList="true"/>
+          <Filters isList="true" count="0"/>
           <Guid>61c22a7a8b8230d9f3b0cc13a78bf83a</Guid>
           <Name>DataBand3</Name>
           <Page isRef="5"/>
           <Parent isRef="5"/>
-          <Sort count="0" isList="true"/>
+          <Sort isList="true" count="0"/>
         </DataBand3>
       </Components>
-      <Conditions count="0" isList="true"/>
+      <Conditions isList="true" count="0"/>
       <Guid>407d912958a5162b3daeb0af3d3913cb</Guid>
       <Margins>1,1,1,1</Margins>
       <Name>Page1</Name>
@@ -2677,13 +2677,13 @@ EARBEASxdCTAIgiCIAiCuMtIgEUQBEEQBHGX/Tfy532Dznq6KwAAAABJRU5ErkJggg==</Image>
   </Pages>
   <PrinterSettings Ref="118" type="Stimulsoft.Report.Print.StiPrinterSettings" isKey="true"/>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>05/28/2016 11:09:45 AM</ReportChanged>
+  <ReportChanged>08/01/2016 11:48:47 AM</ReportChanged>
   <ReportCreated>03/26/2016 09:09:47 AM</ReportCreated>
   <ReportFile>D:\xampp\htdocs\gsm\print\reports\pr.mrt</ReportFile>
-  <ReportGuid>783c0e58eebea01bde21f58db56edb42</ReportGuid>
+  <ReportGuid>b4ec7ab995ab8ee335b1446ecce377ca</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.2</ReportVersion>
   <ScriptLanguage>CSharp</ScriptLanguage>
-  <Styles count="0" isList="true"/>
+  <Styles isList="true" count="0"/>
 </StiSerializer>

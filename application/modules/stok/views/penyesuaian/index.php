@@ -19,7 +19,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-12 space20">
-                    <a href="<?=base_url('stok/pemindahan/input')?>">
+                    <a href="<?=base_url('stok/penyesuaian/input')?>">
                         <button class="btn btn-green add-row">
                             <?= lang('add') ?> <i class="fa fa-plus"></i>
                         </button>

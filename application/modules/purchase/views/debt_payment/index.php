@@ -115,10 +115,12 @@
                      <div class="form-group">
                         <label class="control-label col-md-3">No. Invoice</label>
                         <div class="col-md-9">
-                            <?php 
-                                $js = 'class="select2" style="width:100%" id="inv"';
-                                echo form_dropdown('inv', $options_po,'',$js); 
-                            ?>
+                            <select id="inv2" name="inv" class="">
+                                <option value="0">-- Pilih No Invoice </option>
+                                <?php foreach($po as $p){
+                                    echo '<option value="'.$p->id.'">'.$p->no.'</option>';
+                                }?>
+                            </select>
                         </div>
                     </div>
                     <div id="kontak_label" style="display: none">

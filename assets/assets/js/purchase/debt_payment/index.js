@@ -10,14 +10,17 @@ $(document).ready(function() {
             format: "dd-mm-yyyy"
         });
 
-    $("#inv").change(function(){
+    $("#inv2").change(function(){
         var id = $(this).val();
+
+        alert(id);
         if(id!=0)getDetail(id);
     })
     .change();
 
     function getDetail(id)
     {
+        alert('tes');
         $.ajax({
             type: 'POST',
             url: '/gsm/purchase/debt_payment/get_hutang_detail/',
