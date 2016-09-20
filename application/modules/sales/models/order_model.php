@@ -117,7 +117,7 @@ class order_model extends CI_Model {
 
     function get_detail($id)
     {
-        $q = $this->db->select('no, kontak.title as kontak,kontak.email as email,kontak_id,kurensi_id,opsi_desimal, gudang_id,project,pajak_komponen_id, total_ppn, total_pph22, total_pph23, sales_order.up,sales_order.catatan, kontak.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar,dibayar_nominal, lama_angsuran_2, lama_angsuran_1, sales_order.created_by, sales_order.created_on')
+        $q = $this->db->select('no, kontak.title as kontak,kontak.email as email,kontak_id,kurensi_id,opsi_desimal, gudang_id,project,pajak_komponen_id, total_ppn, total_pph22, total_pph23, sales_order.up,sales_order.catatan, sales_order.alamat,metode_pembayaran_id, metode_pembayaran.title as metode_pembayaran, tanggal_transaksi, so, gudang.title as gudang, jatuh_tempo_pembayaran, kurensi.title as kurensi, biaya_pengiriman, dibayar,dibayar_nominal, lama_angsuran_2, lama_angsuran_1, sales_order.created_by, sales_order.created_on')
                  ->from($this->table)
                  ->join($this->table_join1, $this->table_join1.'.id ='.$this->table.'.kontak_id', 'left')
                  ->join($this->table_join2, $this->table_join2.'.id ='.$this->table.'.metode_pembayaran_id', 'left')
