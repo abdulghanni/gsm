@@ -1,140 +1,209 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <StiSerializer version="1.02" application="StiReport" type="Flex">
-  <Dictionary Ref="1" isKey="true" type="Dictionary">
-    <Databases isList="true" count="1">
-      <q Ref="2" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlDatabase">
+  <Dictionary isKey="true" type="Dictionary" Ref="1">
+    <Databases count="1" isList="true">
+      <q isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlDatabase" Ref="2">
         <Alias>q</Alias>
         <ConnectionStringEncrypted>48j7a9dKAYRrTKXU5QBlY4tU1ytsVQHNwE39xGR4tTbCcLPLSEwxzeIVpaVOBWJ70Wz9CUhQ+oVx
 TZy9ZAA=</ConnectionStringEncrypted>
         <Name>q</Name>
       </q>
     </Databases>
-    <DataSources isList="true" count="7">
-      <q Ref="3" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+    <DataSources count="7" isList="true">
+      <q isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="3">
         <Alias>q</Alias>
-        <Columns isList="true" count="38">
-          <value>id,System.String</value>
-          <value>no,System.String</value>
-          <value>no_sj,System.String</value>
-          <value>kontak_id,System.String</value>
-          <value>up,System.String</value>
-          <value>alamat,System.String</value>
-          <value>metode_pembayaran_id,System.String</value>
-          <value>tanggal_transaksi,System.String</value>
-          <value>tanggal_pengantaran,System.String</value>
-          <value>so,System.String</value>
-          <value>gudang_id,System.String</value>
-          <value>project,System.String</value>
+        <Columns count="8" isList="true">
+          <value>kontak,System.String</value>
+          <value>po,System.String</value>
           <value>no_faktur,System.String</value>
-          <value>tanggal_faktur,System.String</value>
-          <value>pajak_komponen_id,System.String</value>
-          <value>jatuh_tempo_pembayaran,System.String</value>
-          <value>kurensi_id,System.String</value>
-          <value>biaya_pengiriman,System.String</value>
-          <value>dibayar,System.String</value>
-          <value>dibayar_nominal,System.String</value>
-          <value>lama_angsuran_1,System.String</value>
-          <value>lama_angsuran_2,System.String</value>
-          <value>saldo,System.String</value>
-          <value>total_diskon,System.String</value>
-          <value>total_ppn,System.String</value>
-          <value>total_pph22,System.String</value>
-          <value>total_pph23,System.String</value>
-          <value>total,System.String</value>
-          <value>total_plus_pajak,System.String</value>
-          <value>catatan,System.String</value>
-          <value>created_by,System.String</value>
-          <value>created_on,System.String</value>
-          <value>edited_by,System.String</value>
-          <value>edited_on,System.String</value>
-          <value>is_deleted,System.String</value>
-          <value>deleted_by,System.String</value>
-          <value>deleted_on,System.String</value>
-          <value>customer,System.String</value>
+          <value>tanggal_faktur,System.DateTime</value>
+          <value>total,System.Decimal</value>
+          <value>total_ppn,System.Decimal</value>
+          <value>gtotal,System.Decimal</value>
+          <value>no,System.String</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>q</Name>
         <NameInSource>q</NameInSource>
-        <Parameters isList="true" count="0"/>
-        <SqlCommand>select `a`.*,`b`.`title` as `customer` from `penjualan` as `a` LEFT JOIN `kontak` as `b` ON `a`.`kontak_id` = `b`.`id` LEFT JOIN `kurensi` as `k` ON `a`.`kurensi_id` = `k`.`id`  WHERE `a`.`is_deleted` = 0  AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `b`.`title` LIKE '%{customer}%' AND `a`.`kurensi_id` LIKE '%{kurensi}%'</SqlCommand>
+        <Parameters count="0" isList="true"/>
+        <SqlCommand>SELECT
+  `kontak`.`title` AS `kontak`,
+	`pembelian`.`po`,
+`pembelian`.`no`,
+	`pembelian`.`no_faktur`,
+	`pembelian`.`tanggal_faktur`,
+	`purchase_order`.`total`,
+	`purchase_order`.`total_ppn`,
+	`purchase_order`.`gtotal`
+FROM
+	`pembelian`
+INNER JOIN `purchase_order` ON `pembelian`.`po` = `purchase_order`.`po`
+LEFT JOIN `kontak` ON `kontak`.`id` = `purchase_order`.`kontak_id`
+LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` = `purchase_order`.`metode_pembayaran_id`
+LEFT JOIN `kurensi` ON `kurensi`.`id` = `purchase_order`.`kurensi_id`
+LEFT JOIN `gudang` ON `gudang`.`id` = `purchase_order`.`gudang_id`
+WHERE 
+`pembelian`.`is_deleted` = 0  AND 
+`pembelian`.`tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}'
+ AND `pembelian`.`tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}'
+ AND `kontak`.`title` LIKE '%{customer}%' 
+AND `purchase_order`.`kurensi_id` LIKE '%{kurensi}%'</SqlCommand>
       </q>
-      <rp Ref="4" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+      <rp isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="4">
         <Alias>rp</Alias>
-        <Columns isList="true" count="1">
+        <Columns count="1" isList="true">
           <value>total,System.Decimal</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>rp</Name>
         <NameInSource>q</NameInSource>
-        <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(total) as total from `penjualan` as `a` LEFT JOIN `kontak` as `b` ON `a`.`kontak_id` = `b`.`id` LEFT JOIN `kurensi` as `k` ON `a`.`kurensi_id` = `k`.`id`  WHERE `a`.`is_deleted` = 0  AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `b`.`title` LIKE '%{customer}%' AND `a`.`kurensi_id` = 1</SqlCommand>
+        <Parameters count="0" isList="true"/>
+        <SqlCommand>SELECT
+	SUM(purchase_order.total) AS total
+FROM
+	`pembelian`
+INNER JOIN `purchase_order` ON `pembelian`.`po` = `purchase_order`.`po`
+LEFT JOIN `kontak` ON `kontak`.`id` = `purchase_order`.`kontak_id`
+LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` = `purchase_order`.`metode_pembayaran_id`
+LEFT JOIN `kurensi` ON `kurensi`.`id` = `purchase_order`.`kurensi_id`
+WHERE
+	`pembelian`.`is_deleted` = 0
+AND `pembelian`.`tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}'
+AND `pembelian`.`tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}'
+AND `kontak`.`title` LIKE '%{customer}%'
+AND `purchase_order`.`kurensi_id` = 1</SqlCommand>
       </rp>
-      <dollar Ref="5" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+      <dollar isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="5">
         <Alias>dollar</Alias>
-        <Columns isList="true" count="1">
+        <Columns count="1" isList="true">
           <value>total,System.Decimal</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>dollar</Name>
         <NameInSource>q</NameInSource>
-        <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(total) as total from `penjualan` as `a` LEFT JOIN `kontak` as `b` ON `a`.`kontak_id` = `b`.`id` LEFT JOIN `kurensi` as `k` ON `a`.`kurensi_id` = `k`.`id`  WHERE `a`.`is_deleted` = 0  AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `b`.`title` LIKE '%{customer}%' AND `a`.`kurensi_id` = 2</SqlCommand>
+        <Parameters count="0" isList="true"/>
+        <SqlCommand>SELECT
+	SUM(purchase_order.total) AS total
+FROM
+	`pembelian`
+INNER JOIN `purchase_order` ON `pembelian`.`po` = `purchase_order`.`po`
+LEFT JOIN `kontak` ON `kontak`.`id` = `purchase_order`.`kontak_id`
+LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` = `purchase_order`.`metode_pembayaran_id`
+LEFT JOIN `kurensi` ON `kurensi`.`id` = `purchase_order`.`kurensi_id`
+WHERE
+	`pembelian`.`is_deleted` = 0
+AND `pembelian`.`tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}'
+AND `pembelian`.`tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}'
+AND `kontak`.`title` LIKE '%{customer}%'
+AND `purchase_order`.`kurensi_id` = 2</SqlCommand>
       </dollar>
-      <rpppn Ref="6" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+      <rpppn isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="6">
         <Alias>rpppn</Alias>
-        <Columns isList="true" count="1">
+        <Columns count="1" isList="true">
           <value>ppn,System.Decimal</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>rpppn</Name>
         <NameInSource>q</NameInSource>
-        <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(total_ppn) as ppn from `penjualan` as `a` LEFT JOIN `kontak` as `b` ON `a`.`kontak_id` = `b`.`id` LEFT JOIN `kurensi` as `k` ON `a`.`kurensi_id` = `k`.`id`  WHERE `a`.`is_deleted` = 0  AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `b`.`title` LIKE '%{customer}%' AND `a`.`kurensi_id` = 1</SqlCommand>
+        <Parameters count="0" isList="true"/>
+        <SqlCommand>SELECT
+	SUM(purchase_order.total_ppn) AS ppn
+FROM
+	`pembelian`
+INNER JOIN `purchase_order` ON `pembelian`.`po` = `purchase_order`.`po`
+LEFT JOIN `kontak` ON `kontak`.`id` = `purchase_order`.`kontak_id`
+LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` = `purchase_order`.`metode_pembayaran_id`
+LEFT JOIN `kurensi` ON `kurensi`.`id` = `purchase_order`.`kurensi_id`
+WHERE
+	`pembelian`.`is_deleted` = 0
+AND `pembelian`.`tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}'
+AND `pembelian`.`tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}'
+AND `kontak`.`title` LIKE '%{customer}%'
+AND `purchase_order`.`kurensi_id` = 1</SqlCommand>
       </rpppn>
-      <dollarppn Ref="7" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+      <dollarppn isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="7">
         <Alias>dollarppn</Alias>
-        <Columns isList="true" count="1">
+        <Columns count="1" isList="true">
           <value>ppn,System.Decimal</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>dollarppn</Name>
         <NameInSource>q</NameInSource>
-        <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(total_ppn) as ppn from `penjualan` as `a` LEFT JOIN `kontak` as `b` ON `a`.`kontak_id` = `b`.`id` LEFT JOIN `kurensi` as `k` ON `a`.`kurensi_id` = `k`.`id`  WHERE `a`.`is_deleted` = 0  AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `b`.`title` LIKE '%{customer}%' AND `a`.`kurensi_id` = 2</SqlCommand>
+        <Parameters count="0" isList="true"/>
+        <SqlCommand>SELECT
+	SUM(purchase_order.total_ppn) AS ppn
+FROM
+	`pembelian`
+INNER JOIN `purchase_order` ON `pembelian`.`po` = `purchase_order`.`po`
+LEFT JOIN `kontak` ON `kontak`.`id` = `purchase_order`.`kontak_id`
+LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` = `purchase_order`.`metode_pembayaran_id`
+LEFT JOIN `kurensi` ON `kurensi`.`id` = `purchase_order`.`kurensi_id`
+WHERE
+	`pembelian`.`is_deleted` = 0
+AND `pembelian`.`tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}'
+AND `pembelian`.`tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}'
+AND `kontak`.`title` LIKE '%{customer}%'
+AND `purchase_order`.`kurensi_id` = 2</SqlCommand>
       </dollarppn>
-      <gtotalrp Ref="8" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+      <gtotalrp isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="8">
         <Alias>gtotalrp</Alias>
-        <Columns isList="true" count="1">
+        <Columns count="1" isList="true">
           <value>gtotal,System.Decimal</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>gtotalrp</Name>
         <NameInSource>q</NameInSource>
-        <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(total_plus_pajak) as gtotal from `penjualan` as `a` LEFT JOIN `kontak` as `b` ON `a`.`kontak_id` = `b`.`id` LEFT JOIN `kurensi` as `k` ON `a`.`kurensi_id` = `k`.`id`  WHERE `a`.`is_deleted` = 0  AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `b`.`title` LIKE '%{customer}%' AND `a`.`kurensi_id` = 1</SqlCommand>
+        <Parameters count="0" isList="true"/>
+        <SqlCommand>SELECT
+	SUM(purchase_order.gtotal) AS gtotal
+FROM
+	`pembelian`
+INNER JOIN `purchase_order` ON `pembelian`.`po` = `purchase_order`.`po`
+LEFT JOIN `kontak` ON `kontak`.`id` = `purchase_order`.`kontak_id`
+LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` = `purchase_order`.`metode_pembayaran_id`
+LEFT JOIN `kurensi` ON `kurensi`.`id` = `purchase_order`.`kurensi_id`
+WHERE
+	`pembelian`.`is_deleted` = 0
+AND `pembelian`.`tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}'
+AND `pembelian`.`tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}'
+AND `kontak`.`title` LIKE '%{customer}%'
+AND `purchase_order`.`kurensi_id` = 1</SqlCommand>
       </gtotalrp>
-      <gtotaldollar Ref="9" isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource">
+      <gtotaldollar isKey="true" type="Stimulsoft.Report.Dictionary.StiMySqlSource" Ref="9">
         <Alias>gtotaldollar</Alias>
-        <Columns isList="true" count="1">
+        <Columns count="1" isList="true">
           <value>gtotal,System.Decimal</value>
         </Columns>
         <CommandTimeout>30</CommandTimeout>
         <Dictionary isRef="1"/>
         <Name>gtotaldollar</Name>
         <NameInSource>q</NameInSource>
-        <Parameters isList="true" count="0"/>
-        <SqlCommand>SELECT SUM(total_plus_pajak) as gtotal from `penjualan` as `a` LEFT JOIN `kontak` as `b` ON `a`.`kontak_id` = `b`.`id` LEFT JOIN `kurensi` as `k` ON `a`.`kurensi_id` = `k`.`id`  WHERE `a`.`is_deleted` = 0  AND `tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}' AND `tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}' AND `b`.`title` LIKE '%{customer}%' AND `a`.`kurensi_id` = 2</SqlCommand>
+        <Parameters count="0" isList="true"/>
+        <SqlCommand>SELECT
+	SUM(purchase_order.gtotal) AS gtotal
+FROM
+	`pembelian`
+INNER JOIN `purchase_order` ON `pembelian`.`po` = `purchase_order`.`po`
+LEFT JOIN `kontak` ON `kontak`.`id` = `purchase_order`.`kontak_id`
+LEFT JOIN `metode_pembayaran` ON `metode_pembayaran`.`id` = `purchase_order`.`metode_pembayaran_id`
+LEFT JOIN `kurensi` ON `kurensi`.`id` = `purchase_order`.`kurensi_id`
+WHERE
+	`pembelian`.`is_deleted` = 0
+AND `pembelian`.`tanggal_transaksi` &gt;= '{p1.ToString("Y-MM-dd")}'
+AND `pembelian`.`tanggal_transaksi` &lt;= '{p2.ToString("Y-M-dd")}'
+AND `kontak`.`title` LIKE '%{customer}%'
+AND `purchase_order`.`kurensi_id` = 2</SqlCommand>
       </gtotaldollar>
     </DataSources>
-    <Relations isList="true" count="0"/>
+    <Relations count="0" isList="true"/>
     <Report isRef="0"/>
-    <Variables isList="true" count="4">
+    <Variables count="4" isList="true">
       <value>,p1,Dari_x0020_Tanggal,,System.DateTime,,False,False,True</value>
       <value>,p2,Sampai_x0020_Tanggal,,System.DateTime,,False,False,True</value>
       <value>,costumer,Nama_x0020_Costumer,,System.String,,False,False,True</value>
@@ -142,22 +211,22 @@ TZy9ZAA=</ConnectionStringEncrypted>
     </Variables>
   </Dictionary>
   <EngineVersion>EngineV2</EngineVersion>
-  <GlobalizationStrings isList="true" count="0"/>
-  <MetaTags isList="true" count="0"/>
-  <Pages isList="true" count="1">
-    <Page1 Ref="10" isKey="true" type="Page">
+  <GlobalizationStrings count="0" isList="true"/>
+  <MetaTags count="0" isList="true"/>
+  <Pages count="1" isList="true">
+    <Page1 isKey="true" type="Page" Ref="10">
       <Border>None;Black;2;Solid;False;4;Black</Border>
       <Brush>Transparent</Brush>
-      <Components isList="true" count="4">
-        <ReportTitleBand1 Ref="11" isKey="true" type="ReportTitleBand">
+      <Components count="4" isList="true">
+        <ReportTitleBand1 isKey="true" type="ReportTitleBand" Ref="11">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,0.4,27.7,4.6</ClientRectangle>
-          <Components isList="true" count="5">
-            <Image1 Ref="12" isKey="true" type="Image">
+          <Components count="5" isList="true">
+            <Image1 isKey="true" type="Image" Ref="12">
               <AspectRatio>True</AspectRatio>
               <Brush>Transparent</Brush>
               <ClientRectangle>12.4,0,2.6,2.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <DataColumn isNull="true"/>
               <Image>iVBORw0KGgoAAAANSUhEUgAAAJYAAACWCAIAAACzY+a1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
 bWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
@@ -478,24 +547,24 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Parent isRef="11"/>
               <Stretch>True</Stretch>
             </Image1>
-            <Text1 Ref="13" isKey="true" type="Text">
+            <Text1 isKey="true" type="Text" Ref="13">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,2.8,27.6,0.8</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,20,Bold</Font>
               <HorAlignment>Center</HorAlignment>
               <Margins>0,0,0,0</Margins>
               <Name>Text1</Name>
               <Page isRef="10"/>
               <Parent isRef="11"/>
-              <Text>Rekap Penjualan</Text>
+              <Text>Pajak Masukan</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text1>
-            <Text22 Ref="14" isKey="true" type="Text">
+            <Text22 isKey="true" type="Text" Ref="14">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,3.8,27.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,12,Bold</Font>
               <Guid>33719f92968e4fd5d5399e837e2084ea</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -507,49 +576,49 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text22>
-            <HorizontalLinePrimitive1 Ref="15" isKey="true" type="HorizontalLinePrimitive">
+            <HorizontalLinePrimitive1 isKey="true" type="HorizontalLinePrimitive" Ref="15">
               <ClientRectangle>0,3.8,27.6,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap Ref="16" isKey="true" type="Cap">
+              <Conditions count="0" isList="true"/>
+              <EndCap isKey="true" type="Cap" Ref="16">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive1</Name>
               <Page isRef="10"/>
               <Parent isRef="11"/>
-              <StartCap Ref="17" isKey="true" type="Cap">
+              <StartCap isKey="true" type="Cap" Ref="17">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive1>
-            <HorizontalLinePrimitive5 Ref="18" isKey="true" type="HorizontalLinePrimitive">
+            <HorizontalLinePrimitive5 isKey="true" type="HorizontalLinePrimitive" Ref="18">
               <ClientRectangle>0,4.6,27.6,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap Ref="19" isKey="true" type="Cap">
+              <Conditions count="0" isList="true"/>
+              <EndCap isKey="true" type="Cap" Ref="19">
                 <Color>Black</Color>
               </EndCap>
               <Guid>b21760420a55d2b22c08166cea8799c7</Guid>
               <Name>HorizontalLinePrimitive5</Name>
               <Page isRef="10"/>
               <Parent isRef="11"/>
-              <StartCap Ref="20" isKey="true" type="Cap">
+              <StartCap isKey="true" type="Cap" Ref="20">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive5>
           </Components>
-          <Conditions isList="true" count="0"/>
+          <Conditions count="0" isList="true"/>
           <Name>ReportTitleBand1</Name>
           <Page isRef="10"/>
           <Parent isRef="10"/>
         </ReportTitleBand1>
-        <HeaderBand1 Ref="21" isKey="true" type="HeaderBand">
+        <HeaderBand1 isKey="true" type="HeaderBand" Ref="21">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,5.8,27.7,1</ClientRectangle>
-          <Components isList="true" count="10">
-            <Text2 Ref="22" isKey="true" type="Text">
+          <Components count="10" isList="true">
+            <Text2 isKey="true" type="Text" Ref="22">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,0.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text2</Name>
@@ -559,10 +628,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text2>
-            <Text7 Ref="23" isKey="true" type="Text">
+            <Text7 isKey="true" type="Text" Ref="23">
               <Brush>Transparent</Brush>
               <ClientRectangle>8.8,0,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>92e11055d29286011da79cea51532128</Guid>
               <Margins>0,0,0,0</Margins>
@@ -573,10 +642,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text7>
-            <Text11 Ref="24" isKey="true" type="Text">
+            <Text11 isKey="true" type="Text" Ref="24">
               <Brush>Transparent</Brush>
               <ClientRectangle>5,0,3.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>fbd6a0c68087522ce27e9cebb849908f</Guid>
               <Margins>0,0,0,0</Margins>
@@ -587,24 +656,24 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text11>
-            <Text12 Ref="25" isKey="true" type="Text">
+            <Text12 isKey="true" type="Text" Ref="25">
               <Brush>Transparent</Brush>
               <ClientRectangle>1,0,3.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>7d908ea0cb0ff7000d339cec4f0d81da</Guid>
               <Margins>0,0,0,0</Margins>
               <Name>Text12</Name>
               <Page isRef="10"/>
               <Parent isRef="21"/>
-              <Text>Costumer</Text>
+              <Text>Customer</Text>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text12>
-            <Text21 Ref="26" isKey="true" type="Text">
+            <Text21 isKey="true" type="Text" Ref="26">
               <Brush>Transparent</Brush>
               <ClientRectangle>12.4,0,2.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>eb5db312ddd44660a763a5b3396db4f6</Guid>
               <Margins>0,0,0,0</Margins>
@@ -615,10 +684,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text21>
-            <Text24 Ref="27" isKey="true" type="Text">
+            <Text24 isKey="true" type="Text" Ref="27">
               <Brush>Transparent</Brush>
               <ClientRectangle>15.2,0,2.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>996eb07370652289ac8ca5b8c99bf92f</Guid>
               <Margins>0,0,0,0</Margins>
@@ -629,10 +698,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text24>
-            <Text25 Ref="28" isKey="true" type="Text">
+            <Text25 isKey="true" type="Text" Ref="28">
               <Brush>Transparent</Brush>
               <ClientRectangle>18.2,0,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>08c6ac5b475bcecb00a5a5b91ffcdbe5</Guid>
               <HorAlignment>Center</HorAlignment>
@@ -644,10 +713,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text25>
-            <Text5 Ref="29" isKey="true" type="Text">
+            <Text5 isKey="true" type="Text" Ref="29">
               <Brush>Transparent</Brush>
               <ClientRectangle>21.4,0,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>67e894f89dac3fc5af5352605ba9ae1b</Guid>
               <Margins>0,0,0,0</Margins>
@@ -658,10 +727,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text5>
-            <Text8 Ref="30" isKey="true" type="Text">
+            <Text8 isKey="true" type="Text" Ref="30">
               <Brush>Transparent</Brush>
               <ClientRectangle>24.6,0,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>1b3b4fb2647a154d521d5260e62a14b5</Guid>
               <Margins>0,0,0,0</Margins>
@@ -672,34 +741,34 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text8>
-            <HorizontalLinePrimitive2 Ref="31" isKey="true" type="HorizontalLinePrimitive">
+            <HorizontalLinePrimitive2 isKey="true" type="HorizontalLinePrimitive" Ref="31">
               <ClientRectangle>0,0.8,27.6,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap Ref="32" isKey="true" type="Cap">
+              <Conditions count="0" isList="true"/>
+              <EndCap isKey="true" type="Cap" Ref="32">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive2</Name>
               <Page isRef="10"/>
               <Parent isRef="21"/>
-              <StartCap Ref="33" isKey="true" type="Cap">
+              <StartCap isKey="true" type="Cap" Ref="33">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive2>
           </Components>
-          <Conditions isList="true" count="0"/>
+          <Conditions count="0" isList="true"/>
           <Name>HeaderBand1</Name>
           <Page isRef="10"/>
           <Parent isRef="10"/>
         </HeaderBand1>
-        <DataBand1 Ref="34" isKey="true" type="DataBand">
+        <DataBand1 isKey="true" type="DataBand" Ref="34">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,7.6,27.7,0.8</ClientRectangle>
-          <Components isList="true" count="9">
-            <Text19 Ref="35" isKey="true" type="Text">
+          <Components count="9" isList="true">
+            <Text19 isKey="true" type="Text" Ref="35">
               <Brush>Transparent</Brush>
               <ClientRectangle>0,0,0.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Margins>0,0,0,0</Margins>
               <Name>Text19</Name>
@@ -708,26 +777,27 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Text>{Line}</Text>
               <TextBrush>Black</TextBrush>
             </Text19>
-            <Text3 Ref="36" isKey="true" type="Text">
+            <Text3 isKey="true" type="Text" Ref="36">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>1,0,3.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <GrowToHeight>True</GrowToHeight>
               <Margins>0,0,0,0</Margins>
               <Name>Text3</Name>
               <Page isRef="10"/>
               <Parent isRef="34"/>
-              <Text>{q.customer}</Text>
+              <Text>{q.kontak}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
+              <Type>DataColumn</Type>
             </Text3>
-            <Text14 Ref="37" isKey="true" type="Text">
+            <Text14 isKey="true" type="Text" Ref="37">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>8.8,0,3.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>0b2936d771974c19b9aba78b2423b3f4</Guid>
@@ -740,10 +810,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>DataColumn</Type>
             </Text14>
-            <Text15 Ref="38" isKey="true" type="Text">
+            <Text15 isKey="true" type="Text" Ref="38">
               <Brush>Transparent</Brush>
               <ClientRectangle>12.4,0,2.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>fac80b8619c8472b2739a78b3812dd8d</Guid>
               <Margins>0,0,0,0</Margins>
@@ -754,10 +824,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text15>
-            <Text27 Ref="39" isKey="true" type="Text">
+            <Text27 isKey="true" type="Text" Ref="39">
               <Brush>Transparent</Brush>
               <ClientRectangle>15.2,0,2.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>50675e1ee72c1fde63b6a78bb42f2038</Guid>
               <HorAlignment>Right</HorAlignment>
@@ -767,7 +837,7 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Parent isRef="34"/>
               <Text>{q.total}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="40" isKey="true" type="NumberFormat">
+              <TextFormat isKey="true" type="NumberFormat" Ref="40">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -775,10 +845,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text27>
-            <Text28 Ref="41" isKey="true" type="Text">
+            <Text28 isKey="true" type="Text" Ref="41">
               <Brush>Transparent</Brush>
               <ClientRectangle>18.2,0,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>0ae79af4aaadf1911d8aa78bcfd14e77</Guid>
               <HorAlignment>Right</HorAlignment>
@@ -788,7 +858,7 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Parent isRef="34"/>
               <Text>{q.total_ppn}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="42" isKey="true" type="NumberFormat">
+              <TextFormat isKey="true" type="NumberFormat" Ref="42">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -796,10 +866,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               </TextFormat>
               <Type>DataColumn</Type>
             </Text28>
-            <Text29 Ref="43" isKey="true" type="Text">
+            <Text29 isKey="true" type="Text" Ref="43">
               <Brush>Transparent</Brush>
               <ClientRectangle>21.4,0,3,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>af9f1cc477286b37ebbfa78be50afd8c</Guid>
               <HorAlignment>Right</HorAlignment>
@@ -807,9 +877,9 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Name>Text29</Name>
               <Page isRef="10"/>
               <Parent isRef="34"/>
-              <Text>{q.total_plus_pajak}</Text>
+              <Text>{q.gtotal}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="44" isKey="true" type="NumberFormat">
+              <TextFormat isKey="true" type="NumberFormat" Ref="44">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -817,10 +887,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               </TextFormat>
               <Type>DataColumn</Type>
             </Text29>
-            <Text45 Ref="45" isKey="true" type="Text">
+            <Text45 isKey="true" type="Text" Ref="45">
               <Brush>Transparent</Brush>
               <ClientRectangle>24.6,0,3.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <Guid>596ddc625955f5045dbcf01646595815</Guid>
               <Margins>0,0,0,0</Margins>
@@ -831,11 +901,11 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>DataColumn</Type>
             </Text45>
-            <Text9 Ref="46" isKey="true" type="Text">
+            <Text9 isKey="true" type="Text" Ref="46">
               <Brush>Transparent</Brush>
               <CanGrow>True</CanGrow>
               <ClientRectangle>5,0,3.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8</Font>
               <GrowToHeight>True</GrowToHeight>
               <Guid>bfeef0a690d7a83e241e52797acfe221</Guid>
@@ -843,28 +913,28 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Name>Text9</Name>
               <Page isRef="10"/>
               <Parent isRef="34"/>
-              <Text>{q.so}</Text>
+              <Text>{q.po}</Text>
               <TextBrush>Black</TextBrush>
               <TextOptions>HotkeyPrefix=None, LineLimit=False, RightToLeft=False, Trimming=None, WordWrap=True, Angle=0, FirstTabOffset=40, DistanceBetweenTabs=20,</TextOptions>
               <Type>DataColumn</Type>
             </Text9>
           </Components>
-          <Conditions isList="true" count="0"/>
+          <Conditions count="0" isList="true"/>
           <DataSourceName>q</DataSourceName>
-          <Filters isList="true" count="0"/>
+          <Filters count="0" isList="true"/>
           <Name>DataBand1</Name>
           <Page isRef="10"/>
           <Parent isRef="10"/>
-          <Sort isList="true" count="0"/>
+          <Sort count="0" isList="true"/>
         </DataBand1>
-        <FooterBand1 Ref="47" isKey="true" type="FooterBand">
+        <FooterBand1 isKey="true" type="FooterBand" Ref="47">
           <Brush>Transparent</Brush>
           <ClientRectangle>0,9.2,27.7,1.8</ClientRectangle>
-          <Components isList="true" count="14">
-            <Text6 Ref="48" isKey="true" type="Text">
+          <Components count="14" isList="true">
+            <Text6 isKey="true" type="Text" Ref="48">
               <Brush>Transparent</Brush>
               <ClientRectangle>22,0.2,2.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -873,7 +943,7 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Parent isRef="47"/>
               <Text>{IIF(kurensi != 2,gtotalrp.gtotal)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="49" isKey="true" type="NumberFormat">
+              <TextFormat isKey="true" type="NumberFormat" Ref="49">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -881,10 +951,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text6>
-            <Text31 Ref="50" isKey="true" type="Text">
+            <Text31 isKey="true" type="Text" Ref="50">
               <Brush>Transparent</Brush>
               <ClientRectangle>19.2,0.2,2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <Guid>a1fef8a6d58268e5edaee10d56f46997</Guid>
               <HorAlignment>Right</HorAlignment>
@@ -894,7 +964,7 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Parent isRef="47"/>
               <Text>{IIF(kurensi != 2,rpppn.ppn)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="51" isKey="true" type="NumberFormat">
+              <TextFormat isKey="true" type="NumberFormat" Ref="51">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -902,10 +972,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text31>
-            <Text34 Ref="52" isKey="true" type="Text">
+            <Text34 isKey="true" type="Text" Ref="52">
               <Brush>Transparent</Brush>
               <ClientRectangle>12.4,0.2,2.4,1.4</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,10,Bold</Font>
               <Guid>8ccdd431136dfc76bd94e10f80cdacfe</Guid>
               <Margins>0,0,0,0</Margins>
@@ -917,10 +987,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Type>Expression</Type>
               <VertAlignment>Center</VertAlignment>
             </Text34>
-            <Text35 Ref="53" isKey="true" type="Text">
+            <Text35 isKey="true" type="Text" Ref="53">
               <Brush>Transparent</Brush>
               <ClientRectangle>15.8,0.2,2.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -930,7 +1000,7 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Printable>False</Printable>
               <Text>{IIF(kurensi != 2,rp.total)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="54" isKey="true" type="NumberFormat">
+              <TextFormat isKey="true" type="NumberFormat" Ref="54">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -938,10 +1008,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text35>
-            <Text32 Ref="55" isKey="true" type="Text">
+            <Text32 isKey="true" type="Text" Ref="55">
               <Brush>Transparent</Brush>
               <ClientRectangle>15.8,1,2.2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <HorAlignment>Right</HorAlignment>
               <Margins>0,0,0,0</Margins>
@@ -950,7 +1020,7 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Parent isRef="47"/>
               <Text>{IIF(kurensi != 1 &amp;&amp; dollar.harga &gt; 0,dollar.total)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="56" isKey="true" type="NumberFormat">
+              <TextFormat isKey="true" type="NumberFormat" Ref="56">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>4</NegativePattern>
@@ -958,10 +1028,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text32>
-            <Text38 Ref="57" isKey="true" type="Text">
+            <Text38 isKey="true" type="Text" Ref="57">
               <Brush>Transparent</Brush>
               <ClientRectangle>15.2,0.2,0.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <Guid>1a54173bc4f38c0badc6f004f4980564</Guid>
               <Margins>0,0,0,0</Margins>
@@ -972,10 +1042,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text38>
-            <Text39 Ref="58" isKey="true" type="Text">
+            <Text39 isKey="true" type="Text" Ref="58">
               <Brush>Transparent</Brush>
               <ClientRectangle>15.2,1,0.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <Guid>775fa43cb099ecbd9b06f00500d719e1</Guid>
               <Margins>0,0,0,0</Margins>
@@ -986,10 +1056,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text39>
-            <Text40 Ref="59" isKey="true" type="Text">
+            <Text40 isKey="true" type="Text" Ref="59">
               <Brush>Transparent</Brush>
               <ClientRectangle>19.2,1,2,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <Guid>f34ba975967779c96fccf00732594f67</Guid>
               <HorAlignment>Right</HorAlignment>
@@ -999,7 +1069,7 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Parent isRef="47"/>
               <Text>{IIF(kurensi != 2,dollarppn.ppn)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="60" isKey="true" type="NumberFormat">
+              <TextFormat isKey="true" type="NumberFormat" Ref="60">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -1007,10 +1077,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text40>
-            <Text42 Ref="61" isKey="true" type="Text">
+            <Text42 isKey="true" type="Text" Ref="61">
               <Brush>Transparent</Brush>
               <ClientRectangle>18.4,0.2,0.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <Guid>14dcf94b1a9efd257b39f00892e2730d</Guid>
               <Margins>0,0,0,0</Margins>
@@ -1021,10 +1091,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text42>
-            <Text36 Ref="62" isKey="true" type="Text">
+            <Text36 isKey="true" type="Text" Ref="62">
               <Brush>Transparent</Brush>
               <ClientRectangle>18.4,1,0.8,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <Guid>6538156bc7ad4a53b9a9f00892e27285</Guid>
               <Margins>0,0,0,0</Margins>
@@ -1035,10 +1105,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text36>
-            <Text44 Ref="63" isKey="true" type="Text">
+            <Text44 isKey="true" type="Text" Ref="63">
               <Brush>Transparent</Brush>
               <ClientRectangle>22,1,2.4,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <Guid>894652cf8831a04a84bff01564928368</Guid>
               <HorAlignment>Right</HorAlignment>
@@ -1048,7 +1118,7 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <Parent isRef="47"/>
               <Text>{IIF(kurensi != 1,gtotaldollar.gtotal)}</Text>
               <TextBrush>Black</TextBrush>
-              <TextFormat Ref="64" isKey="true" type="NumberFormat">
+              <TextFormat isKey="true" type="NumberFormat" Ref="64">
                 <DecimalSeparator>,</DecimalSeparator>
                 <GroupSeparator>.</GroupSeparator>
                 <NegativePattern>1</NegativePattern>
@@ -1056,10 +1126,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               </TextFormat>
               <Type>Expression</Type>
             </Text44>
-            <Text47 Ref="65" isKey="true" type="Text">
+            <Text47 isKey="true" type="Text" Ref="65">
               <Brush>Transparent</Brush>
               <ClientRectangle>21.4,0.2,0.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <Guid>50bd28e29c51839233bef0165f04a359</Guid>
               <Margins>0,0,0,0</Margins>
@@ -1070,10 +1140,10 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text47>
-            <Text41 Ref="66" isKey="true" type="Text">
+            <Text41 isKey="true" type="Text" Ref="66">
               <Brush>Transparent</Brush>
               <ClientRectangle>21.4,1,0.6,0.6</ClientRectangle>
-              <Conditions isList="true" count="0"/>
+              <Conditions count="0" isList="true"/>
               <Font>Arial,8,Bold</Font>
               <Guid>63ebbaa247a97c99c698f0165f04470e</Guid>
               <Margins>0,0,0,0</Margins>
@@ -1084,28 +1154,28 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
               <TextBrush>Black</TextBrush>
               <Type>Expression</Type>
             </Text41>
-            <HorizontalLinePrimitive3 Ref="67" isKey="true" type="HorizontalLinePrimitive">
+            <HorizontalLinePrimitive3 isKey="true" type="HorizontalLinePrimitive" Ref="67">
               <ClientRectangle>0,0,27.8,0.0254</ClientRectangle>
               <Color>Black</Color>
-              <Conditions isList="true" count="0"/>
-              <EndCap Ref="68" isKey="true" type="Cap">
+              <Conditions count="0" isList="true"/>
+              <EndCap isKey="true" type="Cap" Ref="68">
                 <Color>Black</Color>
               </EndCap>
               <Name>HorizontalLinePrimitive3</Name>
               <Page isRef="10"/>
               <Parent isRef="47"/>
-              <StartCap Ref="69" isKey="true" type="Cap">
+              <StartCap isKey="true" type="Cap" Ref="69">
                 <Color>Black</Color>
               </StartCap>
             </HorizontalLinePrimitive3>
           </Components>
-          <Conditions isList="true" count="0"/>
+          <Conditions count="0" isList="true"/>
           <Name>FooterBand1</Name>
           <Page isRef="10"/>
           <Parent isRef="10"/>
         </FooterBand1>
       </Components>
-      <Conditions isList="true" count="0"/>
+      <Conditions count="0" isList="true"/>
       <Guid>72bfff68f6c032698b849ad13d12e4e6</Guid>
       <Margins>1,1,1,1</Margins>
       <Name>Page1</Name>
@@ -1113,22 +1183,22 @@ yF+h/J8AAwC4alvo1/Q0fwAAAABJRU5ErkJggg==</Image>
       <PageHeight>21</PageHeight>
       <PageWidth>29.7</PageWidth>
       <Report isRef="0"/>
-      <ReportUnit Ref="70" isKey="true" type="cm"/>
-      <Watermark Ref="71" isKey="true" type="Stimulsoft.Report.Components.StiWatermark">
+      <ReportUnit isKey="true" type="cm" Ref="70"/>
+      <Watermark isKey="true" type="Stimulsoft.Report.Components.StiWatermark" Ref="71">
         <Font>Arial,100</Font>
         <TextBrush>[50:0:0:0]</TextBrush>
       </Watermark>
     </Page1>
   </Pages>
-  <PrinterSettings Ref="72" isKey="true" type="Stimulsoft.Report.Print.StiPrinterSettings"/>
+  <PrinterSettings isKey="true" type="Stimulsoft.Report.Print.StiPrinterSettings" Ref="72"/>
   <ReportAlias>Report</ReportAlias>
-  <ReportChanged>09/18/2016 05:44:17 PM</ReportChanged>
+  <ReportChanged>09/18/2016 05:46:01 PM</ReportChanged>
   <ReportCreated>05/10/2016 08:18:04 PM</ReportCreated>
   <ReportFile>inbound.mrt</ReportFile>
-  <ReportGuid>a073f3a8c28c819b79403ce5727ab935</ReportGuid>
+  <ReportGuid>2578b656675ca849655b3ce61a9dc85f</ReportGuid>
   <ReportName>Report</ReportName>
   <ReportUnit>Centimeters</ReportUnit>
   <ReportVersion>2015.2</ReportVersion>
   <ScriptLanguage>CSharp</ScriptLanguage>
-  <Styles isList="true" count="0"/>
+  <Styles count="0" isList="true"/>
 </StiSerializer>

@@ -29,11 +29,11 @@ class Printing extends MX_Controller {
 		if($this->session->userdata('webmaster_grup')==10){
 			$filter['id']='where/2';
 		}
-		$this->data['opt_dok']=GetOptAll('report','-Document-',$filter,'title_document');
-        $this->data['options_barang'] = options_row($this->model_name,'get_barang','kode','title','-- Pilih Barang --');
-        $this->data['options_satuan'] = options_row($this->model_name,'get_satuan','id','title','-- Pilih Satuan --');
-        $this->data['options_gudang'] = options_row($this->model_name,'get_gudang','id','title','-- Pilih Gudang --');
-        $this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
+		$this->data['opt_dok']         = GetOptAll('report','-Document-',$filter,'title_document');
+		$this->data['options_barang']  = options_row($this->model_name,'get_barang','kode','title','-- Pilih Barang --');
+		$this->data['options_satuan']  = options_row($this->model_name,'get_satuan','id','title','-- Pilih Satuan --');
+		$this->data['options_gudang']  = options_row($this->model_name,'get_gudang','id','title','-- Pilih Gudang --');
+		$this->data['options_kurensi'] = options_row($this->model_name,'get_kurensi','id','title','-- Pilih Kurensi --');
 		$this->_render_page('report/menu/menu', $this->data);
 	}
 
@@ -188,6 +188,15 @@ class Printing extends MX_Controller {
 		$b=$this->input->post('barang');
 
 		redirect(base_url()."print/file/index.php?stimulsoft_report_key=displacement.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&gudang=$g&barang=$b",'refresh');
+	}
+
+	function pajak_masukan(){
+         $sd=$this->input->post('start_date');
+		$ed=$this->input->post('end_date');
+		$k=$this->input->post('kontak');
+		$kur=$this->input->post('kurensi');
+
+		redirect(base_url()."print/file/index.php?stimulsoft_report_key=pajak_masukan.mrt&stimulsoft_client_key=ViewerFx&p1=$sd&p2=$ed&costumer=$k&kurensi=$kur",'refresh');
 	}
 
 	function neraca(){
