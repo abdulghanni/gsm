@@ -476,7 +476,7 @@ class Order extends MX_Controller {
             5); // margin footer
     $this->mpdf->WriteHTML($html);
 
-        //$this->mpdf->SetHTMLFooter($footer);
+        $this->mpdf->SetFooter($footer);
     $this->mpdf->Output($id.'-'.'.pdf', 'I');
     }
 
