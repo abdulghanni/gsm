@@ -92,8 +92,9 @@ $pajak_komponen = explode(',', $o->pajak_komponen_id);
     </tr>
     <tr>
       <td>Payment Term</td>
-      <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$o->lama_angsuran_2 : '';?>
-      <td><?=$o->metode_pembayaran?><?php echo $l;?></td>
+      <?php if($o->lama_angsuran_2 == "hari")$lama_angsuran_2 = "Days";elseif($o->lama_angsuran_2 == "bulan") $lama_angsuran_2 == "Months";else $lama_angsuran_2 = "Year"; ?>
+      <td>:</td><?php $l = ($o->metode_pembayaran_id == 2) ? ' - '.$o->lama_angsuran_1.' '.$lama_angsuran_2 : '';?>
+      <td><?php if($o->metode_pembayaran == "Cash")echo "Cash";else echo "Credit";?><?php echo $l;?></td>
       <td>Address</td>
       <td>:</td>
       <td><?=$o->alamat?></td>
