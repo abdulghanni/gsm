@@ -100,6 +100,7 @@ class Request extends MX_Controller {
 
     function add()
     {
+        // print_r($_POST);
         $btn = $this->input->post('btnDraft');
         if($btn == "Submit"){
             $type = 0;
@@ -135,7 +136,7 @@ class Request extends MX_Controller {
         $num_rows = GetAllSelect($this->table_name, 'id', array('id'=>'where/'.$id))->num_rows();
         if($num_rows>0){
             $this->db->where('no', $no)->update($this->table_name, $data);
-            $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$no));
+            $insert_id = getValue('id', $this->table_name, array('id'=>'where/'.$id));
             $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/pr'));
             if($nextrec == $insert_id){
                 $this->db->where('table_name', 'po')->update('numbersequencetable', array('nextrec'=>$nextrec+1));
@@ -146,7 +147,7 @@ class Request extends MX_Controller {
             $nextrec = getValue('nextrec', 'numbersequencetable', array('table_name'=>'where/pr'));
             $this->db->where('table_name', 'pr')->update('numbersequencetable', array('nextrec'=>$nextrec+1));
         }
-        $this->db->where($this->file_name.'_id', $insert_id)->delete($this->table_name.'_list');
+        $this->db->where($this->file_name.'_id', $insert_id)->delete($this->table_name.'_list');print_r($this->db->last_query());
         for($i=0;$i<sizeof($list['kode_barang']);$i++):
             $data2 = array(
                 $this->file_name.'_id' => $insert_id,
@@ -172,6 +173,7 @@ class Request extends MX_Controller {
                 $this->db->insert($this->table_name.'_list', $data2);//print_r($this->db->last_query());
             }
         }
+        // print_r($this->db->last_query());
         $this->load->library('upload');
         $this->upload->initialize($this->set_upload_options());
         if($this->upload->do_multi_upload("attachment")){
@@ -194,7 +196,7 @@ class Request extends MX_Controller {
             $this->db->where('kode_barang', $list['kode_barang'][$i])->where($this->file_name.'_id', $insert_id)->update($this->table_name.'_list', array('attachment'=> $attx));
         }//print_r($this->db->last_query());
         endfor;
-        //die();
+        // die();
         if($type != 1)$this->send_notification($insert_id);
         redirect($this->module.'/'.$this->file_name, 'refresh');
     }
